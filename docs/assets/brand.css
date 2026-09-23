@@ -1,0 +1,33 @@
+/* Shared identity for the homepage and each showcase. */
+.site-brand { display: inline-flex; align-items: center; gap: 13px; flex-shrink: 0; white-space: nowrap; letter-spacing: normal; }
+.brand-symbol {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  grid-template-columns: repeat(2, 8px);
+  gap: 4px;
+  align-content: center;
+  justify-content: center;
+  transform: rotate(-12deg);
+  color: #b9a4fc;
+  flex-shrink: 0;
+}
+.brand-symbol i { height: 8px; background: currentColor; border-radius: 2px; }
+.brand-word { font: 600 21px Arial, sans-serif; letter-spacing: -1px; }
+
+/* Compact identity for a narrow sidebar. */
+.site-brand-compact { gap: 8px; }
+.site-brand-compact .brand-word { font-size: 18px; }
+
+:is(.home-header, .launch-nav) .language-switch { display: inline-flex; align-items: center; flex-shrink: 0; gap: 7px; color: #9996a4; }
+:is(.home-header, .launch-nav) .language-switch button { padding: 8px; font: 12px var(--sans); background: none; border: none; color: inherit; cursor: pointer; }
+:is(.home-header, .launch-nav) .language-switch span { opacity: .4; }
+:is(.home-header, .launch-nav) .language-switch button[aria-pressed=true] { color: #f1edf8; font-weight: 700; }
+:is(.home-header, .launch-nav) .language-switch button:focus-visible { outline: 2px solid #b9a4fc; outline-offset: 2px; border-radius: 3px; }
+
+@media (max-width: 700px) {
+  .site-brand { gap: 8px; }
+  .brand-word { font-size: 20px; }
+  :is(.home-header, .launch-nav) .language-switch { gap: 4px; }
+  :is(.home-header, .launch-nav) .language-switch button { font-size: 11px; padding: 7px; }
+}

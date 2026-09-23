@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 488" fill="none">
+  <defs><radialGradient id="atom"><stop stop-color="#a5cbc4" stop-opacity=".25"/><stop offset="1" stop-color="#71a89f" stop-opacity=".04"/></radialGradient></defs>
+  <g stroke="#8cb5ac" stroke-width=".8" opacity=".18"><ellipse cx="553" cy="247" rx="197" ry="164" transform="rotate(-23 553 247)"/><ellipse cx="553" cy="247" rx="224" ry="187" transform="rotate(-23 553 247)"/><path d="M355 247h396M553 61v372" stroke-dasharray="3 9"/></g>
+  <g stroke="#8cb5ac" stroke-width="2" opacity=".55"><path d="m469 180 88-39 91 63-10 106-92 43-88-66 11-107Zm0 0 77 65 102-41m-102 41v108m0-108-88 42m100-146-12 104 92 65M469 180l-58-44m227 174 53 48m-145-5-21 54"/><path d="m557 154 76 52m-9 100-78 36m-76-59 9-91" stroke-width="1" opacity=".55"/></g>
+  <g fill="url(#atom)" stroke="#97c1b8" stroke-opacity=".5"><circle cx="469" cy="180" r="21"/><circle cx="557" cy="141" r="17"/><circle cx="648" cy="204" r="24"/><circle cx="638" cy="310" r="20"/><circle cx="546" cy="353" r="21"/><circle cx="458" cy="287" r="18"/><circle cx="546" cy="245" r="32"/><circle cx="411" cy="136" r="11"/><circle cx="691" cy="358" r="12"/><circle cx="525" cy="407" r="10"/></g>
+  <g fill="#b0d1ca" opacity=".55"><circle cx="469" cy="180" r="4"/><circle cx="557" cy="141" r="3"/><circle cx="648" cy="204" r="5"/><circle cx="638" cy="310" r="4"/><circle cx="546" cy="353" r="4"/><circle cx="458" cy="287" r="3"/><circle cx="546" cy="245" r="6"/></g>
+</svg>

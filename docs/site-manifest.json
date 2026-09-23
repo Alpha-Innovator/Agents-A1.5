@@ -1,0 +1,35 @@
+{
+  "version": "0.14.0",
+  "cases": [
+    {
+      "id": "swarm",
+      "href": "showcases/swarm/index.html",
+      "sha256": "43b741399ff0b86a7509d38e8c46324a1264b29f66fc2060be740871726c81dc"
+    },
+    {
+      "id": "verification",
+      "href": "showcases/verification/index.html",
+      "sha256": "57079119d900b0217c8e667b11a7afb4968bcd265a0f637841bc87e5d41e3c6b"
+    },
+    {
+      "id": "local-deployment",
+      "href": "showcases/local-deployment/index.html",
+      "sha256": "6bad688e2e50537c0a646a74058a984bd4f42e9a50328434a2aa8c7a917c3c72"
+    },
+    {
+      "id": "scientific-reasoning",
+      "href": "showcases/scientific-reasoning/index.html",
+      "sha256": "f67e2e5c2332af93470daac8f7e26b383f3e0aab90ffa0bf9b15c715b1c04ec8"
+    },
+    {
+      "id": "researchclawbench",
+      "href": "showcases/researchclawbench/index.html",
+      "sha256": "f8632a79cd50f59e87997f7cc3843cd4928c574c5c4daea9ce412eae13cc3dbc"
+    },
+    {
+      "id": "neuroscience",
+      "href": "01-launch.html",
+      "sha256": "8d54853d60ad915ab84f2e4c47bf2512eb53833a42f3c42ebd8eeaef99e0725e"
+    }
+  ]
+}

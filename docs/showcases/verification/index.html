@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Verification — 长程搜索中，模型自己察觉走不通，停下来重新梳理，换一种方法继续。Agents-A1.5 能力展示。">
+<title>Agents-A1.5 · Verification</title>
+<style>
+@font-face{font-family:Showcase;src:url('fonts/verification-feb142d155f6.woff2') format('woff2');font-weight:100 900;font-display:swap}
+
+:root{
+  color-scheme:dark;
+  --bg:#090a10; --paper:#11131e; --surface:#171725;
+  --ink:#f1eff8; --muted:#9b97ae; --dim:#6f718b;
+  --line:#ffffff15; --accent:#b9a4fc; --mint:#95dfc8; --amber:#edb28a;
+  --sans:Showcase,'PingFang SC','Microsoft YaHei',Arial,sans-serif;
+  --mono:'SFMono-Regular',Consolas,'DejaVu Sans Mono',monospace;
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% -30%,#342a4922,transparent 62%),var(--bg);
+  color:var(--ink);font:14px/1.7 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;background:none;border:none;color:inherit;cursor:pointer}
+svg{display:block}
+h1,h2,h3,p{margin:0}
+::selection{background:#a78fea55}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* ---- 品牌标识：与 Agents-A1.5 其他展示页一致 ---- */
+.site-brand{display:inline-flex;align-items:center;gap:13px;flex-shrink:0;white-space:nowrap}
+.brand-symbol{width:27px;height:27px;display:grid;grid-template-columns:repeat(2,8px);gap:4px;
+  align-content:center;justify-content:center;transform:rotate(-12deg);color:var(--accent);flex-shrink:0}
+.brand-symbol i{height:8px;background:currentColor;border-radius:2px}
+.brand-word{font:600 21px var(--sans);letter-spacing:-.04em}
+
+/* ---- 顶栏 ---- */
+.site-header{height:90px;position:absolute;inset:0 0 auto;z-index:20;display:flex;align-items:center;
+  justify-content:space-between;padding:0 max(44px,calc((100vw - 1440px)/2));gap:34px;
+  border-bottom:1px solid #ffffff0c;background:linear-gradient(#090a10ce,transparent)}
+.site-header nav{display:flex;gap:26px;margin-left:auto;color:#aba5bb;font-size:13px;white-space:nowrap}
+.site-header nav a:hover{color:var(--accent)}
+.header-actions{display:flex;align-items:center;gap:14px}
+.language-switch{display:inline-flex;align-items:center;flex-shrink:0;gap:7px;color:#9996a4}
+.language-switch button{padding:8px;font-size:12px}
+.language-switch span{opacity:.4}
+.language-switch button[aria-pressed=true]{color:#f1edf8;font-weight:700}
+.nav-watch{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:500;
+  background:#d4c5fc;color:#1c142e;border-radius:8px;padding:11px 17px;transition:background .2s,transform .2s}
+.nav-watch:hover{background:#e1d6fc;transform:translateY(-1px)}
+
+.eyebrow{font-size:11px;letter-spacing:.14em;color:#b7acca;display:flex;align-items:center;gap:9px;font-weight:500}
+.live-dot{display:inline-block;flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 12px #b9a4fc60}
+.live-dot.mint{background:var(--mint);box-shadow:0 0 12px #95dfc830}
+.live-dot.amber{background:var(--amber);box-shadow:0 0 12px #edb28a40}
+
+/* ---- 首屏 ---- */
+.hero{position:relative;min-height:600px;display:flex;align-items:center;
+  padding:170px max(44px,calc((100vw - 1440px)/2)) 96px;overflow:hidden;isolation:isolate}
+.hero-grid{position:absolute;inset:0;z-index:-2;
+  background-image:linear-gradient(#b9a4fc09 1px,transparent 1px),linear-gradient(90deg,#b9a4fc09 1px,transparent 1px);
+  background-size:84px 84px;mask-image:radial-gradient(ellipse at 40% 45%,#000,transparent 72%)}
+.hero-glow{position:absolute;inset:-20% -10% auto auto;width:900px;height:760px;z-index:-1;
+  background:radial-gradient(ellipse at 62% 42%,#4b316b38,transparent 62%);filter:blur(12px)}
+.hero-copy{max-width:860px}
+.hero h1{font-size:clamp(31px,3.25vw,50px);letter-spacing:-.05em;line-height:1.36;font-weight:500;margin-top:30px}
+.hero h1 em,.end-section h2 em{font-style:normal;color:var(--accent);
+  background:linear-gradient(100deg,#e0d7ff,#9f83e6);background-clip:text;-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent}
+.hero-description{margin-top:26px;max-width:520px;font-size:15px;line-height:1.95;color:var(--muted)}
+.hero-actions{display:flex;gap:13px;margin-top:38px;flex-wrap:wrap}
+.button{display:inline-flex;align-items:center;justify-content:center;gap:20px;font-size:13px;padding:14px 20px;
+  border-radius:8px;font-weight:500;transition:background .2s,transform .2s}
+.button.primary{background:#d4c5fc;color:#1c142e}
+.button.primary:hover{background:#e1d6fc;transform:translateY(-2px)}
+.button.secondary{border:1px solid #b9a4fc30;color:#bda9d1;padding:13px 20px}
+.button.secondary:hover{background:#b9a4fc12}
+
+/* ---- 通用区块 ---- */
+.section{max-width:1392px;margin:auto;padding:96px 0;scroll-margin-top:10px}
+.section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:70px;margin-bottom:46px}
+.section-heading h2{font-size:clamp(32px,2.9vw,45px);line-height:1.4;font-weight:500;letter-spacing:-.045em;margin-top:18px}
+.section-heading>p{max-width:420px;font-size:15px;line-height:1.95;color:var(--muted);padding-bottom:5px}
+
+/* ---- 放映区 ---- */
+.theater{border:1px solid #b9a4fc27;background:#0c0e16;border-radius:20px;overflow:hidden;
+  box-shadow:0 28px 90px #0003;isolation:isolate}
+.icon-button{width:34px;height:34px;display:grid;place-items:center;border:1px solid #ffffff12;border-radius:9px;
+  color:#a79bb8}
+.icon-button:hover{border-color:#b9a4fc60;color:#e2d6fa}
+.icon-button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.film-stage{position:relative;aspect-ratio:16/9;width:100%;background:#0c0e16;overflow:hidden}
+.film-stage>div{position:absolute;inset:0}
+.film-stage svg{width:100%;height:100%}
+.transport{display:flex;align-items:center;gap:14px;padding:15px 22px;border-top:1px solid #ffffff09;
+  background:#0e101a}
+.play-toggle{width:42px;height:42px;display:grid;place-items:center;border-radius:11px;background:#d4c5fc;color:#1c142e}
+.play-toggle svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+.timecode{font:12px var(--mono);color:#8d84a0;min-width:46px}
+#scrubber{flex:1;appearance:none;height:4px;border-radius:3px;background:#26273a;cursor:pointer}
+#scrubber::-webkit-slider-thumb{appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 4px #b9a4fc22}
+#scrubber::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:50%;background:var(--accent)}
+#speed{background:#15131f;border:1px solid #ffffff12;border-radius:8px;color:#a79bb8;font-size:12px;padding:7px 8px}
+.loop-toggle{font-size:11px;letter-spacing:.06em;border:1px solid #ffffff12;border-radius:8px;padding:9px 11px;
+  color:#8b8199}
+.loop-toggle[aria-pressed=true]{color:#d8cdf2;border-color:#b9a4fc38;background:#b9a4fc0e}
+
+.chapter-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border-bottom:1px solid #ffffff09;background:linear-gradient(90deg,#171323,#10121b)}
+.chapter-bar button{position:relative;display:flex;gap:11px;align-items:center;
+  padding:17px 20px;text-align:left;color:#7f7691;font-size:13.5px;
+  border-right:1px solid #ffffff0a;transition:color .3s,background .3s}
+.chapter-bar button:last-child{border-right:0}
+.chapter-bar button>span{font:11px var(--mono);color:#5d5a70;letter-spacing:.06em;transition:color .3s}
+.chapter-bar button:hover{background:#b9a4fc08;color:#c3b8d6}
+.chapter-bar button.done{color:#9a91ac}
+.chapter-bar button.done>span{color:#7d7391}
+.chapter-bar button.active{color:#ede5ff;background:#231c33aa}
+.chapter-bar button.active>span{color:var(--accent)}
+/* 当前这一步的进度: 按钮底部一条线随播放推进 */
+.chapter-bar button::after{content:'';position:absolute;inset:auto 0 0 0;height:2px;width:0;
+  background:var(--accent)}
+.chapter-bar button.done::after{width:100%;background:#6f5f98}
+.chapter-bar button.active::after{width:calc(var(--p,0) * 100%);transition:width .12s linear}
+
+/* ---- 自审原文 ---- */
+.reflection-shell{display:grid;grid-template-columns:.62fr 1.38fr;border:1px solid #b9a4fc22;border-radius:20px;
+  background:linear-gradient(130deg,#17142080,#10131c);overflow:hidden}
+.reflection-side{padding:31px 30px;border-right:1px solid var(--line)}
+.dim-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.dim-list li{display:flex;gap:12px;align-items:flex-start;padding:12px 13px;border-radius:11px;
+  border:1px solid #ffffff10;background:#0f1119;cursor:pointer;transition:border-color .25s,background .25s}
+.dim-list li:hover,.dim-list li.on{border-color:#b9a4fc66;background:#1d1830}
+.dim-list b{font:10px var(--mono);color:var(--amber);flex:none;width:18px;padding-top:3px}
+.dim-list strong{display:block;font-size:14px;font-weight:500}
+.dim-list small{display:block;margin-top:3px;font-size:11.5px;color:#7e7590;line-height:1.7}
+.reflection-main{padding:31px 32px;min-width:0;display:flex;flex-direction:column}
+.reflection-body{margin-top:4px;border-radius:14px;background:#0a0b12;border:1px solid #ffffff10;
+  padding:8px 4px;max-height:560px;overflow:auto;
+  mask-image:linear-gradient(#000 calc(100% - 26px),transparent)}
+.refl-para{display:grid;grid-template-columns:132px 1fr;gap:20px;padding:15px 20px;border-radius:10px;
+  transition:background .25s}
+.refl-para.on{background:#b9a4fc0e}
+.refl-para .tagcol{padding-top:2px}
+.refl-tag{display:inline-block;font-size:11px;line-height:1.6;padding:4px 9px;border-radius:6px;
+  border:1px solid #edb28a44;background:#edb28a10;color:var(--amber)}
+.refl-tag.none{border-color:#ffffff12;background:none;color:#5d5a70}
+.refl-para p{font-size:13.5px;line-height:2;color:#bdb6cd}
+.refl-para.on p{color:#e6e0f4}
+.reflection-body::-webkit-scrollbar{width:9px}
+.reflection-body::-webkit-scrollbar-thumb{background:#2a2b3d;border-radius:5px}
+
+/* ---- 两条轨迹 ---- */
+.trace-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.trace-col{border:1px solid var(--line);border-radius:18px;background:#10121b;overflow:hidden;display:flex;
+  flex-direction:column;min-width:0}
+.trace-col.on{border-color:#8eddcb44}
+.trace-col>header{padding:21px 24px 17px;border-bottom:1px solid var(--line)}
+.trace-col>header div{display:flex;align-items:center;gap:10px}
+.trace-col>header strong{font-size:16px;font-weight:500}
+.trace-col>header p{margin-top:7px;font:11px var(--mono);color:#7e7590;letter-spacing:.04em}
+.call-list{list-style:none;margin:0;padding:8px 10px;display:flex;flex-direction:column;gap:1px;
+  max-height:440px;overflow:auto;flex:1;
+  mask-image:linear-gradient(#000 calc(100% - 26px),transparent)}
+.call-list::-webkit-scrollbar{width:9px}
+.call-list::-webkit-scrollbar-thumb{background:#2a2b3d;border-radius:5px}
+.call-list li{display:grid;grid-template-columns:26px 15px 1fr;gap:9px;align-items:baseline;
+  padding:7px 10px;border-radius:7px;font-size:12px;line-height:1.65;color:#9c93ae}
+.call-list li b{font:10px var(--mono);color:#5d5a70;font-weight:400}
+.call-list li i{display:block;width:13px;height:13px;color:#5d5a70;transform:translateY(2px)}
+.call-list li i svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.call-list li.read i{color:#7188ad}
+.call-list li.dead i{color:#b87c7c}
+.call-list li.read{color:#8095b8}
+.call-list li.dead{color:#c88c8c}
+.call-list li.after{color:#a8d9cb}
+.call-list li.pivot{display:block;background:#edb28a14;border:1px solid #edb28a55;color:var(--amber);
+  margin:7px 0;padding:11px 13px;font-size:12.5px}
+.call-list li.pivot em{display:block;font-style:normal;font-weight:600;margin-bottom:4px}
+.call-list li.pivot span{color:#d8bda8}
+.trace-col>footer{padding:17px 24px 21px;border-top:1px solid var(--line);display:flex;align-items:baseline;
+  gap:11px;flex-wrap:wrap}
+.trace-col>footer span{font-size:12px;color:#7e7590}
+.trace-col>footer b{font-size:21px;font-weight:500}
+.trace-col>footer b.ok{color:var(--mint)}
+.trace-col>footer b.bad{color:#e2807e}
+.trace-col>footer small{flex-basis:100%;font-size:11.5px;color:#6d6a84;line-height:1.7}
+
+/* ---- 开关流程 ---- */
+.switch-flow{display:flex;flex-direction:column;gap:11px;margin-top:4px}
+.flow-step{display:flex;align-items:center;gap:14px;padding:15px 18px;border-radius:12px;
+  border:1px solid #ffffff10;background:#0f1119;font-size:13.5px;color:#a49bb6;
+  transition:border-color .3s,background .3s,color .3s,opacity .3s}
+.flow-step b{font:10px var(--mono);color:#5d5a70;font-weight:400;flex:none}
+.flow-step.accent{border-color:#edb28a66;background:#edb28a10;color:#f0e2d4}
+.flow-step.accent b{color:var(--amber)}
+.flow-step.good{border-color:#8eddcb4d;background:#8eddcb0c;color:#d6efe8}
+.flow-step.good b{color:var(--mint)}
+.flow-step.dead{border-color:#e2807e44;background:#e2807e0c;color:#e8cfce}
+.flow-step.dead b{color:#e2807e}
+
+/* ---- 交互区 ---- */
+
+.lab-shell{display:grid;grid-template-columns:.9fr 1.45fr;border:1px solid #b9a4fc22;border-radius:20px;
+  background:linear-gradient(130deg,#17142080,#10131c);overflow:hidden}
+.lab-controls{padding:37px 33px;border-right:1px solid var(--line)}
+.lab-controls h3{font-size:25px;line-height:1.5;font-weight:500;letter-spacing:-.035em;margin:20px 0 14px}
+.lab-controls>p{font-size:13px;line-height:1.95;color:var(--muted)}
+.segmented{display:flex;padding:4px;border:1px solid #ffffff15;border-radius:9px;background:#090a1080;gap:4px;
+  margin:26px 0 22px}
+.segmented button{font-size:12.5px;padding:10px;flex:1;border-radius:6px;color:#9c8eab}
+.segmented button[aria-pressed=true]{background:#382b47;color:#e4d6f9}
+.prompt-card{border:1px solid #ffffff10;border-radius:12px;background:#0a0b12;padding:17px 18px;
+  font:12px/2 var(--mono);color:#7f8798;word-break:break-word}
+.prompt-card .on-line{color:var(--amber);font-weight:600}
+.prompt-card .off-line{color:#3c4050;text-decoration:line-through}
+.lab-note{margin-top:19px;font-size:12px;line-height:1.9;color:#7e7590}
+.lab-results{padding:31px 32px;min-width:0;display:flex;flex-direction:column}
+.chart-head{display:flex;justify-content:space-between;gap:15px;font-size:12px;color:#aaa0b6;align-items:center;
+  margin-bottom:17px}
+.refl-toggle{display:flex;padding:3px;border:1px solid #ffffff12;border-radius:8px;background:#090a1080;gap:3px;
+  flex:none}
+.refl-toggle button{font-size:11px;padding:6px 11px;border-radius:5px;color:#8b8199;white-space:nowrap}
+.refl-toggle button[aria-pressed=true]{background:#382b47;color:#e4d6f9}
+.refl-para p.zh{font-size:13.5px;line-height:2.05}
+.status-pill{border-radius:20px;padding:6px 11px;font-size:11px;border:1px solid #95dfc833;background:#95dfc80b;
+  color:var(--mint);white-space:nowrap}
+.status-pill.amber{border-color:#edb28a30;background:#edb28a0b;color:var(--amber)}
+.lab-results svg{width:100%;height:auto}
+.lab-readouts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;border-top:1px solid #ffffff10;
+  padding-top:22px;margin-top:auto}
+.lab-readouts>div>span{display:block;font-size:12px;color:#9486a4;margin-bottom:11px}
+.lab-readouts strong{font-weight:450;font-size:23px;color:var(--mint);font-variant-numeric:tabular-nums}
+.lab-readouts>div:last-child strong{color:#c6b4ee}
+
+/* ---- 结果 ---- */
+.outcome-grid{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:26px;max-width:1120px;
+  margin:0 auto}
+.outcome-card{border:1px solid var(--line);border-radius:18px;background:#11111b;padding:34px 36px}
+.outcome-card.after{border-color:#95dfc84d;background:linear-gradient(140deg,#13221f,#101620)}
+.outcome-card>span{font-size:13px;color:var(--muted)}
+.outcome-card strong{display:block;margin-top:14px;font-size:64px;font-weight:450;letter-spacing:-.04em;
+  font-variant-numeric:tabular-nums;color:#b4aec4}
+.outcome-card.after strong{color:var(--mint)}
+.outcome-card small{display:block;margin-top:12px;font-size:12px;color:#7e7590}
+.outcome-arrow{color:#6b5f7d;font-size:30px}
+.delta-line{margin-top:36px;text-align:center}
+.delta-line b{font-size:31px;font-weight:500;color:var(--mint);letter-spacing:-.03em}
+
+/* ---- 未来工作 ---- */
+.next-card{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;
+  border:1px solid #b9a4fc22;border-radius:20px;padding:42px 44px;
+  background:linear-gradient(130deg,#17142080,#10131c);position:relative;overflow:hidden}
+.next-card::before{content:'';position:absolute;inset:auto auto -40% -10%;width:420px;height:320px;
+  background:radial-gradient(ellipse at 50% 50%,#edb28a1c,transparent 65%);pointer-events:none}
+.next-copy{position:relative}
+.next-copy h3{margin:18px 0 14px;font-size:26px;font-weight:500;letter-spacing:-.035em;line-height:1.5}
+.next-copy>p{font-size:14px;line-height:2;color:var(--muted);max-width:520px}
+.next-points{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
+.next-points li{display:flex;gap:12px;align-items:flex-start}
+.next-points b{font:10px var(--mono);color:#5d5a70;font-weight:400;flex:none;padding-top:3px}
+.next-points strong{display:block;font-size:14px;font-weight:500}
+.next-points small{display:block;margin-top:3px;font-size:12px;color:#7e7590;line-height:1.75}
+.next-copy>p.next-soon{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-size:13px;
+  color:var(--amber);letter-spacing:.04em}
+.next-copy>p.next-soon::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;
+  box-shadow:0 0 10px currentColor}
+.next-visual svg{width:100%;height:auto}
+
+/* ---- 结尾 ---- */
+.end-section{text-align:center;border-top:1px solid var(--line);position:relative;overflow:hidden;
+  padding:104px max(5.6%,calc((100vw - 1392px)/2)) 82px;isolation:isolate}
+.end-glow{position:absolute;inset:auto 0 -60% 0;height:520px;z-index:-1;
+  background:radial-gradient(ellipse at 50% 50%,#4b316b33,transparent 62%)}
+.end-section>.eyebrow{justify-content:center}
+.end-section h2{font-size:clamp(34px,3.9vw,58px);font-weight:500;line-height:1.4;letter-spacing:-.04em;margin:26px 0}
+.end-section>p{font-size:15px;color:#9c8bad;max-width:660px;margin-inline:auto}
+.end-actions{display:flex;gap:13px;justify-content:center;margin-top:36px;flex-wrap:wrap}
+footer{display:flex;gap:25px;align-items:center;padding:30px max(5.6%,calc((100vw - 1392px)/2));
+  border-top:1px solid var(--line)}
+footer>span{font-size:11px;color:#6e627d;margin-left:auto}
+
+@keyframes breathe{0%,100%{opacity:.4}50%{opacity:1}}
+.reveal{opacity:1}
+.has-observer .reveal{opacity:0;transform:translateY(17px);transition:opacity .7s,transform .7s}
+.has-observer .reveal.visible{opacity:1;transform:none}
+body.motion-off *,body.motion-off *::before,body.motion-off *::after{animation:none!important}
+
+@media(max-width:1200px){
+  .hero{min-height:0;padding:132px 0 74px}
+  .section{margin-inline:5.6%}
+  .site-header{padding-inline:5.6%;gap:18px}
+  .site-header nav{gap:18px;font-size:12px}
+  .reflection-shell{grid-template-columns:1fr}
+  .reflection-side{border-right:0;border-bottom:1px solid var(--line)}
+  .lab-shell{grid-template-columns:1fr}
+  .lab-controls{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media(max-width:1000px){
+  .site-header nav{display:none}
+}
+@media(max-width:560px){
+  .site-header .nav-watch{display:none}
+}
+@media(max-width:760px){
+  .site-header{height:76px;gap:12px}
+  .hero{padding:104px 0 58px}
+  .hero h1{font-size:33px}
+  .section{padding:62px 0}
+  .section-heading{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:30px}
+  .trace-grid{grid-template-columns:1fr}
+  .next-card{grid-template-columns:1fr;gap:28px;padding:30px 24px}
+  .refl-para{grid-template-columns:1fr;gap:8px}
+  .chapter-bar{grid-template-columns:repeat(2,1fr)}
+  .chapter-bar button{padding:13px 14px;font-size:12px;gap:8px}
+  .chapter-bar button:nth-child(-n+2){border-bottom:1px solid #ffffff0a}
+  .chapter-bar button:nth-child(2){border-right:0}
+  .outcome-grid{grid-template-columns:1fr}
+  .outcome-arrow{transform:rotate(90deg);justify-self:center}
+  .theater{border-radius:13px}
+  .transport{flex-wrap:wrap;gap:10px;padding:13px 14px}
+  #scrubber{order:5;flex-basis:100%}
+  .end-section h2{font-size:31px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .has-observer .reveal{opacity:1;transform:none}
+}
+</style>
+<style data-showcase-navigation>
+/* Catalog navigation only. No selectors affect the authored case content. */
+.showcase-navigation {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+.showcase-navigation a.showcase-return-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 5px 11px;
+  box-sizing: border-box;
+  border: 1px solid #b9a4fc50;
+  border-radius: 8px;
+  background: #b9a4fc14;
+  color: #e1d6ff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .18s, border-color .18s;
+}
+.showcase-return-link svg { width: 15px; height: 15px; flex: none; }
+.showcase-navigation a.showcase-return-link:hover { background: #b9a4fc30; border-color: #b9a4fc; }
+.showcase-navigation a.showcase-return-link:focus-visible { outline: 2px solid #c7b2ff; outline-offset: 3px; }
+.lab-sidebar .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 12px; }
+.lab-sidebar .showcase-navigation a.showcase-return-link { color: #514168; border-color: #8771ac60; background: #8771ac12; }
+@media (max-width: 1200px) {
+  .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .showcase-navigation a.showcase-return-link { min-height: 28px; padding: 3px 9px; font-size: 11px; }
+}
+@media (max-width: 700px) {
+  .lab-sidebar .showcase-navigation { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .showcase-navigation a.showcase-return-link { transition: none; }
+}
+
+</style>
+</head>
+
+<body id="top">
+<header class="site-header">
+ <div class="showcase-navigation"><a class="site-brand" href="../../index.html" aria-label="Agents-A1.5" data-showcase-home><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-word">Agents-A1.5</span></a><a class="showcase-return-link" data-showcase-return href="../../index.html"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4 5 10l6 6M5 10h11"/></svg><span data-showcase-return-label>返回首页</span></a></div>
+ <nav aria-label="Main"><a href="#demo" data-i18n="navDemo"></a><a href="#reflection" data-i18n="navReflection"></a><a href="#trace" data-i18n="navTrace"></a><a href="#switch" data-i18n="navSwitch"></a><a href="#result" data-i18n="navResult"></a><a href="#next" data-i18n="navNext"></a></nav>
+ <div class="header-actions">
+  <div class="language-switch" aria-label="Language">
+   <button data-lang="zh" aria-pressed="true">&#20013;&#25991;</button><span>/</span><button data-lang="en" aria-pressed="false">EN</button>
+  </div>
+  <button class="nav-watch" data-play-jump><span aria-hidden="true">&#9654;</span><span data-i18n="navPlay"></span></button>
+ </div>
+</header>
+
+<main>
+<section class="hero" aria-labelledby="hero-title">
+ <div class="hero-grid" aria-hidden="true"></div><div class="hero-glow" aria-hidden="true"></div>
+ <div class="hero-copy">
+  <div class="eyebrow"><span class="live-dot amber"></span><span>AGENTS-A1.5 / VERIFICATION</span></div>
+  <h1 id="hero-title" data-i18n-html="heroTitle"></h1>
+  <p class="hero-description" data-i18n="heroDesc"></p>
+  <div class="hero-actions">
+   <a class="button primary" href="#demo"><span data-i18n="heroWatch"></span><span aria-hidden="true">&#9654;</span></a>
+   <a class="button secondary" href="#reflection"><span data-i18n="heroRead"></span><span aria-hidden="true">&#8595;</span></a>
+  </div>
+ </div>
+</section>
+
+
+<!-- 01 演示 -->
+<section class="section" id="demo">
+ <div class="section-heading reveal">
+  <div><div class="eyebrow" data-i18n="eye1"></div><h2 data-i18n-html="h1t"></h2></div>
+ </div>
+ <div class="theater" id="theater" tabindex="-1">
+  <div class="chapter-bar" id="chapters" role="tablist" aria-label="Steps"></div>
+  <div class="film-stage" id="filmStage"><div id="svgScene" role="img"></div></div>
+  <div class="transport">
+   <button id="playPause" class="play-toggle" aria-label="Play"><svg viewBox="0 0 24 24"><path d="m8 5 12 7-12 7Z" fill="currentColor" stroke="none"/></svg></button>
+   <button id="restart" class="icon-button" aria-label="Replay"><svg viewBox="0 0 24 24"><path d="M4 11a8 8 0 1 1 1 6M4 4v7h7"/></svg></button>
+   <span class="timecode" id="timeCurrent">00:00</span>
+   <input id="scrubber" type="range" min="0" max="30" step="0.01" value="0" aria-label="Timeline">
+   <span class="timecode" id="timeTotal">00:30</span>
+   <select id="speed" aria-label="Speed"><option value="0.75">0.75&#215;</option><option value="1" selected>1&#215;</option><option value="1.5">1.5&#215;</option></select>
+  </div>
+ </div>
+</section>
+
+<!-- 02 反思内容 -->
+<section class="section" id="reflection">
+ <div class="section-heading reveal">
+  <div><div class="eyebrow" data-i18n="eye2"></div><h2 data-i18n-html="h2t"></h2></div>
+  <p data-i18n="p2"></p>
+ </div>
+ <div class="reflection-shell reveal">
+  <div class="reflection-side">
+   <div class="chart-head"><span data-i18n="dimHead"></span></div>
+   <ol class="dim-list" id="dimList"></ol>
+   <p class="lab-note" data-i18n="dimNote"></p>
+  </div>
+  <div class="reflection-main">
+   <div class="chart-head">
+    <span data-i18n="reflHead"></span>
+    <div class="refl-toggle" role="group" aria-label="Language of the quoted text">
+     <button data-refl="zh" data-i18n="reflZh"></button><button data-refl="en" data-i18n="reflEn"></button>
+    </div>
+   </div>
+   <div class="reflection-body" id="reflectionBody"></div>
+   <p class="lab-note" id="reflFoot"></p>
+  </div>
+ </div>
+</section>
+
+<!-- 03 对比 -->
+<section class="section" id="trace">
+ <div class="section-heading reveal">
+  <div><div class="eyebrow" data-i18n="eye3"></div><h2 data-i18n-html="h3t"></h2></div>
+  <p data-i18n="p3"></p>
+ </div>
+ <div class="trace-grid reveal">
+  <article class="trace-col on">
+   <header>
+    <div><span class="live-dot mint"></span><strong data-i18n="traceOnTitle"></strong></div>
+    <p data-i18n="traceOnMeta"></p>
+   </header>
+   <ol class="call-list" id="callsOn"></ol>
+   <footer><span data-i18n="finalAnswer"></span><b class="ok">Madhumati</b><small data-i18n="traceOnNote"></small></footer>
+  </article>
+  <article class="trace-col off">
+   <header>
+    <div><span class="live-dot"></span><strong data-i18n="traceOffTitle"></strong></div>
+    <p data-i18n="traceOffMeta"></p>
+   </header>
+   <ol class="call-list" id="callsOff"></ol>
+   <footer><span data-i18n="finalAnswer"></span><b class="bad">Jacqueline</b><small data-i18n="traceOffNote"></small></footer>
+  </article>
+ </div>
+</section>
+
+<!-- 04 开启方式 -->
+<section class="section" id="switch">
+ <div class="section-heading reveal">
+  <div><div class="eyebrow" data-i18n="eye4"></div><h2 data-i18n-html="h4t"></h2></div>
+  <p data-i18n="p4"></p>
+ </div>
+ <div class="lab-shell">
+  <div class="lab-controls">
+   <h3>Verification protocol</h3>
+   <p data-i18n="swDesc"></p>
+   <div class="segmented" role="group">
+    <button data-verify="off" aria-pressed="false" data-i18n="swOff"></button>
+    <button data-verify="on" aria-pressed="true" data-i18n="swOn"></button>
+   </div>
+   <div class="prompt-card" id="promptCard"></div>
+  </div>
+  <div class="lab-results">
+   <div class="chart-head"><span data-i18n="swFlowHead"></span><span class="status-pill" id="labStatus"></span></div>
+   <div class="switch-flow" id="switchFlow"></div>
+   <p class="lab-note" id="labNote"></p>
+  </div>
+ </div>
+</section>
+
+<!-- 05 结果 -->
+<section class="section" id="result">
+ <div class="section-heading reveal">
+  <div><div class="eyebrow" data-i18n="eye5"></div><h2 data-i18n-html="h5t"></h2></div>
+  <p data-i18n="p5"></p>
+ </div>
+ <div class="outcome-grid reveal">
+  <div class="outcome-card"><span data-i18n="resBefore"></span><strong>72.5%</strong><small data-i18n="resSet"></small></div>
+  <div class="outcome-arrow" aria-hidden="true">&#8594;</div>
+  <div class="outcome-card after"><span data-i18n="resAfter"></span><strong>82.9%</strong><small data-i18n="resSet"></small></div>
+ </div>
+ <div class="delta-line reveal"><b data-i18n="resDelta"></b></div>
+</section>
+
+<!-- 06 未来工作 -->
+<section class="section" id="next">
+ <div class="section-heading reveal">
+  <div><div class="eyebrow" data-i18n="eye6"></div><h2 data-i18n-html="h6t"></h2></div>
+  <p data-i18n="p6"></p>
+ </div>
+ <div class="next-card reveal">
+  <div class="next-copy">
+   <span class="status-pill amber" data-i18n="nextTag"></span>
+   <h3 data-i18n="nextTitle"></h3>
+   <p data-i18n="nextDesc"></p>
+   <ol class="next-points" id="nextPoints"></ol>
+   <p class="next-soon" data-i18n="nextSoon"></p>
+  </div>
+  <div class="next-visual" id="nextVisual" aria-hidden="true"></div>
+ </div>
+</section>
+
+<section class="end-section">
+ <div class="end-glow" aria-hidden="true"></div>
+ <div class="eyebrow"><span class="live-dot"></span><span>VERIFICATION</span></div>
+ <h2 data-i18n-html="endTitle"></h2>
+ <p data-i18n="endDesc"></p>
+ <div class="end-actions">
+  <a class="button primary" href="#demo"><span data-i18n="endWatch"></span><span aria-hidden="true">&#9654;</span></a>
+  <a class="button secondary" href="#top"><span data-i18n="endTop"></span><span aria-hidden="true">&#8593;</span></a>
+ </div>
+</section>
+</main>
+
+<footer>
+ <a class="site-brand" href="#top"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-word">Agents-A1.5</span></a>
+ <span data-i18n="footer"></span>
+</footer>
+<noscript>This page needs JavaScript. / 本页需要 JavaScript。</noscript>
+
+<script>
+/* Agents-A1.5 / Verification 能力演示。
+ * 确定性矢量帧: 给定时间 t 就得到一张 SVG, 不依赖随机数, 也没有网络请求。
+ * 画面里的检索词、反思内容、最终答案均取自同一道题的真实作答记录。
+ */
+(function(root){
+'use strict';
+const P={bg:'#090C13',paper:'#10151F',panel:'#111621',edge:'#2A2D41',ink:'#F1EFF8',muted:'#A6A3BB',
+         dim:'#6F718B',purple:'#BBA6FA',mint:'#8EDDCB',amber:'#EDB389',red:'#E2807E',grey:'#4A4C61'};
+const F="Showcase,'PingFang SC','Microsoft YaHei',Arial,sans-serif";
+const MONO="'SFMono-Regular',Consolas,'DejaVu Sans Mono',monospace";
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const ease=x=>{x=clamp(x);return x*x*(3-2*x);};
+const ramp=(t,a,b)=>ease((t-a)/(b-a));
+const hash=n=>{const v=Math.sin(n*127.1+311.7)*43758.5453;return v-Math.floor(v);};
+const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+
+/* ---- 文案: 两种语言 ---- */
+const L={
+ zh:{
+  qTitle:'一道真实的评测题', qSub:'多跳问题，答案要一环一环推出来',
+  q:['有个演员结过两次婚，第一任妻子也是演员。',
+     '他第二任妻子的弟弟，在 2001 到 2005 年之间去世。',
+     '他在某部电影里演过警察局长。',
+     '问：他第一任妻子叫什么名字？'],
+  hop1:'第一环：演过警察局长', hop2:'第二环：第二任妻子的弟弟', hop3:'要找：第一任妻子的名字',
+  tTitle:'同一道题，两次作答', tSub:'一个方块代表一次交互',
+  off:'不具备该能力', on:'具备该能力',
+  stuckHint:'连续多次检索都没有进展',
+  noProgress:'← 没有推进', noInfo:'← 没拿到有用信息',
+  stuckFoot:'两次作答都走到了同一个僵局',
+  bubble:['等一下。','我一直在同样模糊的线索上打转，没有锁定任何一个可验证的身份。','先停下来，别再靠猜。'],
+  sideA:'模型在推理过程中', sideB:'自己停了下来',
+  offFoot:'不具备该能力：沿着同一条思路一直查到底',
+  cTitle:'换了方法之后，它找到了答案',
+  cGrow:'换了方法之后，每一次检索都在向答案靠近',
+  chain:['改用权威来源反查「警察局长」这个角色','查到演员：Anupam Kher','查他妻子：Kirron Kher','查到第一任妻子：Madhumati'],
+  cmpOff:'始终沿用同一思路，没有答对', cmpOn:'中途换了方法，答出 Madhumati',
+  reflect:'重新规划',
+  legend:['开局检索','没有进展','停下来重新规划','换方法后推进'],
+  chapters:['题目','陷入僵局','停下来重新规划','找到答案'],
+ },
+ en:{
+  qTitle:'A real benchmark question', qSub:'Multi-hop — the answer has to be reasoned out link by link',
+  q:['An actor has been married twice; his first wife was also an actress.',
+     "His second wife's brother died between 2001 and 2005.",
+     'He played a police commissioner in a film.',
+     "Q: What is his first wife's name?"],
+  hop1:'Hop 1: played a police commissioner', hop2:"Hop 2: second wife's brother", hop3:"Target: the first wife's name",
+  tTitle:'The same question, answered twice', tSub:'Each block is one interaction',
+  off:'Without Verification', on:'With Verification',
+  stuckHint:'Several searches in a row, no progress',
+  noProgress:'← no progress', noInfo:'← nothing usable',
+  stuckFoot:'Both attempts reach the same dead end',
+  bubble:['Hold on.','I keep circling the same vague leads without pinning down a single verified identity.','Let me pause before I waste more time on guesswork.'],
+  sideA:'The model stops itself', sideB:'inside its own reasoning',
+  offFoot:'Without Verification: it keeps following the same line to the end',
+  cTitle:'After changing approach, it found the answer',
+  cGrow:'Every search after the change moves toward the answer',
+  chain:['Look up the police-commissioner role in an authoritative source','Found the actor: Anupam Kher','Found his wife: Kirron Kher','Found the first wife: Madhumati'],
+  cmpOff:'Same line throughout — wrong answer', cmpOn:'Changed approach — answered Madhumati',
+  reflect:'Re-plan',
+  legend:['Opening searches','No progress','Stops to re-plan','Progress after the change'],
+  chapters:['Question','Dead end','Stops to re-plan','The answer'],
+ }};
+let LANG='zh';
+const T=k=>L[LANG][k];
+
+/* ---- 轨道常量 ---- */
+const X0=300, PITCH=21.5, CW=16, CH=27;
+const N_TRACK=48;     // 两条轨道等长, 只看走到哪一步
+const PAUSE=19;       // 具备该能力的一次, 在第 19 次交互停下来
+const N_ANS=30;       // 之后跑到第 30 次交互拿到答案
+
+function colBase(i){return i<=8?P.grey:P.red;}
+function colVerify(i){
+  if(i<=8)return P.grey;
+  if(i<=18)return P.red;
+  if(i===19)return P.amber;
+  return P.mint;
+}
+/* 画面里的检索词取自真实记录 */
+const QUERIES=[['actor married actress 1980s divorced first wife actress police commissioner film',P.muted,''],
+               ['Bruce Willis police commissioner film role',P.red,'noProgress'],
+               ['Demi Moore brother died 2001 2002 2003 2004 2005',P.red,'noInfo']];
+
+const STAGES=[
+ {key:'question',start:0,    end:6.4},
+ {key:'stuck',   start:6.4,  end:14.2},
+ {key:'audit',   start:14.2, end:22.0},
+ {key:'chain',   start:22.0, end:29.6}];
+const DURATION=STAGES[STAGES.length-1].end;
+function stageAt(t){const i=STAGES.findIndex(s=>t>=s.start&&t<s.end);return i<0?(t<0?0:STAGES.length-1):i;}
+
+class Film{
+ constructor(t,opts={}){
+   this.t=clamp(t,0,DURATION-1e-5);
+   this.i=stageAt(this.t);
+   this.st=STAGES[this.i];
+   this.u=this.t-this.st.start;
+   this.fx=opts.effects!==false;
+ }
+ text(s,x,y,z=23,col=P.ink,weight=450,align='start',font=F){
+   return `<text x="${x}" y="${y}" font-family="${font}" font-size="${z}" font-weight="${weight}" fill="${col}" text-anchor="${align}">${esc(s)}</text>`;}
+ rect(x,y,w,h,fill=P.panel,stroke=P.edge,r=16){
+   return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}" stroke="${stroke}" stroke-width="1"/>`;}
+ line(x,y,xx,yy,col=P.edge,width=1,dash=''){
+   return `<path d="M${x} ${y}L${xx} ${yy}" fill="none" stroke="${col}" stroke-width="${width}"${dash?` stroke-dasharray="${dash}"`:''}/>`;}
+ dot(x,y,r=3,col=P.purple,a=1){
+   return `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${r}" fill="${col}" opacity="${a.toFixed(3)}"/>`;}
+ group(s,a=1,dx=0,dy=0){return `<g opacity="${clamp(a).toFixed(3)}" transform="translate(${dx} ${dy})">${s}</g>`;}
+ reveal(s,d=0,span=.6){const p=ramp(this.u,d,d+span);return this.group(s,p,0,(1-p)*13);}
+ icon(k,x,y,size=23,col=P.purple){
+   const paths={search:'<circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/>',
+     check:'<path d="m4 12 5 5L20 5"/>',cross:'<path d="m5 5 14 14M5 19 19 5"/>',
+     pause:'<path d="M9 5v14M15 5v14"/>',think:'<path d="M12 3a6 6 0 0 0-4 10.5V17h8v-3.5A6 6 0 0 0 12 3Zm-3 18h6"/>'};
+   return `<g transform="translate(${x} ${y}) scale(${size/24})" fill="none" stroke="${col}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${paths[k]||paths.check}</g>`;}
+ badge(k,x,y,r=13,col=P.mint){
+   return `<circle cx="${x}" cy="${y}" r="${r}" fill="${col}22" stroke="${col}66" stroke-width="1"/>`+
+          this.icon(k,x-r*.62,y-r*.62,r*1.24,col);}
+ chip(s,x,y,w,col=P.purple){
+   return this.rect(x,y,w,35,col+'10',col+'40',17)+this.dot(x+16,y+17,3,col)+this.text(s,x+29,y+24,18,col,500);}
+ panel(x,y,w,h,label,tag=''){
+   return this.rect(x,y,w,h,'#11151FEB',P.edge,19)+this.text(label,x+26,y+39,22,P.ink,500)+
+     (tag?this.text(tag,x+w-26,y+38,17,P.dim,450,'end'):'')+this.line(x+24,y+57,x+w-24,y+57);}
+ title(s,sub=''){
+   return this.text(s,64,205,43,P.ink,500)+(sub?this.text(sub,66,248,23,P.muted):'');}
+ measure(s,size){let w=0;for(const ch of s)w+=ch.codePointAt(0)>0x2e80?size:size*.53;return w;}
+
+ track(y,shown,colf,total=N_TRACK){
+   let s='';
+   for(let i=0;i<total;i++)
+     s+=`<rect x="${X0+i*PITCH}" y="${y}" width="${CW}" height="${CH}" rx="3" fill="${i<shown?colf(i):'#1B1D2B'}"/>`;
+   return s;
+ }
+ pauseMark(y,label=''){
+   const px=X0+PAUSE*PITCH+CW/2;
+   return this.line(px,y+CH+4,px,y+CH+22,P.amber,2.5)+
+     `<circle cx="${px}" cy="${y+CH+34}" r="11" fill="${P.amber}22" stroke="${P.amber}" stroke-width="1.5"/>`+
+     this.icon('pause',px-7,y+CH+27,14,P.amber)+
+     (label?this.text(label,px+22,y+CH+41,19,P.amber,500):'');
+ }
+
+ background(){
+   let s=this.rect(0,0,1600,900,P.bg,'none',0)+`<rect width="1600" height="900" fill="url(#aura)"/>`;
+   for(let n=0;n<74;n++){
+     const x=hash(n+1)*1600;
+     const y=(hash(n+219)*900+(this.fx?this.t:0)*(1+hash(n)*2))%900;
+     s+=this.dot(x,y,n%7===0?1.4:.8,P.purple,.05+hash(n+77)*.11);
+   }
+   let d='';
+   for(let x=64;x<1580;x+=84)d+=`M${x} 120V744`;
+   for(let y=154;y<746;y+=84)d+=`M64 ${y}H1536`;
+   return s+`<path d="${d}" stroke="#BCA6FA" opacity=".025" stroke-width=".7" fill="none"/>`;
+ }
+ chrome(){ return ''; }   /* 步骤条与品牌都在画面外, 交给页面本身 */
+ rail(){
+   /* 进度由播放器下方的进度条负责, 这里只放图例。
+      第一幕还没有方块, 图例没有对应物, 不显示 */
+   if(this.st.key==='question')return '';
+   let s=this.line(64,762,1536,762,'#292639',1);
+   const cols=[P.grey,P.red,P.amber,P.mint];
+   T('legend').forEach((label,j)=>{
+     const x=64+j*300;
+     s+=`<rect x="${x}" y="803" width="14" height="16" rx="3" fill="${cols[j]}"/>`+
+        this.text(label,x+25,817,20,P.muted,450);
+   });
+   return s;
+ }
+
+ scQuestion(){
+   let s=this.title(T('qTitle'),T('qSub'));
+   s+=this.panel(64,310,1472,408,'BrowseComp','');
+   T('q').forEach((ln,j)=>{
+     const last=j===3;
+     s+=this.reveal(
+       this.dot(112,412+j*74,last?4:3,last?P.amber:P.purple,last?1:.62)+
+       this.text(ln,136,421+j*74,last?31:28,last?P.ink:P.muted,last?550:450),
+       j*.62);
+   });
+   s+=this.reveal(this.chip(T('hop1'),64,772,this.measure(T('hop1'),18)+60,P.purple)+
+                  this.chip(T('hop2'),this.measure(T('hop1'),18)+140,772,this.measure(T('hop2'),18)+60,P.purple)+
+                  this.chip(T('hop3'),this.measure(T('hop1'),18)+this.measure(T('hop2'),18)+236,772,
+                            this.measure(T('hop3'),18)+60,P.amber),
+                  2.4);
+   return s;
+ }
+
+ scTrack(audit){
+   const u=this.u;
+   let s=this.title(T('tTitle'),T('tSub'));
+   const R1=318,R2=436;
+   const n1=audit?Math.round(lerp(19,N_TRACK,ramp(u,.1,4.6))):Math.round(ramp(u,0,2.6)*19);
+   const n2=audit?PAUSE+1:Math.round(ramp(u,0,2.6)*PAUSE);
+   s+=this.text(T('off'),280,R1+20,21,P.muted,450,'end');
+   s+=this.text(T('on'),280,R2+20,21,P.ink,550,'end');
+   s+=this.track(R1,n1,colBase);
+   s+=this.track(R2,n2,colVerify);
+   if(!audit){
+     s+=this.reveal(this.text(T('stuckHint'),X0+9*PITCH,R1-22,21,P.red,450),1.2);
+     QUERIES.forEach(([q,col,noteKey],j)=>{
+       const y=568+j*62;
+       const w=this.measure(q,22)+44;
+       s+=this.reveal(
+         this.rect(X0,y-26,w,44,col===P.red?'#22161A':'#151723',col===P.red?P.red+'55':P.edge,11)+
+         this.icon('search',X0+18,y-13,20,col===P.red?P.red:P.dim)+
+         this.text(q,X0+50,y+4,22,col===P.red?P.ink:P.muted,450)+
+         (noteKey?this.text(T(noteKey),X0+w+18,y+4,21,P.red,450):''),
+         2.6+j*.66);
+     });
+     s+=this.reveal(this.text(T('stuckFoot'),X0,762,22,P.muted,450),5.1);
+   }else{
+     s+=this.pauseMark(R2);
+     const bx=640, by=540, bw=900;
+     const lines=Math.min(3,Math.floor(ramp(u,.35,4.2)*3.999));
+     if(lines>0){
+       let b=this.rect(bx,by,bw,46+lines*44,'#20191B',P.amber+'70',15);
+       const tip=X0+PAUSE*PITCH+CW/2;
+       b+=`<path d="M${tip-15} ${by}l15-17 15 17Z" fill="${P.amber}"/>`;
+       T('bubble').slice(0,lines).forEach((ln,j)=>{
+         b+=this.text(ln,bx+30,by+52+j*44,j===0?27:22,j===0?P.amber:P.ink,j===0?600:450);
+       });
+       s+=b;
+     }
+     if(lines>=3){
+       s+=this.reveal(this.rect(64,572,5,84,P.amber,'none',3)+
+                      this.icon('think',84,586,26,P.amber)+
+                      this.text(T('sideA'),120,604,21,P.muted)+
+                      this.text(T('sideB'),120,640,21,P.muted),0);
+     }
+     s+=this.reveal(this.text(T('offFoot'),X0,762,22,P.red,450),5.4);
+   }
+   return s;
+ }
+
+ scChain(){
+   const u=this.u;
+   let s=this.title(T('cTitle'),'');
+   const ty=268;
+   const cells=Math.min(N_ANS,PAUSE+1+Math.floor(ramp(u,.2,4.4)*(N_ANS-PAUSE-1)+1e-6));
+   s+=this.text(T('on'),280,ty+20,21,P.ink,550,'end');
+   s+=this.track(ty,cells,colVerify);
+   s+=this.pauseMark(ty,T('reflect'));
+   if(cells>PAUSE+1)
+     s+=this.text(T('cGrow'),X0+PAUSE*PITCH+CW+12,ty-18,21,P.mint,450);
+   if(cells>=N_ANS)s+=this.badge('check',X0+N_ANS*PITCH+22,ty+CH/2,14,P.mint);
+   T('chain').forEach((label,j)=>{
+     const y=396+j*84, last=j===3;
+     s+=this.reveal(
+       this.rect(280,y,1040,64,last?'#13221F':'#11151FDD',last?P.mint+'66':P.edge,14)+
+       this.dot(318,y+32,last?5:4,last?P.mint:P.purple,last?1:.7)+
+       this.text(label,346,y+40,25,last?P.ink:P.muted,last?550:450)+
+       (last?this.badge('check',1270,y+32,14,P.mint):''),
+       .4+j*.9);
+     if(j<3)s+=this.reveal(this.line(800,y+66,800,y+80,P.edge,1.4),.9+j*.9);
+   });
+   s+=this.reveal(
+     this.line(280,752,1320,752,P.edge,1)+
+     this.badge('cross',300,784,12,P.red)+
+     this.text(T('cmpOff'),328,791,21,P.muted,450)+
+     this.badge('check',860,784,12,P.mint)+
+     this.text(T('cmpOn'),888,791,21,P.mint,450),
+     4.2);
+   return s;
+ }
+
+ body(){
+   switch(this.st.key){
+     case 'question': return this.scQuestion();
+     case 'stuck':    return this.scTrack(false);
+     case 'audit':    return this.scTrack(true);
+     default:         return this.scChain();
+   }
+ }
+ render(){
+   const defs=`<defs><radialGradient id="aura" cx="72%" cy="42%" r="72%">`+
+     `<stop stop-color="#4B316B" stop-opacity=".17"/>`+
+     `<stop offset=".65" stop-color="#193A42" stop-opacity=".05"/>`+
+     `<stop offset="1" stop-color="#090C13" stop-opacity="0"/></radialGradient></defs>`;
+   const alpha=.25+.75*ramp(this.u,0,.33);
+   return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" `+
+     `role="img" aria-label="${esc(T('chapters')[this.i])}">${defs}${this.background()}${this.chrome()}`+
+     `${this.group(this.body(),alpha,0,-104)}${this.rail()}</svg>`;
+ }
+}
+function renderSVG(t,opts={}){return new Film(t,opts).render();}
+root.VerifyFilm={renderSVG,STAGES,DURATION,stageAt,
+                 setLang(l){LANG=l;},
+                 chapters:()=>T('chapters')};
+})(typeof window!=='undefined'?window:globalThis);
+</script>
+
+<script id="verifyData" type="application/json">{"on":{"turns":30,"pred":"Madhumati","calls":[{"t":0,"k":"search","v":"actor married actress 1980s divorced first wife actress police commissioner film"},{"t":1,"k":"search","v":"actress brother died 2003 married actor 1980s divorced previous husband same year"},{"t":2,"k":"search","v":"actress brother died 2002 2003 2004 2005 married actor 1980s"},{"t":3,"k":"search","v":"\"brother\" died 2001 actress married 1980s actor"},{"t":4,"k":"search","v":"\"police commissioner\" film role actor married twice first wife actress second wife actress 1980s"},{"t":5,"k":"read","v":"maetzler-golf.ch"},{"t":6,"k":"search","v":"\"brother\" died 2003 actress second wife actor married 1980s"},{"t":7,"k":"read","v":"papyhours.fr"},{"t":8,"k":"search","v":"\"played the role of police commissioner\" film actor"},{"t":9,"k":"search","v":"Kumar Gaurav second wife actress married 1980s"},{"t":10,"k":"search","v":"actress divorced 1987 remarried same year brother died 2003"},{"t":11,"k":"read","v":"maetzler-golf.ch"},{"t":12,"k":"search","v":"\"brother died\" 2004 actress married"},{"t":13,"k":"search","v":"\"police commissioner\" movie role indian actor married twice first wife actress"},{"t":14,"k":"search","v":"Lisa Gottsegen brother died"},{"t":15,"k":"search","v":"Naseeruddin Shah first wife divorced actress married Ratna Pathak 1982"},{"t":16,"k":"search","v":"Om Puri married twice first wife Shabana Azmi second wife actress brother died"},{"t":17,"k":"search","v":"Bruce Willis police commissioner film role"},{"t":18,"k":"search","v":"Demi Moore brother died 2001 2002 2003 2004 2005"},{"t":19,"k":"search","v":"Vikram Gokhale married twice wife actress"},{"t":20,"k":"search","v":"Bharat Kapoor actor married wife divorce actress"},{"t":21,"k":"search","v":"site:en.wikipedia.org \"Police Commissioner\" film character"},{"t":22,"k":"search","v":"Suresh Gopi married wife actress divorced first wife second marriage 1980s"},{"t":23,"k":"search","v":"Anupam Kher married twice first wife actress second wife actress 1980s"},{"t":24,"k":"search","v":"Kirron Kher first husband divorce 1985 brother died"},{"t":25,"k":"search","v":"Anupam Kher played police commissioner film"},{"t":26,"k":"read","v":"en.wikipedia.org"},{"t":27,"k":"read","v":"en.wikipedia.org"},{"t":28,"k":"search","v":"Anupam Kher police commissioner \"A Wednesday\" Prakash Rathod"}],"verify":[19]},"off":{"turns":48,"pred":"Jacqueline","calls":[{"t":0,"k":"search","v":"Bollywood actor married twice first wife actress divorced second wife actress 1980s brother died"},{"t":1,"k":"search","v":"Jeetendra actor first wife Babita divorce married second wife 1980s"},{"t":2,"k":"search","v":"\"police commissioner\" film actor married actress 1980s second wife previously married brother died"},{"t":3,"k":"search","v":"Bollywood actress brother died 2003 2004 husband actor married 1989"},{"t":4,"k":"search","v":"Annu Kapoor first wife Chaya Singh actress divorced married Neena Kulkarni"},{"t":5,"k":"search","v":"Annu Kapoor marriages wife Divya Dutta ex-wife"},{"t":6,"k":"search","v":"Bollywood actress brother death 2001 2002 2003 2004 husband actor"},{"t":7,"k":"read","v":"maetzler-golf.ch"},{"t":8,"k":"read","v":"77fp6hq9-amphtml.ambrogiobrivio.it"},{"t":9,"k":"search","v":"Hindi film actor \"police commissioner\" role married two wives actress divorced"},{"t":10,"k":"search","v":"Vinod Mehra actor wives marriages Bindiya Goswami Divya Bharti"},{"t":11,"k":"search","v":"Alok Nath marriages wives Jayaprada Shweta actress divorced"},{"t":12,"k":"read","v":"en.wikipedia.org"},{"t":13,"k":"search","v":"Alok Nath first wife actress name"},{"t":14,"k":"search","v":"Indian actor married twice both wives actresses second wife previously married divorced same year 1980s brother died"},{"t":15,"k":"search","v":"\"married two times\" actor first wife actress divorced second wife actress 1980s \"police commissioner\" film India"},{"t":16,"k":"search","v":"Indian actress brother died 2003 husband actor Bollywood"},{"t":17,"k":"search","v":"actor married actress 1989 divorced same year brother died 2003 Bollywood Hindi film"},{"t":18,"k":"read","v":"maetzler-golf.ch"},{"t":19,"k":"search","v":"Bollywood actress married 1989 divorced same year previously married brother"},{"t":20,"k":"search","v":"crossword clue actor police commissioner married twice first wife actress second wife actress brother died 2003 answer"},{"t":21,"k":"search","v":"\"second wife\" actress \"previously married\" \"divorced\" \"same year\" married actor 1980s Bollywood brother death"},{"t":22,"k":"search","v":"Indian actor \"played the role of police commissioner\" married divorced actress wife"},{"t":23,"k":"search","v":"Bollywood actress remarried 1980s ex-husband divorced brother died 2003 2004 husband actor film"},{"t":24,"k":"search","v":"\"actor\" \"married\" \"twice\" \"first wife\" \"actress\" \"police commissioner\" riddle trivia identify"},{"t":25,"k":"search","v":"Hindi film actor two marriages both wives actresses divorced second marriage 1980s played police officer commissioner"},{"t":26,"k":"search","v":"Raaj Kumar actor marriages wives first wife second wife Bollywood"},{"t":27,"k":"search","v":"Indian actor married first wife actress divorced then married second actress 1980s previously married brother died"},{"t":28,"k":"search","v":"Tina Munim previously married divorced before Rajesh Khanna brother"},{"t":29,"k":"search","v":"Rajesh Khanna married Tina Munim 1984 divorced Dimple Kapadia police commissioner film"},{"t":30,"k":"search","v":"\"played police commissioner\" Hindi film actor married twice actress wife divorced brother death 2003"},{"t":31,"k":"search","v":"Bollywood actor married divorced actress 1980s her first husband divorced same year brother died film police"},{"t":32,"k":"search","v":"crossword solver \"police commissioner\" \"married twice\" \"actress\" \"brother died\" Hindi Indian actor name"},{"t":33,"k":"read","v":"maetzler-golf.ch"},{"t":34,"k":"search","v":"\"brother died\" OR \"brother passed away\" 2003 Bollywood actress famous"},{"t":35,"k":"read","v":"morelifehtm.it"},{"t":36,"k":"search","v":"Bollywood actress sibling died 2003 brother death Hindi film industry"},{"t":37,"k":"search","v":"Tina Munim family parents brother previous marriage before Rajesh Khanna"},{"t":38,"k":"search","v":"\"married two times\" OR \"married twice\" actor first wife actress divorced \"police commissioner\" identify first name"},{"t":39,"k":"search","v":"Tom Selleck first wife name actress married divorced before Jill St John"},{"t":40,"k":"search","v":"Jillie Mack Tom Selleck wife previously married divorced brother"},{"t":41,"k":"search","v":"Jillie Mack first husband name divorced 1987 before Tom Selleck"},{"t":42,"k":"search","v":"Tom Selleck \"police commissioner\" movie film role cinema"},{"t":43,"k":"search","v":"Jillie Mack ex-husband first marriage Kevin Selleck father divorced"},{"t":44,"k":"read","v":"en.wikipedia.org"},{"t":45,"k":"search","v":"Jillie Mack brother died deceased family Wiltshire England"},{"t":46,"k":"read","v":"www.geni.com"}],"verify":[]},"gt":"Madhumalti","reflection":{"turn":19,"paras":[{"text":"I keep circling the same vague leads without pinning down a single verified identity, and I’m noticing I’ve been chasing noisy crossword sites while skipping the one solid breadcrumb in the results. I need to pause before I waste more time on guesswork and anchor this on something concrete.","dims":["reflect"],"zh":"我一直在同样模糊的线索上打转，没有锁定任何一个可验证的身份。而且我注意到，自己一直在追那些嘈杂的 crossword 网站，反而跳过了搜索结果里唯一一条扎实的线索。我需要先停下来，别再把时间浪费在猜测上，把判断锚定到具体的东西上。"},{"text":"So far, the only hard facts I’ve actually seen in retrieved material are specific role credits, not identities tied to marriages. One result notes Bharat Kapoor played a Police Commissioner in the 1994 film Chauraha, and another says Vikram Gokhale played Police Commissioner M. S. Gaitonde in Agneepath (also corroborated by Times of India). A separate snippet shows Peter Schildt played a Police Commissioner in Sound of Noise (2010). None of these snippets connect to “married twice as of 2020,” first wife an actress, second wife married in the 1980s with a brother who died between 2001–2005. Everything else I’ve entertained—Dustin Hoffman, Bruce Willis, Naseeruddin Shah, Kumar Gaurav—is unverified conjecture with no evidence surfaced that matches the full set of constraints.","dims":["known"],"zh":"到目前为止，我在检索到的材料里真正看到的硬事实，只有具体的角色出演记录，而不是与婚姻关联的身份。一条结果提到 Bharat Kapoor 在 1994 年的电影 Chauraha 中演过警察局长；另一条说 Vikram Gokhale 在 Agneepath 中演过警察局长 M. S. Gaitonde（印度时报也佐证了这一点）。还有一条片段显示 Peter Schildt 在 Sound of Noise（2010）里演过警察局长。这些片段没有一条能和「截至 2020 年结过两次婚」、第一任妻子是演员、第二任妻子在 1980 年代结婚且其弟弟于 2001 至 2005 年间去世这些条件对上。我此前考虑过的其他人选——Dustin Hoffman、Bruce Willis、Naseeruddin Shah、Kumar Gaurav——都是未经验证的猜测，没有任何证据能同时满足全部约束。"},{"text":"In hindsight, my path leaned too hard on broad, generic searches and forum-style aggregators that mostly surface adult or “crossword solver” mirror pages; those didn’t yield verifiable biographical details. I also drifted into memory-driven guesses (Hoffman, Willis) without securing a single confirming source for the marriage timeline or the brother’s death window. The few promising hits were the authoritative bios already hinting at police commissioner roles (Gokhale), but I didn’t pursue them. That’s the tunnel vision: treating “police commissioner” as a vague filter instead of leveraging it to reach a reliable filmography/encyclopedic page where I can test the marriage clues against actual dates.","dims":["reflect"],"zh":"回头看，我的路径过于依赖宽泛的通用检索，以及论坛式的聚合站——那些站点大多只会返回成人内容或 crossword solver 的镜像页面，给不出可核实的传记细节。我还滑向了凭记忆的猜测（Hoffman、Willis），却没有为婚姻时间线或弟弟的去世时间找到哪怕一个确证来源。少数有希望的结果，是那些已经暗示了警察局长角色的权威传记（Gokhale），但我没有去追。这就是隧道视野：把「警察局长」当成一个模糊的过滤条件，而不是用它去找到一个可靠的影视作品表或百科页面，在那里用实际日期去检验婚姻线索。"},{"text":"The critical gaps are obvious now. I don’t have the actor’s name at all; I haven’t verified which film’s “Police Commissioner” credit belongs to a candidate whose personal life matches the two-marriage-by-2020 pattern; and I have no evidence about any second wife’s prior divorce happening in the same year, nor about her brother’s death between 2001 and 2005. Until I lock down one candidate via an authoritative film-role citation and then cross-check his marital history from a dependable source, I’m just spinning.","dims":["gaps"],"zh":"现在关键的缺口很清楚了。我根本还没拿到这位演员的名字；我没有验证哪一部电影的「警察局长」出演记录，属于一个私人生活符合「截至 2020 年结过两次婚」这一模式的人选；我也没有任何证据说明某位第二任妻子的前一段婚姻是在同一年离异的，或者她的弟弟在 2001 到 2005 年间去世。在我通过权威的角色出演引用锁定一个人选、再用可靠来源交叉核对他的婚姻史之前，我都只是在空转。"},{"text":"Dead ends to stop repeating: the “Crossword Solver” aggregator mirrors and adult-gated pages aren’t worth another click; they’re not authoritative and have consistently returned nothing usable. Likewise, re-running generic “police commissioner film actor married 1980s” queries is low-value noise.","dims":["deadend"],"zh":"不该再重复的死路：crossword solver 这类聚合站的镜像页面和成人内容门槛页面，不值得再点第二次——它们不权威，而且一直没返回任何可用信息。同样，反复跑 police commissioner film actor married 1980s 这类通用检索词，也是低价值的噪声。"},{"text":"The next move should pivot to verification, not more guessing. I should prioritize establishing a short list of actors who are explicitly credited as playing a Police Commissioner in a film, using authoritative sources, and then check their marital timelines. Concretely, I’ll open the Times of India article about Agneepath to confirm Vikram Gokhale’s Police Commissioner role and see if the page links to his biography or filmography; if it does, I can read his Wikipedia page directly to verify spouse(s), marriage years, and whether his second wife had a brother who died between 2001 and 2005. If that doesn’t align, I’ll do the same with a targeted query like site:wikipedia.org \"Police Commissioner\" Agneepath or site:wikipedia.org \"Police Commissioner\" Chauraha to compile candidates from reliable pages before testing the marriage constraints.","dims":["action"],"zh":"下一步应当转向验证，而不是继续猜。我应该优先用权威来源，整理出一份明确被记载为在电影中出演过警察局长的演员名单，然后逐一核对他们的婚姻时间线。具体来说，我会打开印度时报那篇关于 Agneepath 的报道，确认 Vikram Gokhale 的警察局长角色，并看该页面是否链接到他的传记或影视作品表；如果有，我就可以直接读他的维基百科页面，核实配偶、结婚年份，以及他的第二任妻子是否有一个在 2001 到 2005 年间去世的弟弟。如果对不上，我会用 site:wikipedia.org \"Police Commissioner\" Agneepath 或 site:wikipedia.org \"Police Commissioner\" Chauraha 这类定向检索做同样的事，先从可靠页面汇总出人选，再去检验婚姻方面的约束。"},{"text":"Let me focus on Vikram Gokhale. He played police commissioner M.S. Gaitonde in Agneepath (1990). Let me check his marital history.","dims":[],"zh":"先聚焦 Vikram Gokhale。他在 Agneepath（1990）中演过警察局长 M.S. Gaitonde。我来查一下他的婚姻史。"}]}}</script>
+<script>
+/* 页面驱动: 语言切换、演示播放、反思内容、两次作答对比、开关。无外部依赖。 */
+(function(){
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const V=window.VerifyFilm;
+const DATA=JSON.parse($('#verifyData').textContent);
+const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+/* ================= 文案 ================= */
+const COPY={
+ zh:{
+  navDemo:'能力演示', navReflection:'模型会反思什么', navTrace:'效果对比', navSwitch:'如何开启', navResult:'评测结果', navNext:'未来工作',
+  navPlay:'观看演示',
+  heroTitle:'AI 解决长程问题时，<br>能不能自我感知到解决陷入僵局，<br><em>并寻找新的解题方法。</em>',
+  heroDesc:'搜索智能体最常见的失败，不是不会查，而是沿着一条走不通的路反复重试。',
+  heroWatch:'观看演示', heroRead:'查看具体 verification 内容',
+
+  eye1:'01 / 能力演示',
+  h1t:'一道题，<br>从反复空转到找到答案。',
+  tbBadge:'能力演示',
+
+  eye2:'02 / 模型会反思什么',
+  h2t:'停下来的那一刻，<br>模型在反思什么。',
+  p2:'这是它在第 19 次交互时写下的完整思考。它回顾了已经确认的事实，承认之前的判断站不住，列出仍然缺失的关键信息，并决定换一种查法。',
+  dimHead:'它检查了这五件事',
+  dimNote:'',
+  reflHead:'第 19 次交互 · 模型的完整思考',
+  reflZh:'中文译文', reflEn:'英文原文',
+  reflNote:'中文为译文，模型原文为英文。',
+
+  eye3:'03 / 效果对比',
+  h3t:'同一道题，<br>两次作答。',
+  p3:'逐条列出模型实际发出的检索请求。左边中途换了方法，右边没有——检索了 47 次，仍然没有答对。',
+  traceOnTitle:'中途换了方法', traceOnMeta:'30 次交互 · 29 次检索',
+  traceOffTitle:'始终沿用同一思路', traceOffMeta:'48 次交互 · 47 次检索',
+  finalAnswer:'最终答案',
+  traceOnNote:'与标准答案 Madhumalti 一致（仅拼写差异）',
+  traceOffNote:'与标准答案不符',
+
+  eye4:'04 / 如何开启',
+  h4t:'一行配置，<br>使用简单。',
+  p4:'这项能力不需要额外的工具或接口。在 system prompt 中加上一行即可开启。',
+  swDesc:'关闭时是常规的检索流程；开启后，模型在多次尝试没有进展时会主动停下来重新梳理，寻找新的解题方法。',
+  swOff:'关闭', swOn:'开启',
+  swFlowHead:'开启后多出来的两步',
+  flowOn:[['01','检索 → 读取网页 → 再检索',''],['02','多次尝试仍然没有进展',''],
+          ['03','停下来，把已确认的、已失败的梳理一遍','accent'],
+          ['04','换一种方法继续','accent'],['05','逐步推进到答案','good']],
+  flowOff:[['01','检索 → 读取网页 → 再检索',''],['02','多次尝试仍然没有进展',''],
+           ['03','沿着同一条思路继续检索',''],['04','在某些问题上始终走不出来','dead']],
+  noteOn:'多出来的是第 03、04 两步。它们发生在模型的推理过程中，不额外消耗一次检索。',
+  noteOff:'常规检索流程。缺少重新梳理这一步，走不通的方法会被反复重试。',
+  pillOn:'Verification protocol: enabled', pillOff:'Verification protocol: 未配置',
+
+  eye5:'05 / 评测结果',
+  h5t:'在 BrowseComp 上<br>的表现。',
+  p5:'BrowseComp 全集 1266 道题目，同一套评测流程下的对比。',
+  resBefore:'具备该能力前', resAfter:'具备该能力后', resSet:'BrowseComp 全集 1266 题',
+  resDelta:'+10.4 个百分点',
+
+  eye6:'06 / 未来工作',
+  h6t:'反思之后，<br>把这一段收成一条记录。',
+  p6:'长程任务走得越久，前文越长。下一步：模型在反思之后，自己判断刚走过的这一段能不能安全地收成一条阶段记录，用记录替换掉这段原文。',
+  nextTag:'研发中',
+  nextTitle:'反思之后，自主决定是否把这一段收成记录',
+  nextDesc:'反思负责判断结论是否可靠、下一步往哪走；紧接着模型再判断一件事：从上一次反思到这次反思之间的这一段，能不能安全地收起来。可以，就写一条阶段记录——做过什么、得到了什么、哪些假设已被排除、现在是什么状态——然后用「记录 + 反思」替换掉这一段原文，接着往下做。不可以就原样保留。',
+  nextPoints:[
+    ['开头几轮永远保留','任务本身和最初几轮探索属于受保护前缀，任何记录都不会删改它们。'],
+    ['只对两次反思之间的内容进行压缩','可替换的范围只有上一次反思到这次反思之间的那一段，更早的内容不回头重压。']],
+  nextSoon:'敬请期待',
+
+  endTitle:'走不通的时候，<br><em>先停下来反思沉淀，再尝试换一条路。</em>',
+  endDesc:'自我反思发生在模型的推理过程中，通过 system prompt 的一行配置开启。',
+  endWatch:'再看一次', endTop:'回到顶部',
+  footer:'Agents-A1.5 · Verification',
+
+  dims:{known:['已经确认了什么','只算检索结果里真正验证到的事实'],
+        reflect:['之前的判断哪里站不住','反复搜同一件事、过早下结论'],
+        gaps:['还缺哪些关键事实','具体缺什么，而不是泛泛地说还不够'],
+        deadend:['哪些方法已经失败','试过且无效的检索词与站点'],
+        action:['下一步查什么','下一步补哪个缺口、用哪类来源']},
+  pivotTitle:'第 19 次交互 · 停下来重新梳理',
+  pivotBody:'把反复无用的聚合站判为死路，改用权威来源反查角色',
+  reflNone:'承接下一步'
+ },
+ en:{
+  navDemo:'Demo', navReflection:'What it reflects on', navTrace:'Side by side', navSwitch:'Turning it on', navResult:'Results', navNext:'What is next',
+  navPlay:'Watch the demo',
+  heroTitle:'On long-horizon problems,<br>can a model notice it is stuck<br><em>and find another way through?</em>',
+  heroDesc:'The most common failure of a search agent is not that it cannot search — it is that it keeps retrying a route that leads nowhere.',
+  heroWatch:'Watch the demo', heroRead:'See the actual verification',
+
+  eye1:'01 / DEMO',
+  h1t:'One question,<br>from spinning to solved.',
+  tbBadge:'Demo',
+
+  eye2:'02 / WHAT IT REFLECTS ON',
+  h2t:'The moment it stops,<br>this is what it writes.',
+  p2:'The full reasoning from interaction 19. It takes stock of what is actually confirmed, admits its earlier guesses do not hold, lists what is still missing, and decides to search a different way.',
+  dimHead:'Five things it checks',
+  dimNote:'All five have to appear together for this to count as real self-reflection — not just the phrase “let me double-check”.',
+  reflHead:'Interaction 19 · full reasoning',
+  reflZh:'Chinese',  reflEn:'Original',
+  reflNote:'The model wrote this in English; the Chinese is a translation.',
+
+  eye3:'03 / SIDE BY SIDE',
+  h3t:'The same question,<br>answered twice.',
+  p3:'Every search request the model actually issued. The left run changes approach partway through; the right one never does — 47 searches, still wrong.',
+  traceOnTitle:'Changed approach partway', traceOnMeta:'30 interactions · 29 searches',
+  traceOffTitle:'Same line throughout', traceOffMeta:'48 interactions · 47 searches',
+  finalAnswer:'Final answer',
+  traceOnNote:'Matches the reference answer Madhumalti (spelling variant)',
+  traceOffNote:'Does not match the reference answer',
+
+  eye4:'04 / TURNING IT ON',
+  h4t:'One line of config,<br>on or off.',
+  p4:'The capability needs no extra tool or endpoint. One line in the system prompt turns it on.',
+  swDesc:'Off, it is an ordinary search loop. On, the model stops by itself once several attempts have produced no progress, and looks for another way through.',
+  swOff:'Off', swOn:'On',
+  swFlowHead:'The two steps it adds',
+  flowOn:[['01','Search → read page → search again',''],['02','Several attempts, no progress',''],
+          ['03','Stop and take stock of what holds and what failed','accent'],
+          ['04','Change approach and continue','accent'],['05','Work through to the answer','good']],
+  flowOff:[['01','Search → read page → search again',''],['02','Several attempts, no progress',''],
+           ['03','Keep searching along the same line',''],['04','On some questions, never gets out','dead']],
+  noteOn:'Steps 03 and 04 are what it adds. Both happen inside the model’s reasoning — they cost no extra search.',
+  noteOff:'An ordinary search loop. Without the taking-stock step, routes that lead nowhere get retried.',
+  pillOn:'Verification protocol: enabled', pillOff:'Verification protocol: not set',
+
+  eye5:'05 / RESULTS',
+  h5t:'Performance on<br>BrowseComp.',
+  p5:'All 1,266 questions of BrowseComp, same evaluation pipeline.',
+  resBefore:'Without the capability', resAfter:'With the capability', resSet:'BrowseComp · 1,266 questions',
+  resDelta:'+10.4 points',
+
+  eye6:'06 / WHAT IS NEXT',
+  h6t:'After reflecting,<br>fold the stretch into one record.',
+  p6:'The longer a task runs, the longer the history gets. Next: after reflecting, the model decides for itself whether the stretch it just walked can safely be folded into a stage record that replaces it.',
+  nextTag:'In development',
+  nextTitle:'After reflecting, deciding whether to fold the stretch into a record',
+  nextDesc:'Reflection judges whether the conclusions hold and where to go next. Immediately after, the model judges one more thing: whether the stretch from the previous reflection up to this one can be safely folded up. If it can, it writes a stage record — what was done, what came of it, which assumptions were ruled out, what state things are in — and that record plus the reflection replace the original stretch. If it cannot, the stretch stays as it is.',
+  nextPoints:[
+    ['The opening rounds always stay','The task itself and the first few rounds are a protected prefix; no record ever edits or drops them.'],
+    ['Only what lies between two reflections','What can be replaced is only the stretch from the previous reflection to this one. Earlier history is never re-compressed.']],
+  nextSoon:'Coming soon',
+
+  endTitle:'When the road runs out,<br><em>stop and take stock, then try another one.</em>',
+  endDesc:'The self-reflection happens inside the model’s reasoning and costs no extra search. One line in the system prompt turns it on or off.',
+  endWatch:'Watch again', endTop:'Back to top',
+  footer:'Agents-A1.5 · Verification',
+
+  dims:{known:['What is actually confirmed','Only facts genuinely verified in the results'],
+        reflect:['Where the earlier reasoning fails','Searching the same thing again, concluding too early'],
+        gaps:['What key facts are still missing','Specifically what, not just “not enough yet”'],
+        deadend:['What has already failed','Queries and sites tried without result'],
+        action:['What to search next','Which gap to close, and from what kind of source']},
+  pivotTitle:'Interaction 19 · stops and takes stock',
+  pivotBody:'Writes off the aggregator sites as dead ends, switches to authoritative sources for the role',
+  reflNone:'Leads into the next step'
+ }};
+const DIM_ORDER=['known','reflect','gaps','deadend','action'];
+let lang='zh';                      /* 默认中文, 右上角可切换 */
+const C=()=>COPY[lang];
+
+/* ================= 演示播放 ================= */
+const scene=$('#svgScene'), scrub=$('#scrubber'), playBtn=$('#playPause');
+const ICON_PLAY='<svg viewBox="0 0 24 24"><path d="m8 5 12 7-12 7Z" fill="currentColor" stroke="none"/></svg>';
+const ICON_PAUSE='<svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke-width="3"/></svg>';
+const state={t:0,playing:false,speed:1,last:0,stage:-1};
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+scrub.max=V.DURATION.toFixed(2);
+$('#timeTotal').textContent=fmt(V.DURATION);
+
+function draw(force){
+  scene.innerHTML=V.renderSVG(state.t);
+  scrub.value=state.t.toFixed(2);
+  $('#timeCurrent').textContent=fmt(state.t);
+  const i=V.stageAt(state.t);
+  const st=V.STAGES[i];
+  const btns=$$('#chapters button');
+  if(btns[i])btns[i].style.setProperty('--p',((state.t-st.start)/(st.end-st.start)).toFixed(3));
+  if(i!==state.stage||force){
+    state.stage=i;
+    btns.forEach((b,j)=>{
+      b.classList.toggle('active',j===i);
+      b.classList.toggle('done',j<i);
+      b.setAttribute('aria-selected',String(j===i));
+      if(j!==i)b.style.removeProperty('--p');
+    });
+    scene.setAttribute('aria-label',V.chapters()[i]);
+  }
+}
+function setPlaying(on){
+  state.playing=on;
+  playBtn.innerHTML=on?ICON_PAUSE:ICON_PLAY;
+  if(on){state.last=performance.now();requestAnimationFrame(tick);}
+}
+function tick(now){
+  if(!state.playing)return;
+  const dt=Math.min(.12,(now-state.last)/1000);
+  state.last=now;
+  state.t+=dt*state.speed;
+  if(state.t>=V.DURATION)state.t=0;      /* 循环播放 */
+  draw();
+  if(state.playing)requestAnimationFrame(tick);
+}
+function seek(t,play){
+  state.t=clamp(t,0,V.DURATION-1e-3);
+  draw();
+  if(play&&!state.playing)setPlaying(true);
+}
+playBtn.onclick=()=>setPlaying(!state.playing);
+$('#restart').onclick=()=>{seek(0);setPlaying(true);};
+scrub.oninput=()=>{state.t=+scrub.value;draw();};
+scrub.onpointerdown=()=>{if(state.playing)setPlaying(false);};
+$('#speed').onchange=e=>{state.speed=+e.target.value;};
+$('[data-play-jump]').onclick=()=>{$('#theater').scrollIntoView({block:'center'});seek(0,true);};
+
+/* ================= 反思内容 ================= */
+const paras=DATA.reflection.paras;
+let reflLang='zh';                  /* 引文本身用哪种语言, 与页面语言分开 */
+function renderReflection(){
+  const zh=reflLang==='zh';
+  $('#reflectionBody').innerHTML=paras.map((p,i)=>{
+    const d=p.dims[0];
+    const tag=d?'<span class="refl-tag">'+C().dims[d][0]+'</span>'
+               :'<span class="refl-tag none">'+C().reflNone+'</span>';
+    return '<div class="refl-para" data-dim="'+(d||'')+'" data-i="'+i+'">'+
+           '<div class="tagcol">'+tag+'</div><p'+(zh?' class="zh"':'')+'>'+
+           esc(zh?p.zh:p.text)+'</p></div>';
+  }).join('');
+  $$('[data-refl]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.refl==='zh')===zh)));
+  $('#reflFoot').textContent=zh?C().reflNote:'';
+  $('#dimList').innerHTML=DIM_ORDER.map((k,i)=>
+    '<li data-dim="'+k+'"><b>'+String(i+1).padStart(2,'0')+'</b><span><strong>'+C().dims[k][0]+
+    '</strong><small>'+C().dims[k][1]+'</small></span></li>').join('');
+  bindReflection();
+}
+function highlight(dim){
+  $$('.refl-para').forEach(el=>el.classList.toggle('on',!!dim&&el.dataset.dim===dim));
+  $$('.dim-list li').forEach(el=>el.classList.toggle('on',el.dataset.dim===dim));
+}
+function bindReflection(){
+  $$('.dim-list li').forEach(li=>{
+    li.onmouseenter=()=>highlight(li.dataset.dim);
+    li.onclick=()=>{
+      highlight(li.dataset.dim);
+      const p=$('.refl-para[data-dim="'+li.dataset.dim+'"]');
+      if(p)p.scrollIntoView({block:'nearest',behavior:'smooth'});
+    };
+  });
+  $('#dimList').onmouseleave=()=>highlight(null);
+  $$('.refl-para').forEach(el=>{el.onmouseenter=()=>{if(el.dataset.dim)highlight(el.dataset.dim);};});
+}
+
+/* ================= 两次作答 ================= */
+const DEAD=/crossword|maetzler-golf|papyhours|ambrogiobrivio|morelifehtm/i;
+const ICON_SEARCH='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 6 6"/></svg>';
+const ICON_READ='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 8h18"/></svg>';
+function renderCalls(el,side){
+  const d=DATA[side], pivot=d.verify[0];
+  let html='', done=false;
+  d.calls.forEach(c=>{
+    if(pivot!==undefined&&c.t===pivot&&!done){
+      done=true;
+      html+='<li class="pivot"><em>'+C().pivotTitle+'</em><span>'+C().pivotBody+'</span></li>';
+    }
+    const after=pivot!==undefined&&c.t>pivot, dead=DEAD.test(c.v);
+    const cls=[c.k==='read'?'read':'',dead?'dead':(after?'after':'')].filter(Boolean).join(' ');
+    html+='<li class="'+cls+'"><b>'+String(c.t).padStart(2,'0')+'</b>'+
+          '<i>'+(c.k==='read'?ICON_READ:ICON_SEARCH)+'</i><span>'+esc(c.v)+'</span></li>';
+  });
+  el.innerHTML=html;
+}
+function renderTrace(){
+  renderCalls($('#callsOn'),'on');
+  renderCalls($('#callsOff'),'off');
+  /* 停下来那一行是本节重点, 每次重绘后都把它摆到列表中间 */
+  const el=$('#callsOn'), li=$('#callsOn .pivot');
+  if(li)el.scrollTop=li.offsetTop-el.clientHeight/2+li.offsetHeight/2;
+}
+
+/* ================= 开关 ================= */
+const PROMPT=['You are a deep research assistant. Your core function is',
+              'to conduct thorough, multi-source investigations ...','',
+              'Verification Protocol: enabled'];
+const lab={on:true};
+function renderLab(){
+  const on=lab.on;
+  $('#promptCard').innerHTML=PROMPT.map((l,j)=>
+    !l?'<br>':j===3?'<div class="'+(on?'on-line':'off-line')+'">'+l+'</div>':'<div>'+l+'</div>').join('');
+  $('#switchFlow').innerHTML=(on?C().flowOn:C().flowOff).map(([n,t,c])=>
+    '<div class="flow-step '+c+'"><b>'+n+'</b><span>'+t+'</span></div>').join('');
+  const pill=$('#labStatus');
+  pill.textContent=on?C().pillOn:C().pillOff;
+  pill.className='status-pill'+(on?'':' amber');
+  $('#labNote').textContent=on?C().noteOn:C().noteOff;
+  $$('[data-verify]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.verify==='on')===on)));
+}
+$$('[data-verify]').forEach(b=>b.onclick=()=>{lab.on=b.dataset.verify==='on';renderLab();});
+$$('[data-refl]').forEach(b=>b.onclick=()=>{reflLang=b.dataset.refl;renderReflection();});
+
+/* ================= 语言切换 ================= */
+function setLang(l){
+  lang=l;
+  reflLang=l;                       /* 切页面语言时引文跟着走, 之后仍可单独切 */
+  document.documentElement.lang=(l==='zh'?'zh-CN':'en');
+  V.setLang(l);
+  $$('[data-i18n]').forEach(el=>{const v=C()[el.dataset.i18n];if(v!==undefined)el.textContent=v;});
+  $$('[data-i18n-html]').forEach(el=>{const v=C()[el.dataset.i18nHtml];if(v!==undefined)el.innerHTML=v;});
+  $$('.language-switch button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===l)));
+  $('#chapters').innerHTML='';
+  V.chapters().forEach((name,j)=>{
+    const b=document.createElement('button');
+    b.type='button'; b.setAttribute('role','tab');
+    b.innerHTML='<span>'+String(j+1).padStart(2,'0')+'</span>'+name;
+    b.onclick=()=>seek(V.STAGES[j].start+.01,true);
+    $('#chapters').appendChild(b);
+  });
+  renderReflection();
+  renderTrace();
+  renderLab();
+  $('#nextVisual').innerHTML=nextVisual();
+  $('#nextPoints').innerHTML=C().nextPoints.map(([t,d],i)=>
+    '<li><b>'+String(i+1).padStart(2,'0')+'</b><span><strong>'+t+'</strong><small>'+d+'</small></span></li>').join('');
+  draw(true);
+}
+$$('.language-switch button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+
+/* ---- 未来工作配图: 只有「上一个记录点 → 这次反思」这一段被替换 ---- */
+function nextVisual(){
+  const W=520,H=320;
+  const P={dim:'#4A4C61',amber:'#EDB389',mint:'#8EDDCB',muted:'#A6A3BB',purple:'#BBA6FA',edge:'#2A2D41'};
+  const FF=()=>getComputedStyle(document.body).fontFamily.replace(/"/g,"'");
+  const zh=lang==='zh';
+  const txt=(t,x,y,col,size,anchor)=>'<text x="'+x+'" y="'+y+'" font-size="'+(size||12)+'" fill="'+col+'"'+
+      (anchor?' text-anchor="'+anchor+'"':'')+' font-family="'+FF()+'">'+t+'</text>';
+  const bw=13,gap=4,h=34,y1=74,y2=222;
+  const PRE=4;                      /* 受保护前缀 */
+  const SEG=17;                     /* 这次要收起来的一段 */
+  let s='';
+
+  /* 上排: 现在的上下文 */
+  s+=txt(zh?'现在':'Today',0,y1-30,P.muted);
+  for(let i=0;i<PRE;i++)
+    s+='<rect x="'+(i*(bw+gap))+'" y="'+y1+'" width="'+bw+'" height="'+h+'" rx="3" fill="'+P.purple+'" opacity=".55"/>';
+  const segX=PRE*(bw+gap)+10;
+  for(let i=0;i<SEG;i++)
+    s+='<rect x="'+(segX+i*(bw+gap))+'" y="'+y1+'" width="'+bw+'" height="'+h+'" rx="3" fill="'+P.dim+'"/>';
+  const px=segX+SEG*(bw+gap);
+  s+='<rect x="'+px+'" y="'+y1+'" width="'+bw+'" height="'+h+'" rx="3" fill="'+P.amber+'"/>';
+  s+=txt(zh?'受保护前缀':'Protected prefix',0,y1-10,P.purple,11);
+  s+=txt(zh?'上一次反思 → 这次反思':'Previous reflection → this one',segX,y1-10,P.muted,11);
+  s+=txt(zh?'反思':'Reflection',px+bw,y1-30,P.amber,12,'end');
+  /* 只有这一段可被替换 */
+  s+='<path d="M'+segX+' '+(y1+h+9)+'H'+(px+bw)+'" stroke="'+P.amber+'" stroke-width="1"/>';
+  s+='<path d="M'+segX+' '+(y1+h+5)+'v8M'+(px+bw)+' '+(y1+h+5)+'v8" stroke="'+P.amber+'" stroke-width="1"/>';
+  s+=txt(zh?'只有这一段可以被替换':'only this stretch can be replaced',segX,y1+h+30,P.amber,11);
+  s+='<path d="M'+(segX+70)+' '+(y1+h+44)+'V'+(y2-26)+'" stroke="'+P.amber+'" stroke-width="1.5" stroke-dasharray="4 4"/>';
+
+  /* 下排: 收起来之后 */
+  s+=txt(zh?'收成记录之后':'After folding it up',0,y2-14,P.muted);
+  for(let i=0;i<PRE;i++)
+    s+='<rect x="'+(i*(bw+gap))+'" y="'+y2+'" width="'+bw+'" height="'+h+'" rx="3" fill="'+P.purple+'" opacity=".55"/>';
+  const cx=PRE*(bw+gap)+10;
+  s+='<rect x="'+cx+'" y="'+y2+'" width="104" height="'+h+'" rx="4" fill="'+P.mint+'" opacity=".2" stroke="'+P.mint+'" stroke-width="1"/>';
+  s+=txt(zh?'阶段记录':'Record',cx+14,y2+22,P.mint,12);
+  s+='<rect x="'+(cx+114)+'" y="'+y2+'" width="88" height="'+h+'" rx="4" fill="'+P.amber+'" opacity=".16" stroke="'+P.amber+'" stroke-width="1"/>';
+  s+=txt(zh?'反思':'Reflection',cx+128,y2+22,P.amber,12);
+  s+=txt(zh?'接着往下做':'and carry on',cx+214,y2+22,P.muted,12);
+  return '<svg viewBox="0 0 '+W+' '+H+'" role="img">'+s+'</svg>';
+}
+
+/* ================= 页面杂项 ================= */
+if('IntersectionObserver' in window){
+  document.body.classList.add('has-observer');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}
+  }),{rootMargin:'0px 0px -12% 0px'});
+  $$('.reveal').forEach(el=>io.observe(el));
+
+  const once=new IntersectionObserver(es=>{
+    if(es[0].isIntersecting){setPlaying(true);once.disconnect();}
+  },{threshold:.45});
+  once.observe($('#theater'));
+}else setPlaying(true);
+
+addEventListener('keydown',e=>{
+  if(/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName))return;
+  if(e.key===' '){e.preventDefault();setPlaying(!state.playing);}
+  else if(e.key==='ArrowRight'){e.preventDefault();seek(state.t+2);}
+  else if(e.key==='ArrowLeft'){e.preventDefault();seek(state.t-2);}
+});
+
+setLang(lang);
+window.VerifyShowcase={seek,setPlaying,setLang,state};
+})();
+</script>
+<script>
+/* Preserve each author's language controls and return to the same catalog language. */
+(() => {
+  const links = [...document.querySelectorAll('[data-showcase-home], [data-showcase-return]')];
+  const home = links[0].getAttribute('href').split('?')[0];
+  const label = document.querySelector('[data-showcase-return-label]');
+  const update = () => {
+    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
+    links.forEach(link => {
+      link.setAttribute('href', home + '?lang=' + lang);
+      link.setAttribute('aria-label', lang === 'en' ? 'Back to showcase home' : '返回展示首页');
+    });
+    label.textContent = lang === 'en' ? 'Back to home' : '返回首页';
+  };
+  update();
+  new MutationObserver(update).observe(document.documentElement, {
+    attributes: true, attributeFilter: ['lang']
+  });
+})();
+
+</script>
+</body>
+</html>

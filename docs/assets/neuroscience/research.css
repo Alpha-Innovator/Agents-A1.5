@@ -1,0 +1,109 @@
+/* Researcher-facing evidence: linked measures, uncertainty and regional anatomy. */
+.matrix-controls{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.matrix-controls p{margin:0;font-size:11px}
+.matrix-cell{position:relative}
+.matrix-cell.selected{outline:2px solid var(--ink);outline-offset:3px;z-index:1;box-shadow:0 0 0 6px var(--paper)}
+.matrix-summary{font-variant-numeric:tabular-nums;min-height:3em}
+.scatter-stats{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 10px;font-size:11px;font-variant-numeric:tabular-nums}
+.scatter-stats>span{padding:7px 10px;border:1px solid var(--line);border-radius:6px;color:var(--muted)}
+.scatter-stats>span.active{color:var(--ink);border-color:#a692df;background:#a692df12}
+.scatter-stats b{margin-left:5px;font-size:15px;color:var(--ink)}
+.scatter-stats small{font-size:inherit}
+.regression-band{fill:#9e85d5;fill-opacity:.24;pointer-events:none}
+.regression-line{fill:none;stroke:#7261bd;stroke-width:2;pointer-events:none}
+.launch .regression-line{stroke:#ddcaff}
+.scatter-svg circle{cursor:pointer}
+.scatter-svg circle.selected{stroke:var(--ink);stroke-width:2;opacity:1;r:5}
+.fit-legend{display:flex;flex-wrap:wrap;gap:20px;font-size:11px;color:var(--muted);margin:5px 0 13px}
+.fit-legend[hidden],.diagonal-note[hidden]{display:none}
+.fit-legend>span{display:inline-flex;align-items:center;gap:7px}
+.fit-key i{width:23px;border-top:2px solid #9e85d5}
+.band-key i{width:23px;height:11px;background:#9e85d53d;border:1px solid #9e85d566;border-radius:2px}
+.scatter-note{flex-wrap:wrap;gap:5px}
+.scatter-selection{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:14px 0;font-size:12px;min-height:60px;border-bottom:1px solid var(--line)}
+.scatter-selection>span{max-width:100%;overflow-wrap:anywhere}
+.scatter-selection .text-link{font-size:11px;padding:0}
+.fit-method{color:var(--muted);font-size:11px;line-height:1.8;margin-top:14px}
+.fit-method summary{cursor:pointer;list-style-position:inside}
+.fit-method p{margin:12px 0}
+.atlas-toolbar{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;padding:0 0 22px;border-bottom:1px solid var(--line);margin-bottom:25px}
+.atlas-toolbar label{display:flex;align-items:center;gap:15px;max-width:100%;font-size:12px}
+.atlas-toolbar select{border:1px solid var(--line);border-radius:7px;padding:10px 30px 10px 13px;background:var(--paper);color:var(--ink);font:inherit;min-width:210px;max-width:100%}
+.atlas-layer-source{font-size:10px;color:var(--muted)}
+.atlas-scale{flex-wrap:wrap;row-gap:6px}
+.atlas-scale-note{max-width:580px;margin:15px auto 0;text-align:center;font-size:11px}
+.atlas-map .atlas-svg{display:block}
+.atlas-unmapped{padding:10px;border-left:2px solid #aa90d4;background:#aa90d40a}
+.research-entry{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.research-entry .btn{font-size:12px;padding:11px 17px}
+@media(max-width:700px){.atlas-toolbar label{align-items:flex-start;flex-direction:column;gap:8px}.atlas-toolbar{gap:10px}.scatter-stats{gap:6px}.scatter-stats>span{padding:6px 8px}.scatter-stats b{font-size:13px}.matrix-cell.selected{outline-offset:1px;box-shadow:none}.atlas-toolbar select{min-width:190px}.scatter-toolbar{gap:10px;flex-wrap:wrap}.scatter-toolbar label{min-width:0}.scatter-toolbar select{max-width:100%}}
+
+.matrix-cell{cursor:pointer}
+.matrix-cell.selected::after{content:'';position:absolute;right:6px;top:6px;width:5px;height:5px;background:currentColor;border-radius:50%}
+.scatter-svg circle:focus-visible{outline:none;stroke:var(--ink);stroke-width:2;r:5}
+.atlas-region[tabindex]:focus-visible{outline:none;stroke:var(--ink);stroke-width:1}
+.atlas-region.highlight{stroke:var(--ink);stroke-width:.9}
+.stage-body .scatter-note{font-size:10px;gap:8px}
+.stage-body .scatter-toolbar{font-size:11px;gap:12px}
+.scatter-toolbar label{display:flex;align-items:center;gap:7px;flex:1 1 200px;min-width:0;max-width:100%}
+.scatter-toolbar select,.stage-body .scatter-toolbar select{flex:1;min-width:0;max-width:none;font-size:11px}
+@media(max-width:700px){.scatter-toolbar label{flex-basis:100%}.scatter-note>span{max-width:100%}.matrix-cell.selected::after{width:4px;height:4px;top:4px;right:4px}}
+
+/* Explain the quantity behind each saved panel without changing its image. */
+.gallery-tabs button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.gallery-tabs button b { font: 700 12px Arial, sans-serif; }
+.gallery-tabs button span { font: 11px/1.45 var(--sans); }
+.atlas-reading-note { margin-top: 22px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--soft); }
+.atlas-reading-note strong { font-size: 12px; font-weight: 500; }
+.gallery-copy .atlas-reading-note p { font-size: 11px; line-height: 1.85; margin: 7px 0 0; }
+@media (max-width: 700px) {
+  .gallery-tabs { gap: 6px; }
+  .gallery-tabs button { padding: 7px 9px; gap: 6px; }
+  .gallery-tabs button span { font-size: 10px; }
+}
+
+@media (max-width: 800px) {
+  .launch-footer > .release-copy { display: block; order: 3; flex-basis: 100%; font-size: 8px; }
+}
+
+/* Stable preview dimensions; F/G can frame the original anatomy and color scale. */
+.gallery-layout { grid-template-columns: minmax(0, 1.4fr) minmax(0, .8fr); gap: 32px; }
+.gallery-figure, .gallery-copy { min-width: 0; }
+.figure-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 36px; margin-bottom: 12px; }
+.figure-id { font: 10px Arial, sans-serif; letter-spacing: .12em; color: var(--muted); }
+.figure-toolbar .switch { padding: 3px; }
+.figure-toolbar .switch[hidden] { display: none; }
+.figure-toolbar .switch button { padding: 4px 10px; }
+.figure-well { width: 100%; aspect-ratio: 6 / 5; min-height: 0; padding: 10px; }
+.figure-well img, .figure-detail { width: 100%; height: 100%; min-width: 0; max-height: none; object-fit: contain; }
+.figure-detail { display: none; width: auto; height: auto; max-width: 100%; max-height: 100%; overflow: hidden; }
+[data-figure-view="detail"] .figure-well img { display: none; }
+[data-figure-view="detail"] .figure-detail { display: block; }
+.figure-view-note { font-size: 10px; line-height: 1.7; color: var(--muted); margin-top: 10px; min-height: 34px; }
+
+/* The lightbox keeps original pixels and supports zoom, scroll and mouse drag. */
+.lightbox { width: min(1440px, 96vw); height: 92vh; height: 92dvh; max-height: 92dvh; overflow: hidden; --line: #ddd; }
+.lightbox[open] { display: flex; flex-direction: column; }
+.lightbox .dialog-head { position: static; gap: 16px; flex-shrink: 0; padding: 16px 22px; }
+.lightbox .dialog-head strong { min-width: 0; overflow-wrap: anywhere; }
+.lightbox .close-btn { flex-shrink: 0; }
+.figure-zoom-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 12px 22px 0; flex-shrink: 0; }
+.figure-zoom-controls { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.figure-zoom-controls button { font-size: 12px; border: 1px solid #ddd; border-radius: 7px; min-height: 34px; min-width: 34px; padding: 4px 10px; }
+.figure-scale { min-width: 48px; text-align: center; font: 12px Arial, sans-serif; }
+.figure-zoom-hint { padding: 8px 22px 12px; font-size: 11px; color: #686872; flex-shrink: 0; }
+.lightbox-viewport { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; background: #eeedf1; cursor: grab; }
+.lightbox-viewport:focus-visible { outline: 2px solid #8e79cd; outline-offset: -3px; }
+.lightbox-viewport.dragging { cursor: grabbing; user-select: none; }
+.lightbox-stage { display: grid; place-items: center; width: max-content; min-width: 100%; min-height: 100%; padding: 16px; }
+.lightbox img { max-width: none; max-height: none; object-fit: contain; box-shadow: 0 2px 12px #00000012; transition-property: none; }
+.lightbox.loading img { visibility: hidden; }
+@media (max-width: 800px) {
+  .gallery-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .figure-well { padding: 6px; }
+  .figure-toolbar { gap: 6px; }
+  .figure-toolbar .switch button { padding: 4px 8px; font-size: 10px; }
+  .figure-zoom-toolbar { padding: 10px 14px 0; }
+  .figure-zoom-hint { padding: 8px 14px 10px; }
+  .lightbox .dialog-head { padding: 12px 14px; }
+}

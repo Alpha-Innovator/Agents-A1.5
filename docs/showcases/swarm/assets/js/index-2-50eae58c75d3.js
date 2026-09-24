@@ -12,7 +12,7 @@ const plural=(n,one,many)=>n===1?one:many;
 const hours=n=>(n/3600).toFixed(2);
 const mins=n=>(n/60).toFixed(2);
 const sum=(xs,fn)=>xs.reduce((a,x)=>a+fn(x),0);
-const state={lang:'zh',caseIndex:0,step:0,playing:false,timer:null,speed:1,zoom:0,mode:'interactive',sound:true,audioError:false};
+const state={lang:'en',caseIndex:0,step:0,playing:false,timer:null,speed:1,zoom:0,mode:'interactive',sound:true,audioError:false};
 const demoAudio=$('demoAudio');
 demoAudio.volume=.22;
 let audioRequest=0;
@@ -291,7 +291,7 @@ localizedElements.forEach(el=>{
  if(el.hasAttribute('data-en-content'))el.dataset.zhContent=el.getAttribute('content');
 });
 function setLanguage(lang){
- if(lang!=='zh'&&lang!=='en')throw new Error('Unsupported language: '+lang);
+ lang='en';
  pause();
  const heroIndex=motion.index,heroProgress=motion.progress,openDetail=detailState;
  state.lang=lang;DATA=LOCALIZED_DATA[lang];document.documentElement.lang=lang==='zh'?'zh-CN':'en';
@@ -309,5 +309,5 @@ function setLanguage(lang){
  if($('detail').open&&openDetail){if(openDetail.kind==='worker')showWorker(openDetail.ci,openDetail.id,openDetail.tab);else showAllWorkers();}
 }
 const initialLanguage=new URLSearchParams((window.showcaseLocation||window.location).search).get('lang');
-setLanguage(initialLanguage===null?'zh':initialLanguage);
+setLanguage('en');
 

@@ -1,7 +1,7 @@
 /* One offline artifact per experience; all UI strings ship in both languages. */
 const PAGE_LOCATION=window.showcaseLocation||location;
 const LANGUAGE_PARAMS=new URLSearchParams(PAGE_LOCATION.search);
-const LANG=LANGUAGE_PARAMS.get('lang')==='en'?'en':'zh';
+const LANG='en';
 const FILM_DURATION=28;
 const EN={
   "刺激、选择与反馈，": "Stimulus. Choice. Feedback.",
@@ -279,7 +279,7 @@ const EN={
   "小鼠全脑，": "Across the mouse brain,",
   "如何组织": "how does it organize",
   "不同任务信息？": "task information?",
-  "小鼠全脑，如何组织不同任务信息？": "How is task information organized across the mouse brain?",
+  "小鼠全脑，如何组织不同任务信息？": "How does the mouse brain encode different variables within a visual decision-making task?",
   "小鼠看图案、转轮作答，再得到奖励或错误提示。": "A mouse sees a pattern, turns a wheel, then receives a reward or an error cue.",
   "不同信息的脑区编码分布，是否协同变化，并与转轮运动相关？": "Do regional coding distributions covary across task variables, and are they related to wheel movement?",
   "由 SeekBrain 驱动，重新分析 201 个小鼠脑区的已有数据。": "Powered by SeekBrain, reanalyzing existing data from 201 mouse brain regions.",
@@ -370,7 +370,7 @@ const EN={
   "探索科研灵感": "Explore scientific possibilities",
   "从真实问题出发，看 AI 如何连接数据、分析与科学探索。": "Start with real research questions. Explore how AI connects data, analysis and scientific inquiry.",
   "脑机理": "Brain mechanisms",
-  "小鼠全脑，如何编码不同任务信息？": "How does the mouse brain encode different task information?",
+  "小鼠全脑，如何编码不同任务信息？": "How does the mouse brain encode different variables within a visual decision-making task?",
   "从已有数据的再分析，到脑区解剖图谱，探索可检验的新假设。": "From reanalyzing existing data to mapping regional anatomy, explore new, testable hypotheses.",
   "5 类解码指标": "5 decoding measures",
   "28 秒研究短片": "28-second research film",
@@ -594,7 +594,7 @@ function localizeRoot(root){
 function localeURL(href,lang=LANG){const url=new URL(href,PAGE_LOCATION.href);url.searchParams.set('lang',lang);return url.href}
 function initLocale(){
  document.querySelectorAll('[data-language-slot]').forEach(slot=>{
-  slot.innerHTML=`<div class="language-switch" role="group" aria-label="Language"><button data-language="zh" aria-pressed="${LANG==='zh'}">中文</button><span>/</span><button data-language="en" aria-pressed="${LANG==='en'}">EN</button></div>`;
+  slot.remove();
  });
  document.querySelectorAll('a[href]').forEach(a=>{if(/^(index|01-launch|02-lab)\.html(?:[?#]|$)/.test(a.getAttribute('href')))a.href=localeURL(a.href)});
  if(LANG==='en'){

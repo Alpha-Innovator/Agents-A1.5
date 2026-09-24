@@ -1,223 +1,186 @@
 <!doctype html>
-<html data-theme="light" lang="zh-CN">
+<html data-theme="light" lang="en" class="a15-integrated-showcase" data-showcase="electrochemistry">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="Agents-A1.5 全流程案例：电化学傅-克烷基化条件优化。">
-<title>Agents-A1.5 · 电化学条件优化</title>
+<meta name="description" content="Explore causal modeling and iterative search for electrochemical Friedel–Crafts alkylation conditions.">
+<title>Agents-A1.5 · Electrochemical Condition Optimization</title>
 <link rel="stylesheet" href="assets/css/index-0-6e9753330785.css">
-<style data-showcase-navigation>
-/* Catalog navigation only. No selectors affect the authored case content. */
-.showcase-navigation {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-.showcase-navigation a.showcase-return-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 32px;
-  padding: 5px 11px;
-  box-sizing: border-box;
-  border: 1px solid #b9a4fc50;
-  border-radius: 8px;
-  background: #b9a4fc14;
-  color: #e1d6ff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .18s, border-color .18s;
-}
-.showcase-return-link svg { width: 15px; height: 15px; flex: none; }
-.showcase-navigation a.showcase-return-link:hover { background: #b9a4fc30; border-color: #b9a4fc; }
-.showcase-navigation a.showcase-return-link:focus-visible { outline: 2px solid #c7b2ff; outline-offset: 3px; }
-.lab-sidebar .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 12px; }
-.lab-sidebar .showcase-navigation a.showcase-return-link { color: #514168; border-color: #8771ac60; background: #8771ac12; }
-@media (max-width: 1200px) {
-  .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .showcase-navigation a.showcase-return-link { min-height: 28px; padding: 3px 9px; font-size: 11px; }
-}
-@media (max-width: 700px) {
-  .lab-sidebar .showcase-navigation { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .showcase-navigation a.showcase-return-link { transition: none; }
-}
-
-</style>
-<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-f8b67d6201fa.css">
+<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-e36c498febd0.css">
+<link rel="stylesheet" href="../../assets/website-shell.css?v=integration-2">
+<link rel="stylesheet" href="../../assets/integrated-showcases.css?v=integration-2">
+<link rel="icon" type="image/png" href="../../assets/InternScience_logo.png">
 </head>
 <body>
-<header class="shell top site-shell-header" id="top" data-site-header=""><div class="site-shell-header-inner">
-  <div class="showcase-navigation"><a class="brand site-shell-brand" href="../../index.html" data-showcase-home aria-label="Agents-A1.5 case study"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><a class="showcase-return-link" data-showcase-return href="../../index.html"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4 5 10l6 6M5 10h11"/></svg><span data-showcase-return-label>返回首页</span></a></div>
-  <nav aria-label="页面导航"><a href="#playback">动态回放</a><a href="#flow">流程</a><a href="#history">搜索轨迹</a><a href="#model">因果模型</a><a href="#result">结果</a></nav>
-  <div class="language-switch site-shell-toggle" role="group" aria-label="Language"><button type="button" data-shell-current-language aria-pressed="true">中文</button><span aria-hidden="true">/</span><button class="lang-toggle" id="langToggle" type="button" aria-label="Switch to English">EN</button></div>
-</div></header>
+<header class="a15-site-header" id="top">
+    <nav class="a15-nav" aria-label="Primary navigation">
+      <div class="a15-nav-links">
+        <a class="a15-nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
+        <a href="../../index.html#capabilities">Capabilities</a>
+        <a href="../../index.html#benchmarks">Benchmarks</a>
+        <a href="../../index.html#demos" aria-current="page" data-site-return>Demos</a>
+        <a href="../../index.html#training">Training</a>
+        <a href="../../index.html#usage">Usage</a>
+        <a href="../../index.html#related-projects">Related Projects</a>
+      </div>
+    </nav>
+  </header><div class="a15-demo-context">
+  <nav class="a15-breadcrumb" aria-label="Breadcrumb"><a href="../../index.html#demos" data-site-return><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 4-6 6 6 6M2 10h16"/></svg>All demos</a><span aria-hidden="true">/</span><span aria-current="page">Electrochemistry: Reaction Condition Optimization</span></nav>
+  <nav aria-label="Electrochemistry: Reaction Condition Optimization sections" class="a15-demo-sections"><a href="#playback">Replay</a><a href="#flow">Flow</a><a href="#history">Search history</a><a href="#model">Causal model</a><a href="#result">Result</a></nav>
+</div>
 
 <main>
   <section class="hero">
     <div class="shell">
       <div class="hero-copy reveal">
         <div class="eyebrow"><i class="dot"></i> AGENTS-A1.5 · CONDITION OPTIMIZATION</div>
-        <h1>从 <em>40 条</em> 历史条件中，<br>把探索收束到 <em>89% 收率</em></h1>
-        <p>这是一次以交流电傅-克烷基化为对象的因果引导闭环优化回放：从原始实验表中限定目标反应，构建 8 变量搜索空间与机理图，再按 5 轮、每轮 4 个已测点逐轮更新排序。</p>
-        <div class="hero-actions"><a class="btn primary" href="#playback">播放案例回放 <span aria-hidden="true">▶</span></a><a class="btn ghost" href="#result">查看最佳条件 <span aria-hidden="true">↗</span></a></div>
+        <h1>From  <em>40</em>  historical conditions,<br>narrowing exploration to  <em>89%</em></h1>
+        <p>A causal-guided replay for AC Friedel–Crafts conditions: target definition, an eight-variable space, a mechanism graph, and five measured update rounds.</p>
+        <div class="hero-actions"><a class="btn primary" href="#playback">Play case replay <span aria-hidden="true">▶</span></a><a class="btn ghost" href="#result">View best condition <span aria-hidden="true">↗</span></a></div>
       </div>
-      <div class="hero-visual reveal" aria-label="交流电化学优化的科学场景图">
-        <svg viewBox="0 0 620 476" role="img" aria-label="电化学反应器、变量筛选和已观测收率的科学场景">
+      <div class="hero-visual reveal" aria-label="Electrochemical optimization overview">
+        <svg viewBox="0 0 620 476" role="img" aria-label="Electrochemical reactor, variable selection and observed yields">
           <defs>
-            <linearGradient id="heroPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#17162a"/><stop offset="1" stop-color="#0c1520"/></linearGradient>
-            <radialGradient id="heroGlow" cx="50%" cy="47%" r="52%"><stop stop-color="#7963d855"/><stop offset=".7" stop-color="#26254920"/><stop offset="1" stop-color="#10162200"/></radialGradient>
-            <linearGradient id="heroLiquid" x1="0" x2="1"><stop stop-color="#4a3c91"/><stop offset=".5" stop-color="#7065d5"/><stop offset="1" stop-color="#57cbb2"/></linearGradient>
-            <linearGradient id="heroLine" x1="0" x2="1"><stop stop-color="#a894ff"/><stop offset="1" stop-color="#73dfc2"/></linearGradient>
+            <linearGradient id="heroPanel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eff3f9"/><stop offset="1" stop-color="#f3f6fa"/></linearGradient>
+            <radialGradient id="heroGlow" cx="50%" cy="47%" r="52%"><stop stop-color="#412aa755"/><stop offset=".7" stop-color="#e6ecf520"/><stop offset="1" stop-color="#f2f5fa00"/></radialGradient>
+            <linearGradient id="heroLiquid" x1="0" x2="1"><stop stop-color="#4a3c91"/><stop offset=".5" stop-color="#392da4"/><stop offset="1" stop-color="#31a088"/></linearGradient>
+            <linearGradient id="heroLine" x1="0" x2="1"><stop stop-color="#3b1fb2"/><stop offset="1" stop-color="#27aa87"/></linearGradient>
             <filter id="heroBlur"><feGaussianBlur stdDeviation="10"/></filter>
             <filter id="heroGlowFilter"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
-          <rect x="12" y="12" width="596" height="452" rx="24" fill="url(#heroPanel)" stroke="#a894ff4b"/>
-          <rect x="24" y="24" width="572" height="428" rx="19" fill="url(#heroGlow)" stroke="#ffffff10"/>
-          <g stroke="#a894ff0c" stroke-width="1"><path d="M46 92H574M46 132H574M46 172H574M46 212H574M46 252H574M46 292H574M46 332H574M46 372H574M46 412H574"/><path d="M74 46V430M114 46V430M154 46V430M194 46V430M234 46V430M274 46V430M314 46V430M354 46V430M394 46V430M434 46V430M474 46V430M514 46V430M554 46V430"/></g>
-          <g transform="translate(54 54)"><title>AC waveform</title><circle cx="15" cy="15" r="15" fill="#151b2a" stroke="#a894ff58"/><path d="M6 15c3-9 6 9 9 0s6-9 9 0" fill="none" stroke="#b9adff" stroke-width="1.7" stroke-linecap="round"/></g>
-          <g transform="translate(94 54)"><title>Solvent droplet</title><circle cx="15" cy="15" r="15" fill="#112522" stroke="#73dfc258"/><path d="M15 6c-4 5-6 8-6 11a6 6 0 0 0 12 0c0-3-2-6-6-11Z" fill="none" stroke="#73dfc2" stroke-width="1.6"/><circle cx="18" cy="17" r="1.3" fill="#c5ffed"/></g>
-          <g transform="translate(134 54)"><title>Causal graph node</title><circle cx="15" cy="15" r="15" fill="#211b2d" stroke="#f4b98058"/><circle cx="9" cy="11" r="2.2" fill="#f4b980"/><circle cx="21" cy="10" r="2.2" fill="#f4b980"/><circle cx="15" cy="21" r="2.2" fill="#f4b980"/><path d="M11 12.5 19 11.5M10.5 13l3.5 6M20 13l-3.5 6" stroke="#f7d3ae" stroke-width="1.2"/></g>
-          <g transform="translate(174 54)"><title>Recorded feedback</title><circle cx="15" cy="15" r="15" fill="#101f28" stroke="#7aa7ff58"/><path d="M8 10h14M8 15h10M8 20h8" stroke="#8db6ff" stroke-width="1.5" stroke-linecap="round"/><circle cx="21" cy="20" r="2.3" fill="#73dfc2"/></g>
-          <path d="M207 69h112" stroke="#a894ff28" stroke-width="1" stroke-dasharray="3 6"/>
-          <g transform="translate(348 73)"><rect width="202" height="104" rx="12" fill="#0d1521d9" stroke="#a894ff45"/><path d="M18 81 L54 73 L90 69 L126 57 L162 22" fill="none" stroke="url(#heroLine)" stroke-width="2.5"/><path d="M18 81 L54 73 L90 69 L126 57 L162 22 L162 86 L18 86Z" fill="#a894ff12"/><g fill="#d4ceff"><circle cx="18" cy="81" r="3"/><circle cx="54" cy="73" r="3"/><circle cx="90" cy="69" r="3"/><circle cx="126" cy="57" r="3"/></g><circle cx="162" cy="22" r="5" fill="#73dfc2" filter="url(#heroGlowFilter)"/><text x="174" y="26" fill="#8df0d5" font-size="12" font-family="monospace">89%</text></g>
-          <g transform="translate(62 152)"><circle cx="108" cy="112" r="107" fill="#a894ff16" filter="url(#heroBlur)"/><circle cx="108" cy="112" r="88" fill="none" stroke="#a894ff22" stroke-dasharray="2 7"/><path d="M55 59h108l-10 172H65z" fill="#111c2c" stroke="#c4b9ff88" stroke-width="2"/><path d="M65 144h88l-4 66H69z" fill="url(#heroLiquid)" opacity=".85"/><path d="M70 146c16-8 27 7 44 0s29 8 35 0" fill="none" stroke="#d3ceff" stroke-opacity=".85"/><path d="M80 35v133M140 35v133" stroke="#e1ddff" stroke-width="5" stroke-linecap="round"/><path d="M80 36v31M140 36v31" stroke="#73dfc2" stroke-width="7" stroke-linecap="round" filter="url(#heroGlowFilter)"/><path d="M94 28h32" stroke="#7d8aa0" stroke-width="2"/><g fill="#b8aefe"><circle cx="94" cy="116" r="3"/><circle cx="116" cy="131" r="3"/><circle cx="133" cy="108" r="2.5"/><circle cx="104" cy="166" r="2.5"/><circle cx="128" cy="180" r="3"/></g><g fill="#73dfc2"><circle cx="89" cy="153" r="2"/><circle cx="143" cy="158" r="1.7"/><circle cx="117" cy="191" r="1.9"/></g></g>
-          <g transform="translate(244 207)"><path d="M58 19l27 16v32L58 83 31 67V35z" fill="#191731" stroke="#b9adff" stroke-width="2"/><circle cx="58" cy="51" r="18" fill="none" stroke="#9e93ea" stroke-dasharray="3 4"/><text x="47" y="55" fill="#e7e4ff" font-size="14" font-family="Arial">R⁺</text><path d="M95 51h68" stroke="url(#heroLine)" stroke-width="2" stroke-dasharray="4 5"/><path d="M156 44l13 7-13 7" fill="#73dfc2"/><path d="M186 19l27 16v32l-27 16-27-16V35z" fill="#122b27" stroke="#73dfc2" stroke-width="2"/><path d="M176 43l20-8M176 59l20 8M186 35v32" stroke="#a5edd9" stroke-width="1.4"/></g>
-          <g transform="translate(355 311)"><rect width="195" height="103" rx="12" fill="#0c151fd9" stroke="#73dfc249"/><text x="16" y="23" fill="#8ee8d0" font-size="10" font-family="monospace">EXP-038 · BEST OBSERVED</text><text x="15" y="67" fill="#73dfc2" font-size="42" font-family="Arial" letter-spacing="-2">89%</text><path d="M111 61h62" stroke="#ffffff1d" stroke-width="8" stroke-linecap="round"/><path d="M111 61h55" stroke="#73dfc2" stroke-width="8" stroke-linecap="round"/><text x="113" y="87" fill="#8090a1" font-size="10" font-family="monospace">DCM · TBABF6</text></g>
-          <path d="M221 276C260 260 286 254 306 252" stroke="#a894ff77" stroke-width="1.4" fill="none" stroke-dasharray="4 5"/><circle cx="306" cy="252" r="4" fill="#a894ff"/>
-          <path d="M337 321C321 304 306 294 283 284" stroke="#73dfc277" stroke-width="1.4" fill="none" stroke-dasharray="4 5"/>
+          <rect x="12" y="12" width="596" height="452" rx="24" fill="url(#heroPanel)" stroke="#3b1fb24b"/>
+          <rect x="24" y="24" width="572" height="428" rx="19" fill="url(#heroGlow)" stroke="#647eaa10"/>
+          <g stroke="#3b1fb20c" stroke-width="1"><path d="M46 92H574M46 132H574M46 172H574M46 212H574M46 252H574M46 292H574M46 332H574M46 372H574M46 412H574"/><path d="M74 46V430M114 46V430M154 46V430M194 46V430M234 46V430M274 46V430M314 46V430M354 46V430M394 46V430M434 46V430M474 46V430M514 46V430M554 46V430"/></g>
+          <g transform="translate(54 54)"><title>AC waveform</title><circle cx="15" cy="15" r="15" fill="#eff3f9" stroke="#3b1fb258"/><path d="M6 15c3-9 6 9 9 0s6-9 9 0" fill="none" stroke="#351fb2" stroke-width="1.7" stroke-linecap="round"/></g>
+          <g transform="translate(94 54)"><title>Solvent droplet</title><circle cx="15" cy="15" r="15" fill="#f1f4fa" stroke="#27aa8758"/><path d="M15 6c-4 5-6 8-6 11a6 6 0 0 0 12 0c0-3-2-6-6-11Z" fill="none" stroke="#27aa87" stroke-width="1.6"/><circle cx="18" cy="17" r="1.3" fill="#1fb284"/></g>
+          <g transform="translate(134 54)"><title>Causal graph node</title><circle cx="15" cy="15" r="15" fill="#edf2f8" stroke="#b2671f58"/><circle cx="9" cy="11" r="2.2" fill="#b2671f"/><circle cx="21" cy="10" r="2.2" fill="#b2671f"/><circle cx="15" cy="21" r="2.2" fill="#b2671f"/><path d="M11 12.5 19 11.5M10.5 13l3.5 6M20 13l-3.5 6" stroke="#b26a1f" stroke-width="1.2"/></g>
+          <g transform="translate(174 54)"><title>Recorded feedback</title><circle cx="15" cy="15" r="15" fill="#f0f4f9" stroke="#1f51b258"/><path d="M8 10h14M8 15h10M8 20h8" stroke="#1f54b2" stroke-width="1.5" stroke-linecap="round"/><circle cx="21" cy="20" r="2.3" fill="#27aa87"/></g>
+          <path d="M207 69h112" stroke="#3b1fb228" stroke-width="1" stroke-dasharray="3 6"/>
+          <g transform="translate(348 73)"><rect width="202" height="104" rx="12" fill="#f2f5fad9" stroke="#3b1fb245"/><path d="M18 81 L54 73 L90 69 L126 57 L162 22" fill="none" stroke="url(#heroLine)" stroke-width="2.5"/><path d="M18 81 L54 73 L90 69 L126 57 L162 22 L162 86 L18 86Z" fill="#3b1fb212"/><g fill="#311fb2"><circle cx="18" cy="81" r="3"/><circle cx="54" cy="73" r="3"/><circle cx="90" cy="69" r="3"/><circle cx="126" cy="57" r="3"/></g><circle cx="162" cy="22" r="5" fill="#27aa87" filter="url(#heroGlowFilter)"/><text x="174" y="26" fill="#1e8f70" font-size="12" font-family="monospace">89%</text></g>
+          <g transform="translate(62 152)"><circle cx="108" cy="112" r="107" fill="#3b1fb216" filter="url(#heroBlur)"/><circle cx="108" cy="112" r="88" fill="none" stroke="#3b1fb222" stroke-dasharray="2 7"/><path d="M55 59h108l-10 172H65z" fill="#eff3f9" stroke="#361fb288" stroke-width="2"/><path d="M65 144h88l-4 66H69z" fill="url(#heroLiquid)" opacity=".85"/><path d="M70 146c16-8 27 7 44 0s29 8 35 0" fill="none" stroke="#2e1fb2" stroke-opacity=".85"/><path d="M80 35v133M140 35v133" stroke="#311fb2" stroke-width="5" stroke-linecap="round"/><path d="M80 36v31M140 36v31" stroke="#27aa87" stroke-width="7" stroke-linecap="round" filter="url(#heroGlowFilter)"/><path d="M94 28h32" stroke="#526078" stroke-width="2"/><g fill="#321fb2"><circle cx="94" cy="116" r="3"/><circle cx="116" cy="131" r="3"/><circle cx="133" cy="108" r="2.5"/><circle cx="104" cy="166" r="2.5"/><circle cx="128" cy="180" r="3"/></g><g fill="#27aa87"><circle cx="89" cy="153" r="2"/><circle cx="143" cy="158" r="1.7"/><circle cx="117" cy="191" r="1.9"/></g></g>
+          <g transform="translate(244 207)"><path d="M58 19l27 16v32L58 83 31 67V35z" fill="#edf2f8" stroke="#351fb2" stroke-width="2"/><circle cx="58" cy="51" r="18" fill="none" stroke="#3422af" stroke-dasharray="3 4"/><text x="47" y="55" fill="#172b45" font-size="14" font-family="Arial">R⁺</text><path d="M95 51h68" stroke="url(#heroLine)" stroke-width="2" stroke-dasharray="4 5"/><path d="M156 44l13 7-13 7" fill="#27aa87"/><path d="M186 19l27 16v32l-27 16-27-16V35z" fill="#eff3f9" stroke="#27aa87" stroke-width="2"/><path d="M176 43l20-8M176 59l20 8M186 35v32" stroke="#23ae88" stroke-width="1.4"/></g>
+          <g transform="translate(355 311)"><rect width="195" height="103" rx="12" fill="#f3f6fad9" stroke="#27aa8749"/><text x="16" y="23" fill="#1e8f71" font-size="10" font-family="monospace">EXP-038 · BEST OBSERVED</text><text x="15" y="67" fill="#208d70" font-size="42" font-family="Arial" letter-spacing="-2">89%</text><path d="M111 61h62" stroke="#647eaa1d" stroke-width="8" stroke-linecap="round"/><path d="M111 61h55" stroke="#27aa87" stroke-width="8" stroke-linecap="round"/><text x="113" y="87" fill="#526078" font-size="10" font-family="monospace">DCM · TBABF6</text></g>
+          <path d="M221 276C260 260 286 254 306 252" stroke="#3b1fb277" stroke-width="1.4" fill="none" stroke-dasharray="4 5"/><circle cx="306" cy="252" r="4" fill="#3b1fb2"/>
+          <path d="M337 321C321 304 306 294 283 284" stroke="#27aa8777" stroke-width="1.4" fill="none" stroke-dasharray="4 5"/>
         </svg>
       </div>
       <div class="hero-kpis reveal">
-        <div><b>40</b><span>限定目标反应历史记录</span></div>
-        <div><b>8</b><span>可调变量 · 3 离散 / 5 连续</span></div>
-        <div><b>5 × 4</b><span>闭环回放中的已测候选</span></div>
-        <div><b>89%</b><span>当前最高 isolated_yield</span></div>
+        <div><b>40</b><span>Target-reaction historical records</span></div>
+        <div><b>8</b><span>8 variables · mixed types</span></div>
+        <div><b>5 × 4</b><span>Measured candidates in replay</span></div>
+        <div><b>89%</b><span>Highest observed yield</span></div>
       </div>
     </div>
   </section>
 
   <section class="section shell" id="playback">
-    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 01 · OPTIMIZATION FILM</div><h2>用 <em>20 秒</em> 看优化如何发生</h2></div><p>影片依次展示数据筛选、变量定义、因果推理、五轮候选反馈与 EXP-038 的最高观测条件。</p></div>
+    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 01 · OPTIMIZATION FILM</div><h2>Use  <em>20 seconds</em> to see optimization happen</h2></div><p>The film follows data filtering, variable definition, causal reasoning, five candidate-feedback rounds, and the EXP-038 high point.</p></div>
     <div class="film-player reveal" id="filmPlayer">
-      <div class="film-chrome"><span class="film-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>AGENTS-A1.5 · OPTIMIZATION REPLAY</span><button type="button" id="filmRestart">重新播放 ↺</button></div>
-      <div class="film-frame"><canvas id="optimizerFilm" aria-label="优化流程动态演示：从历史数据到最高观测条件"></canvas><button class="film-replay" id="filmReplay" type="button" aria-label="播放优化流程演示">▶</button></div>
-      <div class="film-controls"><button id="filmToggle" type="button" aria-label="暂停优化流程演示">Ⅱ</button><input id="filmSeek" type="range" min="0" max="20" step="0.1" value="0" aria-label="优化流程演示进度"><span id="filmTime">00:00 / 00:20</span></div>
-      <p class="film-caption"><b>运行产物动态回放。</b>以记录中的数据、变量、因果结构、五轮结果和 EXP-038 为画面素材。</p>
+      <div class="film-chrome"><span class="film-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>AGENTS-A1.5 · OPTIMIZATION REPLAY</span><button type="button" id="filmRestart">Replay ↺</button></div>
+      <div class="film-frame"><canvas id="optimizerFilm" aria-label="Optimization replay from historical data to the best observed conditions"></canvas><button class="film-replay" id="filmReplay" type="button" aria-label="Play optimization replay">▶</button></div>
+      <div class="film-controls"><button id="filmToggle" type="button" aria-label="Pause optimization replay">Ⅱ</button><input id="filmSeek" type="range" min="0" max="20" step="0.1" value="0" aria-label="Optimization replay progress"><span id="filmTime">00:00 / 00:20</span></div>
+      <p class="film-caption"><b>Animated run replay.</b> Recorded data, variables, causal structure, five rounds, and EXP-038 provide the visual material.</p>
     </div>
   </section>
 
   <section class="section shell" id="flow">
-    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 02 · END-TO-END FLOW</div><h2>每一步都有输入、<em>证据与回写</em></h2></div><p>运行数据、变量空间、因果结构和五轮候选更新构成一条完整的优化链路。</p></div>
+    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 02 · END-TO-END FLOW</div><h2>Every step has inputs,<em>evidence, and writeback</em></h2></div><p>Run data, the variable space, causal structure, and five candidate updates form one optimization chain.</p></div>
     <div class="scene reveal">
-      <div class="scene-toolbar"><span class="left"><i class="dot"></i> PIPELINE REPLAY <code>project-048fd560 / revision 0</code></span><span>历史数据驱动 · 已完成 5 个搜索批次</span></div>
-      <svg class="process-svg" viewBox="0 0 1260 510" role="img" aria-label="从输入数据到最佳条件的优化流程图">
-        <defs><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#78869d"/></marker></defs>
-        <g fill="none" stroke="#5d6a80" stroke-width="1.4" marker-end="url(#arr)"><path d="M232 164H305"/><path d="M493 164H563"/><path d="M764 164H831"/><path d="M1024 164H1093"/><path d="M1156 225v151H696"/><path d="M496 376H305"/></g>
-        <g fill="#a894ff" opacity=".68"><circle cx="270" cy="164" r="3"/><circle cx="530" cy="164" r="3"/><circle cx="800" cy="164" r="3"/><circle cx="1060" cy="164" r="3"/></g>
+      <div class="scene-toolbar"><span class="left"><i class="dot"></i> PIPELINE REPLAY <code>project-048fd560 / revision 0</code></span><span>Historical-data driven · 5 completed batches</span></div>
+      <svg class="process-svg" viewBox="0 0 1260 510" role="img" aria-label="Optimization workflow from input data to the best conditions">
+        <defs><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#526078"/></marker></defs>
+        <g fill="none" stroke="#526078" stroke-width="1.4" marker-end="url(#arr)"><path d="M232 164H305"/><path d="M493 164H563"/><path d="M764 164H831"/><path d="M1024 164H1093"/><path d="M1156 225v151H696"/><path d="M496 376H305"/></g>
+        <g fill="#3b1fb2" opacity=".68"><circle cx="270" cy="164" r="3"/><circle cx="530" cy="164" r="3"/><circle cx="800" cy="164" r="3"/><circle cx="1060" cy="164" r="3"/></g>
         <g font-family="Inter, PingFang SC, sans-serif">
-          <rect x="42" y="103" width="190" height="122" rx="13" fill="#121b2b" stroke="#a894ff" stroke-opacity=".55"/><text x="63" y="135" fill="#bdb4ee" font-size="11" letter-spacing="1.4">01 · INGEST</text><text x="63" y="165" fill="#f4f6fb" font-size="18" font-weight="600">原始实验数据</text><text x="63" y="192" fill="#93a0b5" font-size="12">PPT + CSV · EXP-001–074</text><text x="63" y="211" fill="#73dfc2" font-family="monospace" font-size="11">scope: EXP-001–040</text>
-          <rect x="305" y="103" width="188" height="122" rx="13" fill="#121b2b" stroke="#73dfc2" stroke-opacity=".5"/><text x="326" y="135" fill="#91dec8" font-size="11" letter-spacing="1.4">02 · NORMALIZE</text><text x="326" y="165" fill="#f4f6fb" font-size="18" font-weight="600">目标与边界</text><text x="326" y="192" fill="#93a0b5" font-size="12">2-3aa 分离产率最大化</text><text x="326" y="211" fill="#73dfc2" font-family="monospace" font-size="11">0–100% · trace 不数值化</text>
-          <rect x="563" y="103" width="201" height="122" rx="13" fill="#121b2b" stroke="#7aa7ff" stroke-opacity=".55"/><text x="584" y="135" fill="#9ebeff" font-size="11" letter-spacing="1.4">03 · DESIGN SPACE</text><text x="584" y="165" fill="#f4f6fb" font-size="18" font-weight="600">8 变量搜索空间</text><text x="584" y="192" fill="#93a0b5" font-size="12">5 连续 · 3 离散 · 类型保真</text><text x="584" y="211" fill="#a894ff" font-family="monospace" font-size="11">10 × 8 = 80 计划评价</text>
-          <rect x="831" y="103" width="193" height="122" rx="13" fill="#121b2b" stroke="#f4b980" stroke-opacity=".57"/><text x="852" y="135" fill="#f4b980" font-size="11" letter-spacing="1.4">04 · REASONING</text><text x="852" y="165" fill="#f4f6fb" font-size="18" font-weight="600">文献 → 因果图</text><text x="852" y="192" fill="#93a0b5" font-size="12">16 篇文献 · 12 个效应节点</text><text x="852" y="211" fill="#f4b980" font-family="monospace" font-size="11">24 V-nodes · 35 edges</text>
-          <rect x="1093" y="103" width="126" height="122" rx="13" fill="#123027" stroke="#73dfc2" stroke-opacity=".62"/><text x="1114" y="135" fill="#91dec8" font-size="11" letter-spacing="1.4">05 · LOOP</text><text x="1114" y="165" fill="#f4f6fb" font-size="18" font-weight="600">5 轮回放</text><text x="1114" y="192" fill="#93a0b5" font-size="12">20 已测点</text><text x="1114" y="211" fill="#73dfc2" font-family="monospace" font-size="11">rank → update</text>
-          <rect x="496" y="325" width="200" height="101" rx="13" fill="#12251f" stroke="#73dfc2" stroke-opacity=".6"/><text x="517" y="356" fill="#91dec8" font-size="11" letter-spacing="1.4">BEST OBSERVED</text><text x="517" y="387" fill="#f4f6fb" font-size="20" font-weight="600">HFIP 锚定条件</text><text x="517" y="409" fill="#73dfc2" font-family="monospace" font-size="13">EXP-038 · yield 89%</text>
-          <rect x="42" y="325" width="263" height="101" rx="13" fill="#141529" stroke="#a894ff" stroke-opacity=".55"/><text x="63" y="356" fill="#bdb4ee" font-size="11" letter-spacing="1.4">MODEL FEEDBACK</text><text x="63" y="385" fill="#f4f6fb" font-size="17" font-weight="600">排序误差 → 结构编辑</text><text x="63" y="408" fill="#aaa4c8" font-size="11.5">r1 删错边 · r3 加时间 · r5 加协同</text>
+          <rect x="42" y="103" width="190" height="122" rx="13" fill="#eff3f9" stroke="#3b1fb2" stroke-opacity=".55"/><text x="63" y="135" fill="#31208d" font-size="11" letter-spacing="1.4">01 · INGEST</text><text x="63" y="165" fill="#172b45" font-size="18" font-weight="600">Raw experiment data</text><text x="63" y="192" fill="#526078" font-size="12">PPT + CSV · EXP-001–074</text><text x="63" y="211" fill="#208d70" font-family="monospace" font-size="11">scope: EXP-001–040</text>
+          <rect x="305" y="103" width="188" height="122" rx="13" fill="#eff3f9" stroke="#27aa87" stroke-opacity=".5"/><text x="326" y="135" fill="#28856b" font-size="11" letter-spacing="1.4">02 · NORMALIZE</text><text x="326" y="165" fill="#172b45" font-size="18" font-weight="600">Target definition</text><text x="326" y="192" fill="#526078" font-size="12">Maximize 2-3aa yield</text><text x="326" y="211" fill="#208d70" font-family="monospace" font-size="11">0–100% · trace kept nonnumeric</text>
+          <rect x="563" y="103" width="201" height="122" rx="13" fill="#eff3f9" stroke="#1f51b2" stroke-opacity=".55"/><text x="584" y="135" fill="#1e448f" font-size="11" letter-spacing="1.4">03 · DESIGN SPACE</text><text x="584" y="165" fill="#172b45" font-size="18" font-weight="600">8-variable space</text><text x="584" y="192" fill="#526078" font-size="12">5 continuous · 3 discrete</text><text x="584" y="211" fill="#331e8f" font-family="monospace" font-size="11">10 × 8 = 80 evals</text>
+          <rect x="831" y="103" width="193" height="122" rx="13" fill="#eff3f9" stroke="#b2671f" stroke-opacity=".57"/><text x="852" y="135" fill="#8f561e" font-size="11" letter-spacing="1.4">04 · REASONING</text><text x="852" y="165" fill="#172b45" font-size="18" font-weight="600">Lit. → causal graph</text><text x="852" y="192" fill="#526078" font-size="12">16 papers · 12 effects</text><text x="852" y="211" fill="#8f561e" font-family="monospace" font-size="11">24 V-nodes · 35 edges</text>
+          <rect x="1093" y="103" width="126" height="122" rx="13" fill="#eef3f9" stroke="#27aa87" stroke-opacity=".62"/><text x="1114" y="135" fill="#28856b" font-size="11" letter-spacing="1.4">05 · LOOP</text><text x="1114" y="165" fill="#172b45" font-size="18" font-weight="600">5-round loop</text><text x="1114" y="192" fill="#526078" font-size="12">20 measured points</text><text x="1114" y="211" fill="#208d70" font-family="monospace" font-size="11">rank → update</text>
+          <rect x="496" y="325" width="200" height="101" rx="13" fill="#f1f4fa" stroke="#27aa87" stroke-opacity=".6"/><text x="517" y="356" fill="#28856b" font-size="11" letter-spacing="1.4">BEST OBSERVED</text><text x="517" y="387" fill="#172b45" font-size="20" font-weight="600">HFIP anchor</text><text x="517" y="409" fill="#208d70" font-family="monospace" font-size="13">EXP-038 · yield 89%</text>
+          <rect x="42" y="325" width="263" height="101" rx="13" fill="#eff3f9" stroke="#3b1fb2" stroke-opacity=".55"/><text x="63" y="356" fill="#31208d" font-size="11" letter-spacing="1.4">MODEL FEEDBACK</text><text x="63" y="385" fill="#172b45" font-size="17" font-weight="600">Rank error → edit</text><text x="63" y="408" fill="#526078" font-size="11.5">r1 edge − · r3 time + · r5 synergy +</text>
         </g>
       </svg>
-      <div class="mobile-flow" aria-label="优化流程摘要"><div><b>01</b><span>原始实验数据<small>40 条目标反应记录</small></span></div><div><b>02</b><span>目标定义与变量空间<small>8 个变量 · 类型保真</small></span></div><div><b>03</b><span>文献与因果图<small>16 篇文献 · 35 条边</small></span></div><div><b>04</b><span>五轮候选回放<small>20 个已测点</small></span></div><div><b>05</b><span>最佳观测条件<small>EXP-038 · 89%</small></span></div></div>
+      <div class="mobile-flow" aria-label="Optimization workflow summary"><div><b>01</b><span>Raw experiment data<small>40 target-reaction records</small></span></div><div><b>02</b><span>Target and variable space<small>8 variables · type preserved</small></span></div><div><b>03</b><span>Literature and causal graph<small>16 papers · 35 edges</small></span></div><div><b>04</b><span>Five candidate replay rounds<small>20 measured points</small></span></div><div><b>05</b><span>Best observed condition<small>EXP-038 · 89%</small></span></div></div>
     </div>
   </section>
 
   <section class="section shell" id="history">
-    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 02 · SEARCH HISTORY</div><h2>模型沿着结果的起伏，<em>逐轮改写假设</em></h2></div><p>选择任一轮，查看该批次的 4 个已测候选、最高点及其进入下一轮的反馈。</p></div>
+    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 02 · SEARCH HISTORY</div><h2>The model follows the results,<em>rewriting hypotheses each round</em></h2></div><p>Select a round to inspect its four measured candidates, high point, and feedback into the next round.</p></div>
     <div class="dashboard reveal">
-      <div class="chart-panel"><div class="chart-top"><div><h3>20 个已测点的收率轨迹</h3><p>isolated_yield · 历史 CSV / 专家提交</p></div><span class="status">5 BATCHES COMPLETE</span></div><div class="chart-wrap"><svg class="history-chart" id="historyChart" viewBox="0 0 760 320" role="img" aria-label="五轮实验收率和累计最优收率图"></svg></div><div class="tabs" role="tablist" aria-label="选择轮次" id="roundTabs"></div></div>
-      <aside class="summary-panel"><h3 id="roundTitle">第 1 轮 · 初始反差</h3><p id="roundStory">从低频/高频的直接对照中识别排序误差。</p><div class="round-stat"><div><span>本轮最高</span><b class="mint" id="roundBest">32%</b></div><div><span>累计最佳</span><b id="cumBest">32%</b></div></div><ul class="candidate-list" id="candidateList"></ul></aside>
+      <div class="chart-panel"><div class="chart-top"><div><h3>Yield trajectory of 20 measured points</h3><p>isolated_yield · historical CSV / expert-submitted</p></div><span class="status">5 BATCHES COMPLETE</span></div><div class="chart-wrap"><svg class="history-chart" id="historyChart" viewBox="0 0 760 320" role="img" aria-label="Yields and cumulative best yield over five experimental rounds"></svg></div><div class="tabs" role="tablist" aria-label="Select an experimental round" id="roundTabs"></div></div>
+      <aside class="summary-panel"><h3 id="roundTitle">Round 1 · Initial contrast</h3><p id="roundStory">The 0.2 Hz observation outperformed the model’s initial 10 Hz preference, so the high-frequency connection was removed.</p><div class="round-stat"><div><span>Round best</span><b class="mint" id="roundBest">32%</b></div><div><span>Cumulative best</span><b id="cumBest">32%</b></div></div><ul class="candidate-list" id="candidateList"></ul></aside>
     </div>
-    <div class="insight-grid reveal"><article class="insight"><div class="num">7 → 32%</div><h3>第 1 轮反证高频假设</h3><p>10 Hz 的候选只得 7%，0.2 Hz / 1.0 mmol 条件达到 32%，促使模型删除对高频子空间的错误正向连接。</p></article><article class="insight"><div class="num">62 → 89%</div><h3>HFIP 改变了分支比</h3><p>第 4 轮中，从无添加剂 62% 到 HFIP、96 min 的 89%，成为当前历史数据里的最高观测结果。</p></article><article class="insight"><div class="num">0.89</div><h3>目标值按 0–100% 解析</h3><p>运行配置将 2-3aa 主产物产率作为 isolated_yield；这里显示的是百分数，不将 trace 或 n.d. 当作数值。</p></article></div>
+    <div class="insight-grid reveal"><article class="insight"><div class="num">7 → 32%</div><h3>Round 1 disproves the high-frequency assumption</h3><p>The 10 Hz candidate reached only 7%; 0.2 Hz / 1.0 mmol reached 32%, removing a wrong positive high-frequency edge.</p></article><article class="insight"><div class="num">62 → 89%</div><h3>HFIP changes the branching ratio</h3><p>In round 4, the result rises from 62% without additive to 89% with HFIP at 96 min, the highest observation in the recorded data.</p></article><article class="insight"><div class="num">0.89</div><h3>Target parsed on a 0–100% scale</h3><p>The run configuration uses 2-3aa main-product yield as isolated_yield; percentages are shown while trace and n.d. remain nonnumeric.</p></article></div>
   </section>
 
   <section class="section shell" id="analytics">
-    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 03 · OBSERVATION BOARD</div><h2>把 <em>20 个观测点</em> 变成可读证据</h2></div><p>分布、变量权重、批次账本与图例均由本次回放中已有的记录组织而成。</p></div>
+    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 03 · OBSERVATION BOARD</div><h2>Turn  <em>20 observations</em> into readable evidence</h2></div><p>The distribution, variable weights, batch ledger, and legend are organized from records already present in this replay.</p></div>
     <div class="evidence-grid reveal">
-      <article class="evidence-card"><div class="evidence-head"><div><h3>收率分布与四分位</h3><p>20 MEASURED OBSERVATIONS</p></div><span class="viz-icon" aria-hidden="true">◌</span></div><svg class="distribution-chart" id="distributionChart" viewBox="0 0 560 260" role="img" aria-label="20 个已测收率的箱线图和点分布"></svg><div class="stat-strip" id="distributionStats"></div></article>
-      <article class="evidence-card"><div class="evidence-head"><div><h3>变量重要度</h3><p>REPORT WEIGHTS · 8 VARIABLES</p></div><span class="viz-icon" aria-hidden="true">↗</span></div><svg class="leverage-chart" id="leverageChart" viewBox="0 0 560 260" role="img" aria-label="8 个变量的重要度柱状图"></svg><div class="legend-list" id="leverageLegend"></div></article>
-      <article class="evidence-card wide"><div class="evidence-head"><div><h3>逐轮观测账本</h3><p>FIVE BATCHES · FOUR MEASURED CANDIDATES EACH</p></div><span class="viz-icon" aria-hidden="true">▦</span></div><table class="round-table"><thead id="roundTableHead"></thead><tbody id="roundTableBody"></tbody></table></article>
+      <article class="evidence-card"><div class="evidence-head"><div><h3>Yield distribution and quartiles</h3><p>20 MEASURED OBSERVATIONS</p></div><span class="viz-icon" aria-hidden="true">◌</span></div><svg class="distribution-chart" id="distributionChart" viewBox="0 0 560 260" role="img" aria-label="Box plot and distribution of 20 measured yields"></svg><div class="stat-strip" id="distributionStats"></div></article>
+      <article class="evidence-card"><div class="evidence-head"><div><h3>Variable importance</h3><p>REPORT WEIGHTS · 8 VARIABLES</p></div><span class="viz-icon" aria-hidden="true">↗</span></div><svg class="leverage-chart" id="leverageChart" viewBox="0 0 560 260" role="img" aria-label="Importance of eight experimental variables"></svg><div class="legend-list" id="leverageLegend"></div></article>
+      <article class="evidence-card wide"><div class="evidence-head"><div><h3>Round-by-round observation ledger</h3><p>FIVE BATCHES · FOUR MEASURED CANDIDATES EACH</p></div><span class="viz-icon" aria-hidden="true">▦</span></div><table class="round-table"><thead id="roundTableHead"></thead><tbody id="roundTableBody"></tbody></table></article>
     </div>
   </section>
 
   <section class="section shell" id="model">
-    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 04 · MODEL REFLECTION</div><h2>不是只换参数，<em>也修正因果结构</em></h2></div><p>每轮将观测排序回灌到图中：能用边编辑解决时改连接，需要新机制时才新增效应节点。</p></div>
+    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 04 · MODEL REFLECTION</div><h2>More than parameter changes,<em>causal structure is corrected</em></h2></div><p>Each round feeds observed ranking back into the graph: edit edges when possible and add effect nodes only for new mechanisms.</p></div>
     <div class="trail reveal">
-      <article class="round-card" style="--round:#a894ff"><div class="rno">ROUND 01</div><div class="best">32<small>%</small></div><h3>低频胜过模型最初偏好的高频</h3><p>10 Hz 仅 7%；0.2 Hz、1.0 mmol 得 32%。</p><span class="edit">REMOVE_V→E · 高频错误连接</span></article>
-      <article class="round-card" style="--round:#8cb0ff"><div class="rno">ROUND 02</div><div class="best">30<small>%</small></div><h3>电解质加载量没有图中效应</h3><p>图无法区分 0.1–0.3 与 1.0 mmol 的贡献。</p><span class="edit">FLAG · 需要 Tier-3 节点</span></article>
-      <article class="round-card" style="--round:#d6b1ff"><div class="rno">ROUND 03</div><div class="best">43<small>%</small></div><h3>补上时间造成的过反应惩罚</h3><p>不同时间被图打成同分，实测却出现 23% 与 43% 的差异。</p><span class="edit">ADD_EFFECT · reaction_time sink</span></article>
-      <article class="round-card r4" style="--round:#73dfc2"><div class="rno">ROUND 04</div><div class="best">89<small>%</small></div><h3>HFIP 锚定区间给出高质量点</h3><p>稳定阳离子过渡态，当前记录的最高 isolated_yield 出现。</p><span class="edit">INCUMBENT · EXP-038</span></article>
-      <article class="round-card" style="--round:#f4b980"><div class="rno">ROUND 05</div><div class="best">83<small>%</small></div><h3>把“长半周期 × 溶剂淬灭”连起来</h3><p>无 HFIP 时，低频让 R⁺ 驻留更久，淬灭风险需单列协同项。</p><span class="edit">ADD_E→E · negative synergy</span></article>
+      <article class="round-card" style="--round:#a894ff"><div class="rno">ROUND 01</div><div class="best">32<small>%</small></div><h3>Low frequency beats the model’s initial high-frequency preference</h3><p>10 Hz gives only 7%; 0.2 Hz and 1.0 mmol give 32%.</p><span class="edit">REMOVE_V→E · Incorrect high-frequency edge</span></article>
+      <article class="round-card" style="--round:#8cb0ff"><div class="rno">ROUND 02</div><div class="best">30<small>%</small></div><h3>Electrolyte loading is absent from the graph</h3><p>The graph cannot distinguish contributions from 0.1–0.3 versus 1.0 mmol.</p><span class="edit">FLAG · Tier-3 node required</span></article>
+      <article class="round-card" style="--round:#d6b1ff"><div class="rno">ROUND 03</div><div class="best">43<small>%</small></div><h3>Add the time-driven overreaction penalty</h3><p>The graph ranked times equally, but measurements differ by 23% versus 43%.</p><span class="edit">ADD_EFFECT · reaction_time sink</span></article>
+      <article class="round-card r4" style="--round:#73dfc2"><div class="rno">ROUND 04</div><div class="best">89<small>%</small></div><h3>HFIP anchor region produces a high-quality point</h3><p>A stabilized cationic transition state coincides with the current highest isolated yield.</p><span class="edit">INCUMBENT · EXP-038</span></article>
+      <article class="round-card" style="--round:#f4b980"><div class="rno">ROUND 05</div><div class="best">83<small>%</small></div><h3>Link long half-cycles with solvent quenching</h3><p>Without HFIP, low frequency extends R⁺ residence time, so quench risk needs a separate interaction.</p><span class="edit">ADD_E→E · negative synergy</span></article>
     </div>
     <div class="cause-layout reveal" style="margin-top:20px">
-      <article class="cause-intro"><div class="eyebrow"><i class="dot"></i> CAUSAL SNAPSHOT · ROUND 0</div><h3>从变量子区间，连到可解释的化学效应</h3><p>因果图并不直接替代实验，而是把候选的排序假设显式化；观测结果再决定哪些连接应削弱、补充或交互。</p><div class="cause-counts"><div><b>24</b><span>变量节点</span></div><div><b>12</b><span>效应节点</span></div><div><b>35</b><span>总边数</span></div></div></article>
-      <div class="cause-map" aria-label="因果图摘要">
-        <svg viewBox="0 0 700 405" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="maparr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#60718a"/></marker></defs><g fill="none" stroke="#60718a" stroke-width="1.3" marker-end="url(#maparr)" opacity=".8"><path d="M149 83C220 83 236 58 300 58"/><path d="M149 174C223 174 240 136 300 136"/><path d="M149 274C218 274 244 223 300 222"/><path d="M149 274C230 274 241 317 300 317"/><path d="M433 57C505 57 516 191 594 191"/><path d="M433 136C505 136 516 191 594 191"/><path d="M433 222C509 222 527 191 594 191"/><path d="M433 317C504 317 521 214 594 205"/></g><path d="M150 174C236 174 260 298 300 317" fill="none" stroke="#f4b980" stroke-width="1.6" stroke-dasharray="5 6" opacity=".85"/></svg>
+      <article class="cause-intro"><div class="eyebrow"><i class="dot"></i> CAUSAL SNAPSHOT · ROUND 0</div><h3>From variable subspaces to explainable chemical effects</h3><p>The causal graph does not replace experiments; it makes ranking assumptions explicit, then observations determine which connections are weakened, added, or interact.</p><div class="cause-counts"><div><b>24</b><span>Variable nodes</span></div><div><b>12</b><span>Effect nodes</span></div><div><b>35</b><span>Total edges</span></div></div></article>
+      <div class="cause-map" aria-label="Causal graph summary">
+        <svg viewBox="0 0 700 405" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="maparr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#526078"/></marker></defs><g fill="none" stroke="#526078" stroke-width="1.3" marker-end="url(#maparr)" opacity=".8"><path d="M149 83C220 83 236 58 300 58"/><path d="M149 174C223 174 240 136 300 136"/><path d="M149 274C218 274 244 223 300 222"/><path d="M149 274C230 274 241 317 300 317"/><path d="M433 57C505 57 516 191 594 191"/><path d="M433 136C505 136 516 191 594 191"/><path d="M433 222C509 222 527 191 594 191"/><path d="M433 317C504 317 521 214 594 205"/></g><path d="M150 174C236 174 260 298 300 317" fill="none" stroke="#b2671f" stroke-width="1.6" stroke-dasharray="5 6" opacity=".85"/></svg>
         <span class="node variable t1">frequency_hz<br><small>0.05–10 Hz</small></span><span class="node variable t2">current_ma<br><small>2.5–20 mA</small></span><span class="node variable t3">additive / solvent<br><small>HFIP · DCM · …</small></span>
-        <span class="node effect e1">AC 半周期与<br>中间体寿命</span><span class="node effect e2">C–X 还原 /<br>电子通量</span><span class="node effect e3">阳离子过渡态<br>稳定</span><span class="node effect e4">溶剂质子淬灭<br><small>负向 sink</small></span>
-        <span class="node goal">isolated_yield<br><small>2-3aa</small></span><span class="map-key">实线：变量 → 效应 → 目标　虚线：第 5 轮新增协同</span>
+        <span class="node effect e1">AC half-cycle and<br>intermediate lifetime</span><span class="node effect e2">C–X reduction /<br>electron flux</span><span class="node effect e3">Cationic transition-state<br>stabilization</span><span class="node effect e4">Solvent proton quench<br><small>negative sink</small></span>
+        <span class="node goal">isolated_yield<br><small>2-3aa</small></span><span class="map-key">Solid: variable → effect → target · Dashed: round-5 interaction</span>
       </div>
     </div>
   </section>
 
   <section class="section shell" id="space">
-    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 05 · SEARCH SPACE</div><h2>保持变量类型，<em>再谈搜索</em></h2></div><p>离散项只从历史数据出现的成员中选择；连续项用目标反应历史观测值的端点包络定义。</p></div>
-    <div class="space reveal"><div class="space-head"><h3>权重与定义域</h3><span>importance weights from report</span></div><div class="var-grid">
-      <article class="var" style="--w:90%"><header><h3>current_ma</h3><span class="kind">CONTINUOUS</span></header><p>2.5–20 mA<br>恒定交流电流</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.20</b></div></article>
+    <div class="section-head reveal"><div><div class="eyebrow"><i class="dot"></i> 05 · SEARCH SPACE</div><h2>Preserve variable types,<em>then search</em></h2></div><p>Discrete values are chosen only from observed historical members; continuous bounds use the target reaction’s observed endpoints.</p></div>
+    <div class="space reveal"><div class="space-head"><h3>Weights and domains</h3><span>importance weights from report</span></div><div class="var-grid">
+      <article class="var" style="--w:90%"><header><h3>current_ma</h3><span class="kind">CONTINUOUS</span></header><p>2.5–20 mA<br>Constant AC current</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.20</b></div></article>
       <article class="var" style="--w:81%"><header><h3>solvent</h3><span class="kind">DISCRETE</span></header><p>MeCN · DCM · DCE · DME · THF</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.18</b></div></article>
-      <article class="var" style="--w:77%"><header><h3>frequency_hz</h3><span class="kind">CONTINUOUS</span></header><p>0.05–10 Hz<br>交流电频率</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.17</b></div></article>
-      <article class="var" style="--w:45%"><header><h3>electrolyte</h3><span class="kind">DISCRETE</span></header><p>6 个历史电解质成员<br>含 TBABF6</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.10</b></div></article>
-      <article class="var" style="--w:45%"><header><h3>substrate2_volume_ul</h3><span class="kind">CONTINUOUS</span></header><p>44–1000 µL<br>芳烃底物体积</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.10</b></div></article>
+      <article class="var" style="--w:77%"><header><h3>frequency_hz</h3><span class="kind">CONTINUOUS</span></header><p>0.05–10 Hz<br>AC frequency</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.17</b></div></article>
+      <article class="var" style="--w:45%"><header><h3>electrolyte</h3><span class="kind">DISCRETE</span></header><p>Six historical electrolyte members<br>including TBABF6</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.10</b></div></article>
+      <article class="var" style="--w:45%"><header><h3>substrate2_volume_ul</h3><span class="kind">CONTINUOUS</span></header><p>44–1000 µL<br>Arene substrate volume</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.10</b></div></article>
       <article class="var" style="--w:45%"><header><h3>additive</h3><span class="kind">DISCRETE</span></header><p>none · iPrOH · HFIP</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.10</b></div></article>
-      <article class="var" style="--w:36%"><header><h3>reaction_time_min</h3><span class="kind">CONTINUOUS</span></header><p>30–240 min<br>通电 / 反应时间</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.08</b></div></article>
-      <article class="var" style="--w:32%"><header><h3>electrolyte_amount_mmol</h3><span class="kind">CONTINUOUS</span></header><p>0.1–1.0 mmol<br>支持电解质投料量</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.07</b></div></article>
+      <article class="var" style="--w:36%"><header><h3>reaction_time_min</h3><span class="kind">CONTINUOUS</span></header><p>30–240 min<br>Electrolysis / reaction time</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.08</b></div></article>
+      <article class="var" style="--w:32%"><header><h3>electrolyte_amount_mmol</h3><span class="kind">CONTINUOUS</span></header><p>0.1–1.0 mmol<br>Supporting-electrolyte loading</p><div class="bar"><i></i></div><div class="weight"><span>importance</span><b>0.07</b></div></article>
     </div></div>
   </section>
 
   <section class="section shell" id="result">
-    <div class="winner reveal"><div class="winner-main"><div class="eyebrow"><i class="dot" style="color:var(--mint)"></i> BEST OBSERVED CONDITION</div><h2>第 4 轮捕获到<br><em>89% isolated_yield</em></h2><p>HFIP 条件把表现从同一主框架下的无添加剂 62% 提升至 89%。报告将其解释为：抑制质子淬灭并稳定阳离子过渡态，让芳烃捕获更有机会完成。</p><div class="winner-number">89<small>%</small></div><div class="winner-note">EXP-038 · 2-3aa（主产物）产率 · CSV 记录为 89%</div></div><aside class="winner-spec"><header><h3>完整条件赋值</h3><span>ALL 8 VARIABLES</span></header><div class="spec-list"><div><span>solvent</span><b>DCM</b></div><div><span>electrolyte</span><b>TBABF6</b></div><div><span>electrolyte amount</span><b>0.5 mmol</b></div><div><span>frequency</span><b>1 Hz</b></div><div><span>current</span><b>10 mA</b></div><div><span>reaction time</span><b>96 min</b></div><div><span>substrate 2</span><b>500 µL</b></div><div><span>additive</span><b>HFIP · 100 µL</b></div></div><footer>固定条件：1-溴乙基苯 0.2 mmol、溶剂体积 6.0 mL、室温、N₂、Pt–Pt 电极、AC。<br>与 EXP-029 的无添加剂 62% 形成同框架参照。</footer></aside></div>
+    <div class="winner reveal"><div class="winner-main"><div class="eyebrow"><i class="dot" style="color:var(--mint)"></i> BEST OBSERVED CONDITION</div><h2>Round 4 captures<br><em>89% isolated_yield</em></h2><p>The HFIP condition lifts performance from 62% without additive in the same framework to 89%, consistent with reduced proton quenching and a stabilized cationic transition state.</p><div class="winner-number">89<small>%</small></div><div class="winner-note">EXP-038 · 2-3aa main-product yield · CSV record: 89%</div></div><aside class="winner-spec"><header><h3>Complete condition assignment</h3><span>ALL 8 VARIABLES</span></header><div class="spec-list"><div><span>solvent</span><b>DCM</b></div><div><span>electrolyte</span><b>TBABF6</b></div><div><span>electrolyte amount</span><b>0.5 mmol</b></div><div><span>frequency</span><b>1 Hz</b></div><div><span>current</span><b>10 mA</b></div><div><span>reaction time</span><b>96 min</b></div><div><span>substrate 2</span><b>500 µL</b></div><div><span>additive</span><b>HFIP · 100 µL</b></div></div><footer>Fixed conditions: 1-bromoethylbenzene 0.2 mmol, solvent volume 6.0 mL, room temperature, N₂, Pt–Pt electrodes, AC.<br>Benchmarked against EXP-029 without additive at 62% in the same framework.</footer></aside></div>
   </section>
 
 </main>
-<footer class="shell footer site-shell-footer" data-site-footer=""><div class="site-shell-footer-inner"><div class="site-shell-footer-main"><a class="site-shell-brand" data-shell-home href="../../index.html"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><span class="site-shell-case" data-shell-zh="电化学：反应条件优化" data-shell-en="Electrochemistry: Reaction Condition Optimization">电化学：反应条件优化</span><button type="button" class="site-shell-top" data-shell-top><span class="" data-shell-zh="返回顶部" data-shell-en="Back to top">返回顶部</span><span aria-hidden="true">↑</span></button></div><div class="site-shell-footer-notes"><span>AGENTS-A1.5 · CASE STUDY · RUN optimizer-20260908-091125-db8a8d95</span><span>Built from recorded run artifacts · 2026-09-22</span></div></div></footer>
+<aside class="a15-case-notes" aria-label="Case notes and sources"><div class="a15-case-notes-inner"><span>AGENTS-A1.5 · CASE STUDY · RUN optimizer-20260908-091125-db8a8d95</span><span>Built from recorded run artifacts · 2026-09-22</span></div></aside><footer class="a15-footer">
+    <div class="a15-footer-inner">
+      <p>Agents-A1.5 is released by Alpha-Innovator. Star the repository, try the model, and report issues through GitHub.</p>
+      <section class="a15-visitor-panel" aria-label="Visitor information">
+        <div class="a15-visitor-copy">
+          <span class="a15-visitor-title">Visitor Map</span>
+          <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
+        </div>
+        <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
+          <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
+          </a>
+        </div>
+      </section>
+    </div>
+  </footer>
 
-<script src="assets/js/index-1-303ff854163f.js"></script>
-<script>
-/* Preserve each author's language controls and return to the same catalog language. */
-(() => {
-  const links = [...document.querySelectorAll('[data-showcase-home], [data-showcase-return]')];
-  const home = links[0].getAttribute('href').split('?')[0];
-  const label = document.querySelector('[data-showcase-return-label]');
-  const update = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
-    links.forEach(link => {
-      link.setAttribute('href', home + '?lang=' + lang);
-      link.setAttribute('aria-label', lang === 'en' ? 'Back to showcase home' : '返回展示首页');
-    });
-    label.textContent = lang === 'en' ? 'Back to home' : '返回首页';
-  };
-  update();
-  new MutationObserver(update).observe(document.documentElement, {
-    attributes: true, attributeFilter: ['lang']
-  });
-})();
-
-</script>
-<script data-site-shell src="../../assets/site-shell-9143359e441e.js" defer></script></body>
+<script src="assets/js/index-1-f1324ed2bd04.js"></script>
+<script data-site-shell src="../../assets/site-shell-705010c24ae4.js" defer></script><script src="../../assets/showcase-navigation.js?v=integration-1" defer></script>
+</body>
 </html>

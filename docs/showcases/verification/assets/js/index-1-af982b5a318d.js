@@ -1,3 +1,4 @@
+/* light-visual-palette */
 
 /* Agents-A1.5 / Verification 能力演示。
  * 确定性矢量帧: 给定时间 t 就得到一张 SVG, 不依赖随机数, 也没有网络请求。
@@ -5,8 +6,8 @@
  */
 (function(root){
 'use strict';
-const P={bg:'#090C13',paper:'#10151F',panel:'#111621',edge:'#2A2D41',ink:'#F1EFF8',muted:'#A6A3BB',
-         dim:'#6F718B',purple:'#BBA6FA',mint:'#8EDDCB',amber:'#EDB389',red:'#E2807E',grey:'#4A4C61'};
+const P={bg:'#f5f8fc',paper:'#ffffff',panel:'#edf3fa',edge:'#cad7e7',ink:'#172b45',muted:'#526078',
+         dim:'#64748b',purple:'#7052bc',mint:'#087f83',amber:'#a4611d',red:'#bd4260',grey:'#c6d4e5'};
 const F="Showcase,'PingFang SC','Microsoft YaHei',Arial,sans-serif";
 const MONO="'SFMono-Regular',Consolas,'DejaVu Sans Mono',monospace";
 const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
@@ -64,7 +65,7 @@ const L={
   legend:['Opening searches','No progress','Stops to re-plan','Progress after the change'],
   chapters:['Question','Dead end','Stops to re-plan','The answer'],
  }};
-let LANG='zh';
+let LANG='en';
 const T=k=>L[LANG][k];
 
 /* ---- 轨道常量 ---- */
@@ -122,7 +123,7 @@ class Film{
  chip(s,x,y,w,col=P.purple){
    return this.rect(x,y,w,35,col+'10',col+'40',17)+this.dot(x+16,y+17,3,col)+this.text(s,x+29,y+24,18,col,500);}
  panel(x,y,w,h,label,tag=''){
-   return this.rect(x,y,w,h,'#11151FEB',P.edge,19)+this.text(label,x+26,y+39,22,P.ink,500)+
+   return this.rect(x,y,w,h,'#ffffffeb',P.edge,19)+this.text(label,x+26,y+39,22,P.ink,500)+
      (tag?this.text(tag,x+w-26,y+38,17,P.dim,450,'end'):'')+this.line(x+24,y+57,x+w-24,y+57);}
  title(s,sub=''){
    return this.text(s,64,205,43,P.ink,500)+(sub?this.text(sub,66,248,23,P.muted):'');}
@@ -131,7 +132,7 @@ class Film{
  track(y,shown,colf,total=N_TRACK){
    let s='';
    for(let i=0;i<total;i++)
-     s+=`<rect x="${X0+i*PITCH}" y="${y}" width="${CW}" height="${CH}" rx="3" fill="${i<shown?colf(i):'#1B1D2B'}"/>`;
+     s+=`<rect x="${X0+i*PITCH}" y="${y}" width="${CW}" height="${CH}" rx="3" fill="${i<shown?colf(i):'#eef2f8'}"/>`;
    return s;
  }
  pauseMark(y,label=''){
@@ -152,14 +153,14 @@ class Film{
    let d='';
    for(let x=64;x<1580;x+=84)d+=`M${x} 120V744`;
    for(let y=154;y<746;y+=84)d+=`M64 ${y}H1536`;
-   return s+`<path d="${d}" stroke="#BCA6FA" opacity=".025" stroke-width=".7" fill="none"/>`;
+   return s+`<path d="${d}" stroke="#461fb2" opacity=".025" stroke-width=".7" fill="none"/>`;
  }
  chrome(){ return ''; }   /* 步骤条与品牌都在画面外, 交给页面本身 */
  rail(){
    /* 进度由播放器下方的进度条负责, 这里只放图例。
       第一幕还没有方块, 图例没有对应物, 不显示 */
    if(this.st.key==='question')return '';
-   let s=this.line(64,762,1536,762,'#292639',1);
+   let s=this.line(64,762,1536,762,'#e9eef7',1);
    const cols=[P.grey,P.red,P.amber,P.mint];
    T('legend').forEach((label,j)=>{
      const x=64+j*300;
@@ -203,7 +204,7 @@ class Film{
        const y=568+j*62;
        const w=this.measure(q,22)+44;
        s+=this.reveal(
-         this.rect(X0,y-26,w,44,col===P.red?'#22161A':'#151723',col===P.red?P.red+'55':P.edge,11)+
+         this.rect(X0,y-26,w,44,col===P.red?'#f0f4f9':'#f0f4f9',col===P.red?P.red+'55':P.edge,11)+
          this.icon('search',X0+18,y-13,20,col===P.red?P.red:P.dim)+
          this.text(q,X0+50,y+4,22,col===P.red?P.ink:P.muted,450)+
          (noteKey?this.text(T(noteKey),X0+w+18,y+4,21,P.red,450):''),
@@ -215,7 +216,7 @@ class Film{
      const bx=640, by=540, bw=900;
      const lines=Math.min(3,Math.floor(ramp(u,.35,4.2)*3.999));
      if(lines>0){
-       let b=this.rect(bx,by,bw,46+lines*44,'#20191B',P.amber+'70',15);
+       let b=this.rect(bx,by,bw,46+lines*44,'#f0f4f9',P.amber+'70',15);
        const tip=X0+PAUSE*PITCH+CW/2;
        b+=`<path d="M${tip-15} ${by}l15-17 15 17Z" fill="${P.amber}"/>`;
        T('bubble').slice(0,lines).forEach((ln,j)=>{
@@ -248,7 +249,7 @@ class Film{
    T('chain').forEach((label,j)=>{
      const y=396+j*84, last=j===3;
      s+=this.reveal(
-       this.rect(280,y,1040,64,last?'#13221F':'#11151FDD',last?P.mint+'66':P.edge,14)+
+       this.rect(280,y,1040,64,last?'#f1f4fa':'#ffffffdd',last?P.mint+'66':P.edge,14)+
        this.dot(318,y+32,last?5:4,last?P.mint:P.purple,last?1:.7)+
        this.text(label,346,y+40,25,last?P.ink:P.muted,last?550:450)+
        (last?this.badge('check',1270,y+32,14,P.mint):''),
@@ -275,9 +276,9 @@ class Film{
  }
  render(){
    const defs=`<defs><radialGradient id="aura" cx="72%" cy="42%" r="72%">`+
-     `<stop stop-color="#4B316B" stop-opacity=".17"/>`+
-     `<stop offset=".65" stop-color="#193A42" stop-opacity=".05"/>`+
-     `<stop offset="1" stop-color="#090C13" stop-opacity="0"/></radialGradient></defs>`;
+     `<stop stop-color="#c6d4e5" stop-opacity=".17"/>`+
+     `<stop offset=".65" stop-color="#e9eff7" stop-opacity=".05"/>`+
+     `<stop offset="1" stop-color="#f5f8fc" stop-opacity="0"/></radialGradient></defs>`;
    const alpha=.25+.75*ramp(this.u,0,.33);
    return `<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" `+
      `role="img" aria-label="${esc(T('chapters')[this.i])}">${defs}${this.background()}${this.chrome()}`+

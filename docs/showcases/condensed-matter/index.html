@@ -1,10 +1,10 @@
 <!doctype html>
-<html data-theme="light" lang="zh-CN">
+<html data-theme="light" lang="en" class="a15-integrated-showcase" data-showcase="condensed-matter">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="Agents-A1.5 自主 Rietveld 精修：一条真实八轮轨迹的参数决策、Rwp 下降曲线与晶体结构回放。">
-<title>自主 Rietveld 精修 · Agents-A1.5</title>
+<meta name="description" content="Explore autonomous crystal structure refinement from powder diffraction data and a structural prototype, with recorded decisions and Rwp curves.">
+<title>Autonomous Rietveld Refinement · Agents-A1.5</title>
 <link rel="stylesheet" href="assets/css/index-0-923c42398dc0.css">
 <!--
 Three.js 0.147.0
@@ -144,106 +144,73 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
 -->
-<style data-showcase-navigation>
-/* Catalog navigation only. No selectors affect the authored case content. */
-.showcase-navigation {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-.showcase-navigation a.showcase-return-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 32px;
-  padding: 5px 11px;
-  box-sizing: border-box;
-  border: 1px solid #b9a4fc50;
-  border-radius: 8px;
-  background: #b9a4fc14;
-  color: #e1d6ff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .18s, border-color .18s;
-}
-.showcase-return-link svg { width: 15px; height: 15px; flex: none; }
-.showcase-navigation a.showcase-return-link:hover { background: #b9a4fc30; border-color: #b9a4fc; }
-.showcase-navigation a.showcase-return-link:focus-visible { outline: 2px solid #c7b2ff; outline-offset: 3px; }
-.lab-sidebar .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 12px; }
-.lab-sidebar .showcase-navigation a.showcase-return-link { color: #514168; border-color: #8771ac60; background: #8771ac12; }
-@media (max-width: 1200px) {
-  .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .showcase-navigation a.showcase-return-link { min-height: 28px; padding: 3px 9px; font-size: 11px; }
-}
-@media (max-width: 700px) {
-  .lab-sidebar .showcase-navigation { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .showcase-navigation a.showcase-return-link { transition: none; }
-}
-
-</style>
-<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-d7eb14d47db1.css">
+<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-dc03c2f3da43.css">
+<link rel="stylesheet" href="../../assets/website-shell.css?v=integration-2">
+<link rel="stylesheet" href="../../assets/integrated-showcases.css?v=integration-2">
+<link rel="icon" type="image/png" href="../../assets/InternScience_logo.png">
 </head>
 <body>
-<header class="wrap nav site-shell-header" data-site-header=""><div class="site-shell-header-inner"><div class="showcase-navigation"><a class="brand site-shell-brand" href="../../index.html" data-showcase-home aria-label="Agents-A1.5 首页"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><a class="showcase-return-link" data-showcase-return href="../../index.html"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4 5 10l6 6M5 10h11"/></svg><span data-showcase-return-label>返回首页</span></a></div><nav class="navlinks"><a href="#decisions">决策过程</a><a href="#why">为什么需要闭环</a><a href="#record">实验记录</a></nav><div class="language-switch" role="group" aria-label="Language"><button data-lang="zh" aria-pressed="true" lang="zh-CN">中文</button><span>/</span><button data-lang="en" aria-pressed="false" lang="en">EN</button></div></div></header>
+<header class="a15-site-header">
+    <nav class="a15-nav" aria-label="Primary navigation">
+      <div class="a15-nav-links">
+        <a class="a15-nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
+        <a href="../../index.html#capabilities">Capabilities</a>
+        <a href="../../index.html#benchmarks">Benchmarks</a>
+        <a href="../../index.html#demos" aria-current="page" data-site-return>Demos</a>
+        <a href="../../index.html#training">Training</a>
+        <a href="../../index.html#usage">Usage</a>
+        <a href="../../index.html#related-projects">Related Projects</a>
+      </div>
+    </nav>
+  </header><div class="a15-demo-context">
+  <nav class="a15-breadcrumb" aria-label="Breadcrumb"><a href="../../index.html#demos" data-site-return><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 4-6 6 6 6M2 10h16"/></svg>All demos</a><span aria-hidden="true">/</span><span aria-current="page">Condensed Matter Physics: Crystal Structure Refinement</span></nav>
+  <nav aria-label="Condensed Matter Physics: Crystal Structure Refinement sections" class="a15-demo-sections navlinks"><a href="#decisions">Decisions</a><a href="#why">Why a closed loop</a><a href="#record">Experiment record</a></nav>
+</div>
 <main id="top" class="wrap">
 <section class="hero" aria-labelledby="heroTitle">
-<div class="hero-copy"><div class="eyebrow">AGENTS-A1.5 / CRYSTALASSAYER</div><h1 id="heroTitle">自主 Rietveld 精修</h1><p class="hero-description">让谱图反馈驱动下一步精修。三角色协作选择参数、执行数值优化并审查结果，将逐轮试探转化为可追踪的拟合改善。</p><div class="hero-result"><span>8 轮试探，Rwp 从 88.3091% 降至 86.1092%</span><small>Sc₂Au₆ · 真实实验记录 · 累计下降 2.1999 个百分点</small></div><div class="hero-actions"><button id="heroPlay" class="hero-button"><i data-lucide="play"></i><span>观看精修过程</span></button><a class="hero-link" href="#why"><span>为什么需要自主闭环</span><i data-lucide="arrow-up-right"></i></a></div></div>
-<div class="hero-lab" id="heroLab" aria-label="晶体、衍射谱与精修决策">
- <div class="hero-lab-head"><div class="hero-formula">Sc<sub>2</sub>Au<sub>6</sub><small>CRYSTAL / 005</small></div><div class="hero-state-switch" role="group" aria-label="端点状态"><button id="heroInitial" aria-pressed="true">初始</button><button id="heroFinal" aria-pressed="false">精修后</button></div></div>
- <div class="hero-crystal" id="heroCrystal"><img class="hero-fallback hero-mobile-art" src="assets/images/a76d29a5de70.png" alt="Sc₂Au₆ 晶体与衍射谱"><span class="hero-material-label">01 / CRYSTAL STRUCTURE</span><span class="hero-atom-detail" id="heroAtomDetail">Sc · Au</span><div class="hero-view-tools"><button class="icon" id="heroRotate" aria-pressed="true" aria-label="自动旋转" data-tip="自动旋转"><i data-lucide="rotate-3d"></i></button><button class="icon" id="heroReset" aria-label="重置视角" data-tip="重置视角"><i data-lucide="focus"></i></button></div><span class="hero-bridge" aria-hidden="true"></span></div>
- <div class="hero-pattern"><div class="hero-pattern-key"><span id="heroPatternLabel">02 / 衍射谱</span><span><i></i><span id="heroObservedLabel">观测</span><i class="calculated-key"></i><span id="heroCalculatedLabel">计算</span></span></div><canvas id="heroSpectrum" aria-label="当前精修节点的观测、计算与差谱"></canvas></div>
- <div class="hero-fit"><span class="hero-fit-label">Rwp</span><strong id="heroRwp">88.3091%</strong><canvas id="heroRwpTrace" aria-label="Rwp 节点曲线"></canvas><small id="heroCheckpointLabel">初始状态 · 00 / 08</small></div>
- <div class="hero-timeline"><button class="icon" id="heroMotion" aria-label="暂停首屏回放" data-tip="暂停首屏回放"><i data-lucide="pause"></i></button><div class="hero-checkpoints" id="heroCheckpoints" role="group" aria-label="精修节点"></div></div>
+<div class="hero-copy"><div class="eyebrow">AGENTS-A1.5 / CRYSTALASSAYER</div><h1 id="heroTitle">Autonomous Rietveld Refinement</h1><p class="hero-description">Three roles turn diffraction feedback into the next parameter choice: plan a trial, run numerical optimization and review the result. Follow the fit improving step by step.</p><div class="hero-result"><span>8 trials. Rwp: 88.3091% → 86.1092%.</span><small>Sc₂Au₆ · Recorded experiment · Total decrease: 2.1999 percentage points</small></div><div class="hero-actions"><button id="heroPlay" class="hero-button"><i data-lucide="play"></i><span>Watch the refinement</span></button><a class="hero-link" href="#why"><span>Why an autonomous loop</span><i data-lucide="arrow-up-right"></i></a></div></div>
+<div class="hero-lab" id="heroLab" aria-label="Crystal, diffraction pattern and refinement decisions">
+ <div class="hero-lab-head"><div class="hero-formula">Sc<sub>2</sub>Au<sub>6</sub><small>CRYSTAL / 005</small></div><div class="hero-state-switch" role="group" aria-label="Endpoint state"><button id="heroInitial" aria-pressed="true">Initial</button><button id="heroFinal" aria-pressed="false">Refined</button></div></div>
+ <div class="hero-crystal" id="heroCrystal"><img class="hero-fallback hero-mobile-art" src="assets/images/a76d29a5de70.png" alt="Sc₂Au₆ crystal and diffraction patterns"><span class="hero-material-label">01 / CRYSTAL STRUCTURE</span><span class="hero-atom-detail" id="heroAtomDetail">Sc · Au</span><div class="hero-view-tools"><button class="icon" id="heroRotate" aria-pressed="true" aria-label="Auto-rotate" data-tip="Auto-rotate"><i data-lucide="rotate-3d"></i></button><button class="icon" id="heroReset" aria-label="Reset view" data-tip="Reset view"><i data-lucide="focus"></i></button></div><span class="hero-bridge" aria-hidden="true"></span></div>
+ <div class="hero-pattern"><div class="hero-pattern-key"><span id="heroPatternLabel">02 / DIFFRACTION</span><span><i></i><span id="heroObservedLabel">Observed</span><i class="calculated-key"></i><span id="heroCalculatedLabel">Calculated</span></span></div><canvas id="heroSpectrum" aria-label="Observed, calculated and difference patterns at the selected checkpoint"></canvas></div>
+ <div class="hero-fit"><span class="hero-fit-label">Rwp</span><strong id="heroRwp">88.3091%</strong><canvas id="heroRwpTrace" aria-label="Rwp at recorded checkpoints"></canvas><small id="heroCheckpointLabel">Initial state · 00 / 08</small></div>
+ <div class="hero-timeline"><button class="icon" id="heroMotion" aria-label="Play hero replay" data-tip="Play hero replay"><i data-lucide="pause"></i></button><div class="hero-checkpoints" id="heroCheckpoints" role="group" aria-label="Refinement checkpoints"></div></div>
 </div>
-<div class="hero-decisions"><div class="hero-role-track" role="group" aria-label="三角色决策"><button data-hero-role="0" aria-pressed="true"><i data-lucide="brain-circuit"></i>Planner</button><i aria-hidden="true"></i><button data-hero-role="1" aria-pressed="false"><i data-lucide="terminal"></i>Executor</button><i aria-hidden="true"></i><button data-hero-role="2" aria-pressed="false"><i data-lucide="scan-line"></i>Reviewer</button></div><p class="hero-role-note" id="heroRoleNote"></p></div>
-<a class="scroll-cue" href="#showcase"><span>从谱图出发，追踪每一次决策</span><i data-lucide="arrow-down"></i></a></section>
-<div class="intro" id="showcase"><div><div class="eyebrow">RECORDED REFINEMENT / CASE 005</div><h2>从观测谱，到下一步决策</h2><p>背景、晶胞与原子坐标如何逐轮调整，谱图残差又如何驱动参数选择。</p></div><div class="case-mark"><strong>Sc₂Au₆</strong>CASE 005 · 8 ATOMS<br>A1.5 · 2026.09.18</div></div>
-<section class="replay" aria-label="精修过程回放">
-<div class="stage"><div class="structure" id="structure"><div class="scene-label"><strong>Sc₂Au₆</strong> / <span id="sceneState">初始晶胞</span></div><div class="scene-tools"><button class="icon" id="rotate" aria-label="自动旋转" aria-pressed="false" data-tip="自动旋转"><i data-lucide="rotate-3d"></i></button><button class="icon" id="resetView" aria-label="重置视角" data-tip="重置视角"><i data-lucide="maximize"></i></button></div><div class="atom-key"><span><i class="swatch" style="background:var(--mint)"></i>Sc</span><span><i class="swatch" style="background:var(--amber)"></i>Au</span><span>线框：晶胞边界</span></div><div class="fallback" id="fallback">当前浏览器未启用 WebGL。Rwp 曲线和逐轮记录仍可查看。<img src="assets/images/8210a7f90079.png" alt="该精修案例的真实 Rwp 曲线"></div></div>
-<div class="chart-area"><div class="spectrum-replay"><div class="chart-header"><h2>观测谱与当前计算谱</h2><span>PATTERN → RESIDUAL</span></div><div class="legend"><span><i style="background:#91899f"></i>观测谱</span><span><i></i>当前计算谱</span><span><i style="background:var(--lilac)"></i>观测 − 计算</span></div><canvas id="spectrum" class="spectrum" aria-label="观测谱、当前计算谱与差谱"></canvas></div><div class="causal-label">谱图加权残差 → Rwp</div><div class="chart-header"><h2>加权谱图残差 · Rwp</h2><span id="chartStatus">INITIAL CHECKPOINT</span></div><div class="rwp-readout"><strong id="rwp">88.3091</strong><span>%</span><span id="delta">初始状态</span></div><canvas id="rwpChart" class="chart" aria-label="逐轮 accepted 状态的 Rwp 曲线"></canvas><p class="chart-caption">节点为每轮已接受状态；连线为回放引导，不代表内层求解轨迹。橙色节点表示未接受试探。</p></div></div>
-<div class="interaction" aria-label="三角色交互回放"><div class="interaction-head"><h2 id="interactionTitle">初始状态 · 等待规划</h2><span>PLANNER → EXECUTOR → REVIEWER → CHECKPOINT</span></div><div class="role-track" aria-label="本轮交互阶段"><button class="role-node" data-phase="0" aria-pressed="false"><i data-lucide="brain-circuit"></i><span>Planner<small>规划参数</small></span></button><button class="role-node" data-phase="1" aria-pressed="false"><i data-lucide="terminal"></i><span>Executor<small>执行试探</small></span></button><button class="role-node" data-phase="2" aria-pressed="false"><i data-lucide="messages-square"></i><span>Reviewer<small>审查反馈</small></span></button><button class="role-node" data-phase="3" aria-pressed="false"><i data-lucide="shield-check"></i><span>数值门禁<small>提交状态</small></span></button></div><div class="dialogue-grid"><div class="speech"><div class="speaker" id="speaker"></div><p id="speechText"></p><div class="flow-caption" id="handoff"></div></div><div class="trace-terminal"><div class="terminal-head"><span id="terminalTitle">SESSION / INITIALIZED</span><span id="phaseCount">00 / 04</span></div><pre id="terminalText"></pre><div class="gate-feedback" id="gateFeedback"></div></div></div></div>
-<div class="transport"><button class="play" id="play" aria-label="播放精修过程" title="播放 / 暂停"><i data-lucide="play"></i></button><button class="icon" id="prev" aria-label="上一轮" title="上一轮"><i data-lucide="skip-back"></i></button><span class="round-count" id="roundCount">00 / 08</span><input id="scrubber" aria-label="精修回放进度" type="range" min="0" max="8" value="0" step="0.001"><span class="clock" id="timecode">00:00 / 01:36</span><button class="icon" id="next" aria-label="下一轮" title="下一轮"><i data-lucide="skip-forward"></i></button><select id="speed" aria-label="播放速度"><option value="0.5">0.5×</option><option value="1">1×</option><option value="2" selected>2×</option><option value="4">4×</option></select><button class="icon" id="replay" aria-label="从头播放" title="从头播放"><i data-lucide="rotate-ccw"></i></button></div>
+<div class="hero-decisions"><div class="hero-role-track" role="group" aria-label="Three-role decisions"><button data-hero-role="0" aria-pressed="true"><i data-lucide="brain-circuit"></i>Planner</button><i aria-hidden="true"></i><button data-hero-role="1" aria-pressed="false"><i data-lucide="terminal"></i>Executor</button><i aria-hidden="true"></i><button data-hero-role="2" aria-pressed="false"><i data-lucide="scan-line"></i>Reviewer</button></div><p class="hero-role-note" id="heroRoleNote"></p></div>
+<a class="scroll-cue" href="#showcase"><span>From the pattern to every decision</span><i data-lucide="arrow-down"></i></a></section>
+<div class="intro" id="showcase"><div><div class="eyebrow">RECORDED REFINEMENT / CASE 005</div><h2>From the observed pattern to the next decision</h2><p>Follow successive updates to the background, cell and atomic coordinates, guided by the pattern residual.</p></div><div class="case-mark"><strong>Sc₂Au₆</strong>CASE 005 · 8 ATOMS<br>A1.5 · 2026.09.18</div></div>
+<section class="replay" aria-label="Refinement replay">
+<div class="stage"><div class="structure" id="structure"><div class="scene-label"><strong>Sc₂Au₆</strong> / <span id="sceneState">Initial cell</span></div><div class="scene-tools"><button class="icon" id="rotate" aria-label="Auto-rotate" aria-pressed="false" data-tip="Auto-rotate"><i data-lucide="rotate-3d"></i></button><button class="icon" id="resetView" aria-label="Reset view" data-tip="Reset view"><i data-lucide="maximize"></i></button></div><div class="atom-key"><span><i class="swatch" style="background:var(--mint)"></i>Sc</span><span><i class="swatch" style="background:var(--amber)"></i>Au</span><span>Wireframe: unit cell</span></div><div class="fallback" id="fallback">WebGL is unavailable. The Rwp curve and trial records remain available.<img src="assets/images/8210a7f90079.png" alt="Recorded Rwp trajectory"></div></div>
+<div class="chart-area"><div class="spectrum-replay"><div class="chart-header"><h2>Observed and current calculated patterns</h2><span>PATTERN → RESIDUAL</span></div><div class="legend"><span><i style="background:#91899f"></i>Observed</span><span><i></i>Calculated</span><span><i style="background:var(--lilac)"></i>Observed − calculated</span></div><canvas id="spectrum" class="spectrum" aria-label="Observed, calculated and difference patterns"></canvas></div><div class="causal-label">Weighted pattern residual → Rwp</div><div class="chart-header"><h2>Weighted profile residual · Rwp</h2><span id="chartStatus">INITIAL CHECKPOINT</span></div><div class="rwp-readout"><strong id="rwp">88.3091</strong><span>%</span><span id="delta">Initial state</span></div><canvas id="rwpChart" class="chart" aria-label="Rwp at accepted checkpoints"></canvas><p class="chart-caption">Points are accepted checkpoints after each trial. Connecting lines are replay guides, not inner solver steps. Orange points indicate rejected trials.</p></div></div>
+<div class="interaction" aria-label="Three-role replay"><div class="interaction-head"><h2 id="interactionTitle">Initial state · awaiting a plan</h2><span>PLANNER → EXECUTOR → REVIEWER → CHECKPOINT</span></div><div class="role-track" aria-label="Trial interaction phase"><button class="role-node" data-phase="0" aria-pressed="false"><i data-lucide="brain-circuit"></i><span>Planner<small>Plan parameters</small></span></button><button class="role-node" data-phase="1" aria-pressed="false"><i data-lucide="terminal"></i><span>Executor<small>Run trial</small></span></button><button class="role-node" data-phase="2" aria-pressed="false"><i data-lucide="messages-square"></i><span>Reviewer<small>Review result</small></span></button><button class="role-node" data-phase="3" aria-pressed="false"><i data-lucide="shield-check"></i><span>Numerical gate<small>Commit state</small></span></button></div><div class="dialogue-grid"><div class="speech"><div class="speaker" id="speaker"></div><p id="speechText"></p><div class="flow-caption" id="handoff"></div></div><div class="trace-terminal"><div class="terminal-head"><span id="terminalTitle">SESSION / INITIALIZED</span><span id="phaseCount">00 / 04</span></div><pre id="terminalText"></pre><div class="gate-feedback" id="gateFeedback"></div></div></div></div>
+<div class="transport"><button class="play" id="play" aria-label="Play refinement" title="Play / pause"><i data-lucide="play"></i></button><button class="icon" id="prev" aria-label="Previous trial" title="Previous trial"><i data-lucide="skip-back"></i></button><span class="round-count" id="roundCount">00 / 08</span><input id="scrubber" aria-label="Refinement timeline" type="range" min="0" max="8" value="0" step="0.001"><span class="clock" id="timecode">00:00 / 01:36</span><button class="icon" id="next" aria-label="Next trial" title="Next trial"><i data-lucide="skip-forward"></i></button><select id="speed" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1">1×</option><option value="2" selected>2×</option><option value="4">4×</option></select><button class="icon" id="replay" aria-label="Replay from start" title="Replay from start"><i data-lucide="rotate-ccw"></i></button></div>
 </section>
-<div class="summary"><div class="stat"><small>初始 Rwp → 最终 Rwp</small><strong>88.3091 → 86.1092%</strong></div><div class="stat"><small>累计下降 / 绝对百分点</small><strong>2.1999 pp</strong></div><div class="stat"><small>外层试探 / 内层步数上限</small><strong>8 轮 / 20 步</strong></div><div class="stat"><small>更新状态 / 保留原状态</small><strong>6 次 / 2 次</strong></div></div>
-<section class="section" id="decisions"><div class="heading"><div><div class="eyebrow">01 / DECISION TRACE</div><h2>这一轮，为什么优化这些参数？</h2></div><p>Planner 提出假设，Executor 执行受限 trial，Reviewer 审查结果。数值门禁最终决定是否写入 accepted 状态。</p></div><div class="steps" id="steps" aria-label="选择精修轮次"></div><div class="decision-heading"><h3 id="stageTitle">读取初始结构与观测谱</h3><span id="decisionBadge" class="badge">初始状态</span></div><div class="roles"><div class="role"><div class="role-label"><i data-lucide="brain-circuit"></i>01 · PLANNER</div><p id="planText"></p></div><div class="role"><div class="role-label"><i data-lucide="sliders-horizontal"></i>02 · EXECUTOR</div><p id="executeText"></p><div id="active" class="active-code"></div></div><div class="role"><div class="role-label"><i data-lucide="shield-check"></i>03 · REVIEW + GATE</div><p id="reviewText"></p></div></div><details class="raw"><summary>查看本轮决策原文与求解终止原因</summary><pre id="raw"></pre></details></section>
-<section class="section" id="fit"><div class="heading"><div><div class="eyebrow">02 / PARAMETER CHANGES</div><h2>从参数变化，到谱图残差</h2></div><p>背景与比例改变整体强度；晶胞调整反射位置；坐标调整结构因子。每次只开放选中的参数块。</p></div><div class="fit-grid"><div class="parameter-context"><p>当前结构与谱图都对应同一轮 accepted 参数。求解器由结构因子生成计算谱，再将计算谱与观测谱之差按标准差加权，得到 Rwp。</p><p class="note">观测谱来自原始 XYE；计算谱使用冻结前向模型，在 CPU float64 上按 accepted 参数重绘。Rwp 数值始终取原始 NPU 运行记录。</p></div><div><table class="params"><thead><tr><th>参数</th><th>初始</th><th>当前 accepted</th></tr></thead><tbody id="params"></tbody></table><p class="note">原子编号从 0 开始；atom.0 始终固定。坐标位移按初始晶格计算，不含晶胞变化引起的整体移动。本案例未开放 zero 与 profile。</p></div></div></section>
-<section class="section" id="why"><div class="heading"><div><div class="eyebrow">03 / WHY A CLOSED LOOP</div><h2>精修需要求解器，也需要决策</h2></div><p>数值优化回答“这组变量怎么更新”。闭环还要回答“现在该动哪些变量、要不要继续，以及哪些结果应当保留”。</p></div><div class="necessity"><article class="reason"><span>01 / PARAMETER COUPLING</span><h3>先解释误差，再扩展自由度</h3><p>比例、背景、晶胞、峰形和坐标会共同影响谱图。分阶段开放变量，让每个 trial 检验一个较小的假设，减少多个自由度同时补偿同一残差的歧义。</p></article><article class="reason"><span>02 / FEEDBACK & BUDGET</span><h3>停滞之后，重新分配试探</h3><p>这条轨迹先调整晶胞长度，再检验角度；角度收益很小，系统保留上一状态并转向坐标。坐标块续跑停滞后，再将有限轮次用于其他原子。</p></article><article class="reason"><span>03 / INDEPENDENT GATE</span><h3>建议可以出错，状态必须受控</h3><p>第 5 轮 reviewer 建议接受，但 Rwp 实际微增约 1.10×10⁻⁸ 个百分点。数值门禁拦截该建议，保留第 4 轮状态，曲线因此保持平台。</p></article></div><div class="callout">接受条件：物理约束有效，且 Rwp 下降达到数值门槛，再结合 reviewer 审查。Reviewer 也可以拒绝满足数值门槛的试探。下一轮始终从最后 accepted 状态出发。</div></section>
-<section class="section" id="record"><div class="heading"><div><div class="eyebrow">04 / RECORDED TRAJECTORY</div><h2>八次试探，每一步都有记录</h2></div><div class="downloads"><a class="download" download="case_005_rwp.png" href="assets/images/8210a7f90079.png"><i data-lucide="image-down"></i>曲线 PNG</a><button id="download" class="download"><i data-lucide="download"></i>轨迹 JSON</button></div></div><div class="table-scroll"><table class="audit"><thead><tr><th>轮次</th><th>参数块</th><th>Trial Rwp / %</th><th>Accepted Rwp / %</th><th>状态决策</th></tr></thead><tbody id="audit"></tbody></table></div><p class="note">第 3 轮角度试探有约 0.000289 pp 的下降，但 reviewer 认为收益过小而拒绝；第 5 轮则由数值门禁拦截。两者均不改变已接受结构。</p></section>
+<div class="summary"><div class="stat"><small>Initial → final Rwp</small><strong>88.3091 → 86.1092%</strong></div><div class="stat"><small>Total decrease / percentage points</small><strong>2.1999 pp</strong></div><div class="stat"><small>Outer trials / max inner steps</small><strong>8 trials / 20 steps</strong></div><div class="stat"><small>State updated / previous state kept</small><strong>6 updates / 2 retained</strong></div></div>
+<section class="section" id="decisions"><div class="heading"><div><div class="eyebrow">01 / DECISION TRACE</div><h2>Why optimize these parameters now?</h2></div><p>The Planner proposes a hypothesis, the Executor runs a bounded trial, and the Reviewer checks the result. The numerical gate controls the accepted state.</p></div><div class="steps" id="steps" aria-label="Select a trial"></div><div class="decision-heading"><h3 id="stageTitle">Load the initial structure and observed pattern</h3><span id="decisionBadge" class="badge">Initial state</span></div><div class="roles"><div class="role"><div class="role-label"><i data-lucide="brain-circuit"></i>01 · PLANNER</div><p id="planText"></p></div><div class="role"><div class="role-label"><i data-lucide="sliders-horizontal"></i>02 · EXECUTOR</div><p id="executeText"></p><div id="active" class="active-code"></div></div><div class="role"><div class="role-label"><i data-lucide="shield-check"></i>03 · REVIEW + GATE</div><p id="reviewText"></p></div></div><details class="raw"><summary>Original role outputs and solver termination</summary><pre id="raw"></pre></details></section>
+<section class="section" id="fit"><div class="heading"><div><div class="eyebrow">02 / PARAMETER CHANGES</div><h2>From parameter changes to the pattern residual</h2></div><p>Scale and background affect overall intensity; the cell affects reflection positions; coordinates affect structure factors. Each trial opens only its selected block.</p></div><div class="fit-grid"><div class="parameter-context"><p>The current structure and pattern share the same accepted parameters. Structure factors produce a calculated pattern, whose difference from the observed pattern is weighted by the standard deviation to obtain Rwp.</p><p class="note">Observed data come from the original XYE. Calculated patterns are replayed with the frozen forward model on CPU float64. Rwp values always come from the original NPU run.</p></div><div><table class="params"><thead><tr><th>Parameter</th><th>Initial</th><th>Current accepted</th></tr></thead><tbody id="params"></tbody></table><p class="note">Atom indices start at 0; atom.0 is fixed throughout. Coordinate displacement uses the initial lattice and excludes motion due to cell changes. This case did not open zero or profile.</p></div></div></section>
+<section class="section" id="why"><div class="heading"><div><div class="eyebrow">03 / WHY A CLOSED LOOP</div><h2>Refinement needs a solver and decisions</h2></div><p>Numerical optimization determines how to update a chosen block. The loop also decides which variables to open, when to continue and which results to retain.</p></div><div class="necessity"><article class="reason"><span>01 / PARAMETER COUPLING</span><h3>Explain the residual before adding variables</h3><p>Scale, background, cell, profile and coordinates all influence a diffraction pattern. Opening them in stages lets each trial test a smaller hypothesis, reducing ambiguity from correlated adjustments.</p></article><article class="reason"><span>02 / FEEDBACK & BUDGET</span><h3>Reallocate trials after stagnation</h3><p>This run adjusts cell lengths and then tests angles. The angle improvement is too small, so the loop retains the previous state and turns to coordinates. When a repeated block stalls, it moves to other atoms.</p></article><article class="reason"><span>03 / INDEPENDENT GATE</span><h3>Suggestions can fail; state updates stay controlled</h3><p>In trial 5, the Reviewer suggests acceptance, but Rwp rises by about 1.10×10⁻⁸ percentage points. The numerical gate blocks the suggestion and retains the trial-4 checkpoint, producing a plateau.</p></article></div><div class="callout">Acceptance requires valid physical constraints, a sufficient Rwp decrease and Reviewer approval. The Reviewer may also reject a numerically eligible trial. Every new trial starts from the last accepted checkpoint.</div></section>
+<section class="section" id="record"><div class="heading"><div><div class="eyebrow">04 / RECORDED TRAJECTORY</div><h2>Eight trials, each with a record</h2></div><div class="downloads"><a class="download" download="case_005_rwp.png" href="assets/images/8210a7f90079.png"><i data-lucide="image-down"></i>Curve PNG</a><button id="download" class="download"><i data-lucide="download"></i>Trace JSON</button></div></div><div class="table-scroll"><table class="audit"><thead><tr><th>Trial</th><th>Parameter block</th><th>Trial Rwp / %</th><th>Accepted Rwp / %</th><th>State decision</th></tr></thead><tbody id="audit"></tbody></table></div><p class="note">Trial 3 reduced Rwp by approximately 0.000289 pp but was rejected by the Reviewer. Trial 5 was blocked by the numerical gate. Neither changed the accepted structure.</p></section>
 
-</main><footer class="provenance site-shell-footer" data-site-footer=""><div class="site-shell-footer-inner"><div class="site-shell-footer-main"><a class="site-shell-brand" data-shell-home href="../../index.html"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><span class="site-shell-case" data-shell-zh="凝聚态物理：晶体结构精修" data-shell-en="Condensed Matter Physics: Crystal Structure Refinement">凝聚态物理：晶体结构精修</span><button type="button" class="site-shell-top" data-shell-top><span class="" data-shell-zh="返回顶部" data-shell-en="Back to top">返回顶部</span><span aria-hidden="true">↑</span></button></div><div class="site-shell-footer-notes"><details><summary>数据来源、重绘方法与适用范围</summary><p>来源：<code id="sourcePath"></code>。本页选择 case_005，是因为它包含晶胞调整、坐标分块与两种拒绝机制，用于说明过程。这里只展示原始拟合轨迹，不对其他材料的下降幅度作推断。</p><p>协议 SHA256：<code id="protocolHash"></code>。构建时校验协议、输入、九份状态快照和最终导出文件的哈希。下载的 JSON 包含完整参数、原始 Rwp、决策原文与快照哈希。</p><p>模型为单相 P1、满占位、零 ADP 的受限 Torch 精修器，使用 Marquardt/SVD 与批量有限差分。Rwp = 100 × √[Σ((yobs − ycalc)/σ)² / Σ(yobs/σ)²]，σ 为 XYE 第三列标准差。负计算强度点数也随轮次列于参数表；背景未施加逐点非负约束。</p><p>三维图按真实晶格和分数坐标绘制，不放大位移、不推断化学键；播放时仅在两个快照之间插值，便于观察。谱图为保留局部极值的显示抽样，Rwp 并未用抽样谱重算。所有曲线节点来自外层 accepted 快照，不能视为 160 个内层步数的连续轨迹。最后一轮结束原因为 trial_limit，最后一次求解为 no_descent_step。</p></details><div class="footer-line"><span>Agents-A1.5 · CrystalAssayer</span><span>RECORDED EXPERIMENT / 2026.09.18</span></div></div></div></footer>
+</main><aside class="a15-case-notes provenance" aria-label="Case notes and sources"><div class="a15-case-notes-inner"><details><summary>Data sources, replay method and scope</summary><p>Source: <code id="sourcePath"></code>. Case_005 illustrates cell updates, coordinate blocks and two rejection mechanisms. This is the original fit trajectory; its decrease is not extrapolated to other materials.</p><p>Protocol SHA256: <code id="protocolHash"></code>. The build verifies protocol, input, nine snapshot and final export hashes. The JSON download includes parameters, recorded Rwp, original decisions and snapshot hashes.</p><p>The bounded Torch model uses a single P1 phase, full occupancy and zero ADP, with Marquardt/SVD and batched finite differences. Rwp = 100 × √[Σ((yobs − ycalc)/σ)² / Σ(yobs/σ)²], where σ is the third XYE column. Negative calculated points are reported in the parameter table; the background has no pointwise nonnegativity constraint.</p><p>The 3D view uses recorded cells and fractional coordinates, without magnifying displacements or inferring bonds. Interpolation and role timing are presentation only, not measured solver steps or model latency. Patterns are sampled for display with local extrema retained; Rwp is not recomputed from those samples. Nodes are outer accepted checkpoints. The run ended at trial_limit; the last solve returned no_descent_step.</p></details><div class="footer-line"><span>Agents-A1.5 · CrystalAssayer</span><span>RECORDED EXPERIMENT / 2026.09.18</span></div></div></aside><footer class="a15-footer">
+    <div class="a15-footer-inner">
+      <p>Agents-A1.5 is released by Alpha-Innovator. Star the repository, try the model, and report issues through GitHub.</p>
+      <section class="a15-visitor-panel" aria-label="Visitor information">
+        <div class="a15-visitor-copy">
+          <span class="a15-visitor-title">Visitor Map</span>
+          <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
+        </div>
+        <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
+          <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
+          </a>
+        </div>
+      </section>
+    </div>
+  </footer>
 <script src="assets/vendor/three-0.147.0.js"></script><script src="assets/vendor/lucide-0.468.0.js"></script>
 <script id="case-data" type="application/json"></script><script src="assets/data/case-data-035a5df75a6b.js"></script>
-<script src="assets/js/index-2-866e2f9194f6.js"></script>
-<script src="assets/js/index-3-0cae47ec92ec.js"></script>
-<script src="assets/js/index-4-cbb6348f115b.js"></script>
-<script>
-/* Preserve each author's language controls and return to the same catalog language. */
-(() => {
-  const links = [...document.querySelectorAll('[data-showcase-home], [data-showcase-return]')];
-  const home = links[0].getAttribute('href').split('?')[0];
-  const label = document.querySelector('[data-showcase-return-label]');
-  const update = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
-    links.forEach(link => {
-      link.setAttribute('href', home + '?lang=' + lang);
-      link.setAttribute('aria-label', lang === 'en' ? 'Back to showcase home' : '返回展示首页');
-    });
-    label.textContent = lang === 'en' ? 'Back to home' : '返回首页';
-  };
-  update();
-  new MutationObserver(update).observe(document.documentElement, {
-    attributes: true, attributeFilter: ['lang']
-  });
-})();
-
-</script>
-<script data-site-shell src="../../assets/site-shell-9143359e441e.js" defer></script></body></html>
+<script src="assets/js/index-2-53fcd0d2aff6.js"></script>
+<script src="assets/js/index-3-5f9e69f46fd2.js"></script>
+<script src="assets/js/index-4-48401d75b493.js"></script>
+<script data-site-shell src="../../assets/site-shell-705010c24ae4.js" defer></script><script src="../../assets/showcase-navigation.js?v=integration-1" defer></script>
+</body></html>

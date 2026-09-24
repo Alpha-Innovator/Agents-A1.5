@@ -1,3 +1,4 @@
+/* light-visual-palette */
 
 /* Biology replay: adaptive evidence acquisition, grounded in recorded tool outputs.
  * Geometry is illustrative. Sequence letters and comparisons use the logged data.
@@ -7,7 +8,7 @@
 'use strict';
 const Shared=root.ResearchFilm||(typeof require==='function'?require('./research-film.js'):null);
 const D=root.BiologyData||(typeof require==='function'?require('./biology-data.js'):null);
-const P={bg:'#090C13',panel:'#111621',edge:'#2A2D41',ink:'#F1EFF8',muted:'#A6A3BB',dim:'#6F718B',purple:'#BBA6FA',mint:'#8EDDCB',amber:'#EDB389',blue:'#8DAEDE'};
+const P={bg:'#f5f8fc',panel:'#edf3fa',edge:'#cad7e7',ink:'#172b45',muted:'#526078',dim:'#64748b',purple:'#7052bc',mint:'#087f83',amber:'#a4611d',blue:'#2563b8'};
 const MONO='DejaVu Sans Mono, Consolas, monospace';
 const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),mix=(a,b,p)=>a+(b-a)*p;
 const ease=x=>{x=clamp(x);return x*x*(3-2*x);},ramp=(t,a,b)=>ease((t-a)/(b-a));
@@ -63,7 +64,7 @@ class BiologyFilm extends Shared.Film{
  active(){const k=this.st.key,u=this.u;return k==='decode'?'code':k==='pivot'?(u<2?'search':'scholar'):k==='lead'?(u<2.5?'visit':'code'):k==='length'?'code':['retrieve','compare'].includes(k)?'code':'';}
  dna(x,y,w,h,power=1){let s='',tm=this.fx?this.t:0;for(let i=0;i<76;i++){const u=i/75,a=u*14.2-tm*.55,xx=x+u*w,yy=y+h*.5,dy=Math.sin(a)*h*.31,z=Math.cos(a),col=z>0?P.purple:P.mint;const alpha=(.2+.62*Math.abs(z))*power;s+=this.line(xx,yy-dy,xx,yy+dy,col,.8)+this.dot(xx,yy-dy,2.4+.9*Math.max(z,0),P.purple,alpha)+this.dot(xx,yy+dy,2.4+.9*Math.max(-z,0),P.mint,alpha);if(i%6===0)s+=this.text(D.query[i],xx,yy-dy-12,13,col,500,'middle',MONO);if(this.fx&&i%3===0){for(let j=0;j<4;j++)s+=this.dot(xx+Math.cos(a+j)*9,yy+dy+Math.sin(a*1.4+j)*13,1.1,col,.12*power);}}
  return s;}
- seqStrip(seq,x,y,count=36,size=21,step=23,start=0,marker=-1){let s='';for(let j=0;j<count&&j+start<seq.length;j++){const base=seq[j+start],col=j+start===marker?P.amber:({A:P.purple,C:P.mint,G:P.blue,T:'#D6C7F5'}[base]||P.muted);s+=this.text(base,x+j*step,y,size,col,450,'start',MONO);}return s;}
+ seqStrip(seq,x,y,count=36,size=21,step=23,start=0,marker=-1){let s='';for(let j=0;j<count&&j+start<seq.length;j++){const base=seq[j+start],col=j+start===marker?P.amber:({A:P.purple,C:P.mint,G:P.blue,T:'#4f20b1'}[base]||P.muted);s+=this.text(base,x+j*step,y,size,col,450,'start',MONO);}return s;}
  intro(){let s=this.text('Scientific Agent',64,253,62,P.ink,500)+this.text('Capabilities',64,326,62,P.ink,500)+this.text('Adaptive retrieval & sequence verification',66,388,25,P.purple)+this.text('From an insect DNA fragment',66,459,24,P.muted)+this.text(' to a traceable gene identity.',66,496,24,P.muted);
  s+=this.chip('Decode',64,548,145)+this.chip('Reframe',226,548,155,P.amber)+this.chip('Verify',398,548,155,P.mint);
  s+=this.dna(685,277,827,260)+this.metric('Input sequence','1,296 bp',715,574,365,P.purple)+this.metric('Translated residues','432 aa',1103,574,365,P.mint);
@@ -75,7 +76,7 @@ class BiologyFilm extends Shared.Film{
  s+=this.reveal(this.chip('1,296 bp',626,655,221,P.purple)+this.chip('432 aa',869,655,221,P.mint)+this.chip('Inspect',1113,655,221,P.blue),1.8);return s;}
  pivot(){let s=this.title(this.st.title,'A failed lookup changes the route, not the evidence.')+this.left(['Use the candidate organisms.','Search enzyme literature.'],'Next action','scholar',['query(protein_sequence)','query(dna_fragment)','results: 0, 0'],'Change the search strategy',P.amber);
  s+=this.panel(592,284,944,430,'Literal sequence search','Search / Scholar');s+=this.icon('search',625,379,29,P.purple)+this.text('No direct identity established',675,402,27,P.ink,450);
- s+=this.reveal(this.rect(625,441,876,93,'#271F2388',P.amber+'55',14)+this.icon('scholar',646,466,29,P.amber)+this.text('Google Scholar / 2 queries',693,480,22,P.muted)+this.text('0 results in both queries',693,513,25,P.amber,500),.45);
+ s+=this.reveal(this.rect(625,441,876,93,'#eef2f888',P.amber+'55',14)+this.icon('scholar',646,466,29,P.amber)+this.text('Google Scholar / 2 queries',693,480,22,P.muted)+this.text('0 results in both queries',693,513,25,P.amber,500),.45);
  let p=ramp(this.u,2.8,4.3);s+=this.group(this.line(672,580,1459,580,P.purple,1)+this.dot(mix(672,1459,p),580,4,P.mint,.8),p);
  s+=this.reveal(this.chip('Sequence tokens',626,627,290,P.dim)+this.icon('arrow',952,630,29,P.purple)+this.chip('Organism + enzyme',1010,627,440,P.mint),2.2);return s;}
  lead(){const ready=this.u>=2.5;let s=this.title(this.st.title,'Connect a candidate to its original research.');
@@ -94,7 +95,7 @@ class BiologyFilm extends Shared.Film{
  s+=this.reveal(this.chip('Direct comparison required',627,654,566,P.mint),2.5);return s;}
  retrieve(){let s=this.title(this.st.title,'Gene field: 0. Organism search: 7 records.')+this.left(['The gene-name query fails.','Broaden to the organism.','Inspect the returned records.'],'Scientific reasoning','code',['esearch: MaBG[Gene] -> 0','esearch: organism   -> 7','efetch: KU170546.1'],'Reference record recovered',P.mint);
  s+=this.panel(592,284,944,430,'NCBI / returned nucleotide records','Code / Entrez');
- D.records.forEach((r,i)=>{const y=359+i*46,hit=i===2,p=ramp(this.u,.2+i*.12,.7+i*.12);let q=this.rect(616,y,895,39,hit?'#1A322FBB':'#14182555',hit?P.mint+'60':'#292D3D',7)+this.dot(636,y+20,hit?4:2,hit?P.mint:P.dim)+this.text(r.id,655,y+26,22,hit?P.mint:P.muted,hit?550:450,'start',MONO)+this.text(r.bp+' bp',971,y+26,21,P.muted,450,'end',MONO)+this.text(r.type,1003,y+26,22,hit?P.ink:P.dim);if(hit)q+=this.reveal(this.icon('check',1467,y+6,26,P.mint),2);s+=this.group(q,p);});return s;}
+ D.records.forEach((r,i)=>{const y=359+i*46,hit=i===2,p=ramp(this.u,.2+i*.12,.7+i*.12);let q=this.rect(616,y,895,39,hit?'#ecf1f8bb':'#f0f4f955',hit?P.mint+'60':'#e7edf6',7)+this.dot(636,y+20,hit?4:2,hit?P.mint:P.dim)+this.text(r.id,655,y+26,22,hit?P.mint:P.muted,hit?550:450,'start',MONO)+this.text(r.bp+' bp',971,y+26,21,P.muted,450,'end',MONO)+this.text(r.type,1003,y+26,22,hit?P.ink:P.dim);if(hit)q+=this.reveal(this.icon('check',1467,y+6,26,P.mint),2);s+=this.group(q,p);});return s;}
  compare(){let s=this.title(this.st.title,'Exact prefix equality, not a similarity guess.')+this.left(['Compare the raw nucleotides.','All 1,296 bases agree.','The reference is longer.'],'Validate','code',['ref = fasta("KU170546.1")','query == ref[:1296]','True'],'Fragment match confirmed',P.mint);
  s+=this.panel(592,284,944,430,'Exact prefix comparison','KU170546.1');
  const n=Math.floor(ramp(this.u,.2,5.8)*D.query.length),cols=72,cw=12,x=623,y=366;
@@ -104,10 +105,10 @@ class BiologyFilm extends Shared.Film{
  s+=this.reveal(this.text('Reference positions 1-1,296',592,750,20,P.muted)+this.text('123 bp outside the query',1536,750,20,P.dim,450,'end'),3.4);return s;}
  outro(){let s=this.title(this.st.title,'Change the route. Keep the standard of proof.');s+=this.dna(140,272,1330,134,.35);
  s+=this.metric('Supplied fragment matched','1,296 / 1,296',64,391,488,P.mint);
- s+=this.rect(576,391,960,223,'#121923EF',P.mint+'30',17)+this.text('Function / database annotation',603,429,19,P.muted)+this.text('GH1 beta-glucosidase',603,474,33,P.ink,500)+this.text('Organism / reference record',603,526,19,P.muted)+this.text('Microcerotermes annandalei',603,573,30,P.mint,450);
+ s+=this.rect(576,391,960,223,'#f1f4faef',P.mint+'30',17)+this.text('Function / database annotation',603,429,19,P.muted)+this.text('GH1 beta-glucosidase',603,474,33,P.ink,500)+this.text('Organism / reference record',603,526,19,P.muted)+this.text('Microcerotermes annandalei',603,573,30,P.mint,450);
  s+=this.text('KU170546.1',64,542,28,P.purple,500,undefined,MONO)+this.text('Recorded result: choice C',64,586,23,P.muted)+this.text('1,296 bp fragment / 1,419 bp reference',800,654,25,P.muted,450,'middle');
  s+=this.chip('Reframe',322,702,247,P.amber)+this.chip('Retrieve',592,702,247,P.purple)+this.chip('Verify',862,702,247,P.mint);return s;}
- render(){const defs='<defs><radialGradient id="aura" cx="73%" cy="42%" r="72%"><stop stop-color="#4B316B" stop-opacity=".17"/><stop offset=".67" stop-color="#173F43" stop-opacity=".06"/><stop offset="1" stop-color="#090C13" stop-opacity="0"/></radialGradient><linearGradient id="bioPurple"><stop stop-color="#66558E"/><stop offset="1" stop-color="#BBA6FA"/></linearGradient><linearGradient id="bioMint"><stop stop-color="#345757"/><stop offset="1" stop-color="#8EDDCB"/></linearGradient></defs>';
+ render(){const defs='<defs><radialGradient id="aura" cx="73%" cy="42%" r="72%"><stop stop-color="#c6d4e5" stop-opacity=".17"/><stop offset=".67" stop-color="#eaeff7" stop-opacity=".06"/><stop offset="1" stop-color="#f5f8fc" stop-opacity="0"/></radialGradient><linearGradient id="bioPurple"><stop stop-color="#583f92"/><stop offset="1" stop-color="#7052bc"/></linearGradient><linearGradient id="bioMint"><stop stop-color="#c6d4e5"/><stop offset="1" stop-color="#087f83"/></linearGradient></defs>';
  const body=this[this.st.key](),a=this.st.key==='intro'?1:.25+.75*ramp(this.u,0,.33);return '<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-label="'+esc(this.tr(this.st.title))+'">'+defs+this.background()+this.chrome()+this.group(body,a)+this.rail()+'</svg>';}
 }
 const api={renderSVG:(t,kind,config,lang='en',opts={})=>new BiologyFilm(t,kind,config,lang,opts).render(),stageAt:Shared.stageAt,ZH,BiologyFilm};root.BiologyShowcase=api;if(typeof module!=='undefined')module.exports=api;

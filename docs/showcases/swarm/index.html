@@ -1,59 +1,16 @@
 <!doctype html>
-<html data-theme="light" lang="zh-CN">
+<html data-theme="light" lang="en" class="a15-integrated-showcase" data-showcase="swarm">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="探索 Agents-A1.5 的 Agent Swarm：三个真实任务、86 个子代理，从独立调查到证据汇合。" data-en-content="Explore Agent Swarm by Agents-A1.5: three real tasks and 86 subagents, from independent investigations to connected findings.">
+<meta name="description" content="Explore independent investigations, dynamic delegation and evidence synthesis across collaborating research agents." data-en-content="Explore independent investigations, dynamic delegation and evidence synthesis across collaborating research agents.">
 <title>Agent Swarm · Agents-A1.5</title>
 <link rel="stylesheet" href="assets/css/index-0-7a9e2bbd5891.css">
-<style data-showcase-navigation>
-/* Catalog navigation only. No selectors affect the authored case content. */
-.showcase-navigation {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-.showcase-navigation a.showcase-return-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 32px;
-  padding: 5px 11px;
-  box-sizing: border-box;
-  border: 1px solid #b9a4fc50;
-  border-radius: 8px;
-  background: #b9a4fc14;
-  color: #e1d6ff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .18s, border-color .18s;
-}
-.showcase-return-link svg { width: 15px; height: 15px; flex: none; }
-.showcase-navigation a.showcase-return-link:hover { background: #b9a4fc30; border-color: #b9a4fc; }
-.showcase-navigation a.showcase-return-link:focus-visible { outline: 2px solid #c7b2ff; outline-offset: 3px; }
-.lab-sidebar .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 12px; }
-.lab-sidebar .showcase-navigation a.showcase-return-link { color: #514168; border-color: #8771ac60; background: #8771ac12; }
-@media (max-width: 1200px) {
-  .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .showcase-navigation a.showcase-return-link { min-height: 28px; padding: 3px 9px; font-size: 11px; }
-}
-@media (max-width: 700px) {
-  .lab-sidebar .showcase-navigation { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .showcase-navigation a.showcase-return-link { transition: none; }
-}
-
-</style>
-<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-c810f2d25e20.css">
+<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-4846a94609f3.css">
+<link rel="stylesheet" href="../../assets/website-shell.css?v=integration-2">
+<link rel="stylesheet" href="../../assets/integrated-showcases.css?v=integration-2">
+<link rel="icon" type="image/png" href="../../assets/InternScience_logo.png">
 </head>
 <body id="top">
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><defs>
@@ -72,40 +29,70 @@
 <symbol id="i-hub" viewBox="0 0 24 24"><path d="M8 4h8v4h4v8h-4v4H8v-4H4V8h4Z"/><path d="M9 9h6v6H9Z"/></symbol>
 </defs></svg>
 <div class="error" id="error" role="alert"></div>
-<header class="topbar shell site-shell-header" data-site-header=""><div class="site-shell-header-inner"><div class="showcase-navigation"><a class="brand site-shell-brand" href="../../index.html" data-showcase-home aria-label="Agents-A1.5 首页" data-en-aria="Agents-A1.5 home"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><a class="showcase-return-link" data-showcase-return href="../../index.html"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4 5 10l6 6M5 10h11"/></svg><span data-showcase-return-label>返回首页</span></a></div><nav class="nav" aria-label="页面导航" data-en-aria="Page navigation"><a href="#missions" data-en="The tasks">任务挑战</a><a href="#workspace" data-en="Collaboration">协作现场</a><a href="#discovery" data-en="Key findings">关键发现</a></nav><div class="language-switch" role="group" aria-label="语言选择" data-en-aria="Language"><button type="button" data-lang="zh" class="active" aria-pressed="true">中文</button><span aria-hidden="true">/</span><button type="button" data-lang="en" aria-pressed="false">EN</button></div></div></header>
+<header class="a15-site-header">
+    <nav class="a15-nav" aria-label="Primary navigation">
+      <div class="a15-nav-links">
+        <a class="a15-nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
+        <a href="../../index.html#capabilities">Capabilities</a>
+        <a href="../../index.html#benchmarks">Benchmarks</a>
+        <a href="../../index.html#demos" aria-current="page" data-site-return>Demos</a>
+        <a href="../../index.html#training">Training</a>
+        <a href="../../index.html#usage">Usage</a>
+        <a href="../../index.html#related-projects">Related Projects</a>
+      </div>
+    </nav>
+  </header><div class="a15-demo-context">
+  <nav class="a15-breadcrumb" aria-label="Breadcrumb"><a href="../../index.html#demos" data-site-return><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 4-6 6 6 6M2 10h16"/></svg>All demos</a><span aria-hidden="true">/</span><span aria-current="page">Agent Swarm</span></nav>
+  <nav aria-label="Agent Swarm sections" class="a15-demo-sections" data-en-aria="Page navigation"><a data-en="The tasks" href="#missions">The tasks</a><a data-en="Collaboration" href="#workspace">Collaboration</a><a data-en="Key findings" href="#discovery">Key findings</a></nav>
+</div>
 <main class="shell">
 <section class="hero" aria-labelledby="hero-title">
- <div class="hero-copy"><div class="eyebrow" data-en="AGENT SWARM / MULTI-AGENT COLLABORATION">AGENT SWARM / 多智能体协作</div><h1 id="hero-title" data-en="One complex question.&lt;br&gt;&lt;em&gt;Many lines of inquiry.&lt;/em&gt;">一个复杂问题，<br>展开<em>多路调查。</em></h1><p class="hero-intro" data-en="The main agent coordinates. Subagents seek evidence independently.&lt;br&gt;Findings return as investigations deepen,&lt;br&gt;bringing every research branch toward one shared goal.">主代理组织分工，子代理独立寻找证据。<br>发现不断返回，调查继续深入，<br>让每条研究分支，汇入同一个目标。</p><div class="hero-actions"><a class="btn" href="#missions"><span data-en="Explore three real tasks">探索三个真实任务</span> <svg class="icon"><use href="#i-arrow"/></svg></a><button class="text-btn" id="heroPlay"><svg class="icon"><use href="#i-play"/></svg><span data-en="Watch the collaboration">观看协作过程</span></button></div><p class="hero-note" data-en="Real execution traces · Independent contexts · Multiple delegation batches">真实采集轨迹 · 独立上下文 · 多批次委派</p></div>
+ <div class="hero-copy"><div class="eyebrow" data-en="AGENT SWARM / MULTI-AGENT COLLABORATION">AGENT SWARM / MULTI-AGENT COLLABORATION</div><h1 id="hero-title" data-en="One complex question.&lt;br&gt;&lt;em&gt;Many lines of inquiry.&lt;/em&gt;">One complex question.<br><em>Many lines of inquiry.</em></h1><p class="hero-intro" data-en="The main agent coordinates. Subagents seek evidence independently.&lt;br&gt;Findings return as investigations deepen,&lt;br&gt;bringing every research branch toward one shared goal.">The main agent coordinates. Subagents seek evidence independently.<br>Findings return as investigations deepen,<br>bringing every research branch toward one shared goal.</p><div class="hero-actions"><a class="btn" href="#missions"><span data-en="Explore three real tasks">Explore three real tasks</span> <svg class="icon"><use href="#i-arrow"/></svg></a><button class="text-btn" id="heroPlay"><svg class="icon"><use href="#i-play"/></svg><span data-en="Watch the collaboration">Watch the collaboration</span></button></div><p class="hero-note" data-en="Real execution traces · Independent contexts · Multiple delegation batches">Real execution traces · Independent contexts · Multiple delegation batches</p></div>
  <div class="hero-demo">
- <div class="hero-case-tabs" id="heroCaseTabs" role="group" aria-label="选择演示任务" data-en-aria="Choose a demo task"></div>
+ <div class="hero-case-tabs" id="heroCaseTabs" role="group" aria-label="Choose a demo task" data-en-aria="Choose a demo task"></div>
  <div class="hero-art" id="heroArt">
-  <div class="art-heading"><span>ONE → MANY → ONE</span><button id="heroMotion" aria-label="暂停首屏演示" data-en-aria="Pause the introduction"></button></div>
-  <div class="flow-legend"><span><i></i><span data-en="Main agent">主代理执行</span></span><span><i></i><span data-en="Subagents">独立子代理</span></span><span><i></i><span data-en="Evidence">证据返回</span></span></div>
-  <svg class="hero-network" id="heroNetwork" viewBox="0 0 720 320" role="group" aria-label="主代理执行与子代理展开汇合" data-en-aria="Main-agent execution, subagent delegation, and findings returning"></svg>
-  <div class="flow-ticks" id="flowTicks" aria-label="执行规模与主轮次预览" data-en-aria="Execution scale and main-agent turn preview"></div>
-  <div class="hero-readout"><div><strong id="heroStepTitle"></strong><p id="heroStepText"></p></div><button id="heroLocate" aria-label="在协作现场查看当前轮次" data-en-aria="View this turn in the collaboration workspace"><svg class="icon"><use href="#i-arrow"/></svg></button></div>
+  <div class="art-heading"><span>ONE → MANY → ONE</span><button id="heroMotion" aria-label="Play overview animation" data-en-aria="Pause the introduction"></button></div>
+  <div class="flow-legend"><span><i></i><span data-en="Main agent">Main agent</span></span><span><i></i><span data-en="Subagents">Subagents</span></span><span><i></i><span data-en="Evidence">Evidence</span></span></div>
+  <svg class="hero-network" id="heroNetwork" viewBox="0 0 720 320" role="group" aria-label="Main-agent execution, subagent delegation, and findings returning" data-en-aria="Main-agent execution, subagent delegation, and findings returning"></svg>
+  <div class="flow-ticks" id="flowTicks" aria-label="Execution scale and main-agent turn preview" data-en-aria="Execution scale and main-agent turn preview"></div>
+  <div class="hero-readout"><div><strong id="heroStepTitle"></strong><p id="heroStepText"></p></div><button id="heroLocate" aria-label="View this turn in the collaboration workspace" data-en-aria="View this turn in the collaboration workspace"><svg class="icon"><use href="#i-arrow"/></svg></button></div>
   <div class="art-foot"><span id="heroCase"></span><span id="heroScope"></span></div>
  </div>
  </div>
- <div class="metrics"><div class="metric token-metric"><b id="totalTaskTokens"></b><span>total task tokens</span><div class="metric-note" data-en="From independent inquiry to final reports">从独立调查到最终研究交付</div></div><div class="metric"><b id="totalCases">3</b><span data-en="Real tasks">真实任务</span><div class="metric-note" data-en="Landscape research / Technology selection / Scientific review">广域调查 / 技术选型 / 科学核查</div></div><div class="metric"><b id="totalWorkers">86</b><span data-en="Independent subagents">独立子代理</span><div class="metric-note" data-en="Each researches its task and reports back">围绕各自的任务研究与返回</div></div><div class="metric"><b><span id="totalHours">11.36</span><small data-en="hours">小时</small></b><span data-en="Combined research time">累计研究时长</span><div class="metric-note" data-en="Sum of subagent runtimes, including overlap">子代理时长之和，包含并行重叠</div></div><div class="metric"><b id="totalTurns">2,030</b><span data-en="Subagent turns">子代理执行轮次</span><div class="metric-note" title="每轮对应一次子代理 assistant 消息" data-en-title="Each turn corresponds to one subagent assistant message" data-en="Searching, reading, and following the evidence">搜索、阅读与研究持续推进</div></div></div>
+ <div class="metrics"><div class="metric token-metric"><b id="totalTaskTokens"></b><span>total task tokens</span><div class="metric-note" data-en="From independent inquiry to final reports">From independent inquiry to final reports</div></div><div class="metric"><b id="totalCases">3</b><span data-en="Real tasks">Real tasks</span><div class="metric-note" data-en="Landscape research / Technology selection / Scientific review">Landscape research / Technology selection / Scientific review</div></div><div class="metric"><b id="totalWorkers">86</b><span data-en="Independent subagents">Independent subagents</span><div class="metric-note" data-en="Each researches its task and reports back">Each researches its task and reports back</div></div><div class="metric"><b><span id="totalHours">11.36</span><small data-en="hours">hours</small></b><span data-en="Combined research time">Combined research time</span><div class="metric-note" data-en="Sum of subagent runtimes, including overlap">Sum of subagent runtimes, including overlap</div></div><div class="metric"><b id="totalTurns">2,030</b><span data-en="Subagent turns">Subagent turns</span><div class="metric-note" title="Each turn corresponds to one subagent assistant message" data-en-title="Each turn corresponds to one subagent assistant message" data-en="Searching, reading, and following the evidence">Searching, reading, and following the evidence</div></div></div>
 </section>
-<div class="features"><article class="feature"><svg class="icon"><use href="#i-branch"/></svg><div><strong data-en="Divide the research">分工调查</strong><p data-en="Each subject gets its own research context.">不同对象，进入各自的研究上下文。</p></div></article><article class="feature"><svg class="icon"><use href="#i-search"/></svg><div><strong data-en="Follow the leads">继续追查</strong><p data-en="Go beyond entities and products to relationships, interfaces, and explanations.">从实体与产品，深入关系、接口和解释。</p></div></article><article class="feature"><svg class="icon"><use href="#i-return"/></svg><div><strong data-en="Bring evidence back">证据反馈</strong><p data-en="Independent findings help the main agent refine its conclusions.">独立发现返回，推动主代理更新判断。</p></div></article></div>
-<section class="section" id="missions" aria-labelledby="missions-title"><div class="section-head"><div><div class="eyebrow" data-en="01 / UNDERSTAND THE TASK">01 / 理解任务</div><h2 id="missions-title" data-en="Complexity lies in connecting the details.">复杂，来自需要连接的细节。</h2></div><p data-en="Breadth, connections, and shared constraints&lt;br&gt;turn one research goal into many lines of inquiry.">覆盖范围、交叉关系与共同约束，<br>让一个研究目标自然展开为多条调查分支。</p></div><div class="case-tabs" id="caseTabs" role="group" aria-label="选择展示案例" data-en-aria="Choose a case"></div><div class="brief" id="brief"></div></section>
-<section class="section" id="workspace" aria-labelledby="workspace-title"><div class="section-head"><div><div class="eyebrow" data-en="02 / SEE THE COLLABORATION">02 / 进入协作现场</div><h2 id="workspace-title" data-en="See delegation unfold, step by step.">看分工，如何一步步发生。</h2></div><p data-en="Every delegation has a reason. Every subagent has a task.&lt;br&gt;Follow real batches through decisions, investigations, and findings.">每次委派都有理由，每个子代理都有任务。<br>跟随真实批次，探索判断、调查与证据汇合。</p></div><div class="case-output"><span>total task tokens</span><strong id="caseTaskTokens"></strong></div><div class="workbench" id="workbench"><div class="bench-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="caps">AGENTS-A1.5 / SWARM IN MOTION</span><span class="bench-tag" id="benchTag"></span></div><div class="demo-toolbar"><div class="demo-modes" role="group" aria-label="协作展示模式" data-en-aria="Collaboration presentation mode"><button data-demo-mode="interactive" aria-pressed="true" class="active" data-en="Interactive">交互模式</button><button data-demo-mode="auto" aria-pressed="false" data-en="Auto demo">自动演示</button></div><div class="demo-audio" id="demoAudioControls" hidden><span class="music-pulse" aria-hidden="true"><i></i><i></i><i></i></span><button id="demoSound" aria-pressed="true"></button></div></div><p class="demo-hint" id="demoHint"></p><p class="demo-audio-error" id="demoAudioError" role="alert" hidden></p><div class="work-layout"><aside class="batch-rail"><div class="rail-head"><span data-en="Full main-agent trace">主代理完整轨迹</span><b id="batchCount"></b></div><div class="batch-list" id="batchList" aria-label="选择主代理轮次" data-en-aria="Choose a main-agent turn"></div><div class="rail-summary" id="railSummary"></div></aside><div class="bench-main"><div class="phase-nav" id="phaseNav" aria-label="选择演示阶段" data-en-aria="Choose a demonstration stage"></div><div id="scene"></div></div></div><div class="controls"><button class="play-btn" id="play" aria-label="播放协作演示" data-en-aria="Play the collaboration"></button><button class="step-btn" id="prev" aria-label="上一步" data-en-aria="Previous step"><svg class="icon"><use href="#i-prev"/></svg></button><input class="seek" id="seek" type="range" min="0" step="1" value="0" aria-label="演示进度" data-en-aria="Playback progress"><button class="step-btn" id="next" aria-label="下一步" data-en-aria="Next step"><svg class="icon"><use href="#i-next"/></svg></button><span class="step-label" id="stepLabel"></span><button class="speed-btn" id="speed" aria-label="切换播放速度" data-en-aria="Change playback speed">1×</button></div></div><div class="replay-note"><span data-en="Replays actual main-agent turns and delegation batches · Animation timing is illustrative">按真实主代理轮次与委派批次回放 · 动画时序用于演示</span><button class="text-btn jump-btn" id="jump"><span data-en="Jump to a key moment">跳到关键片段</span> <svg class="icon"><use href="#i-arrow"/></svg></button></div></section>
+<div class="features"><article class="feature"><svg class="icon"><use href="#i-branch"/></svg><div><strong data-en="Divide the research">Divide the research</strong><p data-en="Each subject gets its own research context.">Each subject gets its own research context.</p></div></article><article class="feature"><svg class="icon"><use href="#i-search"/></svg><div><strong data-en="Follow the leads">Follow the leads</strong><p data-en="Go beyond entities and products to relationships, interfaces, and explanations.">Go beyond entities and products to relationships, interfaces, and explanations.</p></div></article><article class="feature"><svg class="icon"><use href="#i-return"/></svg><div><strong data-en="Bring evidence back">Bring evidence back</strong><p data-en="Independent findings help the main agent refine its conclusions.">Independent findings help the main agent refine its conclusions.</p></div></article></div>
+<section class="section" id="missions" aria-labelledby="missions-title"><div class="section-head"><div><div class="eyebrow" data-en="01 / UNDERSTAND THE TASK">01 / UNDERSTAND THE TASK</div><h2 id="missions-title" data-en="Complexity lies in connecting the details.">Complexity lies in connecting the details.</h2></div><p data-en="Breadth, connections, and shared constraints&lt;br&gt;turn one research goal into many lines of inquiry.">Breadth, connections, and shared constraints<br>turn one research goal into many lines of inquiry.</p></div><div class="case-tabs" id="caseTabs" role="group" aria-label="Choose a case" data-en-aria="Choose a case"></div><div class="brief" id="brief"></div></section>
+<section class="section" id="workspace" aria-labelledby="workspace-title"><div class="section-head"><div><div class="eyebrow" data-en="02 / SEE THE COLLABORATION">02 / SEE THE COLLABORATION</div><h2 id="workspace-title" data-en="See delegation unfold, step by step.">See delegation unfold, step by step.</h2></div><p data-en="Every delegation has a reason. Every subagent has a task.&lt;br&gt;Follow real batches through decisions, investigations, and findings.">Every delegation has a reason. Every subagent has a task.<br>Follow real batches through decisions, investigations, and findings.</p></div><div class="case-output"><span>total task tokens</span><strong id="caseTaskTokens"></strong></div><div class="workbench" id="workbench"><div class="bench-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="caps">AGENTS-A1.5 / SWARM IN MOTION</span><span class="bench-tag" id="benchTag"></span></div><div class="demo-toolbar"><div class="demo-modes" role="group" aria-label="Collaboration presentation mode" data-en-aria="Collaboration presentation mode"><button data-demo-mode="interactive" aria-pressed="true" class="active" data-en="Interactive">Interactive</button><button data-demo-mode="auto" aria-pressed="false" data-en="Auto demo">Auto demo</button></div><div class="demo-audio" id="demoAudioControls" hidden><span class="music-pulse" aria-hidden="true"><i></i><i></i><i></i></span><button id="demoSound" aria-pressed="true"></button></div></div><p class="demo-hint" id="demoHint"></p><p class="demo-audio-error" id="demoAudioError" role="alert" hidden></p><div class="work-layout"><aside class="batch-rail"><div class="rail-head"><span data-en="Full main-agent trace">Full main-agent trace</span><b id="batchCount"></b></div><div class="batch-list" id="batchList" aria-label="Choose a main-agent turn" data-en-aria="Choose a main-agent turn"></div><div class="rail-summary" id="railSummary"></div></aside><div class="bench-main"><div class="phase-nav" id="phaseNav" aria-label="Choose a demonstration stage" data-en-aria="Choose a demonstration stage"></div><div id="scene"></div></div></div><div class="controls"><button class="play-btn" id="play" aria-label="Play collaboration demo" data-en-aria="Play the collaboration"></button><button class="step-btn" id="prev" aria-label="Previous step" data-en-aria="Previous step"><svg class="icon"><use href="#i-prev"/></svg></button><input class="seek" id="seek" type="range" min="0" step="1" value="0" aria-label="Playback progress" data-en-aria="Playback progress"><button class="step-btn" id="next" aria-label="Next step" data-en-aria="Next step"><svg class="icon"><use href="#i-next"/></svg></button><span class="step-label" id="stepLabel"></span><button class="speed-btn" id="speed" aria-label="Change playback speed" data-en-aria="Change playback speed">1×</button></div></div><div class="replay-note"><span data-en="Replays actual main-agent turns and delegation batches · Animation timing is illustrative">Replays actual main-agent turns and delegation batches · Animation timing is illustrative</span><button class="text-btn jump-btn" id="jump"><span data-en="Jump to a key moment">Jump to a key moment</span> <svg class="icon"><use href="#i-arrow"/></svg></button></div></section>
 <section class="section" id="discovery" aria-labelledby="discovery-title">
- <div class="section-head"><div><div class="eyebrow" data-en="03 / EXPLORE IN DEPTH">03 / 定向深入</div><h2 id="discovery-title"></h2></div><p id="discoveryIntro"></p></div>
- <div class="zoom-tabs" id="zoomTabs" role="group" aria-label="选择重点行为" data-en-aria="Choose a behavior to explore"></div><div id="discoveryBody"></div>
+ <div class="section-head"><div><div class="eyebrow" data-en="03 / EXPLORE IN DEPTH">03 / EXPLORE IN DEPTH</div><h2 id="discovery-title"></h2></div><p id="discoveryIntro"></p></div>
+ <div class="zoom-tabs" id="zoomTabs" role="group" aria-label="Choose a behavior to explore" data-en-aria="Choose a behavior to explore"></div><div id="discoveryBody"></div>
 </section>
 <section class="section" id="deliverable" aria-labelledby="resultTitle">
- <div class="section-head"><div><div class="eyebrow" data-en="04 / THE RESEARCH DELIVERABLE">04 / 研究交付</div><h2 id="resultTitle"></h2></div><p id="resultText"></p></div>
- <div class="reader" id="reader"><div class="reader-top"><span id="resultMeta"></span><button id="expandReader" aria-expanded="false" data-en="Expand reading area">展开阅读区域</button></div>
-  <select id="resultSelect" aria-label="跳转交付章节" data-en-aria="Jump to a report section"></select><div class="reader-layout"><nav id="resultToc" aria-label="交付目录" data-en-aria="Report contents"></nav><article id="resultContent" class="markdown" tabindex="0" aria-label="最终研究交付" data-en-aria="Final research report"></article></div>
+ <div class="section-head"><div><div class="eyebrow" data-en="04 / THE RESEARCH DELIVERABLE">04 / THE RESEARCH DELIVERABLE</div><h2 id="resultTitle"></h2></div><p id="resultText"></p></div>
+ <div class="reader" id="reader"><div class="reader-top"><span id="resultMeta"></span><button id="expandReader" aria-expanded="false" data-en="Expand reading area">Expand reader</button></div>
+  <select id="resultSelect" aria-label="Jump to a report section" data-en-aria="Jump to a report section"></select><div class="reader-layout"><nav id="resultToc" aria-label="Report contents" data-en-aria="Report contents"></nav><article id="resultContent" class="markdown" tabindex="0" aria-label="Final research report" data-en-aria="Final research report"></article></div>
  </div>
- <div class="endline"><p data-en="One shared goal connects independent investigations.">一个共同目标，让独立调查彼此连接。</p><span>INDEPENDENT RESEARCH. CONNECTED FINDINGS.</span></div>
+ <div class="endline"><p data-en="One shared goal connects independent investigations.">One shared goal connects independent investigations.</p><span>INDEPENDENT RESEARCH. CONNECTED FINDINGS.</span></div>
 </section>
 </main>
-<footer class="footer shell site-shell-footer" data-site-footer=""><div class="site-shell-footer-inner"><div class="site-shell-footer-main"><a class="site-shell-brand" data-shell-home href="../../index.html"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><span class="site-shell-case" data-shell-zh="智能体集群" data-shell-en="Agent Swarm">智能体集群</span><button type="button" class="site-shell-top" data-shell-top><span class="" data-shell-zh="返回顶部" data-shell-en="Back to top">返回顶部</span><span aria-hidden="true">↑</span></button></div><div class="site-shell-footer-notes"><span>AGENT SWARM / THREE REAL RESEARCH JOURNEYS</span><a href="#missions" data-en="Explore another task ↑">切换研究任务 ↑</a></div></div></footer>
-<dialog id="detail" aria-labelledby="detailTitle"><div class="modal-head"><div><div class="caps" id="detailLabel"></div><h2 id="detailTitle"></h2></div><button class="close" id="closeDetail" aria-label="关闭详情" data-en-aria="Close details"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="modal-body" id="detailBody"></div></dialog>
+<aside class="a15-case-notes" aria-label="Case notes and sources"><div class="a15-case-notes-inner"><span>AGENT SWARM / THREE REAL RESEARCH JOURNEYS</span><a data-en="Explore another task ↑" href="#missions">Explore another task ↑</a></div></aside><footer class="a15-footer">
+    <div class="a15-footer-inner">
+      <p>Agents-A1.5 is released by Alpha-Innovator. Star the repository, try the model, and report issues through GitHub.</p>
+      <section class="a15-visitor-panel" aria-label="Visitor information">
+        <div class="a15-visitor-copy">
+          <span class="a15-visitor-title">Visitor Map</span>
+          <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
+        </div>
+        <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
+          <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
+          </a>
+        </div>
+      </section>
+    </div>
+  </footer>
+<dialog id="detail" aria-labelledby="detailTitle"><div class="modal-head"><div><div class="caps" id="detailLabel"></div><h2 id="detailTitle"></h2></div><button class="close" id="closeDetail" aria-label="Close details" data-en-aria="Close details"><svg class="icon"><use href="#i-close"/></svg></button></div><div class="modal-body" id="detailBody"></div></dialog>
 <audio id="demoAudio" src="assets/7035e14bc181.mp3" preload="none" loop></audio>
 <script id="case-data" type="application/json"></script><script src="assets/data/case-data-35d2018411fb.js"></script>
 <script>
@@ -183,7 +170,7 @@ document.addEventListener('click', event => {
 });
 
 </script>
-<script src="assets/js/index-2-9a67efd78d3f.js"></script>
+<script src="assets/js/index-2-50eae58c75d3.js"></script>
 <!-- Embedded font license:
 Copyright 2014-2021 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'
 
@@ -205,7 +192,7 @@ with others.
 
 The OFL allows the licensed fonts to be used, studied, modified and
 redistributed freely as long as they are not sold by themselves. The
-fonts, including any derivative works, can be bundled, embedded, 
+fonts, including any derivative works, can be bundled, embedded,
 redistributed and/or sold with any software provided that any reserved
 names are not used by derivative works. The fonts and derivatives,
 however, cannot be released under any other type of license. The
@@ -280,26 +267,6 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
 -->
-<script>
-/* Preserve each author's language controls and return to the same catalog language. */
-(() => {
-  const links = [...document.querySelectorAll('[data-showcase-home], [data-showcase-return]')];
-  const home = links[0].getAttribute('href').split('?')[0];
-  const label = document.querySelector('[data-showcase-return-label]');
-  const update = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
-    links.forEach(link => {
-      link.setAttribute('href', home + '?lang=' + lang);
-      link.setAttribute('aria-label', lang === 'en' ? 'Back to showcase home' : '返回展示首页');
-    });
-    label.textContent = lang === 'en' ? 'Back to home' : '返回首页';
-  };
-  update();
-  new MutationObserver(update).observe(document.documentElement, {
-    attributes: true, attributeFilter: ['lang']
-  });
-})();
-
-</script>
-<script data-site-shell src="../../assets/site-shell-9143359e441e.js" defer></script></body>
+<script data-site-shell src="../../assets/site-shell-705010c24ae4.js" defer></script><script src="../../assets/showcase-navigation.js?v=integration-1" defer></script>
+</body>
 </html>

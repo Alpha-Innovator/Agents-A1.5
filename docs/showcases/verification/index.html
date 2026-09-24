@@ -1,83 +1,46 @@
 <!doctype html>
-<html data-theme="light" lang="zh-CN">
+<html data-theme="light" lang="en" class="a15-integrated-showcase" data-showcase="verification">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="Verification — 长程搜索中，模型自己察觉走不通，停下来重新梳理，换一种方法继续。Agents-A1.5 能力展示。">
+<meta name="description" content="See how Agents-A1.5 recognizes stalled searches, reconsiders its approach and continues toward a verified answer.">
 <title>Agents-A1.5 · Verification</title>
 <link rel="stylesheet" href="assets/css/index-0-9a4ff46aae1b.css">
-<style data-showcase-navigation>
-/* Catalog navigation only. No selectors affect the authored case content. */
-.showcase-navigation {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-.showcase-navigation a.showcase-return-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 32px;
-  padding: 5px 11px;
-  box-sizing: border-box;
-  border: 1px solid #b9a4fc50;
-  border-radius: 8px;
-  background: #b9a4fc14;
-  color: #e1d6ff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .18s, border-color .18s;
-}
-.showcase-return-link svg { width: 15px; height: 15px; flex: none; }
-.showcase-navigation a.showcase-return-link:hover { background: #b9a4fc30; border-color: #b9a4fc; }
-.showcase-navigation a.showcase-return-link:focus-visible { outline: 2px solid #c7b2ff; outline-offset: 3px; }
-.lab-sidebar .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 12px; }
-.lab-sidebar .showcase-navigation a.showcase-return-link { color: #514168; border-color: #8771ac60; background: #8771ac12; }
-@media (max-width: 1200px) {
-  .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .showcase-navigation a.showcase-return-link { min-height: 28px; padding: 3px 9px; font-size: 11px; }
-}
-@media (max-width: 700px) {
-  .lab-sidebar .showcase-navigation { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .showcase-navigation a.showcase-return-link { transition: none; }
-}
-
-</style>
-<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-04f6db2ba493.css">
+<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-2b9a12c29bf4.css">
+<link rel="stylesheet" href="../../assets/website-shell.css?v=integration-2">
+<link rel="stylesheet" href="../../assets/integrated-showcases.css?v=integration-2">
+<link rel="icon" type="image/png" href="../../assets/InternScience_logo.png">
 </head>
 
 <body id="top">
-<header class="site-header site-shell-header" data-site-header=""><div class="site-shell-header-inner">
- <div class="showcase-navigation"><a class="site-brand site-shell-brand" href="../../index.html" aria-label="Agents-A1.5" data-showcase-home><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><a class="showcase-return-link" data-showcase-return href="../../index.html"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4 5 10l6 6M5 10h11"/></svg><span data-showcase-return-label>返回首页</span></a></div>
- <nav aria-label="Main"><a href="#demo" data-i18n="navDemo"></a><a href="#reflection" data-i18n="navReflection"></a><a href="#trace" data-i18n="navTrace"></a><a href="#switch" data-i18n="navSwitch"></a><a href="#result" data-i18n="navResult"></a><a href="#next" data-i18n="navNext"></a></nav>
- <div class="header-actions">
-  <div class="language-switch" aria-label="Language">
-   <button data-lang="zh" aria-pressed="true">&#20013;&#25991;</button><span>/</span><button data-lang="en" aria-pressed="false">EN</button>
-  </div>
-  <button class="nav-watch" data-play-jump><span aria-hidden="true">&#9654;</span><span data-i18n="navPlay"></span></button>
- </div>
-</div></header>
+<header class="a15-site-header">
+    <nav class="a15-nav" aria-label="Primary navigation">
+      <div class="a15-nav-links">
+        <a class="a15-nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
+        <a href="../../index.html#capabilities">Capabilities</a>
+        <a href="../../index.html#benchmarks">Benchmarks</a>
+        <a href="../../index.html#demos" aria-current="page" data-site-return>Demos</a>
+        <a href="../../index.html#training">Training</a>
+        <a href="../../index.html#usage">Usage</a>
+        <a href="../../index.html#related-projects">Related Projects</a>
+      </div>
+    </nav>
+  </header><div class="a15-demo-context">
+  <nav class="a15-breadcrumb" aria-label="Breadcrumb"><a href="../../index.html#demos" data-site-return><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 4-6 6 6 6M2 10h16"/></svg>All demos</a><span aria-hidden="true">/</span><span aria-current="page">Verification</span></nav>
+  <nav aria-label="Verification sections" class="a15-demo-sections"><a data-i18n="navDemo" href="#demo">Demo</a><a data-i18n="navReflection" href="#reflection">What it reflects on</a><a data-i18n="navTrace" href="#trace">Side by side</a><a data-i18n="navSwitch" href="#switch">Turning it on</a><a data-i18n="navResult" href="#result">Results</a><a data-i18n="navNext" href="#next">What is next</a><button class="nav-watch" data-play-jump=""><span aria-hidden="true">▶</span><span data-i18n="navPlay">Watch the demo</span></button></nav>
+</div>
 
 <main>
 <section class="hero" aria-labelledby="hero-title">
  <div class="hero-grid" aria-hidden="true"></div><div class="hero-glow" aria-hidden="true"></div>
  <div class="hero-copy">
   <div class="eyebrow"><span class="live-dot amber"></span><span>AGENTS-A1.5 / VERIFICATION</span></div>
-  <h1 id="hero-title" data-i18n-html="heroTitle"></h1>
-  <p class="hero-description" data-i18n="heroDesc"></p>
+  <h1 id="hero-title" data-i18n-html="heroTitle">On long-horizon problems,<br>can a model notice it is stuck<br><em>and find another way through?</em></h1>
+  <p class="hero-description" data-i18n="heroDesc">The most common failure of a search agent is not that it cannot search — it is that it keeps retrying a route that leads nowhere.</p>
   <div class="hero-actions">
-   <a class="button primary" href="#demo"><span data-i18n="heroWatch"></span><span aria-hidden="true">&#9654;</span></a>
-   <a class="button secondary" href="#reflection"><span data-i18n="heroRead"></span><span aria-hidden="true">&#8595;</span></a>
+   <a class="button primary" href="#demo"><span data-i18n="heroWatch">Watch the demo</span><span aria-hidden="true">&#9654;</span></a>
+   <a class="button secondary" href="#reflection"><span data-i18n="heroRead">See the actual verification</span><span aria-hidden="true">&#8595;</span></a>
   </div>
  </div>
 </section>
@@ -86,7 +49,7 @@
 <!-- 01 演示 -->
 <section class="section" id="demo">
  <div class="section-heading reveal">
-  <div><div class="eyebrow" data-i18n="eye1"></div><h2 data-i18n-html="h1t"></h2></div>
+  <div><div class="eyebrow" data-i18n="eye1">01 / DEMO</div><h2 data-i18n-html="h1t">One question,<br>from spinning to solved.</h2></div>
  </div>
  <div class="theater" id="theater" tabindex="-1">
   <div class="chapter-bar" id="chapters" role="tablist" aria-label="Steps"></div>
@@ -105,21 +68,19 @@
 <!-- 02 反思内容 -->
 <section class="section" id="reflection">
  <div class="section-heading reveal">
-  <div><div class="eyebrow" data-i18n="eye2"></div><h2 data-i18n-html="h2t"></h2></div>
-  <p data-i18n="p2"></p>
+  <div><div class="eyebrow" data-i18n="eye2">02 / WHAT IT REFLECTS ON</div><h2 data-i18n-html="h2t">The moment it stops,<br>this is what it writes.</h2></div>
+  <p data-i18n="p2">The full reasoning from interaction 19. It takes stock of what is actually confirmed, admits its earlier guesses do not hold, lists what is still missing, and decides to search a different way.</p>
  </div>
  <div class="reflection-shell reveal">
   <div class="reflection-side">
-   <div class="chart-head"><span data-i18n="dimHead"></span></div>
+   <div class="chart-head"><span data-i18n="dimHead">Five things it checks</span></div>
    <ol class="dim-list" id="dimList"></ol>
-   <p class="lab-note" data-i18n="dimNote"></p>
+   <p class="lab-note" data-i18n="dimNote">All five have to appear together for this to count as real self-reflection — not just the phrase “let me double-check”.</p>
   </div>
   <div class="reflection-main">
    <div class="chart-head">
-    <span data-i18n="reflHead"></span>
-    <div class="refl-toggle" role="group" aria-label="Language of the quoted text">
-     <button data-refl="zh" data-i18n="reflZh"></button><button data-refl="en" data-i18n="reflEn"></button>
-    </div>
+    <span data-i18n="reflHead">Interaction 19 · full reasoning</span>
+
    </div>
    <div class="reflection-body" id="reflectionBody"></div>
    <p class="lab-note" id="reflFoot"></p>
@@ -130,25 +91,25 @@
 <!-- 03 对比 -->
 <section class="section" id="trace">
  <div class="section-heading reveal">
-  <div><div class="eyebrow" data-i18n="eye3"></div><h2 data-i18n-html="h3t"></h2></div>
-  <p data-i18n="p3"></p>
+  <div><div class="eyebrow" data-i18n="eye3">03 / SIDE BY SIDE</div><h2 data-i18n-html="h3t">The same question,<br>answered twice.</h2></div>
+  <p data-i18n="p3">Every search request the model actually issued. The left run changes approach partway through; the right one never does — 47 searches, still wrong.</p>
  </div>
  <div class="trace-grid reveal">
   <article class="trace-col on">
    <header>
-    <div><span class="live-dot mint"></span><strong data-i18n="traceOnTitle"></strong></div>
-    <p data-i18n="traceOnMeta"></p>
+    <div><span class="live-dot mint"></span><strong data-i18n="traceOnTitle">Changed approach partway</strong></div>
+    <p data-i18n="traceOnMeta">30 interactions · 29 searches</p>
    </header>
    <ol class="call-list" id="callsOn"></ol>
-   <footer><span data-i18n="finalAnswer"></span><b class="ok">Madhumati</b><small data-i18n="traceOnNote"></small></footer>
+   <footer><span data-i18n="finalAnswer">Final answer</span><b class="ok">Madhumati</b><small data-i18n="traceOnNote">Matches the reference answer Madhumalti (spelling variant)</small></footer>
   </article>
   <article class="trace-col off">
    <header>
-    <div><span class="live-dot"></span><strong data-i18n="traceOffTitle"></strong></div>
-    <p data-i18n="traceOffMeta"></p>
+    <div><span class="live-dot"></span><strong data-i18n="traceOffTitle">Same line throughout</strong></div>
+    <p data-i18n="traceOffMeta">48 interactions · 47 searches</p>
    </header>
    <ol class="call-list" id="callsOff"></ol>
-   <footer><span data-i18n="finalAnswer"></span><b class="bad">Jacqueline</b><small data-i18n="traceOffNote"></small></footer>
+   <footer><span data-i18n="finalAnswer">Final answer</span><b class="bad">Jacqueline</b><small data-i18n="traceOffNote">Does not match the reference answer</small></footer>
   </article>
  </div>
 </section>
@@ -156,21 +117,21 @@
 <!-- 04 开启方式 -->
 <section class="section" id="switch">
  <div class="section-heading reveal">
-  <div><div class="eyebrow" data-i18n="eye4"></div><h2 data-i18n-html="h4t"></h2></div>
-  <p data-i18n="p4"></p>
+  <div><div class="eyebrow" data-i18n="eye4">04 / TURNING IT ON</div><h2 data-i18n-html="h4t">One line of config,<br>on or off.</h2></div>
+  <p data-i18n="p4">The capability needs no extra tool or endpoint. One line in the system prompt turns it on.</p>
  </div>
  <div class="lab-shell">
   <div class="lab-controls">
    <h3>Verification protocol</h3>
-   <p data-i18n="swDesc"></p>
+   <p data-i18n="swDesc">Off, it is an ordinary search loop. On, the model stops by itself once several attempts have produced no progress, and looks for another way through.</p>
    <div class="segmented" role="group">
-    <button data-verify="off" aria-pressed="false" data-i18n="swOff"></button>
-    <button data-verify="on" aria-pressed="true" data-i18n="swOn"></button>
+    <button data-verify="off" aria-pressed="false" data-i18n="swOff">Off</button>
+    <button data-verify="on" aria-pressed="true" data-i18n="swOn">On</button>
    </div>
    <div class="prompt-card" id="promptCard"></div>
   </div>
   <div class="lab-results">
-   <div class="chart-head"><span data-i18n="swFlowHead"></span><span class="status-pill" id="labStatus"></span></div>
+   <div class="chart-head"><span data-i18n="swFlowHead">The two steps it adds</span><span class="status-pill" id="labStatus"></span></div>
    <div class="switch-flow" id="switchFlow"></div>
    <p class="lab-note" id="labNote"></p>
   </div>
@@ -180,30 +141,30 @@
 <!-- 05 结果 -->
 <section class="section" id="result">
  <div class="section-heading reveal">
-  <div><div class="eyebrow" data-i18n="eye5"></div><h2 data-i18n-html="h5t"></h2></div>
-  <p data-i18n="p5"></p>
+  <div><div class="eyebrow" data-i18n="eye5">05 / RESULTS</div><h2 data-i18n-html="h5t">Performance on<br>BrowseComp.</h2></div>
+  <p data-i18n="p5">All 1,266 questions of BrowseComp, same evaluation pipeline.</p>
  </div>
  <div class="outcome-grid reveal">
-  <div class="outcome-card"><span data-i18n="resBefore"></span><strong>72.5%</strong><small data-i18n="resSet"></small></div>
+  <div class="outcome-card"><span data-i18n="resBefore">Without the capability</span><strong>72.5%</strong><small data-i18n="resSet">BrowseComp · 1,266 questions</small></div>
   <div class="outcome-arrow" aria-hidden="true">&#8594;</div>
-  <div class="outcome-card after"><span data-i18n="resAfter"></span><strong>82.9%</strong><small data-i18n="resSet"></small></div>
+  <div class="outcome-card after"><span data-i18n="resAfter">With the capability</span><strong>82.9%</strong><small data-i18n="resSet">BrowseComp · 1,266 questions</small></div>
  </div>
- <div class="delta-line reveal"><b data-i18n="resDelta"></b></div>
+ <div class="delta-line reveal"><b data-i18n="resDelta">+10.4 points</b></div>
 </section>
 
 <!-- 06 未来工作 -->
 <section class="section" id="next">
  <div class="section-heading reveal">
-  <div><div class="eyebrow" data-i18n="eye6"></div><h2 data-i18n-html="h6t"></h2></div>
-  <p data-i18n="p6"></p>
+  <div><div class="eyebrow" data-i18n="eye6">06 / WHAT IS NEXT</div><h2 data-i18n-html="h6t">After reflecting,<br>fold the stretch into one record.</h2></div>
+  <p data-i18n="p6">The longer a task runs, the longer the history gets. Next: after reflecting, the model decides for itself whether the stretch it just walked can safely be folded into a stage record that replaces it.</p>
  </div>
  <div class="next-card reveal">
   <div class="next-copy">
-   <span class="status-pill amber" data-i18n="nextTag"></span>
-   <h3 data-i18n="nextTitle"></h3>
-   <p data-i18n="nextDesc"></p>
+   <span class="status-pill amber" data-i18n="nextTag">In development</span>
+   <h3 data-i18n="nextTitle">After reflecting, deciding whether to fold the stretch into a record</h3>
+   <p data-i18n="nextDesc">Reflection judges whether the conclusions hold and where to go next. Immediately after, the model judges one more thing: whether the stretch from the previous reflection up to this one can be safely folded up. If it can, it writes a stage record — what was done, what came of it, which assumptions were ruled out, what state things are in — and that record plus the reflection replace the original stretch. If it cannot, the stretch stays as it is.</p>
    <ol class="next-points" id="nextPoints"></ol>
-   <p class="next-soon" data-i18n="nextSoon"></p>
+   <p class="next-soon" data-i18n="nextSoon">Coming soon</p>
   </div>
   <div class="next-visual" id="nextVisual" aria-hidden="true"></div>
  </div>
@@ -212,45 +173,39 @@
 <section class="end-section">
  <div class="end-glow" aria-hidden="true"></div>
  <div class="eyebrow"><span class="live-dot"></span><span>VERIFICATION</span></div>
- <h2 data-i18n-html="endTitle"></h2>
- <p data-i18n="endDesc"></p>
+ <h2 data-i18n-html="endTitle">When the road runs out,<br><em>stop and take stock, then try another one.</em></h2>
+ <p data-i18n="endDesc">The self-reflection happens inside the model’s reasoning and costs no extra search. One line in the system prompt turns it on or off.</p>
  <div class="end-actions">
-  <a class="button primary" href="#demo"><span data-i18n="endWatch"></span><span aria-hidden="true">&#9654;</span></a>
-  <a class="button secondary" href="#top"><span data-i18n="endTop"></span><span aria-hidden="true">&#8593;</span></a>
+  <a class="button primary" href="#demo"><span data-i18n="endWatch">Watch again</span><span aria-hidden="true">&#9654;</span></a>
+  <a class="button secondary" href="#top"><span data-i18n="endTop">Back to top</span><span aria-hidden="true">&#8593;</span></a>
  </div>
 </section>
 </main>
 
-<footer class="site-shell-footer" data-site-footer=""><div class="site-shell-footer-inner"><div class="site-shell-footer-main"><a class="site-shell-brand" data-shell-home href="../../index.html"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><span class="site-shell-case" data-shell-zh="自审" data-shell-en="Verification">自审</span><button type="button" class="site-shell-top" data-shell-top><span class="" data-shell-zh="返回顶部" data-shell-en="Back to top">返回顶部</span><span aria-hidden="true">↑</span></button></div><div class="site-shell-footer-notes">
- 
- <span data-i18n="footer"></span>
-</div></div></footer>
-<noscript>This page needs JavaScript. / 本页需要 JavaScript。</noscript>
+<aside class="a15-case-notes" aria-label="Case notes and sources"><div class="a15-case-notes-inner">
+<span data-i18n="footer">Agents-A1.5 · Verification</span>
+</div></aside><footer class="a15-footer">
+    <div class="a15-footer-inner">
+      <p>Agents-A1.5 is released by Alpha-Innovator. Star the repository, try the model, and report issues through GitHub.</p>
+      <section class="a15-visitor-panel" aria-label="Visitor information">
+        <div class="a15-visitor-copy">
+          <span class="a15-visitor-title">Visitor Map</span>
+          <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
+        </div>
+        <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
+          <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
+          </a>
+        </div>
+      </section>
+    </div>
+  </footer>
+<noscript>This page needs JavaScript.</noscript>
 
-<script src="assets/js/index-1-d566251c0439.js"></script>
+<script src="assets/js/index-1-af982b5a318d.js"></script>
 
 <script id="verifyData" type="application/json"></script><script src="assets/data/verifyData-7acbdc987c15.js"></script>
-<script src="assets/js/index-3-1057227dfa87.js"></script>
-<script>
-/* Preserve each author's language controls and return to the same catalog language. */
-(() => {
-  const links = [...document.querySelectorAll('[data-showcase-home], [data-showcase-return]')];
-  const home = links[0].getAttribute('href').split('?')[0];
-  const label = document.querySelector('[data-showcase-return-label]');
-  const update = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
-    links.forEach(link => {
-      link.setAttribute('href', home + '?lang=' + lang);
-      link.setAttribute('aria-label', lang === 'en' ? 'Back to showcase home' : '返回展示首页');
-    });
-    label.textContent = lang === 'en' ? 'Back to home' : '返回首页';
-  };
-  update();
-  new MutationObserver(update).observe(document.documentElement, {
-    attributes: true, attributeFilter: ['lang']
-  });
-})();
-
-</script>
-<script data-site-shell src="../../assets/site-shell-9143359e441e.js" defer></script></body>
+<script src="assets/js/index-3-b7fdc9fe13ec.js"></script>
+<script data-site-shell src="../../assets/site-shell-705010c24ae4.js" defer></script><script src="../../assets/showcase-navigation.js?v=integration-1" defer></script>
+</body>
 </html>

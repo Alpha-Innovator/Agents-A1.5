@@ -1,3 +1,4 @@
+/* light-visual-palette */
 
 "use strict";
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -151,15 +152,15 @@ const COPY={
           'Fig. C \u00b7 Partial results and their distance to adjudication'],
  }
 };
-let lang=new URLSearchParams((window.showcaseLocation||window.location).search).get('lang')==='en'?'en':'zh';
+let lang='en';
 const C=()=>COPY[lang];
 const T=k=>COPY[lang][k];
 
 /* ===== 动画引擎：端到端流程图 + 镜头推拉 ===== */
 const W=2400,H=1350;               /* 世界坐标（整张图） */
 const VW=1600,VH=900;              /* 视口比例 16:9 */
-const P={bg:'#0a0e18',panel:'#11151feb',edge:'#ffffff16',ink:'#eef2f8',muted:'#95a0b5',
-  dim:'#5f6a80',txt:'#6fb8e8',fig:'#e0a463',mrg:'#8fd9bb',vio:'#a99bf0',gold:'#d9ad3c',warn:'#e08b8b'};
+const P={bg:'#f5f8fc',panel:'#ffffffeb',edge:'#647eaa16',ink:'#172b45',muted:'#526078',
+  dim:'#64748b',txt:'#2563b8',fig:'#a4611d',mrg:'#087f83',vio:'#7052bc',gold:'#a4611d',warn:'#bd4260'};
 const FF="'Noto Sans SC','Instrument Sans',-apple-system,sans-serif";
 const MF="'IBM Plex Mono',ui-monospace,Consolas,monospace";
 const clamp2=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
@@ -325,11 +326,11 @@ class Film{
  /* 主干节点 */
  mainNode(n,hot,dim){
   const col=n.gold?P.gold:n.fig?P.fig:n.mrg?P.mrg:P.txt;
-  const fill=n.gold?P.gold:(n.fig?'#1a1712':n.mrg?'#13211d':'#101a26');
-  const inkc=n.gold?'#231c06':'#d6e3ef';
+  const fill=n.gold?P.gold:(n.fig?'#f3f6fa':n.mrg?'#f1f5fa':'#f1f4fa');
+  const inkc=n.gold?'#f3f6fb':'#3b6a96';
   let s=this.rect(n.x,MY,n.w,NH,fill,n.gold?'none':col+(hot?'aa':'55'),13,hot?1.8:1);
   if(hot&&!n.gold)s=this.rect(n.x-5,MY-5,n.w+10,NH+10,'none',col+'33',16,1.2)+s;
-  s+=this.ic(n.ic,n.x+18,MY+NH/2-11,22,n.gold?'#231c06':col);
+  s+=this.ic(n.ic,n.x+18,MY+NH/2-11,22,n.gold?'#f3f6fb':col);
   s+=this.bt(T('n_'+n.k),n.x+34+(n.w-42)/2,MY+NH/2,n.w-58,n.gold?19:16.5,inkc,n.gold?600:450);
   return dim?this.g(s,.34):s;}
 
@@ -368,11 +369,11 @@ class Film{
   const co=ramp(t,13.3,14.3);
   if(co>0){
    const cx=byKey('coord').x-16, cy=MY-252;
-   s+=this.g(this.rect(cx,cy,330,206,'#121826',P.vio+'46',16)+
+   s+=this.g(this.rect(cx,cy,330,206,'#f0f4f9',P.vio+'46',16)+
     this.ic('loop',cx+20,cy+20,18,P.vio)+
     this.text(T('coordOps'),cx+46,cy+34,16,P.vio,500)+
     ['add_node()','modify_node()','remove_node()','add_edge()','modify_edge()','remove_edge()']
-     .map((o,j)=>this.text(o,cx+22,cy+64+j*23,13.5,'#9aa6bd',450,'start',MF)).join(''),co);
+     .map((o,j)=>this.text(o,cx+22,cy+64+j*23,13.5,'#3f5b92',450,'start',MF)).join(''),co);
    /* coordinator 节点 → 可选动作面板 */
    s+=this.g(this.line(cen(byKey('coord')).x,MY-6,cen(byKey('coord')).x,cy+206,P.vio+'55',1.3,'5 5'),co);
    /* 可选动作 → 回指 planner（修改还未执行的图） */
@@ -400,7 +401,7 @@ class Film{
    N.forEach((n,j)=>{
     const o=ramp(t,3.2+LAYER[j]*.40+ROW[j]*.11, 3.66+LAYER[j]*.40+ROW[j]*.11);
     if(o<=0)return;
-    s+=this.g(`<circle cx="${n[0]}" cy="${n[1]}" r="17" fill="#141d2b" stroke="${P.txt}66" stroke-width="1.2"/>`+
+    s+=this.g(`<circle cx="${n[0]}" cy="${n[1]}" r="17" fill="#eff3f9" stroke="${P.txt}66" stroke-width="1.2"/>`+
       this.text(n[2],n[0],n[1]+5,12.5,P.txt,500,'middle',MF),o,0,(1-o)*7);});
    /* 依赖边：跟在下游节点之后生长 */
    [[0,3],[1,3],[1,4],[2,4],[3,5],[4,5]].forEach(([a,b2],j)=>{
@@ -430,9 +431,9 @@ class Film{
    const o=ramp(u,.6+j*.4,1.2+j*.4);
    if(o<=0)return;
    const col=P.vio;
-   s+=this.g(this.rect(b[0],st.y+52,b[1],70,'#151527',col+'55',11)+
+   s+=this.g(this.rect(b[0],st.y+52,b[1],70,'#f0f3f9',col+'55',11)+
     this.ic(b[3],b[0]+15,st.y+52+24,20,col)+
-    this.bt(b[2],b[0]+30+(b[1]-30)/2,st.y+87,b[1]-52,14.5,'#d6d3ef',450),o,0,(1-o)*8);
+    this.bt(b[2],b[0]+30+(b[1]-30)/2,st.y+87,b[1]-52,14.5,'#423899',450),o,0,(1-o)*8);
    if(j>0){const lp=ramp(u,.45+j*.4,1.0+j*.4);
     const x0=NS[j-1][0]+NS[j-1][1];
     if(lp>0)s+=this.ar(x0,st.y+87,x0+lerp(0,b[0]-x0-9,lp),st.y+87,'v',1.5);}
@@ -458,32 +459,32 @@ class Film{
    /* 三项输入 */
    const io2=ramp(u,3.2,3.9);
    if(io2>0){
-    s+=this.g(this.rect(IX,IY,IW,IH,'#161421',P.fig+'3a',11,1,'7 6'),io2);
+    s+=this.g(this.rect(IX,IY,IW,IH,'#f1f4fa',P.fig+'3a',11,1,'7 6'),io2);
     T('subInputs').forEach((tx,j)=>{
      const o=ramp(u,3.3+j*.18,3.95+j*.18);
      if(o<=0)return;
      s+=this.g(this.rect(IX+12,IY+12+j*44,IW-24,36,P.fig+'16',P.fig+'44',8)+
-      this.bt(tx,IX+IW/2,IY+30+j*44,IW-40,12.5,'#e6d2b6',450),o);});
+      this.bt(tx,IX+IW/2,IY+30+j*44,IW-40,12.5,'#9c7135',450),o);});
    }
    /* agent 自主选择 */
    const ao=ramp(u,4.0,4.7);
-   if(ao>0)s+=this.g(this.ell(AX,AY,ARX,ARY,'#191c30',P.fig+'70',1.4)+
+   if(ao>0)s+=this.g(this.ell(AX,AY,ARX,ARY,'#edf1f8',P.fig+'70',1.4)+
      this.ic('brain',AX-76,AY-11,19,P.fig)+
-     this.text(T('agentPick'),AX+10,AY+6,15,'#f0dcc0',500,'middle'),ao,0,(1-ao)*8);
+     this.text(T('agentPick'),AX+10,AY+6,15,'#a97328',500,'middle'),ao,0,(1-ao)*8);
    /* 输入 → agent（水平，贴框边到椭圆左缘） */
    if(io2>0){
     s+=this.g(this.ar(IX+IW,AY,AX-ARX,AY,'f',1.4),ramp(u,3.9,4.5));
     s+=this.g(this.text(T('provide'),(IX+IW+AX-ARX)/2,AY-12,12.5,P.muted,450,'middle'),ramp(u,4.2,4.8));}
    /* 调用工具（右上） */
    const t1=ramp(u,4.9,5.5);
-   if(t1>0)s+=this.g(this.ell(CX,CY,TRX,TRY,'#191c30',P.fig+'55')+
+   if(t1>0)s+=this.g(this.ell(CX,CY,TRX,TRY,'#edf1f8',P.fig+'55')+
      this.ic('wrench',CX-62,CY-9,17,P.fig)+
-     this.text(T('callTool'),CX+12,CY+5,14,'#e3cdae',450,'middle'),t1);
+     this.text(T('callTool'),CX+12,CY+5,14,'#9b7136',450,'middle'),t1);
    /* 执行工具（左上） */
    const t2=ramp(u,5.4,6.0);
-   if(t2>0)s+=this.g(this.ell(RX,RY,TRX,TRY,'#191c30',P.fig+'55')+
+   if(t2>0)s+=this.g(this.ell(RX,RY,TRX,TRY,'#edf1f8',P.fig+'55')+
      this.ic('bolt',RX-60,RY-9,17,P.fig)+
-     this.text(T('runTool'),RX+10,RY+5,14,'#e3cdae',450,'middle'),t2);
+     this.text(T('runTool'),RX+10,RY+5,14,'#9b7136',450,'middle'),t2);
    /* agent →(信息不充分) 调用工具：斜线，标签在线段中点外侧 */
    if(t1>0){
     const x0=AX+ARX*0.72, y0=AY-ARY*0.70, x1=CX-TRX*0.62, y1=CY+TRY*0.78;
@@ -499,9 +500,9 @@ class Film{
    const do2=ramp(u,6.8,7.5);
    if(do2>0)s+=this.g(this.ar(AX+ARX,AY,QX-QRX,AY,'m',1.5)+
      this.text(T('enough'),(AX+ARX+QX-QRX)/2,AY-12,12.5,P.mrg,450,'middle')+
-     this.ell(QX,QY,QRX,QRY,'#13241f',P.mrg+'70',1.4)+
+     this.ell(QX,QY,QRX,QRY,'#f1f4fa',P.mrg+'70',1.4)+
      this.ic('reply',QX-64,QY-10,18,P.mrg)+
-     this.text(T('answerSub'),QX+12,QY+5,14,'#cfe8dd',500,'middle'),do2);
+     this.text(T('answerSub'),QX+12,QY+5,14,'#3f926e',500,'middle'),do2);
   }
   return s;}
 
@@ -519,9 +520,9 @@ class Film{
    const o=ramp(u,.5+j*.42,1.1+j*.42);
    if(o<=0)return;
    const y=st.y+54+j*104;
-   s+=this.g(this.rect(st.x+34,y,st.w-92,76,'#13211d',P.mrg+'55',12)+
+   s+=this.g(this.rect(st.x+34,y,st.w-92,76,'#f1f5fa',P.mrg+'55',12)+
     this.ic(b[1],st.x+54,y+28,20,P.mrg)+
-    this.text(b[0],st.x+86,y+45,16.5,'#d8e6e0',450),o,0,(1-o)*8);
+    this.text(b[0],st.x+86,y+45,16.5,'#3f926f',450),o,0,(1-o)*8);
    if(j<2){const lp=ramp(u,.85+j*.42,1.25+j*.42);
     if(lp>0)s+=this.ar(st.x+34+(st.w-92)/2,y+76,st.x+34+(st.w-92)/2,y+76+lerp(0,26,lp),'m',1.5);}
   });
@@ -553,12 +554,12 @@ class Film{
   const YD=Y2+BH2+80, Y3=YD+58, OH=76;
 
   const step=(x,y,w,h,n,d,a)=>{
-   let o=this.rect(x,y,w,h,'#17151f',P.fig+'4d',12);
+   let o=this.rect(x,y,w,h,'#f1f5fa',P.fig+'4d',12);
    o+=this.text(String(n).padStart(2,'0'),x+16,y+26,12,P.fig+'cc',500,'start',MF);
    o+=this.ic(d[2],x+w-34,y+11,18,P.fig+'88');
-   a.t.forEach((l,i2)=>{o+=this.text(l,x+16,y+48+i2*TLH,TS,'#eadbc4',500);});
+   a.t.forEach((l,i2)=>{o+=this.text(l,x+16,y+48+i2*TLH,TS,'#9a7337',500);});
    const y0=y+48+(a.t.length-1)*TLH+DLH+4;
-   a.d.forEach((l,i2)=>{o+=this.text(l,x+16,y0+i2*DLH,DS,'#a3937d',400);});
+   a.d.forEach((l,i2)=>{o+=this.text(l,x+16,y0+i2*DLH,DS,'#526078',400);});
    return o;};
 
   /* 第一排 01-04 */
@@ -601,15 +602,15 @@ class Film{
   if(dc>0){
    const lw=this.mw(T('figDecision'),14)+24;
    s+=this.g(this.line(X0,YD,X0+IW,YD,P.fig+'2e',1)+
-     this.rect(st.x+st.w/2-lw/2-8,YD-14,lw+16,28,'#141018','none',6)+
+     this.rect(st.x+st.w/2-lw/2-8,YD-14,lw+16,28,'#f3f6fb','none',6)+
      this.ic('scale',st.x+st.w/2-lw/2,YD-8,17,P.fig)+
-     this.text(T('figDecision'),st.x+st.w/2-lw/2+24,YD+5,14,'#cbb89b',450),dc);
+     this.text(T('figDecision'),st.x+st.w/2-lw/2+24,YD+5,14,'#92713f',450),dc);
   }
   /* 三种交付结果 */
   /* 分区框：高度由内容实测 */
   s=this.g(this.zone(st.x,st.y,st.w,Y3+OH+26-st.y,P.fig,T('figZone'),'img',-(u*10)%18),op)+s;
   T('figOut').forEach((d,j)=>{
-   const col=[P.mrg,P.fig,P.warn][j], fill=['#13211d','#1d1811','#1f1418'][j];
+   const col=[P.mrg,P.fig,P.warn][j], fill=['#f1f5fa','#f2f5fa','#f1f5fa'][j];
    const key=['m','f','w'][j], x=x2(j);
    const lp=ramp(u,3.95+j*.2,4.3+j*.2);
    if(lp>0)s+=this.g(this.ar(x+W2/2,YD+16,x+W2/2,YD+16+lerp(0,Y3-YD-18,lp),key,1.3,'5 4'),lp);
@@ -617,9 +618,9 @@ class Film{
    if(o<=0)return;
    let c=this.rect(x,Y3,W2,OH,fill,col+'55',12);
    c+=this.ic(d[2],x+16,Y3+16,20,col);
-   c+=this.text(d[0],x+46,Y3+32,15,'#e2e9f0',500);
+   c+=this.text(d[0],x+46,Y3+32,15,'#3f6992',500);
    this.wrap(d[1],W2-32,13).forEach((l,i2)=>{
-    c+=this.text(l,x+16,Y3+56+i2*17,13,'#98a2b0',400);});
+    c+=this.text(l,x+16,Y3+56+i2*17,13,'#526078',400);});
    s+=this.g(c,o,0,(1-o)*8);
   });
   return s;}
@@ -642,7 +643,7 @@ class Film{
   const cy0=PGY+(PGH-(CH*2+16))/2;
 
   /* 两路来源 */
-  const CK=[[P.mrg,'#13211d','#cfe8dd'],[P.fig,'#1d1811','#e6d2b6']];
+  const CK=[[P.mrg,'#f1f5fa','#3f926e'],[P.fig,'#f2f5fa','#9c7135']];
   T('mergeIn').forEach((c,j)=>{
    const o=ramp(u,.55+j*.22,1.15+j*.22);
    if(o<=0)return;
@@ -659,20 +660,20 @@ class Film{
   /* 成稿：纸页（浅色）叠成一摞 */
   const po=ramp(u,1.7,2.35);
   if(po<=0)return s;
-  let pg=this.rect(PGX+14,PGY+14,PGW,PGH,'#8d9bac','none',12)+
-         this.rect(PGX+7,PGY+7,PGW,PGH,'#bdc8d6','none',12)+
-         this.rect(PGX,PGY,PGW,PGH,'#f2f5f9','#ffffff2a',12);
+  let pg=this.rect(PGX+14,PGY+14,PGW,PGH,'#526078','none',12)+
+         this.rect(PGX+7,PGY+7,PGW,PGH,'#3f6492','none',12)+
+         this.rect(PGX,PGY,PGW,PGH,'#3f6392','#647eaa2a',12);
   s+=this.g(pg,po,0,(1-po)*10);
 
   const px=PGX+16, py=PGY+16, pw=PGW-32;
   /* 标题 · 语言 · 元信息 */
   const to=ramp(u,2.15,2.7);
   if(to>0){
-   s+=this.g(this.text(T('mockTitle'),px,py+14,13.5,'#1e2733',600)+
-     this.rect(px+pw-52,py-4,52,18,P.mrg+'2e','#3f8c71',5)+
+   s+=this.g(this.text(T('mockTitle'),px,py+14,13.5,'#ebf0f8',600)+
+     this.rect(px+pw-52,py-4,52,18,P.mrg+'2e','#3d8e72',5)+
      this.text(T('mockPill'),px+pw-26,py+9,9.5,'#2c7259',600,'middle',MF)+
-     this.text(T('mockMeta'),px,py+32,11,'#78849a',450)+
-     this.line(px,py+42,px+pw,py+42,'#d2d9e3',1),to);
+     this.text(T('mockMeta'),px,py+32,11,'#526078',450)+
+     this.line(px,py+42,px+pw,py+42,'#3f6192',1),to);
   }
   /* 正文栏：文字行 + 引用块 */
   const RW=Math.round(pw*.42), RX=px+pw-RW, LW=pw-RW-26;
@@ -682,26 +683,26 @@ class Film{
    const o=ramp(u,2.4+j*.1,2.85+j*.1);
    if(o<=0)return;
    const y=BT+j*14;
-   let r=this.rect(px,y,w,7,'#c6cfdb','none',3);
+   let r=this.rect(px,y,w,7,'#3f6392','none',3);
    if(j===2)r+=this.rect(px+w+6,y-1,30,9,P.txt+'8c','none',3);
    if(j===4)r+=this.rect(px+w+6,y-1,30,9,P.txt+'8c','none',3);
    s+=this.g(r,o);
   });
   const fo=ramp(u,2.95,3.3);
-  if(fo>0)s+=this.g(this.rect(px,BT+72,Math.round(LW*.46),6,'#dbe2ea','none',3),fo);
+  if(fo>0)s+=this.g(this.rect(px,BT+72,Math.round(LW*.46),6,'#3f6692','none',3),fo);
 
   /* 配图栏：页内嵌的一张图 */
   const go=ramp(u,2.9,3.45);
   if(go>0){
-   let f=this.rect(RX,BT,RW,78,'#ffffff','#dde4ed',7);
+   let f=this.rect(RX,BT,RW,78,'#172b45','#3f6392',7);
    const ax=RX+12, aw=RW-24, base=BT+52;
-   f+=this.line(ax,base,ax+aw,base,'#c9d2de',1);
+   f+=this.line(ax,base,ax+aw,base,'#3f6392',1);
    [28,44,20,36].forEach((h,j)=>{
     const o=ramp(u,3.05+j*.09,3.4+j*.09);
     if(o<=0)return;
     const bw=22, gp=Math.round((aw-bw*4)/5), x=ax+gp+j*(bw+gp), hh=h*ease(o);
     f+=this.rect(x,base-hh,bw,hh,[P.fig,P.txt,P.fig,P.mrg][j]+'d9','none',2);});
-   f+=this.text(T('mockFigCap'),ax,BT+70,9.5,'#8b96a6',450);
+   f+=this.text(T('mockFigCap'),ax,BT+70,9.5,'#526078',450);
    s+=this.g(f,go);
   }
   return s;}
@@ -718,7 +719,7 @@ class Film{
    amb+=this.dot(x,y,n%7===0?1.6:.9,P.txt,.03+hash(n+77)*.05);}
   const defs=`<defs>${mk}<radialGradient id="aura" cx="50%" cy="28%" r="70%">`+
    `<stop stop-color="${P.txt}" stop-opacity=".07"/>`+
-   `<stop offset=".62" stop-color="#16324a" stop-opacity=".025"/>`+
+   `<stop offset=".62" stop-color="#e9eef6" stop-opacity=".025"/>`+
    `<stop offset="1" stop-color="${P.bg}" stop-opacity="0"/></radialGradient></defs>`;
   const body=this.world()+this.expNode()+this.expSyn()+this.expFig()+this.expMrg();
   return `<svg viewBox="${c.x.toFixed(1)} ${c.y.toFixed(1)} ${c.w.toFixed(1)} ${c.h.toFixed(1)}" `+
@@ -884,7 +885,7 @@ const PREVIEW_COPY = {
     topics: ['The claim and its scope', 'Standards and verification', 'Community and governance'],
     figure: 'From the report', zoom: 'Click to enlarge',
     sources: 'Traceable sources', sourceLabels: ['OpenAI', 'Math & AI'],
-    read: 'Read the report and references', languages: 'ZH / EN',
+    read: 'Read the report and references', languages: 'English',
     figureLabel: 'Enlarge Figure A: scope of the four prize-eligible alternatives',
   },
 };
@@ -1001,6 +1002,8 @@ function buildDoc(){
 
 /* ===== 语言 ===== */
 function applyLang(){
+ lang='en';docLang='en';
+ lang='en';docLang='en';
  document.title=lang==='en'?'Agents-A1.5 · Deep Research':'Agents-A1.5 · 深度调研';
  const languageURL=new URL((window.showcaseLocation||window.location).href);
  languageURL.searchParams.set('lang',lang);

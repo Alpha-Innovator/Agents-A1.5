@@ -161,7 +161,7 @@ const COPY={
   reflNone:'Leads into the next step'
  }};
 const DIM_ORDER=['known','reflect','gaps','deadend','action'];
-let lang='zh';                      /* 默认中文, 右上角可切换 */
+let lang='en';                      /* 默认中文, 右上角可切换 */
 const C=()=>COPY[lang];
 
 /* ================= 演示播放 ================= */
@@ -220,7 +220,7 @@ $('[data-play-jump]').onclick=()=>{$('#theater').scrollIntoView({block:'center'}
 
 /* ================= 反思内容 ================= */
 const paras=DATA.reflection.paras;
-let reflLang='zh';                  /* 引文本身用哪种语言, 与页面语言分开 */
+let reflLang='en';                  /* 引文本身用哪种语言, 与页面语言分开 */
 function renderReflection(){
   const zh=reflLang==='zh';
   $('#reflectionBody').innerHTML=paras.map((p,i)=>{
@@ -300,10 +300,11 @@ function renderLab(){
   $$('[data-verify]').forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.verify==='on')===on)));
 }
 $$('[data-verify]').forEach(b=>b.onclick=()=>{lab.on=b.dataset.verify==='on';renderLab();});
-$$('[data-refl]').forEach(b=>b.onclick=()=>{reflLang=b.dataset.refl;renderReflection();});
+$$('[data-refl]').forEach(b=>b.onclick=()=>{reflLang='en';renderReflection();});
 
 /* ================= 语言切换 ================= */
 function setLang(l){
+  l='en';
   lang=l;
   reflLang=l;                       /* 切页面语言时引文跟着走, 之后仍可单独切 */
   document.documentElement.lang=(l==='zh'?'zh-CN':'en');
@@ -332,7 +333,7 @@ $$('.language-switch button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
 /* ---- 未来工作配图: 只有「上一个记录点 → 这次反思」这一段被替换 ---- */
 function nextVisual(){
   const W=520,H=320;
-  const P={dim:'#4A4C61',amber:'#EDB389',mint:'#8EDDCB',muted:'#A6A3BB',purple:'#BBA6FA',edge:'#2A2D41'};
+  const P={dim:'#64748b',amber:'#a4611d',mint:'#087f83',muted:'#526078',purple:'#7052bc',edge:'#cad7e7'};
   const FF=()=>getComputedStyle(document.body).fontFamily.replace(/"/g,"'");
   const zh=lang==='zh';
   const txt=(t,x,y,col,size,anchor)=>'<text x="'+x+'" y="'+y+'" font-size="'+(size||12)+'" fill="'+col+'"'+

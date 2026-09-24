@@ -1,7 +1,7 @@
 
 'use strict';
 const D=JSON.parse(document.getElementById('case-data').textContent),F=D.frames,$=id=>document.getElementById(id);
-let lang='zh';const t=(zh,en)=>lang==='en'?en:zh;
+let lang='en';const t=(zh,en)=>lang==='en'?en:zh;
 let titles=['初始结构','背景与比例','晶胞长度','晶胞角度','坐标 1–2','续跑 1–2','坐标 3–4','坐标 5–6','坐标 7'];
 let narrative=[
  ['输入初始 CIF 与观测 XYE，建立谱图基线。还没有开放任何优化参数。','载入 8 个原子的晶格与分数坐标，固定原点原子，记录初始 Rwp。','形成初始 accepted checkpoint，后续每一次试探都要与它或后续已接受状态比较。'],
@@ -31,7 +31,7 @@ const ZH={titles,narrative,reviews:reviewNotes};
 const staticBindings=EN.static.map(([selector,en])=>{const el=document.querySelector(selector);if(!el)throw Error('Missing locale binding: '+selector);return {el,en,zh:el.innerHTML}});
 const attributeBindings=EN.attributes.map(([selector,key,en])=>{const el=document.querySelector(selector);if(!el)throw Error('Missing attribute binding: '+selector);return {el,key,en,zh:el.getAttribute(key)}});
 const fallbackText=$('fallback').firstChild.textContent;
-function setLanguage(value){lang=value==='en'?'en':'zh';document.documentElement.lang=lang==='en'?'en':'zh-CN';titles=lang==='en'?EN.titles:ZH.titles;narrative=lang==='en'?EN.narrative:ZH.narrative;reviewNotes=lang==='en'?EN.reviews:ZH.reviews;
+function setLanguage(value){lang='en';document.documentElement.lang=lang==='en'?'en':'zh-CN';titles=lang==='en'?EN.titles:ZH.titles;narrative=lang==='en'?EN.narrative:ZH.narrative;reviewNotes=lang==='en'?EN.reviews:ZH.reviews;
  staticBindings.forEach(b=>b.el.innerHTML=b[lang]);attributeBindings.forEach(b=>b.el.setAttribute(b.key,b[lang]));
  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===lang)));
  document.title=t('自主 Rietveld 精修 · Agents-A1.5','Autonomous Rietveld Refinement · Agents-A1.5');
@@ -103,7 +103,7 @@ function drawSpectrum(){const [c,w,h]=context('spectrum'),left=43,right=w-12,top
  c.fillStyle='#526078';c.textAlign='center';for(let v=Math.ceil(D.x[0]/10)*10;v<D.x.at(-1);v+=10)c.fillText(v+'°',x(v),h-3);c.textAlign='right';c.fillText('2θ',right,13);c.textAlign='left';c.fillText('Intensity',left,10)
 }
 function initScene(){try{scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(34,1,.1,100);camera.position.set(0,0,21);renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.outputEncoding=THREE.sRGBEncoding;$('structure').prepend(renderer.domElement);scene.add(new THREE.AmbientLight(0xffffff,.7));const light=new THREE.DirectionalLight(0xffffff,1.15);light.position.set(3,7,8);scene.add(light);const rim=new THREE.DirectionalLight(0xc7b5f0,.6);rim.position.set(-5,-1,2);scene.add(rim);group=new THREE.Group();scene.add(group);
- D.elements.forEach((symbol,i)=>{const mesh=new THREE.Mesh(new THREE.SphereGeometry(symbol==='Sc'?.32:.27,32,20),new THREE.MeshStandardMaterial({color:symbol==='Sc'?0xb9a4fc:0xf1b77c,roughness:.33,metalness:.25}));group.add(mesh);atoms.push(mesh)});
+ D.elements.forEach((symbol,i)=>{const mesh=new THREE.Mesh(new THREE.SphereGeometry(symbol==='Sc'?.32:.27,32,20),new THREE.MeshStandardMaterial({color:symbol==='Sc'?0x7052bc:0xb67e2b,roughness:.33,metalness:.25}));group.add(mesh);atoms.push(mesh)});
  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(72),3));cellLines=new THREE.LineSegments(geometry,new THREE.LineBasicMaterial({color:0x83729e,transparent:true,opacity:.8}));group.add(cellLines);
  renderer.domElement.onpointerdown=e=>{drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)};renderer.domElement.onpointermove=e=>{if(drag){angle+=(e.clientX-drag[0])*.008;tilt=Math.max(-1.3,Math.min(1.3,tilt+(e.clientY-drag[1])*.008));drag=[e.clientX,e.clientY]}};renderer.domElement.onpointerup=renderer.domElement.onpointercancel=()=>drag=null;resizeScene();
  }catch(e){$('fallback').style.display='block';$('rotate').disabled=true;$('resetView').disabled=true;console.warn('WebGL unavailable:',e.message)}}

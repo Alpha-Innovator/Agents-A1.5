@@ -1,0 +1,45 @@
+{
+  "blocks": [
+    {
+      "kind": "css",
+      "path": "assets/css/index-0-923c42398dc0.css",
+      "sha256": "923c42398dc0809a7e63d62a092308ad21429aa6d1afd73f896d0a5da80fe0d4",
+      "attrs": "",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-0-923c42398dc0.css\">",
+      "original_sha256": "79ff437f9aa1ab136d36da847e8ef5dd1aa98a3471de903829ae10eb353e5f89"
+    },
+    {
+      "kind": "json",
+      "path": "assets/data/case-data-035a5df75a6b.js",
+      "sha256": "035a5df75a6b03114f57b4163deb6f6e4789bab620a540906b3fdcc30d0be387",
+      "attrs": " id=\"case-data\" type=\"application/json\"",
+      "replacement": "<script id=\"case-data\" type=\"application/json\"></script><script src=\"assets/data/case-data-035a5df75a6b.js\"></script>",
+      "original_sha256": "626f70b41b86a3e50c5af761f83f4e11765f1be7b5c9410fba7abd4ddcc3746e",
+      "prefix": "document.getElementById(\"case-data\").textContent="
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-2-866e2f9194f6.js",
+      "sha256": "866e2f9194f60bd17e19dcd08986944dc0852fa8614c0ce8f32c4b3cbff11250",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-2-866e2f9194f6.js\"></script>",
+      "original_sha256": "866e2f9194f60bd17e19dcd08986944dc0852fa8614c0ce8f32c4b3cbff11250"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-3-0cae47ec92ec.js",
+      "sha256": "0cae47ec92ecdaccea3ac446c52b481d7dc9d52fc2c08dea76fb3be29892829d",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-3-0cae47ec92ec.js\"></script>",
+      "original_sha256": "0cae47ec92ecdaccea3ac446c52b481d7dc9d52fc2c08dea76fb3be29892829d"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-4-cbb6348f115b.js",
+      "sha256": "cbb6348f115bf6a341d990a515103db97efb1a1487677acafe53d3959cec4e8e",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-4-cbb6348f115b.js\"></script>",
+      "original_sha256": "cbb6348f115bf6a341d990a515103db97efb1a1487677acafe53d3959cec4e8e"
+    }
+  ]
+}

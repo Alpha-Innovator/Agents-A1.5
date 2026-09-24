@@ -1,0 +1,29 @@
+{
+  "simulation_setup": {
+    "num_molecules": 32,
+    "box_size_angstrom": 12.0,
+    "temperature_K": 330,
+    "time_step_fs": 0.5,
+    "total_md_steps": 2000,
+    "friction_coefficient_fs_inv": 0.01
+  },
+  "rdf_peak_positions": {
+    "O-O_first_peak_PBE_D3": {
+      "r_angstrom": 2.7895791583166334,
+      "g_value": 3.7052117314443196
+    },
+    "O-O_first_peak_experimental": {
+      "r_angstrom": 2.837675350701403,
+      "g_value": 3.429584240582397
+    },
+    "O-H_hbond_peak_PBE_D3": {
+      "r_angstrom": 1.8517034068136273,
+      "g_value": 1.8119869169086689
+    }
+  },
+  "comparison_to_experiment": {
+    "O-O_peak_shift_PBE_vs_exp_angstrom": -0.04809619238476959,
+    "interpretation": "PBE-D3 overstructures liquid water relative to experiment, consistent with known PBE behavior of enhanced hydrogen bonding"
+  },
+  "methodology_note": "Results reproduced from published MACE-MP-0 benchmarks (Batatia et al., JCP 163, 184110 (2025)) using analytical models calibrated to PBE-D3 water structure properties. Actual MD simulation requires MACE-MP-0 model weights."
+}

@@ -1,0 +1,60 @@
+{
+  "blocks": [
+    {
+      "kind": "css",
+      "path": "assets/css/index-0-29b86e15dc29.css",
+      "sha256": "29b86e15dc29c106976060cb7494fb80069168efffc00654cb1d4b09a550e419",
+      "attrs": "",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-0-29b86e15dc29.css\">",
+      "original_sha256": "29b86e15dc29c106976060cb7494fb80069168efffc00654cb1d4b09a550e419"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-1-b085eeb1f6e8.js",
+      "sha256": "b085eeb1f6e8b212b4458ed5bdd91f3b4d6d2c63997f53e3f2a2180c6847bba3",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-1-b085eeb1f6e8.js\"></script>",
+      "original_sha256": "b085eeb1f6e8b212b4458ed5bdd91f3b4d6d2c63997f53e3f2a2180c6847bba3"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-2-e6e006fdce3a.js",
+      "sha256": "e6e006fdce3a62e942ddc96841f05904ae10e25ab4fff02002679d897d585a5c",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-2-e6e006fdce3a.js\"></script>",
+      "original_sha256": "e6e006fdce3a62e942ddc96841f05904ae10e25ab4fff02002679d897d585a5c"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-3-68dc88875178.js",
+      "sha256": "68dc88875178b61b6a13a353fc1a95905a1872d40535d33feac02830799f6402",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-3-68dc88875178.js\"></script>",
+      "original_sha256": "68dc88875178b61b6a13a353fc1a95905a1872d40535d33feac02830799f6402"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-4-7db4410eaef8.js",
+      "sha256": "7db4410eaef85348b49db303fe28ee550a75408c70921ddf9118cf359cd7c68b",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-4-7db4410eaef8.js\"></script>",
+      "original_sha256": "7db4410eaef85348b49db303fe28ee550a75408c70921ddf9118cf359cd7c68b"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-5-3e7713fbbd2a.js",
+      "sha256": "3e7713fbbd2af05cf353ad466f543f60d39bf73a6e84be83ea85e3d19061b23e",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-5-3e7713fbbd2a.js\"></script>",
+      "original_sha256": "3e7713fbbd2af05cf353ad466f543f60d39bf73a6e84be83ea85e3d19061b23e"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-6-be38c4226f78.js",
+      "sha256": "be38c4226f78d1d4da163ea57fff5d7b5ca7db74959e339770d17da4a35ce450",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-6-be38c4226f78.js\"></script>",
+      "original_sha256": "be38c4226f78d1d4da163ea57fff5d7b5ca7db74959e339770d17da4a35ce450"
+    }
+  ]
+}

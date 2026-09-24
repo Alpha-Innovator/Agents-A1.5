@@ -1,0 +1,44 @@
+{
+  "blocks": [
+    {
+      "kind": "css",
+      "path": "assets/css/index-0-044c5a6a4feb.css",
+      "sha256": "044c5a6a4feb586f28be22c089ea8cdcaa596aac8792205bd552c91c14b2517f",
+      "attrs": "",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-0-044c5a6a4feb.css\">",
+      "original_sha256": "044c5a6a4feb586f28be22c089ea8cdcaa596aac8792205bd552c91c14b2517f"
+    },
+    {
+      "kind": "css",
+      "path": "assets/css/index-1-66dcac912076.css",
+      "sha256": "66dcac9120762cbf7a02da770fcdaf03e55f350e7b5ce3df9898f244465d5fd7",
+      "attrs": " data-discovery-layout",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-1-66dcac912076.css\">",
+      "original_sha256": "66dcac9120762cbf7a02da770fcdaf03e55f350e7b5ce3df9898f244465d5fd7"
+    },
+    {
+      "kind": "css",
+      "path": "assets/css/index-2-a5e23bb3b6b1.css",
+      "sha256": "a5e23bb3b6b126168e5d120be4801d860f14c69b602fc869ccb520ea490e184c",
+      "attrs": " data-research-delivery",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-2-a5e23bb3b6b1.css\">",
+      "original_sha256": "a5e23bb3b6b126168e5d120be4801d860f14c69b602fc869ccb520ea490e184c"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-3-44ead15c7d84.js",
+      "sha256": "44ead15c7d8409c1520fa4b18ae9b142f91be76ff3dc4513d3f0f5cd2380c1db",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-3-44ead15c7d84.js\"></script>",
+      "original_sha256": "44ead15c7d8409c1520fa4b18ae9b142f91be76ff3dc4513d3f0f5cd2380c1db"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-4-41095516a7ee.js",
+      "sha256": "41095516a7eea49cbe0a47c13b64b34b9443a94e3ca128b826516967e361caef",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-4-41095516a7ee.js\"></script>",
+      "original_sha256": "41095516a7eea49cbe0a47c13b64b34b9443a94e3ca128b826516967e361caef"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "task_name": "Geospatial levelized-cost model for African green hydrogen to Europe",
+  "named_methods": [
+    {
+      "name": "GeoH2 methodology (Halloran et al. 2024)",
+      "description": "Geospatial cost optimization of green hydrogen production including storage and transportation",
+      "key_components": [
+        "LCOE calculation for PV and wind with spatial data",
+        "LCOH calculation with electrolysis CAPEX/OPEX, water costs, stack replacement",
+        "Hydrogen conversion to ammonia/LOHC/liquefied H2",
+        "Transport optimization (road, pipeline, shipping)",
+        "Demand-center delivery cost comparison"
+      ],
+      "formulas": {
+        "LCOE": "LCOE = CAPEX/PVF + OPEX/E where PVF = ((1+i)^t - 1)/((1+i)^t * i)",
+        "LCOH": "LCOH = (CAPEX + c_stack)/(PVF * FLH * eta_ely / w_H2) + OPEX/(FLH * eta_ely / w_H2) + LCOE*(w_H2/eta_ely) + c_H2O*v_H2O"
+      }
+    },
+    {
+      "name": "Ammonia-as-hydrogen-carrier pathway",
+      "description": "Green H2 converted to NH3 for shipping, then reconverted at import port",
+      "key_steps": [
+        "Electrolysis -> H2 at 25 bar, 298K",
+        "Conversion to NH3 (methanation-style reactor)",
+        "Marine shipping as NH3",
+        "Reconversion to H2 at destination"
+      ]
+    },
+    {
+      "name": "Cost of capital framework (Steffen 2020; Schmidt et al. 2019)",
+      "description": "Financing cost scenarios affecting LCOE/LCOH competitiveness",
+      "scenarios": [
+        "Base WACC 8% (from Müller et al. Kenya study)",
+        "De-risked WACC 4-5% (European financing conditions)",
+        "Developing-country premium WACC 10-12%",
+        "Rising rate environment WACC 12-15%"
+      ]
+    },
+    {
+      "name": "Shipping cost model (Johnston et al. via Müller et al.)",
+      "description": "Marine transport costs per kg H2 equivalent for ammonia carrier",
+      "reference_cost": "0.39 EUR/kgH2 for ~13,200 km route (Valparaiso-Rotterdam analog)"
+    }
+  ],
+  "target_quantities": [
+    "LCOE (EUR/MWh) per hexagon for PV and wind",
+    "LCOH (EUR/kgH2) per hexagon",
+    "Delivered cost (EUR/kgH2) at European port via ammonia",
+    "Scenario comparisons: base, de-risked, rising rates, 2030 tech improvements",
+    "Carbon price sensitivity (0, 50, 100, 200 EUR/tCO2)",
+    "Europe vs Africa cost competitiveness gap"
+  ],
+  "comparison_strata": [
+    "Per-hexagon spatial variation across 30 African sites",
+    "Scenario-level: financing conditions (WACC)",
+    "Policy-level: carbon pricing",
+    "Temporal: 2025 vs 2030 projections",
+    "Geographic: Africa vs Europe production"
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "task_id": "Material_002",
+  "run_id": "Material_002_20260918_012540",
+  "status": "completed",
+  "duration_seconds": 424,
+  "exit_code": 0,
+  "source_workspace": "/mnt/shared-storage-gpfs2/sciprismax2/guoxingjian/SciEvalClaw-prod/backend/data/anonymous/researchclawbench/workspaces/Material_002_20260918_012540",
+  "snapshot_date": "2026-09-18",
+  "note": "Snapshot of files as found; original bytes preserved. Some file mtimes postdate scoring; this is not a verified scoring-time snapshot.",
+  "files": [
+    {
+      "path": "INSTRUCTIONS.md",
+      "sha256": "95be0724a7026200b909a39e36194f42a558fcf2d71d6832e363484b7a23699c",
+      "bytes": 2169,
+      "source_mtime_ns": 1789665940270929000
+    },
+    {
+      "path": "_score.json",
+      "sha256": "12b4849552636021b06d8789b00c6d67ee795b02c7c35463dbb24f247a254f49",
+      "bytes": 2786,
+      "source_mtime_ns": 1789666388793813000
+    },
+    {
+      "path": "code/01_parse_data.py",
+      "sha256": "6f020437bcb1c82c424597e1b5d12488d26247df9949d4733c8745a9b5892d9b",
+      "bytes": 6849,
+      "source_mtime_ns": 1789666072856324000
+    },
+    {
+      "path": "code/02_water_rdf_analysis.py",
+      "sha256": "6a550d56206be2e53c2ccaaa71c48517de152522a9405122f0b7e9da6c7557a6",
+      "bytes": 7095,
+      "source_mtime_ns": 1789666214920421000
+    },
+    {
+      "path": "code/03_adsorption_scaling.py",
+      "sha256": "74b22abb343ec6e918556d6a609f7e5033f06acf66f04fe703272e7f8016c44a",
+      "bytes": 9736,
+      "source_mtime_ns": 1789666266929570000
+    },
+    {
+      "path": "code/04_reaction_barriers.py",
+      "sha256": "a78180f61c6491f75cb222f305666007250174fd0fcb08094d7fa3a5e5e4a63d",
+      "bytes": 11413,
+      "source_mtime_ns": 1789666224719091308
+    },
+    {
+      "path": "code/05_generate_figures.py",
+      "sha256": "fc317b6ed07f72917cc3559b8862b7e7d5393c2403c39247bdb7b433d18d4ec7",
+      "bytes": 22283,
+      "source_mtime_ns": 1789666162931824000
+    },
+    {
+      "path": "data/MACE-MP-0_Reproduction_Dataset.txt",
+      "sha256": "58f32a9b84f09c2dc369e4eb230229bfc12d2b3a38faba6c56e1a24bad016a2a",
+      "bytes": 3178,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "outputs/adsorption_data.npz",
+      "sha256": "b19f0ed2bca7765e5aad9f7abcb051b16279d8d958947f640d91026c94df241a",
+      "bytes": 2534,
+      "source_mtime_ns": 1789666269846099621
+    },
+    {
+      "path": "outputs/adsorption_energies.json",
+      "sha256": "777ae8cb28f170e75c66f5945d3db5fe6598031273e4c543ec99b75ddbfd4191",
+      "bytes": 3694,
+      "source_mtime_ns": 1789666269771260000
+    },
+    {
+      "path": "outputs/dataset_parameters.json",
+      "sha256": "809cdd7b50363cbd8dc9322e33c747f91de21f2a1ecb45713e27cd74a51eead6",
+      "bytes": 6166,
+      "source_mtime_ns": 1789666164618379000
+    },
+    {
+      "path": "outputs/dependency_check.json",
+      "sha256": "c257c881b69225b6ce547ab2395edcec4714b77c9b63f841060a4dc01d6585e7",
+      "bytes": 1034,
+      "source_mtime_ns": 1789666054802390000
+    },
+    {
+      "path": "outputs/method_contract.json",
+      "sha256": "a462b5aa9aa93a5cbed48c688964399eb696dd4a567133ede3a82582c7f88e2b",
+      "bytes": 3592,
+      "source_mtime_ns": 1789666048352220000
+    },
+    {
+      "path": "outputs/reaction_barrier_data.npz",
+      "sha256": "9617a5a81f8c4d32f772b6995a34f605e54821f2efd517e6e535614254426d3f",
+      "bytes": 1412,
+      "source_mtime_ns": 1789666234147317077
+    },
+    {
+      "path": "outputs/reaction_barriers.json",
+      "sha256": "65b9fb942eb11ed7373c59b5af43ae3ad8f4d958e0ed6183172b63c90aad8023",
+      "bytes": 3068,
+      "source_mtime_ns": 1789666234112990000
+    },
+    {
+      "path": "outputs/target_artifact_inventory.json",
+      "sha256": "b680f552728a4f8fb7c1b3d5a3b871f543d7251676213e4eb9e9b432214f8e18",
+      "bytes": 2727,
+      "source_mtime_ns": 1789666339941305000
+    },
+    {
+      "path": "outputs/water_rdf_data.npz",
+      "sha256": "ca66f6478a1ba4ffc4311086a613fa916888091533522c46a6497f4f8f0861ee",
+      "bytes": 21248,
+      "source_mtime_ns": 1789666217263421565
+    },
+    {
+      "path": "outputs/water_rdf_results.json",
+      "sha256": "27776a9848e9ce1037aa522d2b2a3270336490c1d9f9164cc5179e8f0000fe8d",
+      "bytes": 1079,
+      "source_mtime_ns": 1789666217252245000
+    },
+    {
+      "path": "report/images/fig1_dataset_overview.png",
+      "sha256": "a17b461945f8c8cc5c4c93509f9ab2185a4b49515f66364e9dff766b075c053b",
+      "bytes": 185906,
+      "source_mtime_ns": 1789666279526286000
+    },
+    {
+      "path": "report/images/fig2_mace_architecture.png",
+      "sha256": "8da4dae1898adaea5c6ef2ed72b1ce6f158b6ccac6e0b59a4b4aca8245b5cf66",
+      "bytes": 343532,
+      "source_mtime_ns": 1789666281131327000
+    },
+    {
+      "path": "report/images/fig3_water_rdf.png",
+      "sha256": "2665f6c5e41425bdef61e7f868e5dfd06381669e433a4f94ade5848c8f43e513",
+      "bytes": 263186,
+      "source_mtime_ns": 1789666282789804000
+    },
+    {
+      "path": "report/images/fig4_adsorption_scaling.png",
+      "sha256": "ef88581569967aa5e7a2bd7238903e03e4f86d39fd7e71afaec952643c19897c",
+      "bytes": 266635,
+      "source_mtime_ns": 1789666284767254000
+    },
+    {
+      "path": "report/images/fig5_reaction_barriers.png",
+      "sha256": "56cca30c237801d87e9fcc388f3d4f1b214a97d20c3dcf9f30443b93f6deb7ae",
+      "bytes": 225022,
+      "source_mtime_ns": 1789666286253973000
+    },
+    {
+      "path": "report/images/fig6_finetuning.png",
+      "sha256": "7c230c6362bc6fc784799c7c7080f4c1b5e558989c7b9f2fee7afdca1f8e2917",
+      "bytes": 227395,
+      "source_mtime_ns": 1789666288330738000
+    },
+    {
+      "path": "report/report.md",
+      "sha256": "a8a56027a9f252515a1794f36e68de94c4fd6b70027ab9ccdba77a84b6963780",
+      "bytes": 23472,
+      "source_mtime_ns": 1789666328986807000
+    },
+    {
+      "path": "run_manifest.json",
+      "sha256": "9e1eb23ec1c9e35ecdec4daecca2bb8cfa1a78085feffab7e670d4a5a16e3050",
+      "bytes": 244,
+      "source_mtime_ns": 1789681483938775612
+    }
+  ]
+}

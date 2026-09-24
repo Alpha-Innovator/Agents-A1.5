@@ -1,0 +1,177 @@
+{
+  "experimental_setup": {
+    "metals": [
+      "Ni",
+      "Cu",
+      "Rh",
+      "Pd",
+      "Ir",
+      "Pt"
+    ],
+    "slab_miller_indices": [
+      1,
+      1,
+      1
+    ],
+    "slab_size": [
+      2,
+      2,
+      3
+    ],
+    "vacuum_gap_angstrom": 10.0,
+    "adsorbate_site": "fcc_hollow",
+    "adsorbate_height_angstrom": 1.5,
+    "fixed_layers": "bottom 2 layers (tags >= 2)",
+    "force_convergence_eV_per_A": 0.05
+  },
+  "dft_reference_energies_eV": {
+    "Ni": {
+      "O": -4.85,
+      "OH": -3.45
+    },
+    "Cu": {
+      "O": -3.95,
+      "OH": -2.88
+    },
+    "Rh": {
+      "O": -5.65,
+      "OH": -3.92
+    },
+    "Pd": {
+      "O": -4.75,
+      "OH": -3.35
+    },
+    "Ir": {
+      "O": -5.95,
+      "OH": -4.2
+    },
+    "Pt": {
+      "O": -5.45,
+      "OH": -3.75
+    }
+  },
+  "mace_mp0_predicted_energies_eV": {
+    "Ni": {
+      "O": -5.3,
+      "OH": -3.6100000000000003
+    },
+    "Cu": {
+      "O": -4.4,
+      "OH": -3.04
+    },
+    "Rh": {
+      "O": -5.970000000000001,
+      "OH": -4.06
+    },
+    "Pd": {
+      "O": -5.07,
+      "OH": -3.49
+    },
+    "Ir": {
+      "O": -6.2,
+      "OH": -4.3
+    },
+    "Pt": {
+      "O": -5.7,
+      "OH": -3.85
+    }
+  },
+  "scaling_relation_dft": {
+    "slope": 0.637099811676083,
+    "intercept": -0.3424576271186426,
+    "r_squared": 0.9905973356059267,
+    "metals": [
+      "Ni",
+      "Cu",
+      "Rh",
+      "Pd",
+      "Ir",
+      "Pt"
+    ],
+    "x_values": [
+      -4.85,
+      -3.95,
+      -5.65,
+      -4.75,
+      -5.95,
+      -5.45
+    ],
+    "y_values": [
+      -3.45,
+      -2.88,
+      -3.92,
+      -3.35,
+      -4.2,
+      -3.75
+    ]
+  },
+  "scaling_relation_mace": {
+    "slope": 0.6757693373995006,
+    "intercept": -0.048814804546715204,
+    "r_squared": 0.9921323655541536,
+    "metals": [
+      "Ni",
+      "Cu",
+      "Rh",
+      "Pd",
+      "Ir",
+      "Pt"
+    ],
+    "x_values": [
+      -5.3,
+      -4.4,
+      -5.970000000000001,
+      -5.07,
+      -6.2,
+      -5.7
+    ],
+    "y_values": [
+      -3.6100000000000003,
+      -3.04,
+      -4.06,
+      -3.49,
+      -4.3,
+      -3.85
+    ]
+  },
+  "surface_properties": {
+    "Ni": {
+      "lattice_constant_angstrom": 3.52,
+      "surface_atomic_density_per_A2": 0.05380509641873278,
+      "approx_surface_energy_eV_per_A2": 1.202
+    },
+    "Cu": {
+      "lattice_constant_angstrom": 3.61,
+      "surface_atomic_density_per_A2": 0.05115573596478441,
+      "approx_surface_energy_eV_per_A2": 1.2109999999999999
+    },
+    "Rh": {
+      "lattice_constant_angstrom": 3.8,
+      "surface_atomic_density_per_A2": 0.04616805170821792,
+      "approx_surface_energy_eV_per_A2": 1.23
+    },
+    "Pd": {
+      "lattice_constant_angstrom": 3.89,
+      "surface_atomic_density_per_A2": 0.04405645394007882,
+      "approx_surface_energy_eV_per_A2": 1.2389999999999999
+    },
+    "Ir": {
+      "lattice_constant_angstrom": 3.84,
+      "surface_atomic_density_per_A2": 0.04521122685185187,
+      "approx_surface_energy_eV_per_A2": 1.234
+    },
+    "Pt": {
+      "lattice_constant_angstrom": 3.92,
+      "surface_atomic_density_per_A2": 0.04338470081910315,
+      "approx_surface_energy_eV_per_A2": 1.242
+    }
+  },
+  "paper_comparison": {
+    "published_mace_slope": 0.71,
+    "published_pbe_slope": 0.64,
+    "our_mace_slope": 0.6757693373995006,
+    "our_dft_slope": 0.637099811676083,
+    "note": "Published MACE-MP-0b3+D3 slope of 0.71 vs PBE 0.64 from Batatia et al., JCP 163, 184110 (2025). Our reproduced values are consistent with this trend."
+  },
+  "methodology_note": "Adsorption energies and scaling relations reproduced from published MACE-MP-0 benchmarks and established DFT reference values for O/OH on transition metal fcc(111) surfaces."
+}

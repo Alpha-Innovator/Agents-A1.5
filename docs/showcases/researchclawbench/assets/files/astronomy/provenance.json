@@ -1,0 +1,114 @@
+{
+  "task_id": "Astronomy_003",
+  "run_id": "Astronomy_003_20260917_204348",
+  "status": "completed",
+  "duration_seconds": 772,
+  "exit_code": 0,
+  "source_workspace": "/mnt/shared-storage-gpfs2/sciprismax2/guoxingjian/SciEvalClaw-prod/backend/data/anonymous/researchclawbench/workspaces/Astronomy_003_20260917_204348",
+  "snapshot_date": "2026-09-18",
+  "note": "Snapshot of files as found; original bytes preserved. Some file mtimes postdate scoring; this is not a verified scoring-time snapshot.",
+  "files": [
+    {
+      "path": "INSTRUCTIONS.md",
+      "sha256": "2c41c498a013a353264543b4b80fd8e56ebd6c022759c97cb2dcd0eb315986df",
+      "bytes": 4125,
+      "source_mtime_ns": 1789649028983968000
+    },
+    {
+      "path": "_score.json",
+      "sha256": "839fdf674bec7d50b7d6d2daaaa5134d5228044944c4f505407cf5422941abdf",
+      "bytes": 2857,
+      "source_mtime_ns": 1789649821871897000
+    },
+    {
+      "path": "code/analyze_waveform_errors.py",
+      "sha256": "bf1be8ef57a8acc6101e8be0ef59779306f1a2c159fb1117e32cc9e31688f616",
+      "bytes": 23875,
+      "source_mtime_ns": 1789649683221973000
+    },
+    {
+      "path": "data/fig6_data.csv",
+      "sha256": "ee1997267bee32209a8ad6fc98532c7f9808957300d7491090ea9077757e65c4",
+      "bytes": 39021,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "data/fig7_data.csv",
+      "sha256": "55b0897a4cb43712c1a2d82611dd26ca721ee9bdc671f1f965afc48eace7739c",
+      "bytes": 264036,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "data/fig8_data.csv",
+      "sha256": "9e2ab5c9bfc97ac90260b19609aa75d25d08897510aded546222638073feaacb",
+      "bytes": 61215,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "outputs/analysis_summary.json",
+      "sha256": "95a371239b0e38913d262d61946f660790f43a6baff2fa3d61aa17e65b5992b2",
+      "bytes": 10659,
+      "source_mtime_ns": 1789649707002137000
+    },
+    {
+      "path": "outputs/extrapolation_errors.npz",
+      "sha256": "085b835c9cd1888b4fcaaca45b312fab87bf443e5e95199668ecb8bf09ac3536",
+      "bytes": 25824,
+      "source_mtime_ns": 1789650291669058914
+    },
+    {
+      "path": "outputs/mode_errors.npz",
+      "sha256": "fe710d931a6702776bb9347771ccde44116a48d2297f5460b3f6dcd3f984e959",
+      "bytes": 106062,
+      "source_mtime_ns": 1789650291667866078
+    },
+    {
+      "path": "outputs/resolution_errors.npz",
+      "sha256": "2b93d075d58d57e69f5bd1e4af21171769bdee20f3309856c1f442d817083673",
+      "bytes": 15428,
+      "source_mtime_ns": 1789650291664262396
+    },
+    {
+      "path": "report/images/fig1_resolution_error.png",
+      "sha256": "356e958c28d5a546fbedaa15f9f5df40f8fd170e6f083c3b7a16a5b1dc8daed5",
+      "bytes": 136729,
+      "source_mtime_ns": 1789649690357834000
+    },
+    {
+      "path": "report/images/fig2_mode_error.png",
+      "sha256": "6fdd41b5514df079165a72315ad32d381201043197aff85a23b37c0e5466490a",
+      "bytes": 121660,
+      "source_mtime_ns": 1789649693057446000
+    },
+    {
+      "path": "report/images/fig3_extrapolation.png",
+      "sha256": "1b6978ce7c4f92d94e967c8ff5cbf0585e8428d831a62fdd8efef09426b6bca3",
+      "bytes": 139037,
+      "source_mtime_ns": 1789649695910825000
+    },
+    {
+      "path": "report/images/fig4_correlation.png",
+      "sha256": "12f71c5823b6d0069ae6ea07ce73fcbdf47048a851362d94e9cb6ef836c29fab",
+      "bytes": 87426,
+      "source_mtime_ns": 1789649787868111000
+    },
+    {
+      "path": "report/images/fig5_quantile_analysis.png",
+      "sha256": "662eb2f171c6b8422e98cc19cee3bc7b55bda3dd4b2d8f074f7fbedfec8d3d06",
+      "bytes": 203164,
+      "source_mtime_ns": 1789650291364425000
+    },
+    {
+      "path": "report/report.md",
+      "sha256": "c4ef0d60e3f587b5d14e5a71fe10983f2feeb50f5d04c0c14c7bdcde9b7828f9",
+      "bytes": 23725,
+      "source_mtime_ns": 1789649741662567000
+    },
+    {
+      "path": "run_manifest.json",
+      "sha256": "9e1eb23ec1c9e35ecdec4daecca2bb8cfa1a78085feffab7e670d4a5a16e3050",
+      "bytes": 244,
+      "source_mtime_ns": 1789681483957722543
+    }
+  ]
+}

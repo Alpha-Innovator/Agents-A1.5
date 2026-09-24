@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 488" fill="none">
+  <title>Research sources, figures and citations become a structured report</title>
+  <defs>
+    <radialGradient id="research-halo"><stop stop-color="#6faada" stop-opacity=".24"/><stop offset="1" stop-color="#6faada" stop-opacity="0"/></radialGradient>
+    <linearGradient id="research-paper" x1="509" y1="92" x2="709" y2="375" gradientUnits="userSpaceOnUse"><stop stop-color="#d9e8f7"/><stop offset="1" stop-color="#96b4d3"/></linearGradient>
+  </defs>
+  <ellipse cx="598" cy="243" rx="195" ry="205" fill="url(#research-halo)"/>
+  <g stroke="#99b5e0" stroke-opacity=".14">
+    <ellipse cx="587" cy="247" rx="178" ry="164"/>
+    <ellipse cx="587" cy="247" rx="199" ry="184" stroke-dasharray="3 8"/>
+  </g>
+  <g stroke="#8fc9ee" stroke-width="1.5" stroke-opacity=".6">
+    <path d="M446 154h27v69h41M446 243h68M446 332h27v-69h41"/>
+    <path d="m503 236 8 7-8 7"/>
+  </g>
+  <g fill="#121f30" stroke="#79b7dc" stroke-opacity=".5">
+    <rect x="390" y="128" width="56" height="52" rx="9"/>
+    <rect x="390" y="217" width="56" height="52" rx="9"/>
+    <rect x="390" y="306" width="56" height="52" rx="9"/>
+  </g>
+  <g stroke="#a1d3f2" stroke-width="2" stroke-linecap="round">
+    <path d="M405 144h24m-24 9h24m-24 9h15M405 233h24m-24 9h24m-24 9h15M405 322h24m-24 9h24m-24 9h15"/>
+  </g>
+  <g transform="rotate(6 622 241)">
+    <rect x="515" y="111" width="200" height="278" rx="12" fill="#192c42" stroke="#658cb4" stroke-opacity=".55"/>
+  </g>
+  <rect x="502" y="93" width="200" height="278" rx="12" fill="url(#research-paper)" stroke="#dbebfc" stroke-opacity=".7"/>
+  <rect x="522" y="115" width="72" height="6" rx="3" fill="#537b9e"/>
+  <path d="M523 140h151M523 154h119" stroke="#293f5c" stroke-width="6" stroke-linecap="round"/>
+  <path d="M522 179h160" stroke="#5c81a7" stroke-opacity=".5"/>
+  <g stroke="#617e9c" stroke-width="3" stroke-linecap="round">
+    <path d="M523 194h93M523 205h130M523 216h119M523 227h138M523 239h74"/>
+    <path d="M523 329h141M523 340h114M523 351h130"/>
+  </g>
+  <g fill="#337eaa"><rect x="624" y="191" width="21" height="6" rx="2"/><rect x="605" y="236" width="21" height="6" rx="2"/><rect x="645" y="337" width="21" height="6" rx="2"/></g>
+  <rect x="521" y="256" width="77" height="58" rx="5" fill="#eef6fa" fill-opacity=".8"/>
+  <rect x="607" y="256" width="75" height="58" rx="5" fill="#eef6fa" fill-opacity=".8"/>
+  <path d="M531 301h57m-48-3v-13m12 13v-28m12 28v-19m12 19v-34" stroke="#5192b3" stroke-width="5"/>
+  <path d="m618 298 12-16 12 6 11-19 18 7" stroke="#557bae" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="#659ccc"><circle cx="630" cy="282" r="3"/><circle cx="653" cy="269" r="3"/><circle cx="671" cy="276" r="3"/></g>
+  <circle cx="697" cy="367" r="26" fill="#18312d" stroke="#94dbbc"/>
+  <path d="m685 367 8 8 17-19" stroke="#b0f0d1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

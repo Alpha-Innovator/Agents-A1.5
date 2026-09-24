@@ -1,35 +1,56 @@
 {
-  "version": "0.14.0",
+  "version": "0.15.0-light",
+  "theme": "light",
   "cases": [
     {
       "id": "swarm",
       "href": "showcases/swarm/index.html",
-      "sha256": "43b741399ff0b86a7509d38e8c46324a1264b29f66fc2060be740871726c81dc"
+      "sha256": "99b4664dd36b5eba23dbb79ffaf3975e491d8f5dd0511e84b1df84bf7b4419d3"
     },
     {
       "id": "verification",
       "href": "showcases/verification/index.html",
-      "sha256": "57079119d900b0217c8e667b11a7afb4968bcd265a0f637841bc87e5d41e3c6b"
+      "sha256": "e88207eb29552efbf06e4fdada7b0d769136b9dad9db746a87007571e747520c"
     },
     {
       "id": "local-deployment",
       "href": "showcases/local-deployment/index.html",
-      "sha256": "6bad688e2e50537c0a646a74058a984bd4f42e9a50328434a2aa8c7a917c3c72"
+      "sha256": "35a1a6e479c0d984ce36c5a6c0c213086c990d4537607937dad71492b48385ad"
+    },
+    {
+      "id": "deep-research",
+      "href": "showcases/deep-research/index.html",
+      "sha256": "2008a3f5aee5d06e9ac87b3705fa5545319137dc97e2ccfb2fce6167f1a95eec"
     },
     {
       "id": "scientific-reasoning",
       "href": "showcases/scientific-reasoning/index.html",
-      "sha256": "f67e2e5c2332af93470daac8f7e26b383f3e0aab90ffa0bf9b15c715b1c04ec8"
+      "sha256": "6bd038fe5e7cc0d2cad697e722c6235a82201132f86de2ee49f10a65056678fe"
     },
     {
       "id": "researchclawbench",
       "href": "showcases/researchclawbench/index.html",
-      "sha256": "f8632a79cd50f59e87997f7cc3843cd4928c574c5c4daea9ce412eae13cc3dbc"
+      "sha256": "d1e542c78bf835fb7479d1fea6887297e7c243ce8a724789c70b5bfad842c616"
     },
     {
       "id": "neuroscience",
       "href": "01-launch.html",
-      "sha256": "8d54853d60ad915ab84f2e4c47bf2512eb53833a42f3c42ebd8eeaef99e0725e"
+      "sha256": "08a177af291610ec0c83662fb0e416fb3f906f05ab5e115a2e55f509503eb9a5"
+    },
+    {
+      "id": "condensed-matter",
+      "href": "showcases/condensed-matter/index.html",
+      "sha256": "19ad7591bf1fbfea4dfce1f1811c18da03486661962496acbd9dbe0b43642ddf"
+    },
+    {
+      "id": "electrochemistry",
+      "href": "showcases/electrochemistry/index.html",
+      "sha256": "53e3b1bbb96045b5fe454f64b4e30cfbfc1fe685fd119def2ccf2c72f1092b1a"
+    },
+    {
+      "id": "computational-chemistry",
+      "href": "showcases/computational-chemistry/index.html",
+      "sha256": "7775513a76ca071fdd7fd7edfeeb94a4e16d3777b5a0166c4503e87890659c8e"
     }
   ]
 }

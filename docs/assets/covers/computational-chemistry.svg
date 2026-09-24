@@ -1,7 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 488" fill="none">
-  <defs><radialGradient id="atom"><stop stop-color="#a5cbc4" stop-opacity=".25"/><stop offset="1" stop-color="#71a89f" stop-opacity=".04"/></radialGradient></defs>
-  <g stroke="#8cb5ac" stroke-width=".8" opacity=".18"><ellipse cx="553" cy="247" rx="197" ry="164" transform="rotate(-23 553 247)"/><ellipse cx="553" cy="247" rx="224" ry="187" transform="rotate(-23 553 247)"/><path d="M355 247h396M553 61v372" stroke-dasharray="3 9"/></g>
-  <g stroke="#8cb5ac" stroke-width="2" opacity=".55"><path d="m469 180 88-39 91 63-10 106-92 43-88-66 11-107Zm0 0 77 65 102-41m-102 41v108m0-108-88 42m100-146-12 104 92 65M469 180l-58-44m227 174 53 48m-145-5-21 54"/><path d="m557 154 76 52m-9 100-78 36m-76-59 9-91" stroke-width="1" opacity=".55"/></g>
-  <g fill="url(#atom)" stroke="#97c1b8" stroke-opacity=".5"><circle cx="469" cy="180" r="21"/><circle cx="557" cy="141" r="17"/><circle cx="648" cy="204" r="24"/><circle cx="638" cy="310" r="20"/><circle cx="546" cy="353" r="21"/><circle cx="458" cy="287" r="18"/><circle cx="546" cy="245" r="32"/><circle cx="411" cy="136" r="11"/><circle cx="691" cy="358" r="12"/><circle cx="525" cy="407" r="10"/></g>
-  <g fill="#b0d1ca" opacity=".55"><circle cx="469" cy="180" r="4"/><circle cx="557" cy="141" r="3"/><circle cx="648" cy="204" r="5"/><circle cx="638" cy="310" r="4"/><circle cx="546" cy="353" r="4"/><circle cx="458" cy="287" r="3"/><circle cx="546" cy="245" r="6"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="488" viewBox="0 0 800 488">
+<title>Stylized N-methylacetamide ball-and-stick model</title>
+<defs>
+<radialGradient id="atom-C" cx="32%" cy="26%" r="75%"><stop stop-color="#e5d9ff"/><stop offset=".42" stop-color="#9b80cc"/><stop offset="1" stop-color="#403258"/></radialGradient>
+<radialGradient id="atom-H" cx="32%" cy="26%" r="75%"><stop stop-color="#ede5ff"/><stop offset=".42" stop-color="#c0afd9"/><stop offset="1" stop-color="#76628d"/></radialGradient>
+<radialGradient id="atom-N" cx="32%" cy="26%" r="75%"><stop stop-color="#dac8ff"/><stop offset=".42" stop-color="#a08ae6"/><stop offset="1" stop-color="#4e397f"/></radialGradient>
+<radialGradient id="atom-O" cx="32%" cy="26%" r="75%"><stop stop-color="#f1d5f8"/><stop offset=".42" stop-color="#bd91cd"/><stop offset="1" stop-color="#694874"/></radialGradient>
+</defs>
+<g fill="none" stroke="#a88adb" stroke-width="1" opacity=".16"><circle cx="565" cy="244" r="166"/><circle cx="565" cy="244" r="188"/><ellipse cx="565" cy="244" rx="202" ry="142" transform="rotate(-25 565 244)"/></g>
+<circle cx="439.69" cy="202.19" r="10" fill="url(#atom-H)" stroke="#07101555" stroke-width="1"/>
+<circle cx="717.00" cy="278.84" r="10" fill="url(#atom-H)" stroke="#07101555" stroke-width="1"/>
+<path d="M471.59,200.07 L455.64,201.13" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/><path d="M455.64,201.13 L439.69,202.19" stroke="#c0afd9" stroke-width="8" stroke-linecap="round"/>
+<path d="M675.06,290.66 L696.03,284.75" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/><path d="M696.03,284.75 L717.00,278.84" stroke="#c0afd9" stroke-width="8" stroke-linecap="round"/>
+<circle cx="650.71" cy="349.50" r="10" fill="url(#atom-H)" stroke="#07101555" stroke-width="1"/>
+<path d="M675.06,290.66 L662.88,320.08" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/><path d="M662.88,320.08 L650.71,349.50" stroke="#c0afd9" stroke-width="8" stroke-linecap="round"/>
+<circle cx="613.09" cy="226.70" r="19" fill="url(#atom-C)" stroke="#07101555" stroke-width="1"/>
+<path d="M609.22,225.69 L618.27,191.06" stroke="#9b80cc" stroke-width="5.5" stroke-linecap="round"/><path d="M618.27,191.06 L627.32,156.42" stroke="#bd91cd" stroke-width="5.5" stroke-linecap="round"/><path d="M616.96,227.71 L626.01,193.08" stroke="#9b80cc" stroke-width="5.5" stroke-linecap="round"/><path d="M626.01,193.08 L635.06,158.45" stroke="#bd91cd" stroke-width="5.5" stroke-linecap="round"/>
+<circle cx="631.19" cy="157.44" r="20" fill="url(#atom-O)" stroke="#07101555" stroke-width="1"/>
+<path d="M613.09,226.70 L575.54,239.73" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/><path d="M575.54,239.73 L537.98,252.76" stroke="#a08ae6" stroke-width="8" stroke-linecap="round"/>
+<circle cx="527.64" cy="311.49" r="10" fill="url(#atom-H)" stroke="#07101555" stroke-width="1"/>
+<path d="M537.98,252.76 L532.81,282.13" stroke="#a08ae6" stroke-width="8" stroke-linecap="round"/><path d="M532.81,282.13 L527.64,311.49" stroke="#c0afd9" stroke-width="8" stroke-linecap="round"/>
+<circle cx="537.98" cy="252.76" r="20" fill="url(#atom-N)" stroke="#07101555" stroke-width="1"/>
+<path d="M675.06,290.66 L644.08,258.68" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/><path d="M644.08,258.68 L613.09,226.70" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/>
+<path d="M537.98,252.76 L504.78,226.42" stroke="#a08ae6" stroke-width="8" stroke-linecap="round"/><path d="M504.78,226.42 L471.59,200.07" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/>
+<circle cx="471.59" cy="200.07" r="19" fill="url(#atom-C)" stroke="#07101555" stroke-width="1"/>
+<circle cx="675.06" cy="290.66" r="19" fill="url(#atom-C)" stroke="#07101555" stroke-width="1"/>
+<path d="M471.59,200.07 L482.35,170.29" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/><path d="M482.35,170.29 L493.12,140.50" stroke="#c0afd9" stroke-width="8" stroke-linecap="round"/>
+<circle cx="493.12" cy="140.50" r="10" fill="url(#atom-H)" stroke="#07101555" stroke-width="1"/>
+<path d="M471.59,200.07 L451.29,207.60" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/><path d="M451.29,207.60 L431.00,215.13" stroke="#c0afd9" stroke-width="8" stroke-linecap="round"/>
+<path d="M675.06,290.66 L690.99,289.15" stroke="#9b80cc" stroke-width="8" stroke-linecap="round"/><path d="M690.99,289.15 L706.91,287.63" stroke="#c0afd9" stroke-width="8" stroke-linecap="round"/>
+<circle cx="431.00" cy="215.13" r="10" fill="url(#atom-H)" stroke="#07101555" stroke-width="1"/>
+<circle cx="706.91" cy="287.63" r="10" fill="url(#atom-H)" stroke="#07101555" stroke-width="1"/>
 </svg>

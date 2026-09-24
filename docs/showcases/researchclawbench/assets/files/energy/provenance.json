@@ -1,0 +1,234 @@
+{
+  "task_id": "Energy_002",
+  "run_id": "Energy_002_20260917_235357",
+  "status": "completed",
+  "duration_seconds": 542,
+  "exit_code": 0,
+  "source_workspace": "/mnt/shared-storage-gpfs2/sciprismax2/guoxingjian/SciEvalClaw-prod/backend/data/anonymous/researchclawbench/workspaces/Energy_002_20260917_235357",
+  "snapshot_date": "2026-09-23",
+  "note": "Read-only workspace snapshot; not proven to be the exact snapshot used by the original scorer. No source code executed or source files modified. Related papers and environment caches excluded.",
+  "files": [
+    {
+      "path": "INSTRUCTIONS.md",
+      "sha256": "dd39c9287a6139f325c9861892578b034ebcb48fa88c48dafd6375716dd55584",
+      "bytes": 2835,
+      "source_mtime_ns": 1789660438056888000
+    },
+    {
+      "path": "_score.json",
+      "sha256": "dda493cc5f70160ddab9eaf65106e430906d3415e50e2eaefd881bddd15a06b7",
+      "bytes": 4116,
+      "source_mtime_ns": 1789661000446660000
+    },
+    {
+      "path": "code/generate_figures.py",
+      "sha256": "a40706e30fd423def44d99944a717a0e814a9ba60231c0028152114a802bd5e3",
+      "bytes": 30311,
+      "source_mtime_ns": 1789660845672373000
+    },
+    {
+      "path": "code/hydrogen_cost_model.py",
+      "sha256": "e3ed6f96ce451456842105899a8e4bece806c541bbda4361a5f3907172899ad0",
+      "bytes": 28458,
+      "source_mtime_ns": 1789660778468705000
+    },
+    {
+      "path": "data/africa_map/ne_10m_admin_0_countries.README.html",
+      "sha256": "01e711029395bc94936ec82cabf06856f04f7d0e74747351799283c081c6631c",
+      "bytes": 39383,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "data/africa_map/ne_10m_admin_0_countries.VERSION.txt",
+      "sha256": "548358969090d629b41888f5fe664ac31b7203dfd849f7c1ef820ac055b62191",
+      "bytes": 7,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "data/africa_map/ne_10m_admin_0_countries.cpg",
+      "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+      "bytes": 5,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "data/africa_map/ne_10m_admin_0_countries.dbf",
+      "sha256": "c5dbd3dd5fd7e2ef49051fc88562c03819e8ea63a382642df6eadd1243bf4b49",
+      "bytes": 878482,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "data/africa_map/ne_10m_admin_0_countries.prj",
+      "sha256": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4",
+      "bytes": 145,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "data/africa_map/ne_10m_admin_0_countries.shp",
+      "sha256": "7ce119ef6342e43cff7c0c3004e0911ab7ec1988a14734372031d2012180e7bc",
+      "bytes": 8806224,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "data/africa_map/ne_10m_admin_0_countries.shx",
+      "sha256": "ca19ec112d054c77bc8f7ac00e3b110d5dff32cc9bcf4cd1b8b66bdd0f611d32",
+      "bytes": 2164,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "data/hex_final_NA_min.csv",
+      "sha256": "0a41ff4f78213e389bafb2a8a47db33b9b95baee3c219a2b2add5b843bd60029",
+      "bytes": 4837,
+      "source_mtime_ns": 1775571315000000000
+    },
+    {
+      "path": "outputs/baseline_results_2025.csv",
+      "sha256": "003799e244ab2942092b8da4225cbf52228df5b0ad898bf0155cb89a367fdf56",
+      "bytes": 15375,
+      "source_mtime_ns": 1789660954995690000
+    },
+    {
+      "path": "outputs/europe_comparison.json",
+      "sha256": "d7a196928c2bf20b7f62860e5fbc01e087e77d1191cfed09c436dc83eb6534d9",
+      "bytes": 590,
+      "source_mtime_ns": 1789660955254655467
+    },
+    {
+      "path": "outputs/interest_rate_sensitivity.csv",
+      "sha256": "b32ee7bc9c66defaf5c0c3928ed39c4207a1ece6e2892e1f42cb85c84b170371",
+      "bytes": 2867,
+      "source_mtime_ns": 1789660955489666000
+    },
+    {
+      "path": "outputs/method_contract.json",
+      "sha256": "d4d7dd77ae68c065c0783efdbd5894d8d286ed8a1f982fcf893664b0b2b689b0",
+      "bytes": 2606,
+      "source_mtime_ns": 1789660497088080000
+    },
+    {
+      "path": "outputs/method_documentation.json",
+      "sha256": "cc1fa0005006f6bf83a7891972b9651ceb173b6e46aa14bed7d44a7410b4730b",
+      "bytes": 1680,
+      "source_mtime_ns": 1789660955496865000
+    },
+    {
+      "path": "outputs/scenario_comparison.csv",
+      "sha256": "0280b595537349e9482d32ec4bf049883a736e1666214cb7d0aee8e0272cee9e",
+      "bytes": 1673,
+      "source_mtime_ns": 1789660955225547000
+    },
+    {
+      "path": "outputs/scenario_results_base_2025.csv",
+      "sha256": "925952a15a9f231f2372f9264c45ed0ca3fe1bdbe11d34a14967ac945a59918b",
+      "bytes": 11970,
+      "source_mtime_ns": 1789660955054121000
+    },
+    {
+      "path": "outputs/scenario_results_base_2030.csv",
+      "sha256": "e3fd9d03283daf7d2fcad9618326edf97b6003857e4923f7b03f8ad8570f1866",
+      "bytes": 11982,
+      "source_mtime_ns": 1789660955162525000
+    },
+    {
+      "path": "outputs/scenario_results_carbon_100_2030.csv",
+      "sha256": "1fa36625f8d77d5d883f4c78ce7ebd5d364f04f8215f729056c61f225f15900d",
+      "bytes": 12252,
+      "source_mtime_ns": 1789660955166759000
+    },
+    {
+      "path": "outputs/scenario_results_carbon_200_2030.csv",
+      "sha256": "c968529941b48d0a2129aa378e148126f7882f7b73acdd3330bde3582e1d15bc",
+      "bytes": 12222,
+      "source_mtime_ns": 1789660955168805000
+    },
+    {
+      "path": "outputs/scenario_results_derisk_2025.csv",
+      "sha256": "09ad775a496fb14d3045e1c580412788629b4bee0a8cfd68055a82f1e8c627bb",
+      "bytes": 12049,
+      "source_mtime_ns": 1789660955075154000
+    },
+    {
+      "path": "outputs/scenario_results_derisk_2030.csv",
+      "sha256": "e1ea85dea2ffd25eb5ee6a2ea3f262f646dff42a11df7e96a76606651b3cb72d",
+      "bytes": 12091,
+      "source_mtime_ns": 1789660955164755000
+    },
+    {
+      "path": "outputs/scenario_results_highrisk_2025.csv",
+      "sha256": "63fed5b151d8ccbb79c88a9f6683af1f4dbfd9325f47dfcc3c6c1516f166b1e1",
+      "bytes": 12033,
+      "source_mtime_ns": 1789660955116628000
+    },
+    {
+      "path": "outputs/scenario_results_rising_rates_2025.csv",
+      "sha256": "59f2502effaacbd417b8204ba121a71c479517751c2dce8a5bf0e44ad000314a",
+      "bytes": 12132,
+      "source_mtime_ns": 1789660955121685000
+    },
+    {
+      "path": "plan.md",
+      "sha256": "75ea9938b40313b4c71b019b1c2c608841a46a266c1948b36eec6774d0bbc152",
+      "bytes": 3445,
+      "source_mtime_ns": 1789660949483600000
+    },
+    {
+      "path": "report/images/fig01_data_overview.png",
+      "sha256": "c92b093b85d190c10386baca88d21b5991c176fac9c4912518f4e2b00ee73624",
+      "bytes": 188017,
+      "source_mtime_ns": 1789660960217169000
+    },
+    {
+      "path": "report/images/fig02_lcoh_spatial.png",
+      "sha256": "ba711c7f485cf54822fbc23e8100b3cb31b819d27d970a0cace349109438112d",
+      "bytes": 208681,
+      "source_mtime_ns": 1789660961976666000
+    },
+    {
+      "path": "report/images/fig03_cost_breakdown.png",
+      "sha256": "9b76058cc7af7ba18858a992c24d2742fe2171a42ab0e09d650a90e29d97e221",
+      "bytes": 101304,
+      "source_mtime_ns": 1789660962918105000
+    },
+    {
+      "path": "report/images/fig04_scenario_comparison.png",
+      "sha256": "a9be1b7d9232b50da80d626cce489848984a65023ff1d3f23186853484e6fb5c",
+      "bytes": 139485,
+      "source_mtime_ns": 1789660964910898000
+    },
+    {
+      "path": "report/images/fig05_interest_rate_sensitivity.png",
+      "sha256": "120adf9ab6f82421ce5b7d4747fcad3ca82bc4eaf7c5657045210e4f85de7ed4",
+      "bytes": 134755,
+      "source_mtime_ns": 1789660966241546000
+    },
+    {
+      "path": "report/images/fig06_africa_vs_europe.png",
+      "sha256": "0e3babd1183a3ccc2a95882aa939c5e2291f48d42e668eea1ccf64d335a52e13",
+      "bytes": 106513,
+      "source_mtime_ns": 1789660967474509000
+    },
+    {
+      "path": "report/images/fig07_2030_projection.png",
+      "sha256": "707422a45dcc4cde2b4c7aaa04212a86c5f66694ff3ec173754b8ea1b6aea857",
+      "bytes": 106067,
+      "source_mtime_ns": 1789660969579759000
+    },
+    {
+      "path": "report/images/fig08_shipping_analysis.png",
+      "sha256": "28cc7a7a33ce99e490fbf6ab222d40f36ae76a22e057c8f861b14f2bbc4d54d4",
+      "bytes": 162718,
+      "source_mtime_ns": 1789660972409692000
+    },
+    {
+      "path": "report/images/fig09_carbon_analysis.png",
+      "sha256": "346fc1f85d5c4186c21cb7c2d9c974465d24aa097c979bd2e793a51a720c1055",
+      "bytes": 86484,
+      "source_mtime_ns": 1789660973629426000
+    },
+    {
+      "path": "report/report.md",
+      "sha256": "146d2ec6489ead2668f3a149eedceaa97dbba2955118f20605b6c8d3ca021f67",
+      "bytes": 27610,
+      "source_mtime_ns": 1789660934810025000
+    }
+  ]
+}

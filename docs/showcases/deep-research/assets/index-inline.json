@@ -1,0 +1,37 @@
+{
+  "blocks": [
+    {
+      "kind": "css",
+      "path": "assets/css/index-0-cd351a705d4b.css",
+      "sha256": "cd351a705d4be4857a223a92ebab30f29ef7ecdeb968d9b107098f01854e2ffc",
+      "attrs": "",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-0-cd351a705d4b.css\">",
+      "original_sha256": "cd351a705d4be4857a223a92ebab30f29ef7ecdeb968d9b107098f01854e2ffc"
+    },
+    {
+      "kind": "css",
+      "path": "assets/css/index-1-8d3180ae9c80.css",
+      "sha256": "8d3180ae9c80b2fc9eedb6d552d442c6d73e109e93fa3ebb2acede56b5b3e851",
+      "attrs": "",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-1-8d3180ae9c80.css\">",
+      "original_sha256": "a7b358cca88f661bdc67481b5ac52d003dc246eaea7fb647f20b9b655a0bcc6a"
+    },
+    {
+      "kind": "json",
+      "path": "assets/data/reportData-71221faa2de5.js",
+      "sha256": "71221faa2de58e9dfde99cac11251b27870ea28dc80fb3242789d131a21c907d",
+      "attrs": " id=\"reportData\" type=\"application/json\"",
+      "replacement": "<script id=\"reportData\" type=\"application/json\"></script><script src=\"assets/data/reportData-71221faa2de5.js\"></script>",
+      "original_sha256": "5c2e2e6265c141b90eb0cb175ad2d786e0e58422fa834b99017884f0624d2b6f",
+      "prefix": "document.getElementById(\"reportData\").textContent="
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-3-3e0930a61c87.js",
+      "sha256": "3e0930a61c8764c213898674fc4c2119e38e47915c1d75c74d79b8d7fafadf21",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-3-3e0930a61c87.js\"></script>",
+      "original_sha256": "3e0930a61c8764c213898674fc4c2119e38e47915c1d75c74d79b8d7fafadf21"
+    }
+  ]
+}

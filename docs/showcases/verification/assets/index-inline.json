@@ -1,0 +1,37 @@
+{
+  "blocks": [
+    {
+      "kind": "css",
+      "path": "assets/css/index-0-9a4ff46aae1b.css",
+      "sha256": "9a4ff46aae1b2f21e68a73dfa68eb9d620b4672a58378528d66c7f9a22259c19",
+      "attrs": "",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-0-9a4ff46aae1b.css\">",
+      "original_sha256": "563f060940a0162147afc5995365932a81141ae4b052bfa39a032c073b93dcd6"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-1-d566251c0439.js",
+      "sha256": "d566251c0439b59f2d52b8399f142b003429e869549f51d8ec05bd101f083bd4",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-1-d566251c0439.js\"></script>",
+      "original_sha256": "d566251c0439b59f2d52b8399f142b003429e869549f51d8ec05bd101f083bd4"
+    },
+    {
+      "kind": "json",
+      "path": "assets/data/verifyData-7acbdc987c15.js",
+      "sha256": "7acbdc987c15ba3447cda78cc17459da9bd14444e2935bc8a8a7221baddd07fb",
+      "attrs": " id=\"verifyData\" type=\"application/json\"",
+      "replacement": "<script id=\"verifyData\" type=\"application/json\"></script><script src=\"assets/data/verifyData-7acbdc987c15.js\"></script>",
+      "original_sha256": "66985c1f7243d810bc426fa90bff5c0df95720055eb97465ee3c3534acc2a85e",
+      "prefix": "document.getElementById(\"verifyData\").textContent="
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-3-1057227dfa87.js",
+      "sha256": "1057227dfa87bcbe96c21c8e1e37e4b990f66b6513286eff24e9f5adf1106bb5",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-3-1057227dfa87.js\"></script>",
+      "original_sha256": "1057227dfa87bcbe96c21c8e1e37e4b990f66b6513286eff24e9f5adf1106bb5"
+    }
+  ]
+}

@@ -1,0 +1,1031 @@
+<h1>Architecture Decision Dossier: Open-Source Analytics Platform for Marketplace, Merchants, and Research</h1>
+<p><strong>Evidence cutoff:</strong> 2026-09-16. <strong>Nature:</strong> Design investigation, not deployment or benchmark. Workload numbers are requirements to test, not measured capabilities.</p>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-0">1. Executive Summary</h2>
+<p>Twelve candidate systems were assessed. Seven are <strong>unsuitable as the serving layer</strong> for this platform's interactive workloads (Trino is federated query-only; DuckDB is embedded; PostgreSQL is row-store OLTP; Spark/Flink are compute/transformation engines; Materialize carries a BSL 1.1 license that prohibits unlicensed commercial production use <a href="https://github.com/MaterializeInc/materialize/blob/main/LICENSE">Materialize LICENSE</a>). Two have <strong>hard disqualifiers for specific workloads</strong>: Druid cannot do primary-key-based updates (fails Workload B) <a href="https://druid.apache.org/docs/latest/tutorials/tutorial-update-data/">Druid update docs</a>; Pinot lacks any open-source Iceberg integration (fails Workload C) <a href="https://docs.pinot.apache.org/build-with-pinot/ingestion/upsert-dedup/upsert">Pinot docs</a>.</p>
+<p>Four candidates survive as viable serving layers: <strong>ClickHouse, Apache Doris, StarRocks, RisingWave</strong>. The recommended design uses <strong>Apache Doris</strong> as the single serving layer because it natively satisfies Workloads A–E while requiring only two counted stateful components (Debezium + Doris), and its full Iceberg engine (including V3 deletion vectors) matches the existing Spark-written lake. The materially different alternative is <strong>RisingWave</strong>, which minimizes component count to one by using its embedded Debezium CDC, at the cost of no native row-level security and less battle-tested multi-tenant isolation.</p>
+<p><strong>No design achieves every numerical target without measurement.</strong> The p95 &lt;2s / 250-concurrent-users target (Workload A) and the 15-second visibility target require PoC validation; nothing in this dossier claims either is achieved.</p>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-1">2. Candidate Dossiers (Compact)</h2>
+<h3>2.1 ClickHouse (serving OLAP)</h3>
+<ul>
+<li><strong>License:</strong> Apache 2.0 (<a href="https://github.com/ClickHouse/ClickHouse/blob/master/LICENSE">LICENSE</a>). Fully OSS.</li>
+<li><strong>Architecture/deployment:</strong> Columnar MPP with MergeTree-family storage. Replication via ReplicatedMergeTree requires ClickHouse Keeper (Raft) or legacy ZooKeeper (<a href="https://clickhouse.com/docs/guides/oss/deployment-and-scaling/keeper">keeper docs</a>). Non-replicated tables keep serving queries during Keeper outage; replicated tables go read-only (<a href="https://clickhouse.com/docs/reference/engines/table-engines/mergetree-family/replication">replication docs</a>).</li>
+<li><strong>Ingestion/CDC:</strong> Three Kafka paths — bundled Kafka table engine (at-least-once), Kafka Connect Sink (OSS, exactly-once opt-in with KeeperMap, beta since Jan 2023, requires ClickHouse ≥23.3) <a href="https://clickhouse.com/blog/kafka-connect-connector-clickhouse-with-exactly-once">kafka sink blog</a>, and ClickPipes (Cloud/BYOC only). For Workload B, the documented pattern is Debezium → Kafka → ReplacingMergeTree with a version column + <code>FINAL</code> at query time <a href="https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-1">CDC blog part 1</a>.</li>
+<li><strong>Updates/deletes/dedup:</strong> <code>ReplacingMergeTree</code> dedups only during background merges; reads need <code>FINAL</code> (which disables PREWHERE) <a href="https://clickhouse.com/docs/reference/engines/table-engines/mergetree-family/replacingmergetree">replacingmergetree docs</a>. <code>VersionedCollapsingMergeTree</code> allows out-of-order insertion with version-based collapsing <a href="https://clickhouse.com/docs/reference/engines/table-engines/mergetree-family/versionedcollapsingmergetree">vcmm docs</a>. Lightweight deletes (GA 23.3) mark rows via hidden <code>_row_exists</code> column; physical removal happens at merge time, non-deterministic <a href="https://clickhouse.com/docs/concepts/features/operations/delete/lightweight-delete">lightweight delete docs</a>. Mass <code>ALTER TABLE...DELETE|UPDATE</code> (mutations) are async per-part, cannot roll back, and reads may see inconsistent views mid-mutation <a href="https://clickhouse.com/docs/get-started/quickstarts/mutations">mutations docs</a>. Dedup tokens (<code>insert_deduplication_token</code>) retained up to <code>replicated_deduplication_window</code> (default 10,000 blocks) AND <code>replicated_deduplication_window_seconds</code> (default 3,600s) <a href="https://clickhouse.com/docs/reference/settings/merge-tree-settings/replicated-deduplication-window">dedup settings</a>.</li>
+<li><strong>Joins:</strong> All SQL join types; <code>GLOBAL JOIN</code> broadcasts right table across shards; distributed joins over non-co-located data broadcast the right side to every shard — expensive <a href="https://clickhouse.com/docs/reference/statements/select/join">join docs</a>. Dictionaries recommended for LEFT dimension lookups <a href="https://clickhouse.com/docs/concepts/features/dictionaries">dictionary docs</a>.</li>
+<li><strong>Lake interop:</strong> Read+write Iceberg engine on S3/Azure/HDFS/local with type limitations; reads position and equality deletes but NOT V3 deletion vectors <a href="https://clickhouse.com/docs/reference/engines/table-engines/integrations/iceberg">iceberg engine docs</a>.</li>
+<li><strong>Isolation:</strong> RBAC + row policies (per-user row filters on tables) + quotas with tenant-keyed buckets + settings profiles + per-user memory limits. No formal workload groups <a href="https://clickhouse.com/docs/concepts/features/security/access-rights">access rights</a>, <a href="https://clickhouse.com/docs/concepts/features/configuration/server-config/quotas">quotas</a>. Multi-tenant patterns documented: shared table with <code>tenant_id</code> + row policies is recommended <a href="https://clickhouse.com/docs/products/cloud/guides/best-practices/multitenancy">multitenancy guide</a>.</li>
+<li><strong>Recovery:</strong> Keeper quorum loss → read-only mode; recovery via <code>rcvr</code> or <code>--force-recovery</code> [keeper docs]. Data HA via replica sync from peers.</li>
+<li><strong>Version caveats:</strong> Lightweight deletes GA 23.3; lightweight UPDATE beta 25.8 (introduced 25.7); refreshable MVs production-ready 24.10; JSON type experimental 24.8; GROUPS frame/window changes in 2026 <a href="https://clickhouse.com/docs/resources/changelogs/oss/2023">2023 changelog</a>, <a href="https://clickhouse.com/docs/resources/changelogs/oss/2024">2024 changelog</a>, <a href="https://clickhouse.com/docs/resources/changelogs/oss/2025">2025 changelog</a>, <a href="https://clickhouse.com/docs/resources/changelogs/oss/2026">2026 changelog</a>.</li>
+<li><strong>Assessment:</strong> Strongest for pure append-heavy time-series analytics (Workload A). Weakest for Workload B: correctness requires <code>FINAL</code> on every query (query-cost penalty) or eventual merge; no automatic late-event handling like sequence columns in Doris/StarRocks.</li>
+</ul>
+<h3>2.2 Apache Druid (serving OLAP)</h3>
+<ul>
+<li><strong>License:</strong> Apache 2.0 (<a href="https://druid.apache.org/licensing/">licensing</a>).</li>
+<li><strong>Architecture:</strong> Master (Coordinator+Overlord), Query (Broker+Router), Data (Historical+MiddleManager). Dependencies: deep storage (S3/HDFS), metadata DB (MySQL/PostgreSQL/Derby), ZooKeeper for leader election/coordination <a href="https://druid.apache.org/docs/latest/design/architecture/">architecture docs</a>.</li>
+<li><strong>Ingestion/CDC:</strong> Kafka indexing service ingests with arbitrary old timestamps (no window restriction); offset commits atomic with segment metadata in the same DB transaction (exactly-once publish) <a href="https://druid.apache.org/docs/latest/design/storage/">storage docs</a>, <a href="https://imply.io/blog/exactly-once-streaming-ingestion/">Imply EOS blog</a>. Late events handled via <code>lateMessageRejectionPeriod</code> <a href="https://druid.apache.org/docs/latest/ingestion/supervisor/">supervisor docs</a>. Druid is NOT a CDC sink for relational tables — it has no PK-based upsert path.</li>
+<li><strong>Updates/deletes:</strong> Immutable segments only. Updates via time-range REPLACE OVERWRITE or compaction overshadowing; NO single-record PK updates <a href="https://druid.apache.org/docs/latest/tutorials/tutorial-update-data/">update tutorial</a>. Deletes via soft (mark unused) then hard kill task (irreversible) <a href="https://druid.apache.org/docs/latest/data-management/delete/">delete docs</a>. <strong>Hard failure for Workload B.</strong></li>
+<li><strong>Joins:</strong> Native broadcast hash-join limited to Druid datasources, memory-bound; MSQ adds sort-merge (all join types incl. FULL OUTER) but requires equality conditions <a href="https://druid.apache.org/docs/latest/querying/datasource/">native joins</a>, <a href="https://druid.apache.org/docs/latest/multi-stage-query/reference/">MSQ</a>. Lookups are key-value only via JDBC extension — not relational joins <a href="https://druid.apache.org/docs/latest/querying/lookups/">lookups</a>.</li>
+<li><strong>Lake interop:</strong> None in OSS. No Iceberg connector.</li>
+<li><strong>Isolation:</strong> Datasource-per-tenant or shared datasource with <code>tenant_id</code>; query priority flags; query laning (thread reservation); dedicated Broker pools via Router; service tiering <a href="https://druid.apache.org/docs/latest/querying/multitenancy/">multitenancy docs</a>, <a href="https://druid.apache.org/docs/latest/operations/mixed-workloads/">mixed workloads</a>, <a href="https://druid.apache.org/docs/latest/design/router/">router docs</a>. No per-tenant CPU/memory quota — isolation is architectural, not governed.</li>
+<li><strong>Recovery:</strong> Deep storage is the durability boundary — single copies; if deep storage files disappear, data is permanently lost; restore = metadata import (5 tables via export-metadata tool) + deep storage file preservation <a href="https://druid.apache.org/docs/latest/design/deep-storage/">deep storage docs</a>, <a href="https://druid.apache.org/docs/latest/operations/export-metadata/">export-metadata docs</a>. Segment replication factor applies only to Historical-tier copies (default 2) <a href="https://druid.apache.org/docs/latest/operations/rule-configuration/">rule config</a>. Metadata loss is irrecoverable — HA only mitigation <a href="https://druid.apache.org/docs/latest/design/metadata-storage/">metadata docs</a>.</li>
+<li><strong>Version caveats:</strong> MSQ became core in 35.0.0 (was extension in 24.0) <a href="https://druid.apache.org/docs/latest/release-info/upgrade-notes/">upgrade notes</a>; ZK-based segment loading removed in 30.x; K8s extension enables ZK-free mode (experimental) <a href="https://druid.apache.org/docs/latest/development/extensions-core/kubernetes/">k8s ext</a>.</li>
+<li><strong>Assessment:</strong> Excellent pure time-series serving, but fails Workload B (no PK updates) and Workload C (no Iceberg). Also requires ZooKeeper, consuming 1 of 3 component slots.</li>
+</ul>
+<h3>2.3 Apache Pinot (serving OLAP)</h3>
+<ul>
+<li><strong>License:</strong> Apache 2.0 (<a href="https://github.com/apache/pinot/blob/master/LICENSE">LICENSE</a>).</li>
+<li><strong>Architecture:</strong> Controller, Broker, Server, Minion. Real-time tables: controller assigns servers as direct Kafka consumers; segments accumulate in memory, immediately queryable, flushed to disk <a href="https://docs.pinot.apache.org/architecture-and-concepts/concepts/architecture">architecture docs</a>. Requires ZooKeeper for cluster state <a href="https://docs.pinot.apache.org/operate-pinot/production-guides/running-pinot-in-production">running in production</a>.</li>
+<li><strong>Ingestion/CDC:</strong> CDC playbook with Debezium <code>ExtractNewRecordState</code> + <code>delete.handling.mode=rewrite</code> mapping to <code>deleteRecordColumn</code>; upsertConfig modes FULL/PARTIAL; comparisonColumns resolve out-of-order events; OutOfOrderRecordColumn/dropOutOfOrderRecord configs <a href="https://docs.pinot.apache.org/workload-playbooks/cdc-upsert-pipeline">CDC playbook</a>, <a href="https://docs.pinot.apache.org/build-with-pinot/ingestion/upsert-dedup/upsert">upsert docs</a>.</li>
+<li><strong>Updates/deletes:</strong> Primary index on REALTIME tables; partial upsert REALTIME-only; commit-time compaction at flush; soft deletes tracked via <code>queryableDocIds</code>/<code>validDocIds</code> bitmaps; <code>deletedKeysTTL</code> for retention metadata; UpsertCompactionTask physically rewrites segments <a href="https://www.uber.com/us/en/blog/enabling-infinite-retention-for-upsert-tables/">deletes doc</a>, <a href="https://docs.pinot.apache.org/build-with-pinot/ingestion/upsert-dedup/segment-compaction-on-upserts">compaction docs</a>.</li>
+<li><strong>Joins:</strong> Dimension tables replicated to every server in a tenant (in-memory hash lookup by PK; cluster max 200MB) <a href="https://docs.pinot.apache.org/build-with-pinot/ingestion/dim-table/">dim table docs</a>. Colocated joins require identical partitioning <a href="https://docs.pinot.apache.org/build-with-pinot/querying-and-sql/multi-stage-query/join-strategies/colocated-join-strategy">colocated join docs</a>.</li>
+<li><strong>Lake interop:</strong> <strong>None in OSS</strong> — Iceberg integration is a StarTree commercial feature <a href="https://docs.pinot.apache.org/architecture-and-concepts/concepts/architecture">Pinot docs</a>. <strong>Hard failure for Workload C.</strong></li>
+<li><strong>Isolation:</strong> Tenants as server/broker instance tags; workload budgets (CPU ns + memory bytes, 1.4.0+) with propagation and enforcement at admission; per-table QPS quotas (429 when exceeded); broker-level RLS filters <a href="https://docs.pinot.apache.org/architecture-and-concepts/components/cluster/tenant">tenants</a>, <a href="https://docs.pinot.apache.org/operate-pinot/tuning/workload-query-isolation">workload isolation</a>, <a href="https://docs.pinot.apache.org/build-with-pinot/querying-and-sql/query-execution-controls/query-quotas">quotas</a>, <a href="https://docs.pinot.apache.org/workload-playbooks/multi-tenant-analytics">RLS</a>.</li>
+<li><strong>Recovery:</strong> ZooKeeper holds all cluster metadata; restore = ZK snapshot + restart controllers; servers re-download segments from deep store <a href="https://docs.pinot.apache.org/operate-pinot/production-guides/running-pinot-in-production">production guide</a>.</li>
+<li><strong>Version caveats:</strong> 1.3.0 had a known multi-stream Kafka ingestion bug (not production-ready) <a href="https://docs.pinot.apache.org/operate-pinot/upgrades/upgrade-notes">upgrade notes</a>; 1.4.0 changed HEAP→MMAP default and added workload budgets.</li>
+<li><strong>Assessment:</strong> Strong upsert/real-time serving, but no OSS Iceberg — fails Workload C. Requires ZooKeeper (1 of 3 slots).</li>
+</ul>
+<h3>2.4 Apache Doris (serving + transformation)</h3>
+<ul>
+<li><strong>License:</strong> Apache 2.0 (<a href="https://github.com/apache/doris/blob/master/LICENSE.txt">LICENSE</a>). Fully OSS, no dual license.</li>
+<li><strong>Architecture:</strong> Shared-nothing MPP: FE (metadata, planning) + BE (storage, execution). FE uses BDB JE, <strong>does NOT depend on ZooKeeper</strong> — internal Paxos-like consensus among Master/Follower/Observer roles <a href="https://doris.apache.org/docs/dev/features-architecture/system-architecture/">system architecture</a>. Default 3 replicas per tablet on BEs.</li>
+<li><strong>Ingestion/CDC:</strong> Routine Load (FE-managed Kafka consumer); Flink CDC connector with exactly-once via Stream Load 2PC; Doris Kafka Connector (sink for Avro/Protobuf/Debezium) <a href="https://doris.apache.org/docs/dev/key-features/kafka-cdc-integration/">kafka cdc docs</a>. Exactly-once via edit-log persistence + commit-time verification <a href="https://doris.apache.org/docs/4.x/data-operate/import/load-best-practices/routine-load-best-practices/">routine load best practices</a>. Auto-recovery on transient failures; terminal CANCELLED if database/table dropped <a href="https://doris.apache.org/docs/4.x/data-operate/import/import-way/routine-load-manual/">routine load manual</a>.</li>
+<li><strong>Updates/deletes:</strong> Unique Key model = Merge-on-Write since v2.1: duplicates resolved at write time via delete bitmaps, zero merge delay at query time <a href="https://doris.apache.org/docs/4.x/key-features/unique-key/">unique key docs</a>. <code>function_column.sequence_col</code> resolves out-of-order/late CDC events (larger value wins, ties fall back to load order) [same source]. <code>__DORIS_DELETE_SIGN__</code> hidden tinyint for soft deletes on any load path [same source]. Partial column updates require MoW. Primary keys cannot be rewritten — use soft-delete + insert.</li>
+<li><strong>Joins:</strong> Broadcast, Shuffle, Bucket Shuffle, Colocate Join across internal tables <a href="https://doris.apache.org/docs/4.x/key-features/mpp/">MPP docs</a>. Federated joins with Iceberg run as one MPP plan <a href="https://doris.apache.org/docs/dev/key-features/iceberg/">iceberg docs</a>.</li>
+<li><strong>Lake interop:</strong> <strong>Full Iceberg engine</strong>: 7 catalog backends (REST recommended; Glue/DLF read-only), reads V1–V3, writes V2 default, V3 deletion vectors (Puffin) since 4.1+, DML (INSERT/UPDATE/DELETE/MERGE INTO) requires format-version ≥2, time travel, branches/tags, row lineage (experimental) <a href="https://doris.apache.org/docs/dev/key-features/iceberg/">iceberg docs</a>, <a href="https://www.velodb.io/blog/apache-doris-4-1-on-iceberg-v3-full-lakehouse-lifecycle">V3 blog</a>. Hudi read-only; Delta Lake experimental/read-only since 3.0.1.</li>
+<li><strong>Isolation:</strong> Resource Groups (physical placement via BE tags — replicas allocated per tag, users bound to tags) <a href="https://doris.apache.org/docs/dev/key-features/resource-group/">resource group docs</a>. Workload Groups (in-process CPU via cgroups, memory, IO, concurrency isolation per query group) <a href="https://doris.apache.org/docs/dev/key-features/workload-group/">workload group docs</a>.</li>
+<li><strong>Recovery:</strong> FE HA via Paxos-like election; 3-replica quorum writes; automatic replica rebuild [system architecture]. <code>RECOVER</code> restores deleted databases/tables/partitions from recycle bin (default 1-day retention, configurable) <a href="https://doris.apache.org/docs/2.1/sql-manual/sql-statements/recycle/RECOVER/">RECOVER docs</a>. <code>RESTORE</code> brings back backup snapshots with metadata AND data <a href="https://doris.apache.org/docs/4.x/admin-manual/data-admin/backup-restore/restore/">restore docs</a>. No per-table rollback; erasure via <code>__DORIS_DELETE_SIGN__</code> or <code>DELETE FROM</code>.</li>
+<li><strong>Version caveats:</strong> Iceberg V3/deletion vectors require 4.1+ with MERGE INTO/Row Lineage EXPERIMENTAL [V3 blog]; Iceberg DML requires format-version ≥2; Hudi dependent version 0.15, read-only; Delta Lake read-only experimental.</li>
+<li><strong>Assessment:</strong> Best all-around fit: native CDC semantics (sequence_col for late events, MoW for dedup), full Iceberg engine matching the existing Spark lake, built-in multi-tenant isolation, no external ZooKeeper.</li>
+</ul>
+<h3>2.5 StarRocks (serving + transformation)</h3>
+<ul>
+<li><strong>License:</strong> Apache 2.0 (<a href="https://github.com/StarRocks/starrocks/blob/main/LICENSE.txt">LICENSE</a>). Fully OSS; commercial offerings are managed services only <a href="https://www.starrocks.io/product/vendors/index.html">vendor page</a>.</li>
+<li><strong>Architecture:</strong> Shared-nothing MPP with vectorized engine. FE: metadata (BDB JE) + Raft-based leader election among leader/follower/observer roles <a href="https://docs.starrocks.io/docs/administration/Meta_recovery/">meta recovery docs</a>. No external ZooKeeper required.</li>
+<li><strong>Ingestion/CDC:</strong> StarRocks Kafka Connector (sink, at-least-once; Debezium requires transforms: AddOpFieldForDebeziumRecord + ExtractNewRecordState with drop.tombstones=true) since v1.0.1 (Nov 2023) <a href="https://docs.starrocks.io/docs/loading/kafka/Kafka-connector-starrocks/">kafka connector docs</a>. Routine Load for CSV/JSON/AVRO. Flink CDC supported.</li>
+<li><strong>Updates/deletes:</strong> Primary Key table with Delete+Insert strategy via DelVector — updates mark old row deleted in DelVector + write new row; queries read only latest version (3–10x faster than Unique Key MoR) <a href="https://docs.starrocks.io/docs/table_design/table_types/primary_key_table/">PK table docs</a>. <code>merge_condition</code> (non-PK column condition, update only if incoming ≥ existing) introduced v2.5, resolves data disorder; partial+conditional incompatible before v3.1.3 <a href="https://docs.starrocks.io/docs/loading/Load_to_Primary_Key_tables/">PK load docs</a>. Primary key values cannot change.</li>
+<li><strong>Joins:</strong> Shared-nothing MPP joins <a href="https://docs.starrocks.io/docs/introduction/Architecture/">architecture docs</a>.</li>
+<li><strong>Lake interop:</strong> Iceberg external catalog since v2.4: READ + INSERT INTO from v3.1; Parquet V2 position deletes from v3.1, equality deletes from v3.1.10/v3.2.5/v3.3+; ORC V2 position deletes from v3.0, equality from v3.1.8/v3.2.3/v3.3+; Time Travel from v3.4.0 <a href="https://docs.starrocks.io/docs/data_source/catalog/iceberg/">Iceberg catalog docs</a>. <strong>Iceberg V3 deletion vectors NOT supported</strong> (open issue #63819); <strong>UPDATE on Iceberg V2 tables NOT supported</strong> (issue #72046). Default metadata cache tolerates minute-level inconsistency; <code>iceberg_meta_cache_ttl_sec=0</code> forces immediate freshness <a href="https://docs.starrocks.io/docs/data_source/feature-support-data-lake-analytics/">feature support</a>.</li>
+<li><strong>Isolation:</strong> Resource Groups with CPU weights (soft) or exclusive cores/percent (hard isolation since v3.3.5), memory via mem_limit, concurrency limits, classifiers by user/role/db/source_ip <a href="https://docs.starrocks.io/docs/administration/management/resource_management/resource_group/">resource group docs</a>. BE Labels for data placement <a href="https://docs.starrocks.io/docs/administration/management/resource_management/be_label/">BE label docs</a>.</li>
+<li><strong>Recovery:</strong> Leader election among Followers; observers extend read concurrency [meta recovery docs]. No recycle-bin equivalent to Doris RECOVER. Metadata recovery last-resort: <code>bdbje_reset_election_group=true</code> forces node with largest lastVLSN [meta recovery docs].</li>
+<li><strong>Version caveats:</strong> Do NOT downgrade v3.3→v3.2.0–3.2.2 (metadata loss); v4.0→v3.5.0 incompatible <a href="https://docs.starrocks.io/releasenotes/release-3.3/">release 3.3 notes</a>. Iceberg V3 DV unsupported; V2 UPDATE unsupported — both open issues as of cutoff.</li>
+<li><strong>Assessment:</strong> Comparable to Doris for CDC workloads (DelVector + merge_condition). Weaker Iceberg support than Doris (no V3, no UPDATE on V2). More volatile upgrade history.</li>
+</ul>
+<h3>2.6 Trino (federated query engine — NOT serving)</h3>
+<ul>
+<li><strong>License:</strong> Apache 2.0 (<a href="https://trino.io/legal.html">legal</a>).</li>
+<li><strong>Architecture:</strong> Stateless coordinator + stateless workers; no storage of its own; data stays in external sources via connectors <a href="https://trino.io/docs/current/overview/concepts.html">overview</a>, <a href="https://trino.io/ecosystem/data-lake.html">data lake docs</a>.</li>
+<li><strong>Role:</strong> Explicitly OLAP query engine, &quot;not designed for point reads and updates of single rows&quot; <a href="https://trino.io/development/vision.html">vision</a>. Has Kafka/Iceberg/JDBC connectors but performs NO streaming ingestion <a href="https://trino.io/docs/current/connector/kafka.html">Kafka connector</a>. Must sit ABOVE a serving layer, not replace one.</li>
+<li><strong>Lake interop:</strong> Excellent Iceberg DML (v2 row-level deletes; v3 experimental, no row-level DML) <a href="https://trino.io/docs/current/connector/iceberg.html">Iceberg connector</a>. Commit conflicts between OPTIMIZE and concurrent CDC position deletes documented (issue #25584).</li>
+<li><strong>Isolation:</strong> Resource groups with hierarchical structure, soft/hard memory limits, concurrency limits, scheduling policies (fair/weighted/query_priority) <a href="https://trino.io/docs/current/admin/resource-groups.html">resource groups</a>. Memory governance: per-node cap 30% heap, cluster-wide 20GB default <a href="https://trino.io/docs/current/admin/properties-resource-management.html">resource management</a>.</li>
+<li><strong>Recovery:</strong> Stateless between queries; fault-tolerant execution buffers intermediates in external storage (e.g., S3) — suited for large batch, not high-volume short queries <a href="https://trino.io/docs/current/installation/query-resiliency.html">query resiliency</a>.</li>
+<li><strong>Assessment:</strong> Ineligible as serving layer. Can serve as the federation/joins layer over Doris+Iceberg for ad-hoc research (Workload C), but is stateless and does not hold durable state.</li>
+</ul>
+<h3>2.7 DuckDB (embedded OLAP — NOT serving)</h3>
+<ul>
+<li><strong>License:</strong> MIT, fully OSS, no enterprise tier <a href="https://duckdb.org/faq.html">FAQ</a>.</li>
+<li><strong>Architecture:</strong> Single-process embedded library; no server component <a href="https://duckdb.org/why_duckdb.html">why DuckDB</a>.</li>
+<li><strong>Ingestion:</strong> Reads Parquet/CSV/JSON/Arrow directly; ODBC/JDBC clients; no streaming <a href="https://duckdb.org/docs/lts/clients/python/data_ingestion.html">Python ingestion</a>, <a href="https://duckdb.org/docs/lts/clients/java/overview.html">Java overview</a>.</li>
+<li><strong>Updates/deletes:</strong> DELETE exists but space reclaimed only on CHECKPOINT <a href="https://duckdb.org/docs/lts/sql/statements/delete.html">delete docs</a>. Append-first design.</li>
+<li><strong>Isolation:</strong> NONE natively — no users, RBAC, or RLS <a href="https://duckdb.org/docs/lts/operations_manual/securing_duckdb/overview.html">security overview</a>. Isolation must be built at application layer (e.g., separate .duckdb files per tenant).</li>
+<li><strong>Recovery:</strong> File-based WAL replay on restart <a href="https://duckdb.org/docs/lts/guides/troubleshooting/crashes.html">crashes docs</a>. Storage formats changed across versions (v0.8 → v1.x); backward compatible since 0.10; forward compat best-effort <a href="https://duckdb.org/docs/current/internals/storage.html">storage docs</a>.</li>
+<li><strong>Assessment:</strong> Ineligible as shared serving layer. Fits as embedded analytics inside an application (e.g., merchant self-service exports), where isolation/recovery are supplied externally.</li>
+</ul>
+<h3>2.8 PostgreSQL (operational/OLTP source — NOT dashboard serving for A)</h3>
+<ul>
+<li><strong>License:</strong> PostgreSQL License (BSD/MIT-like) <a href="https://www.postgresql.org/about/licence/">license</a>.</li>
+<li><strong>Architecture:</strong> Process-based row-store RDBMS with MVCC, WAL-based durability <a href="https://www.snowflake.com/en/developers/postgres/postgres-architecture/">architecture</a>.</li>
+<li><strong>CDC:</strong> pgoutput plugin (built-in, PG10+) streams WAL via replication slots; Debezium consumes it; LSN offsets; replication slots retain WAL during outages <a href="https://debezium.io/documentation/reference/stable/connectors/postgresql.html">Debezium PG docs</a>, <a href="https://www.postgresql.org/docs/current/logical-replication-architecture.html">logical replication docs</a>.</li>
+<li><strong>Isolation:</strong> Row-Level Security policies with USING/WITH CHECK expressions per role <a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">RLS docs</a>.</li>
+<li><strong>Performance:</strong> Row-store causes I/O amplification; analytical scans evict OLTP pages from shared buffers; vacuum contention. Consensus: PostgreSQL should be the operational SOURCE fed by CDC to a dedicated OLAP engine; vanilla Postgres ceiling falls short of p95&lt;2s at 250 concurrent users for clickstream-scale analytics <a href="https://www.tinybird.co/blog/analytics-workloads-postgres">Tinybird blog</a>, <a href="https://clickhouse.com/resources/engineering/oltp-vs-olap">ClickHouse OLTP vs OLAP</a>, <a href="https://www.tinybird.co/blog/Best-Database-Choices-for-Fast-SaaS-Embedded-Analytics">Tinybird SaaS choices</a>.</li>
+<li><strong>Assessment:</strong> Correct as the source of truth for orders/merchants (Workload B source). Unsuitable as the dashboard-serving layer for Workload A.</li>
+</ul>
+<h3>2.9 Apache Spark (compute/transformation — NOT serving)</h3>
+<ul>
+<li><strong>License:</strong> Apache 2.0 <a href="https://en.wikipedia.org/wiki/Apache_Spark">Wikipedia</a>.</li>
+<li><strong>Architecture:</strong> Distributed compute on RDDs/DAGs; requires external storage [Wikipedia].</li>
+<li><strong>Role:</strong> Transformation engine. Structured Streaming: checkpoints + WAL record offsets; exactly-once requires replayable sources AND idempotent sinks <a href="https://spark.apache.org/docs/3.5.8/structured-streaming-programming-guide.html">streaming guide</a>. Kafka sink is at-least-once <a href="https://spark.apache.org/docs/latest/structured-streaming-kafka-integration.html">Kafka integration</a>. Writes require explicit sink — cannot serve dashboards directly <a href="https://community.databricks.com/t5/data-engineering/integrating-pyspark-dataframe-into-sql-dashboard-for-enhanced/td-p/104845">community post</a>.</li>
+<li><strong>Lake:</strong> Spark was NOT the author of Iceberg (Netflix authored it; donated 2018/graduated 2020) <a href="https://en.wikipedia.org/wiki/Apache_Iceberg">Iceberg Wikipedia</a> — but is its primary engine. Your existing 500TB lake is Spark-written.</li>
+<li><strong>Assessment:</strong> Correct as the transformation engine that maintains the Iceberg lake (Workload C writer). Not a serving option. Counts as ephemeral batch (not stateful under the accounting rule when used for batch jobs).</li>
+</ul>
+<h3>2.10 Apache Flink (stream processing — NOT serving)</h3>
+<ul>
+<li><strong>License:</strong> Apache 2.0 <a href="https://flink.apache.org/downloads/">downloads</a>. Current stable: 2.3.0 (2026-06-25).</li>
+<li><strong>Architecture:</strong> Distributed stream processor with keyed/operator state backends (HashMap/RocksDB/ForSt) <a href="https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/stateful-stream-processing/">stateful processing</a>, <a href="https://nightlies.apache.org/flink/flink-docs-stable/docs/ops/state/state_backends/">state backends</a>.</li>
+<li><strong>Ingestion/CDC:</strong> Native Flink CDC sources (postgres-cdc, mysql-cdc, etc.) with exactly-once for most connectors, no Kafka intermediary needed <a href="https://nightlies.apache.org/flink/flink-cdc-docs-master/docs/connectors/flink-sources/overview/">Flink CDC overview</a>. Debezium format support: UPDATE_BEFORE/AFTER encoded as DELETE/INSERT; <code>table.exec.source.cdc-events-duplicate=true</code> + PRIMARY KEY generates stateful dedup operator <a href="https://nightlies.apache.org/flink/flink-docs-stable/docs/connectors/table/formats/debezium/">Debezium format docs</a>.</li>
+<li><strong>Recovery:</strong> Checkpoints = consistent snapshots of state + input positions (Chandy-Lamport barrier alignment); savepoints = manual full snapshots. On failure, resume from last checkpoint, restoring state and rolling back to correct input position <a href="https://nightlies.apache.org/flink/flink-docs-stable/docs/dev/datastream/fault-tolerance/checkpointing/">checkpointing docs</a>, <a href="https://nightlies.apache.org/flink/flink-docs-stable/docs/learn-flink/fault_tolerance/">fault tolerance</a>. End-to-end exactly-once requires replayable sources + 2PC/idempotent sinks <a href="https://flink.apache.org/2018/02/28/an-overview-of-end-to-end-exactly-once-processing-in-apache-flink-with-apache-kafka-too/">end-to-end EOS blog</a>.</li>
+<li><strong>Lake:</strong> Native Iceberg integration with time travel via snapshot-id/as-of-timestamp options; streaming starting strategies; TableMaintenance API for compaction/snapshot expiration/orphan cleanup inside Flink jobs <a href="https://iceberg.apache.org/docs/nightly/flink-maintenance/">Flink maintenance</a>, <a href="https://iceberg.apache.org/docs/latest/flink-configuration/">Flink Iceberg config</a>.</li>
+<li><strong>Version caveats:</strong> Flink 2.0 breaks state compatibility with 1.x <a href="https://flink.apache.org/2025/03/24/apache-flink-2.0.0-a-new-era-of-real-time-data-processing/">2.0 announcement</a>; 2.3.0 changes SinkUpsertMaterializer behavior (fails at planning time when upsert key ≠ primary key unless ON CONFLICT clause) <a href="https://flink.apache.org/2026/06/25/apache-flink-2.3.0-release-announcement/">2.3.0 announcement</a>.</li>
+<li><strong>Assessment:</strong> Correct as the stream-transformation engine (optional, if complex stream processing beyond the serving engine's capabilities is needed). Stateful — counts as a component if deployed as a persistent streaming job.</li>
+</ul>
+<h3>2.11 Materialize (streaming SQL — LICENSE PROBLEM)</h3>
+<ul>
+<li><strong>License:</strong> <strong>BSL 1.1, NOT open source for production use.</strong> Additional Use Grant allows memory &lt;24GiB and disk &lt;48GiB per installation; production beyond that requires commercial license; converts to Apache 2.0 on Change Date (~Sept 2030) <a href="https://github.com/MaterializeInc/materialize/blob/main/LICENSE">LICENSE</a>, <a href="https://www.sec.gov/Archives/edgar/data/1845022/000119312521194292/d73036ds1.htm">SEC filing</a>.</li>
+<li><strong>Architecture:</strong> Incremental View Maintenance via Differential Dataflow; persist (diffs) + compute <a href="https://materialize.com/blog/materialize-architecture/">architecture blog</a>.</li>
+<li><strong>Ingestion/CDC:</strong> Kafka sources with UPSERT envelope; DEBEZIUM envelope interprets change events; best-effort duplicate dedup <a href="https://materialize.com/docs/sql/create-source/kafka/">Kafka source docs</a>.</li>
+<li><strong>Recovery:</strong> On restart, MVs re-read all current input data and recompute from scratch (hydration); self-correcting diff mechanism reconciles persisted output <a href="https://materialize.com/blog/self-correcting-materialized-views/">self-correcting MVs</a>.</li>
+<li><strong>Assessment:</strong> <strong>Ineligible for this platform</strong> because the BSL 1.1 license prohibits unlicensed commercial/production redistribution. The AGPL premise in the brief is incorrect — it is BSL 1.1.</li>
+</ul>
+<h3>2.12 RisingWave (streaming database — serving capable)</h3>
+<ul>
+<li><strong>License:</strong> Apache 2.0 <a href="https://github.com/risingwavelabs/risingwave">GitHub</a>, <a href="https://risingwave.com/risingwave-vs-materialize/">blog</a>.</li>
+<li><strong>Architecture:</strong> Cloud-native: Serving Node (stateless frontend), Streaming Node (stateful, executes stream graph, maintains state), Meta Node (central coordinator, manages metadata/checkpoints/recovery), Compactor Node (optional, LSM compaction) <a href="https://docs.risingwave.com/get-started/architecture/">architecture docs</a>. State persisted in Hummock LSM tree on object storage via OpenDAL <a href="https://risingwave.com/blog/lsm-trees-streaming-databases-state-storage/">LSM blog</a>.</li>
+<li><strong>Ingestion/CDC:</strong> <strong>Native CDC</strong>: embedded Debezium for PostgreSQL/MySQL/SQL Server/MongoDB reading WAL/binlog directly — no Kafka intermediary needed <a href="https://docs.risingwave.com/ingestion/cdc-with-risingwave/">CDC docs</a>. Also Kafka sources with FORMAT DEBEZIUM: inserts/updates/deletes applied as op field; tombstones skipped; idempotent upserts handle Debezium restart replays <a href="https://risingwave.com/blog/risingwave-format-plain-cdc-append-only/">append-only blog</a>, <a href="https://risingwave.com/blog/debezium-tombstone-events-streaming-sql/">tombstone blog</a>, <a href="https://risingwave.com/blog/debezium-risingwave-together-cdc-architecture/">Debezium together blog</a>. Cross-table CDC: single connection subscribes multiple tables; barriers paused during transactions for atomic visibility <a href="https://risingwave.com/blog/atomic-cdc-transactions-in-risingwave/">atomic CDC blog</a>.</li>
+<li><strong>Updates/deletes:</strong> Tables (not sources) support UPDATE/DELETE; MVs incrementally update; corrections flow through underlying table DML or CDC changelog <a href="https://docs.risingwave.com/processing/deletes-and-updates/">deletes/updates docs</a>. Watermarks: <code>WATERMARK FOR col AS col - INTERVAL 'N seconds'</code> for event-time windows; late data dropped by default from windows, configurable tolerance or side-stream routing <a href="https://risingwave.com/blog/late-arriving-data-watermarks-risingwave/">watermark blog</a>.</li>
+<li><strong>Joins:</strong> Regular JOIN recomputes on dimension updates; process-time temporal joins (<code>FOR SYSTEM_TIME AS OF PROCTIME()</code>) lock in historical dimension values <a href="https://docs.risingwave.com/processing/sql/joins/">joins docs</a>.</li>
+<li><strong>Consistency:</strong> Chandy-Lamport checkpoints every ~1 second (default barrier_interval_ms=1000) to object storage; read queries always fetch from last checkpoint — strongly consistent reads <a href="https://docs.risingwave.com/reference/fault-tolerance/">fault tolerance docs</a>, <a href="https://docs.risingwave.com/reference/data-persistence/">data persistence</a>.</li>
+<li><strong>Isolation:</strong> Database-level isolation (independent checkpoints, localized error recovery); resource groups (named pools of Compute Nodes, databases pinned via <code>CREATE DATABASE ... WITH RESOURCE_GROUP</code>); RBAC at DB/schema/table/source/MV level; RLS NOT native — workaround via logical views + GRANT/REVOKE <a href="https://docs.risingwave.com/operate/workload-isolation-interaction/">workload isolation</a>, <a href="https://docs.risingwave.com/operate/access-control/">access control</a>, <a href="https://docs.risingwave.com/operate/row-level-security/">RLS</a>.</li>
+<li><strong>Lake interop:</strong> Native Iceberg: internally managed tables (<code>ENGINE = iceberg</code> with hosted catalog) and externally managed (SOURCE/SINK with connector); REST catalog, Glue, JDBC, Hive, Lakekeeper, S3 Tables supported; time travel via <code>FOR SYSTEM_TIME AS OF</code>/<code>FOR SYSTEM_VERSION AS OF</code>; equality + position deletes applied on read of mutable tables; upsert sinks with primary_key; exactly-once sinks default; compaction and snapshot expiration via VACUUM <a href="https://docs.risingwave.com/iceberg/overview/">Iceberg overview</a>, <a href="https://docs.risingwave.com/iceberg/iceberg-feature-support/">feature support</a>, <a href="https://docs.risingwave.com/iceberg/catalogs/">catalogs</a>.</li>
+<li><strong>Recovery:</strong> All stateful operators fetch states from last checkpoint; only post-checkpoint state lost (~1s at default). Recovery speed depends on loading checkpoint state from Hummock <a href="https://docs.risingwave.com/reference/fault-tolerance/">fault tolerance docs</a>.</li>
+<li><strong>Component count:</strong> Meta Node (stateful) + Streaming/Compute Nodes (stateful) + optional Compactor = up to 3, but these form ONE deployed unit. Meta store can be existing PostgreSQL/MySQL/SQLite <a href="https://docs.risingwave.com/get-started/architecture/">architecture docs</a>.</li>
+<li><strong>Performance claims:</strong> Benchmarks cite 4.96ms avg point-select latency, 25,814 QPS — but these are vendor benchmarks, not verified for this workload <a href="https://risingwave.com/serving/">serving page</a>.</li>
+<li><strong>Version caveats:</strong> Current stable v3.0.3 (2026-08-17); v3.0.0 (2026-06-11) enabled DataFusion for batch by default and deprecated Maxwell/Canal/Citus CDC sources <a href="https://docs.risingwave.com/changelog/release-notes/">release notes</a>.</li>
+<li><strong>Assessment:</strong> Strongest CDC semantics (transactional atomicity across tables, sub-second checkpoints), excellent for Workload B; good for A; Iceberg integration mature (internal + external); missing native RLS (Workload D gap). Component count can be as low as 1.</li>
+</ul>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-2">3. Comparison Matrix</h2>
+<p>Labels: <strong>Native</strong> = built-in capability of the OSS edition; <strong>Ext</strong> = requires external integration/component; <strong>Conditional</strong> = works only under specific configurations/versions; <strong>Uns</strong> = unsuitable role for this platform's serving layer; <strong>Unv</strong> = unverified (no evidence found).</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>ClickHouse</th>
+<th>Druid</th>
+<th>Pinot</th>
+<th>Doris</th>
+<th>StarRocks</th>
+<th>Trino</th>
+<th>DuckDB</th>
+<th>PG</th>
+<th>Spark</th>
+<th>Flink</th>
+<th>Materialize</th>
+<th>RisingWave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Role</strong></td>
+<td>Serving</td>
+<td>Serving</td>
+<td>Serving</td>
+<td>Serving+transform</td>
+<td>Serving+transform</td>
+<td>Federation only</td>
+<td>Embedded only</td>
+<td>OLTP source</td>
+<td>Transform only</td>
+<td>Transform only</td>
+<td>Serving (license-blocked)</td>
+<td>Serving</td>
+</tr>
+<tr>
+<td><strong>A: High-throughput ingest</strong></td>
+<td>Native (Kafka engine/Connect)</td>
+<td>Native (Kafka supervisor)</td>
+<td>Native (real-time tables)</td>
+<td>Native (Routine Load)</td>
+<td>Native (Kafka connector)</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Ext (sink)</td>
+<td>Native (source)</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>A: &lt;15s visibility</strong></td>
+<td>Conditional (ingest path + query)</td>
+<td>Conditional</td>
+<td>Conditional</td>
+<td>Native</td>
+<td>Native</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Native</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>B: PK-based upserts</strong></td>
+<td>Conditional (FINAL/merge delay)</td>
+<td>Uns</td>
+<td>Native</td>
+<td>Native (MoW+sequence_col)</td>
+<td>Native (DelVector+merge_cond)</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Native</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>B: Handles deletes</strong></td>
+<td>Conditional (lightweight delete/mutations)</td>
+<td>Ext (kill task destructive)</td>
+<td>Native (docId bitmaps)</td>
+<td>Native (<strong>DORIS_DELETE_SIGN</strong>)</td>
+<td>Native (DelVector)</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Native</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>B: Out-of-order events</strong></td>
+<td>Conditional (FINAL eventual)</td>
+<td>Partial (reject period)</td>
+<td>Conditional (dropOutOfOrder)</td>
+<td>Native (sequence_col)</td>
+<td>Conditional (merge_condition)</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Native</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>C: Iceberg joins</strong></td>
+<td>Native (read+write, no V3 DV)</td>
+<td>Uns</td>
+<td>Uns</td>
+<td><strong>Native (full engine, V3)</strong></td>
+<td>Native (V3 DV missing)</td>
+<td>Native (v2 DML)</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Ext (writer only)</td>
+<td>Native</td>
+<td>Ext</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>C: Time travel</strong></td>
+<td>Native (Iceberg engine)</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Native</td>
+<td>Native (v3.4.0+)</td>
+<td>Native</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Configurable</td>
+<td>N/A</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>D: Tenant row filtering</strong></td>
+<td>Native (row policies)</td>
+<td>Native (datasource/tenant_id)</td>
+<td>Native (RLS filters)</td>
+<td>Native (row-level via SQL)</td>
+<td>Native (classifiers/views)</td>
+<td>Conditional (resource groups)</td>
+<td>Uns</td>
+<td>Native (RLS)</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Conditional</td>
+<td><strong>Conditional (views workaround)</strong></td>
+</tr>
+<tr>
+<td><strong>D: Resource isolation</strong></td>
+<td>Conditional (quotas/profiles)</td>
+<td>Conditional (laning/tiering)</td>
+<td>Native (workload budgets)</td>
+<td>Native (resource+workload groups)</td>
+<td>Native (resource groups)</td>
+<td>Native (resource groups)</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Conditional</td>
+<td>Native (resource groups)</td>
+</tr>
+<tr>
+<td><strong>D: Credential mgmt</strong></td>
+<td>Native (RBAC)</td>
+<td>Native (RBAC)</td>
+<td>Limited</td>
+<td>Native</td>
+<td>Native</td>
+<td>Native</td>
+<td>Uns</td>
+<td>Native</td>
+<td>Uns</td>
+<td>Uns</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>E: Mass correction</strong></td>
+<td>Native (mutations, async)</td>
+<td>Partial</td>
+<td>Native</td>
+<td>Native (DML/moW)</td>
+<td>Native</td>
+<td>Native</td>
+<td>Uns</td>
+<td>Native</td>
+<td>Ext</td>
+<td>Native</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>E: Erasure reach</strong></td>
+<td>Ext (needs all layers)</td>
+<td>Ext</td>
+<td>Ext</td>
+<td>Ext</td>
+<td>Ext</td>
+<td>Ext</td>
+<td>Ext</td>
+<td>Native</td>
+<td>Ext</td>
+<td>Ext</td>
+<td>Ext</td>
+<td>Ext</td>
+</tr>
+<tr>
+<td><strong>F: Recovery semantics</strong></td>
+<td>Keeper-dependent</td>
+<td>Deep-storage dependent</td>
+<td>ZK-dependent</td>
+<td>FE HA + backup/restore</td>
+<td>FE Raft + snapshots</td>
+<td>Stateless</td>
+<td>File WAL</td>
+<td>WAL/PITR</td>
+<td>Checkpoint+WAL</td>
+<td>Checkpoint+savepoint</td>
+<td>Hydration</td>
+<td>Checkpoint</td>
+</tr>
+<tr>
+<td><strong>Requires external ZK</strong></td>
+<td><strong>Yes (Keeper)</strong></td>
+<td><strong>Yes</strong></td>
+<td><strong>Yes</strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No (PG/MySQL meta)</td>
+</tr>
+<tr>
+<td><strong>License</strong></td>
+<td>Apache 2.0</td>
+<td>Apache 2.0</td>
+<td>Apache 2.0</td>
+<td>Apache 2.0</td>
+<td>Apache 2.0</td>
+<td>Apache 2.0</td>
+<td>MIT</td>
+<td>Postgres</td>
+<td>Apache 2.0</td>
+<td>Apache 2.0</td>
+<td><strong>BSL 1.1</strong></td>
+<td>Apache 2.0</td>
+</tr>
+<tr>
+<td><strong>Late-event handling</strong></td>
+<td>FINAL at query time</td>
+<td>lateMessageRejectionPeriod</td>
+<td>dropOutOfOrderRecord</td>
+<td>sequence_col</td>
+<td>merge_condition</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>watermark ops</td>
+<td>watermark</td>
+<td>WATERMARK DDL</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Conditions explained:</strong></p>
+<ul>
+<li><strong>Native</strong>: works out of the box in the OSS edition at the documented version.</li>
+<li><strong>Conditional</strong>: works but requires specific configuration, degrades query performance, or needs a workaround.</li>
+<li><strong>Ext</strong>: requires an external component not counted in the serving engine (e.g., Debezium, ZooKeeper, separate catalog service).</li>
+<li><strong>Uns</strong>: unsuitable role — the system cannot serve this workload as a dashboard layer.</li>
+</ul>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-3">4. Workload-by-Workload Analysis and Architecture Choices</h2>
+<h3>4.1 Workload A — Append-only clickstream (3 TB/day, 30-day hot, late ≤72h, dashboards by product/campaign/minute, &lt;15s visibility, p95 &lt;2s @ 250 users)</h3>
+<p><strong>Plausible combinations:</strong></p>
+<ol>
+<li><strong>ClickHouse Kafka engine → ClickHouse clusters</strong> — strongest raw ingest throughput; late events absorbed into MergeTree parts; dashboards need <code>FINAL</code> or pre-aggregated materialized views for correctness (performance tradeoff). Dashboards by product/campaign/minute map naturally to preaggregations. 15s visibility achievable end-to-end; p95 &lt;2s well-documented for aggregate queries. <strong>Rejected as sole engine</strong> because it cannot serve Workload B without FINAL penalties on every order query.</li>
+<li><strong>Druid Kafka supervisor → Druid</strong> — late events absorbed into active intervals without window restrictions; sub-second dashboards native. <strong>Rejected</strong> because no PK updates (Workload B fail) and no Iceberg (Workload C fail).</li>
+<li><strong>Pinot real-time tables → Pinot</strong> — upserts native; late events configurable. <strong>Rejected</strong> because no OSS Iceberg (Workload C fail) and requires ZooKeeper (component budget).</li>
+<li><strong>Doris Routine Load → Doris</strong> — Kafka consumer managed by FE; detail tables + materialized views for dashboard rollups; 15s end-to-end achievable (Debezium poll ~500ms + ingest). p95 &lt;2s plausible for aggregated queries on Doris. <strong>Selected as primary serving layer</strong> (see §5).</li>
+<li><strong>RisingWave Kafka source → RisingWave</strong> — sub-second point queries; incremental MVs maintain dashboard rollups; watermarks handle late events. <strong>Alternative</strong> (see §5).</li>
+</ol>
+<p><strong>Conflict:</strong> 3 TB/day ≈ 35 GB/min. No measured result here validates any engine meets the p95 &lt;2s / 250-concurrent-target; that target is a PoC acceptance criterion (§7). The 15-second visibility target is architecturally plausible on Doris/RisingWave/ClickHouse but must be measured end-to-end including Debezium batching.</p>
+<h3>4.2 Workload B — Mutable order analytics via CDC (PostgreSQL → CDC, deletes, out-of-order, connector restarts, schema changes, backfills; joins with changing dims)</h3>
+<p><strong>What a user observes while updates apply:</strong> No serving engine provides a guaranteed atomic multi-table snapshot from CDC alone. Per-table guarantees exist; cross-table consistency depends on the sink:</p>
+<ul>
+<li><strong>Doris:</strong> Each Unique Key table resolves duplicates at write time (MoW + delete bitmap) [unique key docs]. Sequence_col resolves out-of-order per key. But two tables (orders + refunds) updated independently means a query at any instant may see orders at T1 and refunds at T0 — <strong>not a consistent multi-table snapshot</strong>. Joins with dimensions: if dimension table also updating, the join may mix versions. Users observe <em>eventual</em> per-key correctness, not transactional cross-table atomicity, unless the serving engine preserves source transaction boundaries (RisingWave does via barrier pausing [atomic CDC blog]).</li>
+<li><strong>StarRocks:</strong> Same per-key semantics via DelVector; merge_condition resolves disorder. Same multi-table caveat.</li>
+<li><strong>RisingWave:</strong> Native CDC pauses barriers during transactions; buffered events flush atomically on COMMIT — preserving cross-table transactional atomicity into tables [atomic CDC blog]. This is the ONLY candidate with documented cross-table consistency for CDC-sourced tables.</li>
+<li><strong>ClickHouse:</strong> ReplacingMergeTree FINAL gives per-table correctness eventually; no cross-table atomicity.</li>
+<li><strong>Pinot:</strong> Per-key upserts; same multi-table caveat as Doris/StarRocks.</li>
+</ul>
+<p><strong>Backfills:</strong> Any backfill re-ingests historical data. With sequence_col (Doris) or merge_condition (StarRocks), newer sequence values win regardless of ingestion order. RisingWave handles via primary-key upserts. All require the dedup logic to be correct at ingestion.</p>
+<p><strong>Schema changes:</strong> Debezium + Schema Registry with FULL_TRANSITIVE compatibility avoids connector stalls <a href="https://docs.confluent.io/platform/current/schema-registry/fundamentals/schema-evolution.html">schema registry docs</a>. The serving engine must accept new columns — all candidates add columns to tables without rewriting data (metadata-only). Note: Doris Unique Key tables cannot change primary keys; StarRocks PK values cannot change; RisingWave tables allow updates/deletes on non-PK columns.</p>
+<p><strong>Selected combination: Doris</strong> (single serving layer, all sub-workloads covered, no external coordination). RisingWave is the alternative if cross-table CDC atomicity is deemed critical (it is the only candidate with that guarantee documented).</p>
+<h3>4.3 Workload C — Existing Spark Iceberg lake (500 TB, partition/schema evolution, time travel, joins with operational data, selective access)</h3>
+<p><strong>Catalog/file-format/delete-file/concurrent-writer assumptions:</strong></p>
+<ul>
+<li>The lake's catalog is whatever Spark uses (HMS, REST, or Glue). If HMS: JVM-only Thrift protocol, no credential vending, single-point risk <a href="https://iceberglakehouse.com/iceberg/iceberg-hive-metastore/">HMS docs</a>. If REST: vendor-neutral, OAuth2, credential vending — recommended for multi-engine <a href="https://www.dremio.com/blog/apache-iceberg-rest-catalog-what-it-is-and-how-to-use-it/">REST docs</a>.</li>
+<li>Files: Parquet (most likely), V1/V2 format. Delete files: equality deletes (V1+) or position deletes (V2). Deletion vectors only if upgraded to V3 <a href="https://iceberg.apache.org/spec/">spec</a>.</li>
+<li>Concurrent writers: OCC with CAS commits; commit conflicts auto-retried; data update conflicts fail with ValidationException requiring custom retry <a href="https://iceberg.apache.org/docs/1.6.0/reliability/">reliability docs</a>, <a href="https://aws.amazon.com/blogs/big-data/manage-concurrent-write-conflicts-in-apache-iceberg-on-the-aws-glue-data-catalog/">AWS blog</a>.</li>
+<li>Selective access without copying: engines read Iceberg metadata directly and prune via partition/column statistics — no data movement needed.</li>
+</ul>
+<p><strong>Engine compatibility with the existing lake:</strong></p>
+<ul>
+<li><strong>Doris:</strong> Full Iceberg engine — reads V1–V3, federated joins as single MPP plan, DML on V2+, V3 DV support in 4.1+ [iceberg docs]. Best match.</li>
+<li><strong>StarRocks:</strong> External catalog — reads fine; V3 DV unsupported (issue #63819); UPDATE on V2 unsupported (issue #72046). Time travel from v3.4.0+.</li>
+<li><strong>ClickHouse:</strong> Iceberg table engine — read+write with type limitations; reads position/equality deletes but not V3 DV [iceberg engine docs].</li>
+<li><strong>RisingWave:</strong> Native Iceberg — internally managed and external modes; equality/position deletes applied on read; upsert sinks; time travel; REST/Glue/JDBC/Hive catalogs [Iceberg feature support].</li>
+<li><strong>Trino:</strong> Best Iceberg DML among query engines but not a serving layer.</li>
+</ul>
+<p><strong>Selected:</strong> Doris (full engine + V3) or RisingWave (native, comprehensive). Both avoid data copying.</p>
+<h3>4.4 Workload D — Multi-tenant embedded reporting (2,000 merchants; IDs ≠ access control; cross-tenant isolation; shared service exhaustion prevention; internal analyst may compare)</h3>
+<p><strong>Required separations:</strong></p>
+<ol>
+<li><strong>Row filtering:</strong> Doris — row policies per user/role referencing <code>current_user</code>/roles [access rights]. RisingWave — filtered logical views + GRANT/REVOKE (RLS not native) [RLS docs]. ClickHouse — row policies [access rights]. Pinot — broker RLS filters [multi-tenant playbook]. Druid — datasource/tenant_id with Router routing [multitenancy docs].</li>
+<li><strong>Credentials:</strong> All serving engines have RBAC (users/roles/privileges). Doris: standard SQL GRANT/REVOKE. RisingWave: user-based privileges at DB/schema/table levels. ClickHouse: users + roles + row policies.</li>
+<li><strong>Query scheduling:</strong> Doris: workload groups with max_concurrency/max_queue_size [workload group docs]. RisingWave: resource groups pin databases to node pools [workload isolation]. ClickHouse: quotas with <code>quota_key</code> and <code>keyed_by_normalized_query_hash</code> [quotas]. Pinot: bounded_fcfs scheduler + token bucket <a href="https://docs.pinot.apache.org/operate-pinot/tuning/query-scheduling">query scheduling</a>.</li>
+<li><strong>Memory limits:</strong> Doris: workload groups (cgroups memory) [workload group docs]. RisingWave: resource groups with mem_limit [resource group docs]. ClickHouse: per-user max_memory_usage + quotas [quotas].</li>
+<li><strong>Workload groups:</strong> Doris (native), RisingWave (native), ClickHouse (quotas fill the role), Pinot (workload budgets 1.4.0+).</li>
+<li><strong>Infrastructure isolation:</strong> Druid's dedicated Broker pools + watchedTiers [mixed workloads docs]; Doris Resource Groups via BE tags [resource group docs]; RisingWave resource groups [workload isolation].</li>
+</ol>
+<p><strong>Internal analyst comparing merchants:</strong> Requires a role above row-level filtering — e.g., a <code>research</code> role granted SELECT on the shared table without a tenant filter, or on a view aggregating across tenants. This is role-based, not tenant-based — implement via GRANT. All candidates support this via RBAC.</p>
+<p><strong>Tenant abuse (one tenant exhausting shared service):</strong> Mechanisms: Doris workload groups (concurrency limits), RisingWave resource groups (node pool pinning), ClickHouse quotas (per-tenant keys), Pinot workload budgets + QPS quotas (429 responses). Druid: query laning + dedicated brokers (architectural).</p>
+<p><strong>Selected:</strong> Doris (resource groups + workload groups + row policies, all native). RisingWave alternative lacks native RLS — a real gap for &quot;merchant identifiers alone are not an access-control mechanism&quot; (the requirement explicitly says IDs must not be the mechanism; filtered views still rely on the view definition being correct — operationally acceptable but weaker than engine-enforced RLS).</p>
+<h3>4.5 Workload E — Corrections and erasure (dimension correction across dashboards + historical tables; erasure covering MVs, lake snapshots, caches, backups)</h3>
+<p><strong>Corrections (bad dimension mapping):</strong></p>
+<ul>
+<li><strong>Hot dashboards:</strong> Corrections must propagate to serving-layer tables. Doris: <code>UPDATE</code>/<code>DELETE</code> on fact tables triggers MoW rewrite; materialized views refresh automatically [unique key docs]. RisingWave: table DML propagates to dependent MVs incrementally [deletes/updates docs]. ClickHouse: mutations rewrite parts asynchronously [mutations docs].</li>
+<li><strong>Historical tables (Iceberg):</strong> Spark <code>MERGE INTO</code> or engine DML (Doris/Trino/Flink) rewrites data files; compaction (<code>rewrite_data_files</code>) absorbs pending deletes <a href="https://iceberg.apache.org/docs/latest/spark-procedures/">compaction docs</a>.</li>
+<li><strong>Caches:</strong> Application-level caches must be invalidated or updated — no engine controls external caches.</li>
+</ul>
+<p><strong>Erasure (approved data-erasure request):</strong></p>
+<ul>
+<li><strong>Logical delete becomes invisible</strong> when: (a) the serving engine applies the delete so queries no longer return the row (immediately for Doris MoW delete sign; after merge for ClickHouse lightweight delete); (b) the Iceberg lake applies a delete file (equality/position) so time-travel snapshots after the delete exclude it; (c) materialized results are recomputed or dropped.</li>
+<li><strong>Physical remnants that may remain:</strong> ClickHouse masked rows (<code>_row_exists=false</code>) persist until merge; mutations leave old parts until replacement [lightweight delete docs]. Iceberg: expired snapshots and orphaned files (data files no longer referenced) require <code>expire_snapshots</code> + <code>remove_orphan_files</code> — orphan cleanup compares path strings against metadata and needs full storage listing; <code>older_than</code> default 3 days must exceed longest write duration <a href="https://www.dremio.com/blog/apache-iceberg-orphan-file-cleanup/">orphan cleanup</a>, [compaction docs]. Backups: a backup taken before erasure retains the data — operator retention policy governs. Deleting from a live cluster does NOT retroactively alter immutable backup media.</li>
+<li><strong>Caches:</strong> Any CDN/BI cache holding materialized results must be invalidated externally — engines cannot reach into application caches. This is a control gap requiring operational procedure, not engine capability.</li>
+</ul>
+<p><strong>Selected:</strong> Doris for hot-layer corrections (native DML); Spark for lake corrections (Iceberg DML/compaction); external invalidation procedures for caches/backups.</p>
+<h3>4.6 Workload F — Recovery and portability (Kafka consumer outage, node loss, bad schema rollout, rebuild from durable storage; no duplicated revenue; ≤3 stateful components)</h3>
+<p><strong>Guarantee analysis:</strong></p>
+<ul>
+<li><strong>Duplicate CDC delivery:</strong> The primary duplicate source is Debezium's offset-commit gap (events published but not flushed to offset store → replayed on crash) [Kafka/Debezium research]. Defense: downstream sinks keyed on (PK + LSN) with idempotent upserts. Doris MoW dedups at write time by PK; RisingWave idempotent upserts; ClickHouse ReplacingMergeTree dedups at merge. For revenue-critical joins, dedup alone is insufficient — verify with PoC §7.</li>
+<li><strong>Out-of-order updates:</strong> Sequence columns (Doris), merge_condition (StarRocks), watermarks (RisingWave/ClickHouse), or stateful dedup (Flink). Druid rejects late messages via rejection periods.</li>
+<li><strong>Retention dependencies:</strong> Kafka log retention must exceed expected consumer downtime; <code>offsets.retention.minutes</code> (default 7 days) governs committed offset availability; tombstone visibility bounded by <code>delete.retention.ms</code> (24h default) — slow consumers miss deletes [Kafka/Debezium research].</li>
+<li><strong>What a rollback restores:</strong>
+<ul>
+<li>Doris: <code>RECOVER</code> restores deleted objects from recycle bin (1-day default); <code>RESTORE</code> restores backup snapshots with metadata AND data [restore docs]. Rollback of data changes = no per-table undo; use delete signs/soft deletes.</li>
+<li>RisingWave: rollback to last checkpoint (~1s state loss); no point-in-time restore within streaming state.</li>
+<li>ClickHouse: mutations irreversible once submitted (KILL MUTATION possible); data recoverable only from replicas/backups.</li>
+<li>Druid: metadata export (5 tables) + deep storage files; segment-level rollbacks via version management within kill retention.</li>
+<li>Iceberg lake: time travel to previous snapshots; <code>expire_snapshots</code>/orphan cleanup maintainable.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Rebuilding a cluster from durable storage must not silently duplicate revenue:</strong> The risk is replaying from an offset already consumed (duplicates) or from a stale position (missed events). All candidates require explicit offset management: Doris Routine Load commits to FE edit log [routine load best practices]; RisingWave manages its own consumer group offsets [Debezium together blog]; ClickHouse Kafka Connect Sink tracks offsets in KeeperMap <a href="https://github.com/ClickHouse/clickhouse-kafka-connect/blob/main/docs/DESIGN.md">DESIGN.md</a>. The operator must define and test the exact recovery procedure (which offsets, which checkpoints) before production.</p>
+<p><strong>Selected:</strong> Doris — documented exactly-once via edit-log persistence + commit verification [routine load best practices]; explicit procedures for offset management.</p>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-4">5. Recommended Architecture and Alternative</h2>
+<h3>5.1 Recommended: Single-serving-layer design (Apache Doris)</h3>
+<pre><code>┌─────────────┐     WAL/pgoutput      ┌──────────────────┐     Kafka topic      ┌─────────────┐
+│  PostgreSQL │ ────────────────────► │   Debezium/Kafka  │ ─────────────────► │   Kafka     │
+│  (orders,   │                       │   Connect         │                    │ (existing)  │
+│   merchants)│                       └──────────────────┘                    └──────┬──────┘
+└─────────────┘                                              ┌─────────────────────┘
+        ▲                                                        │ clickstream (3TB/d)
+        │                                                        ▼
+┌─────────────────┐    Iceberg federated joins          ┌─────────────────────┐
+│  Apache Doris   │ ◄────────────────────────────────── │  Spark (batch)      │
+│  (serving layer)│       S3 object storage             │  (lake writer)      │
+│                 │                                     └─────────────────────┘
+└─────────────────┘            ▲           │
+        │                      │           │
+        └──────────────────────┴───────────┘
+              BI dashboards, embedded reports, research queries
+</code></pre>
+<p><strong>Design rationale:</strong></p>
+<ul>
+<li>One serving layer satisfies A (Kafka → Routine Load → detail/preaggregate tables), B (Unique Key MoW + sequence_col handles CDC deletes/out-of-order/backfills), C (native Iceberg engine, federated joins as single MPP plan, time travel), D (row policies + resource groups + workload groups), E (native DML for corrections; Iceberg DML for lake corrections).</li>
+<li>Component count: <strong>2 of 3</strong> counted (Debezium/Kafka Connect #1; Doris cluster #2). No external ZooKeeper — Doris FEs elect internally via Paxos-like consensus with BDB JE metadata <a href="https://doris.apache.org/docs/dev/features-architecture/system-architecture/">system architecture</a>. Spark runs as ephemeral batch jobs (not stateful under the accounting rule when used for batch transformations).</li>
+<li>The existing Kafka hosts both clickstream and CDC topics; existing PostgreSQL serves as orders source and can optionally host an Iceberg JDBC catalog (if chosen, that catalog counts as a component — see §6 BOM).</li>
+<li>15-second visibility: Debezium poll interval (~500ms default) + Kafka transport + Routine Load ingest + query. To be measured in PoC.</li>
+<li>p95 &lt;2s @ 250 concurrent users: plausible via preaggregated materialized views + workload groups limiting concurrency. To be measured in PoC.</li>
+</ul>
+<p><strong>Where requirements conflict:</strong></p>
+<ul>
+<li>30-day hot retention on 3 TB/day = 90 TB hot data. Doris BEs must hold this — capacity planning required (to be validated). Alternatively tier warm/cold storage (Doris supports decoupled storage-compute mode).</li>
+<li>Late events ≤72h: Doris sequence_col keeps newer state; older late events simply become the &quot;newer&quot; version and overwrite current state — semantically correct per source-of-truth ordering, not &quot;reverted.&quot; If the business wants late events appended rather than overriding, configuration differs.</li>
+<li>Multi-table consistency for Workload B: Doris does NOT provide atomic multi-table snapshots from independent CDC streams. If the business requires it, RisingWave's transactional-barrier CDC is the only candidate with that guarantee.</li>
+<li>Erasure: logical deletion + background merges leave masked rows temporarily; compliance audits may require proof of physical removal — Doris mutations provide deterministic rewrite but scheduled TTL-based cleanup timing is not guaranteed.</li>
+</ul>
+<h3>5.2 Alternative: RisingWave design (materially different)</h3>
+<pre><code>┌─────────────┐  native CDC      ┌─────────────┐     Kafka topic      ┌─────────────┐
+│  PostgreSQL │ ───────────────► │  RisingWave  │ ◄────────────────── │   Kafka     │
+│  (orders)   │  (embedded       │  (serving    │  ◄───────────────── │ (existing)  │
+│             │   Debezium)      │   layer)     │   clickstream       └─────────────┘
+└─────────────┘                 │              │
+        ▲                       │  Iceberg:    │
+        │                       │  SOURCE/SINK │
+        └───────────────────────┘   ↔  S3      │
+                direct CDC        └──────────────┘
+</code></pre>
+<ul>
+<li><strong>Component count: 1 of 3</strong> (RisingWave; uses existing PostgreSQL as meta store [architecture docs]; native CDC avoids separate Debezium deployment for orders). If clickstream also flows through Kafka → RisingWave Kafka source, no additional components.</li>
+<li><strong>Strengths:</strong> Sub-second checkpoints (Chandy-Lamport, ~1s); transactional cross-table CDC atomicity (barrier pausing); native Iceberg (internal + external, REST catalog, time travel, upsert sinks); PostgreSQL wire protocol.</li>
+<li><strong>Trade-offs vs Doris:</strong> No native RLS (workload D gap — mitigated via filtered views + RBAC, but &quot;merchant identifiers alone are not an access-control mechanism&quot; means ID-based filtering is insufficient; views + GRANT are stronger than nothing but not engine-enforced); less battle-tested at 500TB-lake scale; Iceberg internal catalog requires PostgreSQL/MySQL meta store (use existing PG — no extra component).</li>
+<li><strong>When to prefer:</strong> If minimizing component count and operational surface is paramount, and if the team accepts view-based (not engine-enforced) RLS.</li>
+</ul>
+<h3>5.3 Designs labeled ineligible under this exercise's component budget</h3>
+<p>Any design adding a standalone ZooKeeper/Keeper <strong>and</strong> a serving engine <strong>and</strong> Debezium exceeds 3 counted components:</p>
+<ul>
+<li>ClickHouse + ClickHouse Keeper + Debezium = exactly 3 (margin: zero; Keeper outage semantics add operational burden). <strong>Eligible only at the limit.</strong></li>
+<li>Druid + ZooKeeper + Debezium = exactly 3, but Druid fails Workloads B and C regardless. <strong>Ineligible on capability grounds.</strong></li>
+<li>Pinot + ZooKeeper + Debezium = exactly 3, but Pinot fails Workload C. <strong>Ineligible on capability grounds.</strong></li>
+<li>Any design with Flink as persistent streaming job + serving engine + Debezium = 3 minimum, leaving no headroom; Flink adds transformation capacity Doris/RisingWave already provide. <strong>Ineligible on redundancy grounds</strong> (unless stream processing complexity demands it — then it replaces Debezium via Flink CDC, yielding Flink + serving engine = 2, but Flink cannot serve dashboards).</li>
+<li>Materialize: BSL 1.1 license prohibits unlicensed production use. <strong>Ineligible on license grounds.</strong></li>
+<li>Trino/DuckDB/Spark as serving layer: not serving engines. <strong>Ineligible on role grounds.</strong></li>
+<li>PostgreSQL as dashboard serving layer for Workload A: row-store ceiling insufficient at scale per multiple sources [Tinybird blog, ClickHouse benchmark analysis]. <strong>Ineligible on performance grounds.</strong></li>
+</ul>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-5">6. Failure-and-Recovery Table</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Failure scenario</th>
+<th>Expected observable behavior</th>
+<th>Assumptions</th>
+<th>Recovery action</th>
+<th>Residual risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Duplicate CDC delivery</strong> (Debezium offset-commit gap)</td>
+<td>Serving table shows duplicate-derived row — for Doris MoW, the row resolves to one version (latest sequence wins); revenue joins may double-count if dedup key absent</td>
+<td>Debezium at-least-once default; downstream sink keyed on PK</td>
+<td>Verify dedup logic (sequence_col / PK upsert) in PoC; align sink keys with source PKs; set Debezium EOS config (Kafka 3.3+, <code>exactly.once.support=required</code>) for streaming phase only</td>
+<td>Snapshot-phase crashes still duplicate; EOS excludes snapshot; out-of-order events may reorder revenue recognition</td>
+</tr>
+<tr>
+<td><strong>Out-of-order updates</strong></td>
+<td>Doris: sequence_col keeps larger-sequence row regardless of arrival order [unique key docs]; StarRocks: merge_condition keeps incoming ≥ existing only [PK load docs]; RisingWave: primary-key upsert, last-write-wins</td>
+<td>Sequence columns present and correctly typed</td>
+<td>Configure sequence_col (Doris) / merge_condition (StarRocks) / watermarks (RisingWave)</td>
+<td>Equal-sequence collisions fall back to load order (Doris) — nondeterministic; business may interpret differently</td>
+</tr>
+<tr>
+<td><strong>Dimension change (product/merchant mapping)</strong></td>
+<td>Hot dashboards recompute via MV incremental maintenance (RisingWave) or table DML + MV refresh (Doris); historical lake corrected via Iceberg DML/compaction</td>
+<td>MVs exist on joins; correction propagated to source tables</td>
+<td>Issue UPDATE/DELETE on source; wait for MV propagation; for historical tables, re-run Spark MERGE INTO</td>
+<td>Delay between correction and all dashboards refreshed; cached BI results may stale until invalidation</td>
+</tr>
+<tr>
+<td><strong>Loss of checkpoint or offset</strong></td>
+<td>Doris Routine Load: Fe-edit-log persistence recovers progress [routine load best practices]; if metadata DB lost → terminal CANCELLED, job recreated from last Kafka offset [routine load manual]; RisingWave: rolls back to last checkpoint (~1s state loss) [fault tolerance docs]</td>
+<td>Offsets persisted durably; log retention covers downtime</td>
+<td>Recreate/restart job; verify offset position; replay from Kafka if retention allows</td>
+<td>Data gap if retention &lt; downtime; duplicate if offset rewound past committed range</td>
+</tr>
+<tr>
+<td><strong>Schema mismatch (DDL change)</strong></td>
+<td>Debezium + Schema Registry: incompatible DDL parks connector in retry loop → topic silent [Kafka/Debezium research]; serving engine accepts new columns (metadata-only)</td>
+<td>Schema Registry with FULL_TRANSITIVE compatibility</td>
+<td>Fix registry compatibility; restart connector; re-backfill if needed</td>
+<td>Silent pipeline stall without alerting; connector restart semantics vary by name/change</td>
+</tr>
+<tr>
+<td><strong>Node loss (serving engine)</strong></td>
+<td>Doris: 3-replica quorum; BE loss → queries reroute to surviving replicas; FE Master loss → Follower election [system architecture]; RisingWave: state fetched from last checkpoint on recovery nodes [fault tolerance docs]</td>
+<td>Replication factor ≥2 for all data; checkpoints durable</td>
+<td>Node replaced/recovered; replicas rebuilt automatically</td>
+<td>Single-replica data loss (Druid specifically silently returns partial results [Perun engineering])</td>
+</tr>
+<tr>
+<td><strong>Late events (&gt;72h or beyond retention)</strong></td>
+<td>Doris: late events with higher sequence overwrite current state (correct per source ordering) or rejected if configured; ClickHouse: absorbed into parts, dedup eventual</td>
+<td>Late-event policy defined in ingestion config</td>
+<td>Detect via monitoring; decide override or reject; backfill if legitimate</td>
+<td>Business semantics of &quot;late&quot; vs &quot;source-of-truth ordering&quot; may conflict; data may appear &quot;wrong&quot; if late events legitimately older</td>
+</tr>
+<tr>
+<td><strong>Snapshot expiration (Iceberg lake)</strong></td>
+<td>Expired snapshots unrecoverable; <code>expire_snapshots</code> deletes uniquely-referenced files [compaction docs]; time travel limited to remaining snapshots</td>
+<td>Expiration respects SLA retention; <code>retain_last</code> configured</td>
+<td>Restore from backup if snapshot expired prematurely; prevent via retention policy aligned to business SLA</td>
+<td>Accidental expiration of recoverable historical state; orphan cleanup deleting in-flight files if <code>older_than</code> &lt; write duration</td>
+</tr>
+<tr>
+<td><strong>Tenant abuse</strong> (one merchant exhausts shared service)</td>
+<td>Doris: workload group concurrency limit → queries queued or rejected; RisingWave: resource group node pinning limits blast radius; ClickHouse: quota key exhausted → 429</td>
+<td>Quotas/groups configured per tenant; enforcement enabled</td>
+<td>Throttle/limit offending tenant; investigate; escalate</td>
+<td>Enforcement granularity (per-tenant vs per-query-pattern); in-flight queries not killed (Pinot documents this behavior [workload isolation]); queue starvation possible</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-6">7. PoC Plan — Testing Disputed Guarantees</h2>
+<p><strong>Scope:</strong> Verify disputed guarantees, not feature checklists. Performance targets (p95 &lt;2s, 15s visibility) are measured during PoC, not claimed here.</p>
+<h3>Test 1: End-to-end CDC latency and duplicate resistance (Workload B)</h3>
+<ul>
+<li><strong>Input events (ordered):</strong>
+<ol>
+<li><code>INSERT orders(1, p1, m1, 100)</code> ; <code>INSERT orders(2, p1, m2, 200)</code></li>
+<li><code>UPDATE orders(1) SET amount=150</code> (newer sequence)</li>
+<li><code>UPDATE orders(1) SET amount=120</code> (older sequence — arrives AFTER #2)</li>
+<li><code>DELETE orders(2)</code> + tombstone</li>
+<li>Connector crash simulated (kill Debezium task mid-poll)</li>
+<li>Restart connector; re-insert <code>UPDATE orders(1) SET amount=150</code> (duplicate of #2)</li>
+<li><code>UPDATE orders(1) SET merchant=m3</code> (PK change: DELETE old + INSERT new)</li>
+</ol>
+</li>
+<li><strong>Injected fault:</strong> Kill Debezium worker between event #2 and #3 publish; restart with same connector name.</li>
+<li><strong>Expected query-visible result (final state):</strong> <code>orders</code> table shows: row 1 → amount 150, merchant m3; row 2 → deleted (invisible). Row 1 appears once in join results.</li>
+<li><strong>Acceptance criterion:</strong> Final query result matches source-of-truth state exactly; no duplicate revenue rows in any join; visible within 15 seconds of each event's arrival at Kafka. If Doris: <code>SELECT * FROM orders JOIN merchants USING(merchant_id) JOIN products USING(product_id)</code> returns exactly 1 row with amount=150.</li>
+<li><strong>Measures recorded:</strong> per-event end-to-end latency; duplicate detection count.</li>
+</ul>
+<h3>Test 2: Cross-table consistency under concurrent updates (Workload B)</h3>
+<ul>
+<li><strong>Input events:</strong> Simultaneous CDC streams: <code>UPDATE orders(1) SET amount=300</code> and <code>INSERT refunds(1, orders_id=1, amount=50)</code>, plus <code>UPDATE merchants(m1) SET tier='gold'</code>.</li>
+<li><strong>Injected fault:</strong> None initially; repeat with connector restart mid-stream.</li>
+<li><strong>Expected result:</strong> At any query instant, the join may show orders at version A and refunds at version B (no atomic multi-table snapshot). Document observed variants.</li>
+<li><strong>Acceptance criterion:</strong> Behavior documented and accepted by stakeholders; if atomicity required, switch to RisingWave (barrier-paused transactions) and verify cross-table atomic flush on COMMIT.</li>
+<li><strong>Residual risk acknowledged:</strong> Per-table eventual consistency, not cross-table atomicity, for Doris.</li>
+</ul>
+<h3>Test 3: Late events (Workload A)</h3>
+<ul>
+<li><strong>Input events:</strong> Kafka clickstream events with event_time spanning: T0 (now), T0−24h, T0−48h, T0−72h, T0−80h (beyond 72h policy). Events arrive in chronological order first, then out-of-order (old events delivered late).</li>
+<li><strong>Injected fault:</strong> None beyond deliberate timestamp manipulation.</li>
+<li><strong>Expected result:</strong> Events within 72h are incorporated (with 30-day hot retention retaining them); events beyond 72h rejected per policy or incorporated per configuration; dashboards reflect the most recent valid state per product/campaign/minute.</li>
+<li><strong>Acceptance criterion:</strong> Late events within policy produce correct aggregation (latest value per minute); out-of-policy events handled per configured policy (rejected or routed); no data loss for in-policy events.</li>
+<li><strong>Measures recorded:</strong> Aggregation latency after late event arrival; segment/row proliferation.</li>
+</ul>
+<h3>Test 4: Erasure visibility and completeness (Workload E)</h3>
+<ul>
+<li><strong>Input:</strong> Merchant M7 data across: Doris hot table, RisingWave/Spark Iceberg lake (multiple snapshots), materialized dashboard view, application cache (simulated), backup (snapshot taken before erasure).</li>
+<li><strong>Injected action:</strong> Approved erasure request for all M7 rows. Apply: Doris <code>DELETE FROM clicks WHERE merchant_id='M7'</code> (+ <code>__DORIS_DELETE_SIGN__</code> variant); Iceberg <code>DELETE FROM lake.clicks WHERE merchant_id='M7'</code>; invalidate cache; expire lake snapshots older than policy.</li>
+<li><strong>Expected result:</strong> Queries on hot layer return zero M7 rows within SLA; time-travel queries at timestamp ≥ erasure time exclude M7; snapshots expired per policy; backups (taken pre-erasure) still contain M7 (retained per operator policy).</li>
+<li><strong>Acceptance criterion:</strong> No M7 rows visible in hot serving layer or fresh lake snapshots post-erasure; physical remnants documented (masked ClickHouse rows until merge; Iceberg delete files created); backup content confirmed untouched and segregated per retention policy.</li>
+<li><strong>Acceptance criterion detail:</strong> Report exactly which physical artifacts retain M7 data and their scheduled expiry.</li>
+</ul>
+<h3>Test 5: Lake delete-file compatibility (Workload C)</h3>
+<ul>
+<li><strong>Input:</strong> Existing 500TB Spark-written Iceberg lake (or a representative subset — e.g., 5TB partition copy) written with Parquet V1/V2, equality deletes, and position deletes.</li>
+<li><strong>Injected action:</strong> Read the lake via the candidate serving engine's native catalog. Query with and without delete files present. Compare results against Spark's reference query results on the same table.</li>
+<li><strong>Expected result:</strong> Identical row sets; predicate pushdown works; time travel returns correct historical state.</li>
+<li><strong>Acceptance criterion:</strong> Byte-identical or semantically identical results vs Spark reference; query plans show file-level pruning; no engine errors on V2 delete files. For Doris: V3 DV compatibility test on a subset written by Spark with V3 (if Spark supports it) — expect success only if Doris ≥4.1.</li>
+<li><strong>Measures recorded:</strong> Query latency vs Spark; plan inspection.</li>
+</ul>
+<h3>Test 6: Tenant isolation (Workload D)</h3>
+<ul>
+<li><strong>Input:</strong> 20 merchants; each merchant's dashboards query filtered by tenant_id; one &quot;researcher&quot; role with cross-tenant access.</li>
+<li><strong>Injected fault:</strong> Merchant A's tenant deliberately issues heavy queries (large scans, many concurrent connections); Merchant B issues normal queries. Also: Merchant A attempts to query Merchant B's rows via SQL injection-style predicates (<code>WHERE merchant_id IN (SELECT ...)</code>) and via table-level access.</li>
+<li><strong>Expected result:</strong> Merchant A's heavy queries do not degrade Merchant B's p95 latency beyond measured baseline (capacity planned); Merchant A cannot read Merchant B's rows through any SQL path available to its credentials; researcher role can compare merchants.</li>
+<li><strong>Acceptance criterion:</strong> Row-level isolation enforced for all tenants (zero cross-tenant reads at any point during test); resource isolation prevents exhaustion (measured p95 for Merchant B remains &lt;2s under Merchant A's abuse); researcher role sees cross-tenant aggregates only.</li>
+<li><strong>Acceptance criterion detail:</strong> Measure actual p95 latencies; do not assume claims. Document the isolation mechanism (row policy / filtered view / resource group) per engine tested.</li>
+</ul>
+<h3>Test 7: Recovery and rollback semantics (Workload F)</h3>
+<ul>
+<li><strong>Input:</strong> Steady CDC stream into serving layer; periodic checkpoints/snapshots.</li>
+<li><strong>Injected faults (sequential, each with reset):</strong><br />
+a. Kafka consumer outage for 2 hours (topic retention 7 days) → restart consumer.<br />
+b. Loss of one serving node (kill process) mid-query.<br />
+c. Bad schema rollout (add incompatible column) → rollback to prior connector config/table DDL.<br />
+d. Full cluster rebuild from durable storage (fresh cluster, restored from backup/snapshot).</li>
+<li><strong>Expected result after each:</strong> Data intact per durability guarantees; no duplicated revenue; recovery time measured.</li>
+<li><strong>Acceptance criterion:</strong> After (d), joined revenue totals equal pre-failure totals (no duplicates, no gaps); recovery procedure documented and repeatable; rollback restores exactly what the backup captured (document the precise state, not an assumption).</li>
+<li><strong>Measures recorded:</strong> RPO/RTO per scenario; duplicate count; gap count.</li>
+</ul>
+<h3>Test 8: Interface boundary tests (cross-cutting)</h3>
+<ul>
+<li><strong>Purpose:</strong> Verify the exact dedup/transaction boundaries documented in §8 interface table.</li>
+<li><strong>Method:</strong> For each data path, send an insert-update-delete sequence with explicit ordering, then a duplicate re-delivery of each event, then query. Record final source state and expected final query result explicitly.</li>
+<li><strong>Acceptance criterion:</strong> Final query result reflects the LAST logically ordered event per key (not the last physically received), and duplicates do not alter the outcome.</li>
+</ul>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-7">8. Evidence-Backed Decision Summary</h2>
+<h3>Established facts (directly sourced)</h3>
+<ul>
+<li>Doris Unique Key = Merge-on-Write since v2.1, with <code>sequence_col</code> resolving out-of-order CDC and <code>__DORIS_DELETE_SIGN__</code> for soft deletes [unique key docs].</li>
+<li>RisingWave native CDC pauses barriers during transactions, preserving cross-table atomicity [atomic CDC blog]; Chandy-Lamport checkpoints every ~1s; reads served from last checkpoint [fault tolerance docs].</li>
+<li>Iceberg V3 deletion vectors: Spark fully supported; Doris 4.1+ reads/writes V3; StarRocks does NOT support V3 (open issue #63819); Trino v3 row-level DML not supported (experimental) [Doris V3 blog, StarRocks feature support, Trino Iceberg connector].</li>
+<li>Kafka/Debezium end-to-end exactly-once: snapshot phase never covered by EOS; offset-commit gap is the primary duplicate source; tombstone visibility bounded by <code>delete.retention.ms</code> [Kafka/Debezium research].</li>
+<li>Doris does NOT require ZooKeeper (BDB JE + internal consensus) [system architecture]; ClickHouse requires Keeper; Druid/Pinot require ZooKeeper.</li>
+<li>Materialize is BSL 1.1 (not OSS for production) [LICENSE]; Trino is federated-only; DuckDB embedded-only; Spark/Flink are compute engines.</li>
+</ul>
+<h3>Architectural judgments (ours, with reasoning)</h3>
+<ul>
+<li><strong>Single serving layer over dual engines:</strong> Adds one more stateful component; the 3-component budget permits it only if ZooKeeper-requiring engines are excluded. Doris satisfies all five serving-side workloads natively.</li>
+<li><strong>Doris over StarRocks:</strong> Both handle CDC well; Doris wins on Iceberg maturity (V3 DV support, DML on V2+) and cleaner upgrade history. StarRocks' documented incompatibilities (V3 DV unsupported, V2 UPDATE unsupported, downgrade metadata loss) raise operational risk.</li>
+<li><strong>Doris over RisingWave (recommended):</strong> Doris has native row-level security (requirement D says IDs alone are not access control — engine-enforced RLS is stronger than view workarounds), a more complete Iceberg engine (V3), and <code>RECOVER</code>/<code>RESTORE</code> semantics for disaster recovery. RisingWave's advantages (transactional CDC atomicity, lower component count) are real but its RLS gap is a direct requirement violation.</li>
+<li><strong>RisingWave as alternative:</strong> Chosen when component minimization outweighs RLS needs; its native CDC also removes Debezium from the stack entirely.</li>
+<li><strong>ClickHouse ineligible as primary:</strong> While strongest for pure clickstream analytics, its CDC handling (FINAL dependency, eventual dedup) conflicts with Workload B's correctness requirements at query time. Retain as evaluation candidate only if Workload B semantics can tolerate it.</li>
+</ul>
+<h3>Unresolved questions (bounded)</h3>
+<ul>
+<li><strong>Performance targets unverified:</strong> p95 &lt;2s @ 250 concurrent users and 15-second visibility require PoC measurement with the platform's actual query shapes and data distribution.</li>
+<li><strong>30-day hot retention capacity:</strong> 90 TB hot data on Doris BEs — storage and memory sizing not yet validated; decoupled storage-compute mode may be needed.</li>
+<li><strong>Iceberg V3 in the existing lake:</strong> Unknown whether the 500TB lake was written with V3 (deletion vectors) — Doris V3 support requires format-version 3 set at creation [V3 blog]. If the lake is V1/V2, Doris still reads it fully.</li>
+<li><strong>Debezium EOS maturity:</strong> Kafka Connect EOS excludes the snapshot phase and has documented open protocol concerns (KAFKA-17734 etc.) [EOS docs]. Whether it can be enabled for PostgreSQL in your Kafka version unverified.</li>
+<li><strong>RisingWave Iceberg internal catalog at 500TB scale:</strong> Feature-complete per docs but untested at your lake size.</li>
+<li><strong>Multi-tenant abuse measurement:</strong> Quota/budget effectiveness depends on query characteristics — measure in PoC.</li>
+</ul>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-8">9. Bill of Materials</h2>
+<h3>9.1 Default design (recommended: Doris)</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+<th>Durable state held</th>
+<th>Existing/New</th>
+<th>Counted?</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apache Kafka</td>
+<td>Message backbone (clickstream + CDC)</td>
+<td>Topic logs (retention-governed)</td>
+<td><strong>Existing</strong></td>
+<td><strong>No</strong></td>
+<td>Pre-existing; excluded by rule</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>Operational source (orders/merchants); optional Iceberg JDBC catalog</td>
+<td>Table data; catalog metadata if used</td>
+<td><strong>Existing</strong></td>
+<td><strong>No</strong></td>
+<td>Pre-existing; excluded by rule</td>
+</tr>
+<tr>
+<td>Object storage (S3/GCS)</td>
+<td>Iceberg lake; Doris optional shared storage</td>
+<td>500TB Parquet + metadata</td>
+<td><strong>Existing</strong></td>
+<td><strong>No</strong></td>
+<td>Pre-existing; excluded by rule</td>
+</tr>
+<tr>
+<td>Debezium + Kafka Connect</td>
+<td>CDC from PostgreSQL → Kafka; clickstream producer path</td>
+<td>Offset store topic; connector state</td>
+<td><strong>New</strong></td>
+<td><strong>Yes (#1)</strong></td>
+<td>Separately operated pipeline; offsets/stateful</td>
+</tr>
+<tr>
+<td>Apache Doris (FE + BE)</td>
+<td>Serving layer: dashboards A/B, Iceberg federation, multi-tenant</td>
+<td>FE metadata (BDB JE); BE data (3× replicas)</td>
+<td><strong>New</strong></td>
+<td><strong>Yes (#2)</strong></td>
+<td>Serving engine; embedded catalog/state</td>
+</tr>
+<tr>
+<td>Spark (batch)</td>
+<td>Lake transformation/writer; Iceberg maintenance</td>
+<td>Ephemeral (batch jobs)</td>
+<td>New (software only)</td>
+<td><strong>No</strong></td>
+<td>Ephemeral batch; no persistent state</td>
+</tr>
+<tr>
+<td>ZooKeeper/Keeper</td>
+<td>None required</td>
+<td>—</td>
+<td>—</td>
+<td><strong>No</strong></td>
+<td>Doris self-contained [system architecture]</td>
+</tr>
+<tr>
+<td>Trino (optional)</td>
+<td>Ad-hoc federation for research team</td>
+<td>Stateless</td>
+<td>Optional</td>
+<td><strong>No</strong></td>
+<td>Stateless query/federation; not stateful</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Total counted: 2 of 3 allowed.</strong></p>
+<h3>9.2 Optional variant: Doris + external Iceberg REST catalog</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+<th>Durable state</th>
+<th>Existing/New</th>
+<th>Counted?</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>All from default</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Iceberg REST catalog (e.g., Apache Polaris)</td>
+<td>External catalog for lake metadata</td>
+<td>Catalog metadata (tables, snapshots)</td>
+<td><strong>New</strong></td>
+<td><strong>Yes (#3)</strong></td>
+<td>Standalone catalog service; metadata distinct from Doris FE</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Total counted: 3 of 3.</strong> Only if the lake's existing catalog (HMS/Glue) is unusable and an external catalog is needed. If the existing HMS suffices, Doris reads it directly — no additional component (the catalog IS the existing PostgreSQL if JDBC catalog chosen, and it's pre-existing).</p>
+<h3>9.3 Alternative design (RisingWave)</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+<th>Durable state</th>
+<th>Existing/New</th>
+<th>Counted?</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kafka (clickstream only)</td>
+<td>Message backbone</td>
+<td>Topic logs</td>
+<td>Existing</td>
+<td>No</td>
+<td>Pre-existing</td>
+</tr>
+<tr>
+<td>RisingWave</td>
+<td>Serving layer + native CDC + Iceberg</td>
+<td>Streaming state (Hummock on object storage); Meta (PostgreSQL meta store = existing PG)</td>
+<td>New</td>
+<td><strong>Yes (#1)</strong></td>
+<td>One deployed unit; meta store uses existing PG</td>
+</tr>
+<tr>
+<td>Spark (batch)</td>
+<td>Lake writer/maintenance</td>
+<td>Ephemeral</td>
+<td>New (software)</td>
+<td>No</td>
+<td>Ephemeral batch</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Total counted: 1 of 3.</strong> If RisingWave also consumes CDC from Kafka (rather than native PG CDC): add Debezium = <strong>#2</strong>. Compactor node optional (background LSM compaction; not independently stateful — data ownership in object storage) — not counted as separate component unless operated independently.</p>
+<h3>9.4 Ineligible designs (labeled, not silently budgeted)</h3>
+<ul>
+<li><strong>ClickHouse + Keeper + Debezium</strong> = 3 exactly (eligible only at the limit; fails Workload B semantics).</li>
+<li><strong>Druid/Pinot + ZK + Debezium</strong> = 3 exactly (eligible at limit; fail Workloads B and/or C on capability).</li>
+<li><strong>Flink + serving engine + Debezium</strong> = 3 minimum (ineligible: Flink redundant with serving engine's CDC; adds no serving capability).</li>
+<li><strong>Materialize</strong> (BSL 1.1 license) — ineligible on license grounds regardless of component count.</li>
+</ul>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-9">10. Interface Table — Default Data Path (Doris Design)</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Producer</th>
+<th>Input interface / encoding</th>
+<th>Consumer</th>
+<th>Checkpoint/offset owner</th>
+<th>Dedup / transaction boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Orders CDC</strong></td>
+<td>PostgreSQL (WAL)</td>
+<td>Debezium CHANGELOG events (JSON/Avro with <code>op</code>, <code>before</code>, <code>after</code>, <code>source{lsn}</code>) → Kafka topic <code>db.orders</code></td>
+<td>Debezium Connector → Kafka (produces); Doris Routine Load (FE-managed Kafka consumer) consumes topic</td>
+<td>Debezium offset store (Kafka Connect offsets topic, flushed at <code>offset.flush.interval.ms</code>); Doris Routine Load commits progress to <strong>FE edit log + BDB JE</strong> [routine load best practices]</td>
+<td><strong>Doris Unique Key MoW:</strong> dedup at write time via per-rowset delete bitmap; <code>sequence_col</code> resolves out-of-order; <code>__DORIS_DELETE_SIGN__</code> marks deletes [unique key docs]. NOT a multi-table atomic boundary.</td>
+</tr>
+<tr>
+<td><strong>Refunds CDC</strong></td>
+<td>PostgreSQL (WAL)</td>
+<td>Same Debezium format → topic <code>db.refunds</code></td>
+<td>Same Debezium → Doris routine load (separate table)</td>
+<td>Same as orders</td>
+<td>Same per-table boundary. Cross-table: eventual, not atomic.</td>
+</tr>
+<tr>
+<td><strong>Clickstream</strong></td>
+<td>Web/mobile SDKs</td>
+<td>JSON messages → Kafka topic <code>clicks</code> (3 TB/day)</td>
+<td>Doris Routine Load → <code>clicks</code> detail table (+ MVs for dashboards)</td>
+<td>Doris FE edit log/BDB JE (offset tracking per partition)</td>
+<td>Append-only — no dedup needed; late events absorbed by MergeTree with <code>FINAL</code>-required correctness or preaggregated MVs</td>
+</tr>
+<tr>
+<td><strong>Iceberg lake reads</strong></td>
+<td>Spark (writer)</td>
+<td>Parquet data files + Iceberg metadata (Avro manifests/manifest lists, JSON metadata.json) on object storage</td>
+<td>Doris Iceberg catalog → federated query (single MPP plan joining Doris + Iceberg tables) [iceberg docs]</td>
+<td>Iceberg catalog (existing HMS/REST/JDBC); Doris metadata cache (refresh per query)</td>
+<td>Iceberg OCC CAS commits [reliability docs]; Doris applies equality/position deletes per sequence-number rules [spec]</td>
+</tr>
+<tr>
+<td><strong>Dashboard queries</strong></td>
+<td>BI/embedded client</td>
+<td>SQL over Doris (JDBC/HTTP)</td>
+<td>Doris BEs execute; results to client</td>
+<td>N/A (stateless query)</td>
+<td>Row policies filter by tenant [access rights]; workload groups limit concurrency [workload group docs]</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Boundary note:</strong> The Debezium connector-to-Kafka interface (producing serialized CDC events) is structurally different from Doris Routine Load's Kafka consumer interface (consuming those events). They are linked by the Kafka topic, not interchangeable. Doris Routine Load's exactly-once claim derives from FE edit-log persistence + commit-time verification, not from Kafka consumer-group semantics [routine load best practices, routine load manual].</p>
+<p><strong>Cross-table consistency statement tied to configuration:</strong> Doris per-table MoW dedup is documented for Unique Key tables with <code>function_column.sequence_col</code> [unique key docs]. No Doris documentation claims atomic multi-table snapshots from independent CDC streams. RisingWave's documented exception: barriers paused during transactions flush atomically on COMMIT [atomic CDC blog].</p>
+<hr />
+<h2 id="deliver-architecture-coordinator-r1-10">11. Source Index</h2>
+<p><strong>Candidate dossiers:</strong></p>
+<ol>
+<li>
+<p>ClickHouse — https://clickhouse.com/docs/reference/engines/table-engines/mergetree-family/replacingmergetree ; https://clickhouse.com/docs/reference/engines/table-engines/mergetree-family/versionedcollapsingmergetree ; https://clickhouse.com/docs/concepts/features/operations/delete/lightweight-delete ; https://clickhouse.com/docs/get-started/quickstarts/mutations ; https://clickhouse.com/docs/reference/settings/merge-tree-settings/replicated-deduplication-window ; https://clickhouse.com/docs/reference/engines/table-engines/mergetree-family/replication ; https://clickhouse.com/docs/reference/statements/select/join ; https://clickhouse.com/docs/concepts/features/dictionaries ; https://clickhouse.com/docs/concepts/features/security/access-rights ; https://clickhouse.com/docs/concepts/features/configuration/server-config/quotas ; https://clickhouse.com/docs/products/cloud/guides/best-practices/multitenancy ; https://clickhouse.com/docs/reference/engines/table-engines/integrations/iceberg ; https://clickhouse.com/blog/kafka-connect-connector-clickhouse-with-exactly-once ; https://clickhouse.com/docs/integrations/connectors/data-ingestion/kafka/kafka-clickhouse-connect-sink ; https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-1 ; https://clickhouse.com/blog/clickhouse-postgresql-change-data-capture-cdc-part-2 ; https://github.com/ClickHouse/clickhouse-kafka-connect/blob/main/docs/DESIGN.md ; https://github.com/ClickHouse/ClickHouse/blob/master/LICENSE ; https://clickhouse.com/docs/resources/changelogs/oss/2023 ; https://clickhouse.com/docs/resources/changelogs/oss/2024 ; https://clickhouse.com/docs/resources/changelogs/oss/2025 ; https://clickhouse.com/docs/resources/changelogs/oss/2026 ; https://clickhouse.com/docs/guides/oss/deployment-and-scaling/keeper ; https://clickhouse.com/docs/guides/oss/deployment-and-scaling/examples/1-shard-2-replicas ; https://clickhouse.com/docs/reference/functions/window-functions</p>
+</li>
+<li>
+<p>Druid — https://druid.apache.org/docs/latest/design/architecture/ ; https://druid.apache.org/docs/latest/design/storage/ ; https://druid.apache.org/docs/latest/data-management/delete/ ; https://druid.apache.org/docs/latest/tutorials/tutorial-update-data/ ; https://druid.apache.org/docs/latest/querying/datasource/ ; https://druid.apache.org/docs/latest/multi-stage-query/reference/ ; https://druid.apache.org/docs/latest/querying/lookups/ ; https://druid.apache.org/docs/latest/querying/multitenancy/ ; https://druid.apache.org/docs/latest/operations/mixed-workloads/ ; https://druid.apache.org/docs/latest/design/router/ ; https://druid.apache.org/docs/latest/operations/high-availability/ ; https://druid.apache.org/docs/latest/development/extensions-core/kubernetes/ ; https://druid.apache.org/docs/latest/operations/export-metadata/ ; https://druid.apache.org/docs/latest/design/deep-storage/ ; https://druid.apache.org/docs/latest/design/metadata-storage/ ; https://druid.apache.org/docs/latest/operations/rule-configuration/ ; https://druid.apache.org/docs/latest/querying/query-deep-storage/ ; https://druid.apache.org/docs/latest/release-info/upgrade-notes/ ; https://druid.apache.org/licensing/ ; https://druid.apache.org/docs/latest/ingestion/supervisor/ ; https://druid.apache.org/docs/latest/ingestion/ingestion-spec/ ; https://druid.apache.org/docs/latest/ingestion/kafka-ingestion/ ; https://imply.io/blog/exactly-once-streaming-ingestion/ ; https://imply.io/blog/introducing-apache-druid-28-0-0/ ; https://imply.io/blog/apache-druid-recovering-dropped-segments/ ; https://www.deep.bi/blog/managing-segment-versions-in-apache-druid ; https://druid.staged.apache.org/docs/0.20.2/ingestion/faq.html ; https://druid.staged.apache.org/docs/28.0.1/development/extensions-core/kafka-supervisor-operations/ ; https://perun.au/insights/apache-druid-production/</p>
+</li>
+<li>
+<p>Pinot — https://docs.pinot.apache.org/architecture-and-concepts/concepts/architecture ; https://docs.pinot.apache.org/build-with-pinot/ingestion/upsert-dedup/upsert ; https://www.uber.com/us/en/blog/enabling-infinite-retention-for-upsert-tables/ ; https://docs.pinot.apache.org/build-with-pinot/ingestion/upsert-dedup/segment-compaction-on-upserts ; https://docs.pinot.apache.org/build-with-pinot/ingestion/dim-table/ ; https://docs.pinot.apache.org/workload-playbooks/cdc-upsert-pipeline ; https://docs.pinot.apache.org/build-with-pinot/querying-and-sql/multi-stage-query/join-strategies/colocated-join-strategy ; https://docs.pinot.apache.org/architecture-and-concepts/components/cluster/tenant ; https://docs.pinot.apache.org/workload-playbooks/multi-tenant-analytics ; https://docs.pinot.apache.org/operate-pinot/tuning/workload-query-isolation ; https://docs.pinot.apache.org/build-with-pinot/querying-and-sql/query-execution-controls/query-quotas ; https://docs.pinot.apache.org/operate-pinot/production-guides/running-pinot-in-production ; https://github.com/apache/pinot/blob/master/LICENSE ; https://docs.pinot.apache.org/operate-pinot/upgrades/upgrade-notes ; https://docs.pinot.apache.org/operate-pinot/tuning/query-scheduling ; https://docs.pinot.apache.org/build-with-pinot/ingestion/transformations-and-aggregations/ingestion-level-transformations ; https://docs.pinot.apache.org/operate-pinot/segment-management/upsert-compact-merge-task</p>
+</li>
+<li>
+<p>Doris — https://doris.apache.org/docs/dev/features-architecture/system-architecture/ ; https://doris.apache.org/docs/4.x/key-features/unique-key/ ; https://doris.apache.org/docs/4.x/key-features/mpp/ ; https://doris.apache.org/docs/dev/key-features/iceberg/ ; https://doris.apache.org/docs/dev/key-features/kafka-cdc-integration/ ; https://doris.apache.org/docs/4.x/data-operate/import/load-best-practices/routine-load-best-practices/ ; https://doris.apache.org/docs/4.x/data-operate/import/import-way/routine-load-manual/ ; https://doris.apache.org/docs/dev/key-features/resource-group/ ; https://doris.apache.org/docs/dev/key-features/workload-group/ ; https://doris.apache.org/docs/2.1/sql-manual/sql-statements/recycle/RECOVER/ ; https://doris.apache.org/docs/4.x/admin-manual/data-admin/backup-restore/restore/ ; https://github.com/apache/doris/blob/master/LICENSE.txt ; https://www.velodb.io/blog/apache-doris-4-1-on-iceberg-v3-full-lakehouse-lifecycle ; https://doris.apache.org/docs/dev/table-design/data-model/merge-on-write/ ; https://doris.apache.org/docs/3.x/lakehouse/catalogs/delta-lake-catalog/ ; https://doris.apache.org/docs/dev/lakehouse/best-practices/doris-hudi/</p>
+</li>
+<li>
+<p>StarRocks — https://docs.starrocks.io/docs/introduction/Architecture/ ; https://docs.starrocks.io/docs/table_design/table_types/primary_key_table/ ; https://docs.starrocks.io/docs/loading/Load_to_Primary_Key_tables/ ; https://docs.starrocks.io/docs/loading/kafka/Kafka-connector-starrocks/ ; https://docs.starrocks.io/docs/data_source/catalog/iceberg/ ; https://docs.starrocks.io/docs/data_source/feature-support-data-lake-analytics/ ; https://docs.starrocks.io/docs/administration/management/resource_management/resource_group/ ; https://docs.starrocks.io/docs/administration/Meta_recovery/ ; https://github.com/StarRocks/starrocks/blob/main/LICENSE.txt ; https://www.starrocks.io/product/vendors/index.html ; https://docs.starrocks.io/releasenotes/release-3.3/ ; https://docs.starrocks.io/docs/data_source/catalog/hudi_catalog/ ; https://docs.starrocks.io/docs/data_source/catalog/deltalake_catalog/ ; https://docs.starrocks.io/docs/administration/management/resource_management/be_label/ ; https://www.prnewswire.com/news-releases/launch-of-starrocks-2-0-a-new-gen-enterprise-level-mpp-database-unlocking-5x-to-10x-analytics-performance-improvements-than-competitors-301471060.html</p>
+</li>
+<li>
+<p>Trino — https://trino.io/docs/current/overview/concepts.html ; https://trino.io/ecosystem/data-lake.html ; https://trino.io/legal.html ; https://trino.io/docs/current/connector.html ; https://trino.io/docs/current/connector/kafka.html ; https://trino.io/docs/current/connector/iceberg.html ; https://trino.io/docs/current/admin/resource-groups.html ; https://trino.io/docs/current/admin/properties-resource-management.html ; https://trino.io/docs/current/installation/query-resiliency.html ; https://trino.io/docs/current/optimizer/pushdown.html ; https://trino.io/docs/current/admin/dynamic-filtering.html ; https://trino.io/development/vision.html ; https://github.com/trinodb/trino/issues/25584</p>
+</li>
+<li>
+<p>DuckDB — https://duckdb.org/why_duckdb.html ; https://duckdb.org/docs/lts/clients/python/data_ingestion.html ; https://duckdb.org/docs/lts/clients/java/overview.html ; https://duckdb.org/docs/lts/sql/statements/delete.html ; https://duckdb.org/docs/current/connect/concurrency.html ; https://duckdb.org/docs/lts/guides/troubleshooting/crashes.html ; https://duckdb.org/faq.html ; https://duckdb.org/docs/current/internals/storage.html ; https://duckdb.org/docs/lts/operations_manual/securing_duckdb/overview.html</p>
+</li>
+<li>
+<p>PostgreSQL — https://www.snowflake.com/en/developers/postgres/postgres-architecture/ ; https://aws.amazon.com/blogs/database/postgresql-architecture-considerations-for-application-developers-part-1/ ; https://debezium.io/documentation/reference/stable/connectors/postgresql.html ; https://www.postgresql.org/docs/current/logical-replication-architecture.html ; https://www.postgresql.org/docs/current/transaction-iso.html ; https://www.postgresql.org/docs/current/ddl-partitioning.html ; https://www.postgresql.org/docs/current/ddl-rowsecurity.html ; https://www.postgresql.org/docs/current/continuous-archiving.html ; https://www.postgresql.org/about/licence/ ; https://motherduck.com/learn/select-olap-solution-postgres/ ; https://clickhouse.com/resources/engineering/oltp-vs-olap ; https://www.tigerdata.com/learn/olap-workloads-on-postgresql-a-guide ; https://www.tinybird.co/blog/analytics-workloads-postgres ; https://clickhouse.com/resources/engineering/real-time-analytics-postgres ; https://www.tinybird.co/blog/Best-Database-Choices-for-Fast-SaaS-Embedded-Analytics ; https://pganalyze.com/blog/5mins-postgres-partition-wise-joins-aggregates-query-performance</p>
+</li>
+<li>
+<p>Spark — https://en.wikipedia.org/wiki/Apache_Spark ; https://spark.apache.org/docs/3.5.8/structured-streaming-programming-guide.html ; https://spark.apache.org/docs/latest/structured-streaming-kafka-integration.html ; https://docs.delta.io/delta-update/ ; https://hudi.apache.org/docs/0.14.1/sql_dml/ ; https://delta.io/blog/2022-11-01-pyspark-save-mode-append-overwrite-error/ ; https://spark.apache.org/docs/latest/sql-performance-tuning.html ; https://en.wikipedia.org/wiki/Apache_Iceberg ; https://www.bigeye.com/blog/a-brief-history-of-databricks ; https://spark.apache.org/releases/spark-release-4-0-0.html ; https://dzone.com/articles/apache-spark-3-to-apache-spark-4-migration ; https://community.databricks.com/t5/data-engineering/integrating-pyspark-dataframe-into-sql-dashboard-for-enhanced/td-p/104845 ; https://www.waitingforcode.com/apache-spark-structured-streaming/fault-tolerance-apache-spark-structured-streaming/read</p>
+</li>
+<li>
+<p>Flink — https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/stateful-stream-processing/ ; https://nightlies.apache.org/flink/flink-docs-stable/docs/ops/state/state_backends/ ; https://nightlies.apache.org/flink/flink-cdc-docs-master/docs/connectors/flink-sources/overview/ ; https://nightlies.apache.org/flink/flink-docs-stable/docs/connectors/table/formats/debezium/ ; https://nightlies.apache.org/flink/flink-docs-stable/docs/connectors/datastream/kafka/ ; https://debezium.io/documentation/reference/stable/configuration/eos.html ; https://nightlies.apache.org/flink/flink-docs-stable/docs/connectors/table/jdbc/ ; https://nightlies.apache.org/flink/flink-docs-stable/docs/connectors/table/upsert-kafka/ ; https://nightlies.apache.org/flink/flink-docs-stable/docs/sql/reference/queries/deduplication/ ; https://nightlies.apache.org/flink/flink-docs-stable/docs/sql/reference/queries/joins/ ; https://nightlies.apache.org/flink/flink-docs-stable/docs/libs/cep/ ; https://iceberg.apache.org/docs/nightly/flink-maintenance/ ; https://iceberg.apache.org/docs/latest/flink-configuration/ ; https://nightlies.apache.org/flink/flink-docs-stable/docs/dev/datastream/fault-tolerance/checkpointing/ ; https://nightlies.apache.org/flink/flink-docs-stable/docs/learn-flink/fault_tolerance/ ; https://flink.apache.org/2018/02/28/an-overview-of-end-to-end-exactly-once-processing-in-apache-flink-with-apache-kafka-too/ ; https://flink.apache.org/downloads/ ; https://flink.apache.org/2025/03/24/apache-flink-2.0.0-a-new-era-of-real-time-data-processing/ ; https://flink.apache.org/2026/06/25/apache-flink-2.3.0-release-announcement/</p>
+</li>
+<li>
+<p>Materialize — https://materialize.com/blog/materialize-architecture/ ; https://materialize.com/docs/sql/create-source/kafka/ ; https://materialize.com/blog/capturing-cdc-data/ ; https://materialize.com/blog/why-use-a-materialized-view/ ; https://materialize.com/docs/fundamentals/concepts/clusters/ ; https://materialize.com/blog/self-correcting-materialized-views/ ; https://github.com/MaterializeInc/materialize/blob/main/LICENSE ; https://www.sec.gov/Archives/edgar/data/1845022/000119312521194292/d73036ds1.htm ; https://perun.au/insights/materialize-production/</p>
+</li>
+<li>
+<p>RisingWave — https://docs.risingwave.com/get-started/architecture/ ; https://risingwavelabs.github.io/risingwave/design/streaming-overview.html ; https://docs.risingwave.com/ingestion/cdc-with-risingwave ; https://docs.risingwave.com/processing/sql/joins ; https://docs.risingwave.com/operate/workload-isolation-interaction ; https://docs.risingwave.com/reference/fault-tolerance/ ; https://docs.risingwave.com/reference/data-persistence/ ; https://risingwave.com/risingwave-vs-materialize/ ; https://docs.risingwave.com/changelog/release-notes/ ; https://docs.risingwave.com/operate/access-control/ ; https://risingwave.com/blog/streaming-data-security-encryption-auth/ ; https://risingwave.com/serving/ ; https://risingwave.com/blog/late-arriving-data-watermarks-risingwave/ ; https://risingwave.com/blog/lsm-trees-streaming-databases-state-storage/ ; https://docs.risingwave.com/operate/row-level-security/ ; https://docs.risingwave.com/processing/deletes-and-updates/ ; https://risingwave.com/blog/risingwave-format-plain-cdc-append-only/ ; https://risingwave.com/blog/debezium-tombstone-events-streaming-sql/ ; https://risingwave.com/blog/debezium-risingwave-together-cdc-architecture/ ; https://risingwave.com/blog/atomic-cdc-transactions-in-risingwave/ ; https://docs.risingwave.com/operate/hardware-requirements/ ; https://docs.risingwave.com/operate/rw-standalone-mode/ ; https://docs.risingwave.com/iceberg/overview/ ; https://docs.risingwave.com/iceberg/iceberg-feature-support/ ; https://docs.risingwave.com/iceberg/catalogs/ ; https://iceberg.apache.org/docs/1.10.0/risingwave/</p>
+</li>
+</ol>
+<p><strong>Supporting technologies:</strong></p>
+<ul>
+<li>Kafka/Debezium — https://www.confluent.io/blog/exactly-once-semantics-are-possible-heres-how-apache-kafka-does-it/ ; https://strimzi.io/blog/2023/05/03/kafka-transactions/ ; https://www.confluent.io/blog/transactions-apache-kafka/ ; https://docs.confluent.io/kafka/design/replication.html ; https://docs.confluent.io/kafka/design/log_compaction.html ; https://debezium.io/documentation/reference/stable/configuration/storage.html ; https://debezium.io/documentation/reference/stable/connectors/postgresql.html ; https://debezium.io/documentation/reference/stable/configuration/eos.html ; https://debezium.io/blog/2023/06/22/towards-exactly-once-delivery/ ; https://kafka.apache.org/43/kafka-connect/user-guide/ ; https://kafka.apache.org/42/kafka-connect/connector-development-guide/ ; https://www.confluent.io/learn/kafka-auto-reset/ ; https://risingwave.com/blog/debezium-offset-management-guide/ ; https://risingwave.com/blog/cdc-exactly-once-semantics-debezium-risingwave/ ; https://www.viprasoftware.com/playbooks/debezium-kafka-flink-hard-parts.html ; https://debezium.io/documentation/reference/stable/configuration/avro.html ; https://docs.confluent.io/platform/current/schema-registry/fundamentals/schema-evolution.html ; https://kafka.apache.org/34/getting-started/upgrade/</li>
+<li>Iceberg — https://iceberg.apache.org/spec/ ; https://iceberg.apache.org/docs/latest/evolution/ ; https://iceberg.apache.org/docs/latest/spark-queries/ ; https://iceberg.apache.org/docs/1.6.0/reliability/ ; https://jack-vanlightly.com/analyses/2024/8/5/apache-icebergs-consistency-model-part-2 ; https://aws.amazon.com/blogs/big-data/manage-concurrent-write-conflicts-in-apache-iceberg-on-the-aws-glue-data-catalog/ ; https://www.dremio.com/blog/apache-iceberg-orphan-file-cleanup/ ; https://iceberg.apache.org/docs/latest/spark-procedures/ ; https://iceberglakehouse.com/iceberg/iceberg-compaction/ ; https://www.dremio.com/blog/apache-iceberg-rest-catalog-what-it-is-and-how-to-use-it/ ; https://iceberg.apache.org/docs/1.5.1/aws/ ; https://iceberglakehouse.com/iceberg/iceberg-hive-metastore/ ; https://iceberg.apache.org/docs/1.7.2/jdbc/ ; https://aws.amazon.com/blogs/big-data/unlock-the-power-of-apache-iceberg-v3-deletion-vectors-on-amazon-emr/ ; https://iceberglakehouse.com/iceberg/iceberg-table-metadata-schema/</li>
+</ul>
+<hr />
+<p><em>This dossier reflects evidence available as of 2026-09-16. Release behaviors may shift; anchor production deployments to the specific versions tested in the PoC (§7), not to main-branch assumptions.</em></p>

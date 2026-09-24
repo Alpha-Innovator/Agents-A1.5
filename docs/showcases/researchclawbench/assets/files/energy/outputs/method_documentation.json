@@ -1,0 +1,39 @@
+{
+  "model_name": "GeoH2-Africa Extended",
+  "methodology": "Based on Halloran et al. (2024) GeoH2 framework and M\u00fcller et al. (2023) LMIC application",
+  "cost_components": {
+    "LCOE": "CAPEX*CRF/(CF*8760) + OPEX/(CF*8760); PV and Wind compared per hexagon",
+    "LCOH": "(elec_CAPEX+stack)*CRF/h2_per_kw + elec_OPEX/h2_per_kw + LCOE*elec_per_kg/1000 + water_cost",
+    "NH3_conversion": "conv_CAPEX*CRF/FLH + conv_OPEX + LCOE*conv_elec/1000",
+    "Shipping": "0.39 EUR/kgH2 * (distance_km / 13200_km) \u2014 scaled from Johnston et al. via M\u00fcller et al.",
+    "Reconversion": "Fixed 1.17 EUR/kgH2 at EU port (M\u00fcller et al. 2023)"
+  },
+  "capacity_factor_mapping": {
+    "cf_pv": "0.20 + theo_pv * 0.10 (range 0.20-0.30, African PV CFs)",
+    "cf_wind": "0.18 + theo_wind * 0.27 (range 0.18-0.45, African wind CFs)"
+  },
+  "scenarios": {
+    "base_2025": "Base Case 2025",
+    "derisk_2025": "De-risked 2025",
+    "highrisk_2025": "High-Risk Premium 2025",
+    "rising_rates_2025": "Rising Rates 2025",
+    "base_2030": "Base Case 2030",
+    "derisk_2030": "De-risked 2030",
+    "carbon_100_2030": "Carbon Price \u20ac100 2030",
+    "carbon_200_2030": "Carbon Price \u20ac200 2030"
+  },
+  "key_assumptions": {
+    "WACC_base": 0.08,
+    "WACC_derisked": 0.05,
+    "WACC_high_risk": 0.12,
+    "WACC_rising_rates": 0.15,
+    "electrolyzer_efficiency_HHV": 0.6,
+    "electrolyzer_lifetime_yr": 20,
+    "elec_capex_2025_EUR_per_kW": 900.0,
+    "pv_capex_2025_EUR_per_kW": 1000.0,
+    "wind_capex_2025_EUR_per_kW": 1200.0,
+    "shipping_reference_cost_EUR_per_kgH2": 0.39,
+    "shipping_reference_distance_km": 13200
+  },
+  "timestamp": "2026-09-18T00:02:35.493803"
+}

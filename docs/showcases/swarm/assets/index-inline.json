@@ -1,0 +1,29 @@
+{
+  "blocks": [
+    {
+      "kind": "css",
+      "path": "assets/css/index-0-7a9e2bbd5891.css",
+      "sha256": "7a9e2bbd5891602c9819d6b6a43e192606efd1e643858616471205cd08610960",
+      "attrs": "",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-0-7a9e2bbd5891.css\">",
+      "original_sha256": "689c06add34aa69c79ef0f59fb7cc7e7383b82b47d78905f50958e6f1c4ca24d"
+    },
+    {
+      "kind": "json",
+      "path": "assets/data/case-data-35d2018411fb.js",
+      "sha256": "35d2018411fb6b45cab0de59584750c2018497012f7c13ed3cf51352c8fb2116",
+      "attrs": " id=\"case-data\" type=\"application/json\"",
+      "replacement": "<script id=\"case-data\" type=\"application/json\"></script><script src=\"assets/data/case-data-35d2018411fb.js\"></script>",
+      "original_sha256": "db6f7640bffa51544fc80c20a42a1baf6b86df1de4d7f9838190d42e15693c50",
+      "prefix": "document.getElementById(\"case-data\").textContent="
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-2-9a67efd78d3f.js",
+      "sha256": "9a67efd78d3f1387121c552336791be62f97cd6db3e4b3d1daa5a77345fe1bab",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-2-9a67efd78d3f.js\"></script>",
+      "original_sha256": "9a67efd78d3f1387121c552336791be62f97cd6db3e4b3d1daa5a77345fe1bab"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "europe_lcoh_2025": 5.5,
+  "europe_lcoh_2030": 3.5,
+  "africa_mean_2025_base": 5.644835757495076,
+  "africa_min_2025_base": 4.659271726738914,
+  "africa_median_2025_base": 5.637759340095231,
+  "africa_mean_2030_base": 4.359128353945542,
+  "africa_min_2030_base": 4.172599375485664,
+  "africa_mean_2030_derisk": 4.012569570212435,
+  "africa_min_2030_derisk": 3.845870552316445,
+  "africa_mean_2030_rising": 7.2144363218712,
+  "competitiveness_gap_2025": 0.14483575749507605,
+  "competitiveness_gap_2030_base": 0.8591283539455423,
+  "competitiveness_gap_2030_derisk": 0.5125695702124347
+}

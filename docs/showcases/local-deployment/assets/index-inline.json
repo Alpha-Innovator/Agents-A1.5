@@ -1,0 +1,13 @@
+{
+  "blocks": [
+    {
+      "kind": "json",
+      "path": "assets/data/deploymentData-533b45e440cf.js",
+      "sha256": "533b45e440cf9eae507d73ec476a14cba1eb39d6c5303b0dfb32f8309c6d8fe0",
+      "attrs": " id=\"deploymentData\" type=\"application/json\"",
+      "replacement": "<script id=\"deploymentData\" type=\"application/json\"></script><script src=\"assets/data/deploymentData-533b45e440cf.js\"></script>",
+      "original_sha256": "06e9b77bdce25de0b08b293d0201b916c51d25e3f245418ffb64989caef0d5db",
+      "prefix": "document.getElementById(\"deploymentData\").textContent="
+    }
+  ]
+}

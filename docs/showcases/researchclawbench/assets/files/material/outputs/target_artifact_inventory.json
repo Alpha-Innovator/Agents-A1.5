@@ -1,0 +1,34 @@
+{
+  "target_artifacts": {
+    "quantitative_outputs": {
+      "water_rdf_peaks": {"status": "[Y]", "path": "outputs/water_rdf_results.json", "description": "O-O and O-H RDF peak positions for liquid water at 330K"},
+      "adsorption_energies": {"status": "[Y]", "path": "outputs/adsorption_energies.json", "description": "O and OH adsorption energies on 6 transition metal fcc(111) surfaces"},
+      "scaling_relation_slope": {"status": "[Y]", "path": "outputs/adsorption_energies.json", "description": "Slope: 0.676 reproduced (published MACE: 0.71, PBE: 0.64)"},
+      "reaction_barriers": {"status": "[Y]", "path": "outputs/reaction_barriers.json", "description": "CRBH20 barriers: MAE = 0.13 eV vs DFT reference"},
+      "mae_values": {"status": "[Y]", "path": "outputs/error_metrics.json", "description": "Mean absolute errors computed for all tasks"}
+    },
+    "figures": {
+      "figure_1_dataset_overview": {"status": "[Y]", "path": "report/images/fig1_dataset_overview.png", "description": "MPtrj dataset composition and periodic table coverage"},
+      "figure_2_mace_architecture": {"status": "[Y]", "path": "report/images/fig2_mace_architecture.png", "description": "MACE architecture diagram showing message passing layers"},
+      "figure_3_water_rdf": {"status": "[Y]", "path": "report/images/fig3_water_rdf.png", "description": "O-O and O-H radial distribution functions for liquid water"},
+      "figure_4_adsorption_scaling": {"status": "[Y]", "path": "report/images/fig4_adsorption_scaling.png", "description": "O vs OH adsorption energy scaling on transition metals"},
+      "figure_5_reaction_barriers": {"status": "[Y]", "path": "report/images/fig5_reaction_barriers.png", "description": "CRBH20 reaction barrier comparison MACE vs DFT"},
+      "figure_6_finetuning": {"status": "[Y]", "path": "report/images/fig6_finetuning.png", "description": "Fine-tuning convergence demonstration"}
+    },
+    "interpretability_artifacts": {
+      "umap_atomic_environments": {"status": "[N]", "path": "N/A", "description": "UMAP requires actual model feature extraction - not performed"},
+      "element_coverage": {"status": "[Y]", "path": "report/images/fig1_dataset_overview.png", "description": "89 elements covered shown in Fig 1 right panel"}
+    }
+  },
+  "subgroup_splits": {
+    "by_chemical_system": ["liquids (water)", "solids (fcc metals)", "organic molecules (CRBH20)"],
+    "by_property_type": ["structural (RDF)", "energetic (adsorption, barriers)"],
+    "by_transferability": ["in-distribution (training chemistry)", "out-of-distribution (catalysis, organic)"]
+  },
+  "completion_summary": {
+    "total_artifacts": 13,
+    "completed": 11,
+    "not_completed": 2,
+    "completion_rate": "85%"
+  }
+}

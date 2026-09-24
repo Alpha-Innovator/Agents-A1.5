@@ -1,0 +1,20 @@
+{
+  "blocks": [
+    {
+      "kind": "css",
+      "path": "assets/css/index-0-6e9753330785.css",
+      "sha256": "6e97533307855a77c04a1b9958b9b01e753b397021048d8b78b1ab58eec1cd9d",
+      "attrs": "",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-0-6e9753330785.css\">",
+      "original_sha256": "6e97533307855a77c04a1b9958b9b01e753b397021048d8b78b1ab58eec1cd9d"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-1-303ff854163f.js",
+      "sha256": "303ff854163fe74c28040f3395e17df51e925a9ef8a77c57ed5aba3fee9d10eb",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-1-303ff854163f.js\"></script>",
+      "original_sha256": "303ff854163fe74c28040f3395e17df51e925a9ef8a77c57ed5aba3fee9d10eb"
+    }
+  ]
+}

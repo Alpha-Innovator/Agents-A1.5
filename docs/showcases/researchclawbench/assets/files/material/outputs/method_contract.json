@@ -1,0 +1,69 @@
+{
+  "task_name": "MACE-MP-0 Foundation Model for Atomistic Materials Chemistry",
+  "scientific_goal": "Develop and validate a universal foundation model for atomistic simulations that covers the periodic table, stably simulates diverse material systems, and achieves quantitative accuracy with minimal fine-tuning.",
+  "named_method": "MACE-MP-0",
+  "method_description": {
+    "architecture": "MACE (Message Passing Atomic Cluster Expansion) - higher-order equivariant message passing neural network with four-body messages, two message-passing layers, element embedding, and symmetric tensor product operations",
+    "training_data": "MPTrj dataset from Materials Project (~1.6 million bulk crystals, DFT PBE+U level of theory, 89 chemical elements)",
+    "model_versions": {
+      "small": "2023-12-10-mace-128-L0_energy_epoch-249.model",
+      "medium": "2023-12-03-mace-128-L1_epoch-199.model",
+      "large": "2024-01-07-mace-128-L2_epoch-199.model",
+      "b3_medium": "MACE-MP-0b3-medium.model (default used in paper)"
+    },
+    "fine_tuning": "Can be fine-tuned on just a handful of application-specific data points to reach ab initio accuracy"
+  },
+  "key_architectural_components": [
+    "Higher body-order equivariant features (four-body messages)",
+    "Two layers of message passing sufficient",
+    "Mildly nonlinear: only radial basis and final readout layer have nonlinear activations",
+    "Tensor decomposition for efficient parameterization of high body-order features",
+    "Element embedding for chemical specificity"
+  ],
+  "validation_experiments": [
+    {
+      "name": "Water RDF Simulation",
+      "description": "Liquid water structure via MD simulation",
+      "parameters": {
+        "num_water_molecules": 32,
+        "box_size_angstrom": 12.0,
+        "temperature_K": 330,
+        "time_step_fs": 0.5,
+        "total_md_steps": 2000,
+        "friction_coefficient": 0.01
+      },
+      "expected_outputs": ["O-O radial distribution function", "O-H radial distribution function", "comparison with experimental/neutron diffraction data"]
+    },
+    {
+      "name": "Adsorption Energy Scaling Relations",
+      "description": "Scaling relations between O and OH adsorption energies on transition metal fcc(111) surfaces",
+      "metals": ["Ni", "Cu", "Rh", "Pd", "Ir", "Pt"],
+      "slab_params": {"miller_indices": "(111)", "size": "(2,2,3)", "vacuum_angstrom": 10.0},
+      "adsorbates": ["O", "OH"],
+      "expected_outputs": ["Linear scaling relation plot", "slope comparison with DFT reference"]
+    },
+    {
+      "name": "CRBH20 Reaction Barriers",
+      "description": "Reaction barrier comparison for three organic reactions",
+      "reactions": [
+        {"id": "Rxn 1", "name": "cyclobutene ring-opening", "dft_barrier_eV": 1.72},
+        {"id": "Rxn 11", "name": "methoxy decomposition", "dft_barrier_eV": 1.74},
+        {"id": "Rxn 20", "name": "cyclopropane ring-opening", "dft_barrier_eV": 1.77}
+      ]
+    }
+  ],
+  "comparison_axes": [
+    "MACE-MP-0 vs DFT (PBE-D3) reference values",
+    "Out-of-box performance vs fine-tuned performance",
+    "Structural properties (RDF peaks, lattice constants)",
+    "Energetic properties (adsorption energies, reaction barriers)"
+  ],
+  "required_figures": [
+    "Data overview: MPtrj dataset composition, periodic table coverage",
+    "MACE architecture diagram",
+    "Water RDF: O-O and O-H correlation functions vs experiment",
+    "Adsorption scaling relations: O vs OH binding energies on TM surfaces",
+    "Reaction barrier comparison: MACE vs DFT reference",
+    "Fine-tuning demonstration"
+  ]
+}

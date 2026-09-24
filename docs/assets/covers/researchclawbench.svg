@@ -1,7 +1,45 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 488" fill="none">
-  <g stroke="#a89570" stroke-width=".8" opacity=".19"><ellipse cx="551" cy="250" rx="200" ry="171" transform="rotate(-22 551 250)"/><ellipse cx="551" cy="250" rx="224" ry="191" transform="rotate(-22 551 250)"/></g>
-  <g stroke="#bbaa8c" fill="#1d1b17"><rect x="437" y="105" width="205" height="259" rx="10" opacity=".22" transform="rotate(14 539 235)"/><rect x="427" y="111" width="205" height="259" rx="10" opacity=".32" transform="rotate(-10 529 240)"/><rect x="421" y="122" width="205" height="259" rx="10" stroke-opacity=".6"/></g>
-  <g stroke="#b9aa8e" stroke-linecap="round" opacity=".6"><path d="M446 155h53M446 183h119M446 195h153M446 207h132M446 333h82M446 345h119M446 357h108"/><path d="M446 306v-69m0 69h80" opacity=".45"/><path d="m454 291 19-13 19 5 23-29 24 8" stroke-width="2"/></g>
-  <g stroke="#b8a78b"><circle cx="610" cy="283" r="58" fill="#211e19" fill-opacity=".85"/><circle cx="610" cy="283" r="45" stroke-opacity=".4"/><path d="m651 324 43 43" stroke-width="13" stroke-linecap="round" opacity=".6"/><path d="m593 283 12 12 22-25" stroke-width="2" stroke-linecap="round"/></g>
-  <g fill="#c4ae88" opacity=".7"><circle cx="389" cy="181" r="3"/><circle cx="689" cy="204" r="3"/><circle cx="433" cy="406" r="3"/></g><path d="M389 181h-24v87h28m296-64h29v66h-31M433 406h116v-9" stroke="#bbaa8c" stroke-opacity=".3" stroke-dasharray="3 6"/>
+  <title>Autonomous discovery across astronomy, energy and materials</title>
+  <defs>
+    <radialGradient id="discovery-glow"><stop stop-color="#8373d9" stop-opacity=".2"/><stop offset="1" stop-color="#8373d9" stop-opacity="0"/></radialGradient>
+    <linearGradient id="discovery-link" x1="457" y1="130" x2="707" y2="343" gradientUnits="userSpaceOnUse"><stop stop-color="#c4afff"/><stop offset="1" stop-color="#75d7d0"/></linearGradient>
+  </defs>
+  <circle cx="580" cy="253" r="185" fill="url(#discovery-glow)"/>
+  <g stroke="#a799df" stroke-opacity=".16">
+    <circle cx="580" cy="253" r="159"/>
+    <circle cx="580" cy="253" r="181" stroke-dasharray="2 8"/>
+  </g>
+  <!-- Three investigations feed a shared discovery; each has its own visual. -->
+  <g stroke="url(#discovery-link)" stroke-width="1.5">
+    <path d="M576 184v40M544 266l-41 38M611 266l39 38" stroke-opacity=".7"/>
+    <path d="M524 149C456 178 438 222 448 267M503 364c49 33 104 33 154-1M709 267c10-55-16-98-74-119" stroke-opacity=".35" stroke-dasharray="4 7"/>
+    <path d="m441 257 7 12 6-13" stroke-opacity=".6"/>
+    <path d="m644 360 15 2-9 11m-6-232-11 5 8 10" stroke-opacity=".6"/>
+  </g>
+  <!-- Astronomy: a measured oscillation and its orbit. -->
+  <rect x="509" y="95" width="134" height="89" rx="14" fill="#141323" stroke="#bba6f3" stroke-opacity=".5"/>
+  <path d="M525 143h12l6-10 7 26 10-47 11 51 10-34 8 15h37" stroke="#ccbaff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="612" cy="115" r="5" fill="#cbbcff" fill-opacity=".85"/>
+  <ellipse cx="612" cy="115" rx="12" ry="5" transform="rotate(-30 612 115)" stroke="#bda9f0" stroke-opacity=".65"/>
+  <!-- Energy: renewable power feeds a hydrogen tank. -->
+  <rect x="411" y="278" width="134" height="99" rx="14" fill="#131d23" stroke="#99dccc" stroke-opacity=".5"/>
+  <g stroke="#a6e5d0" stroke-width="2" stroke-linecap="round">
+    <path d="M445 316v43m0-43-19-12m19 12 20-12m-20 12v-23"/>
+    <circle cx="445" cy="316" r="3" fill="#b4eeda"/>
+    <path d="M471 335h15m-4-4 4 4-4 4" stroke-opacity=".65"/>
+    <rect x="495" y="304" width="30" height="55" rx="8" fill="#76cebc" fill-opacity=".06"/>
+    <path d="M503 324v13m13-13v13m-13-7h13"/>
+    <path d="M428 362h100" stroke-opacity=".3"/>
+  </g>
+  <!-- Materials: an atomic lattice. -->
+  <rect x="613" y="278" width="134" height="99" rx="14" fill="#101d24" stroke="#7fceca" stroke-opacity=".5"/>
+  <g stroke="#84c7c9" stroke-width="1.3" stroke-linejoin="round">
+    <path d="m649 307 35-15 30 20v35l-35 15-30-20Zm0 0 30 20 35-15m-35 15v35"/>
+    <path d="m684 292 0 35-35 15m35-15 30 20" stroke-opacity=".3" stroke-dasharray="3 5"/>
+  </g>
+  <g fill="#a2e0d9"><circle cx="649" cy="307" r="4"/><circle cx="684" cy="292" r="4"/><circle cx="714" cy="312" r="4"/><circle cx="679" cy="327" r="4"/><circle cx="649" cy="342" r="4"/><circle cx="679" cy="362" r="4"/><circle cx="714" cy="347" r="4"/></g>
+  <!-- A shared result at the convergence point. -->
+  <circle cx="578" cy="249" r="29" fill="#19192c" stroke="#b6b5ed" stroke-opacity=".7"/>
+  <path d="m578 232 5 12 12 5-12 5-5 12-5-12-12-5 12-5Z" fill="#d2cdff" fill-opacity=".9"/>
+  <circle cx="578" cy="249" r="39" stroke="#aaa3de" stroke-opacity=".25" stroke-dasharray="2 5"/>
 </svg>

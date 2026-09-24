@@ -1,0 +1,36 @@
+{
+  "blocks": [
+    {
+      "kind": "css",
+      "path": "assets/css/index-0-bb0da56d112e.css",
+      "sha256": "bb0da56d112ebbb510a6f4d559d536421d4e053af421fb0777b10b273701ad11",
+      "attrs": "",
+      "replacement": "<link rel=\"stylesheet\" href=\"assets/css/index-0-bb0da56d112e.css\">",
+      "original_sha256": "bb0da56d112ebbb510a6f4d559d536421d4e053af421fb0777b10b273701ad11"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-1-be44ee5346a2.js",
+      "sha256": "be44ee5346a23fcd9b40c29ab0ca4fbfde47e10e0f774acacc188ff330fb6650",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-1-be44ee5346a2.js\"></script>",
+      "original_sha256": "be44ee5346a23fcd9b40c29ab0ca4fbfde47e10e0f774acacc188ff330fb6650"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-2-b0e474315b0a.js",
+      "sha256": "b0e474315b0ab0e01cf175f84aa08c8a101e24eca707be0f1f8e52f14906cfea",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-2-b0e474315b0a.js\"></script>",
+      "original_sha256": "b0e474315b0ab0e01cf175f84aa08c8a101e24eca707be0f1f8e52f14906cfea"
+    },
+    {
+      "kind": "js",
+      "path": "assets/js/index-3-1b5e707a0837.js",
+      "sha256": "1b5e707a0837f85f59908f6db170089f39b20404146edc20088b78b2a1035b5e",
+      "attrs": "",
+      "replacement": "<script src=\"assets/js/index-3-1b5e707a0837.js\"></script>",
+      "original_sha256": "1b5e707a0837f85f59908f6db170089f39b20404146edc20088b78b2a1035b5e"
+    }
+  ]
+}

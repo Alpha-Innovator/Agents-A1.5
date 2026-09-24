@@ -59,7 +59,7 @@ const EN = {
   ['.provenance details p:nth-of-type(4)','The 3D view uses recorded cells and fractional coordinates, without magnifying displacements or inferring bonds. Interpolation and role timing are presentation only, not measured solver steps or model latency. Patterns are sampled for display with local extrema retained; Rwp is not recomputed from those samples. Nodes are outer accepted checkpoints. The run ended at trial_limit; the last solve returned no_descent_step.']
  ],
  attributes: [
-  ['.brand','aria-label','Agents-A1.5 home'],['.hero-mobile-art','alt','Sc₂Au₆ crystal and diffraction patterns'],['.replay','aria-label','Refinement replay'],
+  ['.hero-mobile-art','alt','Sc₂Au₆ crystal and diffraction patterns'],['.replay','aria-label','Refinement replay'],
   ['#heroLab','aria-label','Crystal, diffraction pattern and refinement decisions'],['.hero-state-switch','aria-label','Endpoint state'],['#heroCheckpoints','aria-label','Refinement checkpoints'],['.hero-role-track','aria-label','Three-role decisions'],
   ['#heroRotate','aria-label','Auto-rotate'],['#heroRotate','data-tip','Auto-rotate'],['#heroReset','aria-label','Reset view'],['#heroReset','data-tip','Reset view'],['#heroSpectrum','aria-label','Observed, calculated and difference patterns at the selected checkpoint'],['#heroRwpTrace','aria-label','Rwp at recorded checkpoints'],
   ['#rotate','aria-label','Auto-rotate'],['#rotate','data-tip','Auto-rotate'],['#resetView','aria-label','Reset view'],['#resetView','data-tip','Reset view'],

@@ -1,3 +1,4 @@
+/* light-visual-palette */
 'use strict';
 /* Agents-A1.5 · computational chemistry showcase (house system v0.7.2).
    Scientific numbers come from D, which build.py assembles from the run directory;
@@ -5,7 +6,7 @@
    Differences to the parent, chart geometry, the 3D viewer and the process film are
    presentation-layer work on those outputs, not additional model or Psi4 results. */
 const PAGE_LOCATION = window.showcaseLocation || location;
-const LANG = new URLSearchParams(PAGE_LOCATION.search).get('lang') === 'en' ? 'en' : 'zh';
+const LANG = 'en';
 const EN_ENTRIES = Object.entries(EN).sort((a, b) => b[0].length - a[0].length);
 const SKELETON = !!D.placeholder;
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -44,7 +45,7 @@ function localizeRoot(root) {
 function localeURL(href, lang = LANG) { const url = new URL(href, PAGE_LOCATION.href); url.searchParams.set('lang', lang); return url.href; }
 function initLocale() {
   document.documentElement.lang = LANG === 'en' ? 'en' : 'zh-CN';
-  $$('[data-language-slot]').forEach(slot => { slot.innerHTML = `<div class="language-switch" role="group" aria-label="Language"><button data-language="zh" aria-pressed="${LANG === 'zh'}">中文</button><span>/</span><button data-language="en" aria-pressed="${LANG === 'en'}">EN</button></div>`; });
+  $$('[data-language-slot]').forEach(slot => { slot.remove(); });
   $$('a[href]').forEach(a => { if (/^(?:\.\.\/\.\.\/)?(index|01-launch|02-chemistry)\.html(?:[?#]|$)/.test(a.getAttribute('href'))) a.href = localeURL(a.getAttribute('href')); });
   if (LANG === 'en') document.title = 'Agents-A1.5 · The computational chemistry showcase';
   localizeRoot(document);
@@ -223,7 +224,7 @@ class MolView {
     ctx.globalAlpha = 1;
     if (!this.opt.labels) return;
     const label = (p, t, dx = 10, dy = -10) => {
-      ctx.font = '11px Arial'; ctx.lineWidth = 3; ctx.strokeStyle = '#0b0e13'; ctx.fillStyle = '#eef3f2';
+      ctx.font = '11px Arial'; ctx.lineWidth = 3; ctx.strokeStyle = '#ffffff'; ctx.fillStyle = '#172b45';
       ctx.strokeText(t, p.x + dx, p.y + dy); ctx.fillText(t, p.x + dx, p.y + dy);
     };
     if (g.donorH != null) label(P[g.donorH], 'H');
@@ -245,27 +246,27 @@ function ringSVG(position, {size = 62, numbers = false, counts = null, active = 
   let s = `<svg viewBox="0 0 ${W} ${H}" width="${big ? W : size}" height="${big ? H : size}" role="img" aria-label="${position ? tr(`${position}-位取代的吡啶`, `Pyridine substituted at position ${position}`) : tr('吡啶', 'Pyridine')}">`;
   const bond = (a, b, inner) => {
     const [x1, y1] = pt(a), [x2, y2] = pt(b);
-    s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#aab4b8" stroke-width="${big ? 1.6 : 1.3}"/>`;
-    if (inner) { const [a1, b1] = pt(a, R * .78), [a2, b2] = pt(b, R * .78); s += `<line x1="${a1}" y1="${b1}" x2="${a2}" y2="${b2}" stroke="#6d777b" stroke-width="${big ? 1.2 : 1}"/>`; }
+    s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#526078" stroke-width="${big ? 1.6 : 1.3}"/>`;
+    if (inner) { const [a1, b1] = pt(a, R * .78), [a2, b2] = pt(b, R * .78); s += `<line x1="${a1}" y1="${b1}" x2="${a2}" y2="${b2}" stroke="#526078" stroke-width="${big ? 1.2 : 1}"/>`; }
   };
   for (let k = 0; k < 6; k++) bond(k, (k + 1) % 6, k % 2 === 0);
   const [nx, ny] = pt(0);
-  s += `<circle cx="${nx}" cy="${ny}" r="${big ? 11 : 5.5}" fill="#0e1016"/><text x="${nx}" y="${ny + (big ? 5 : 3)}" text-anchor="middle" font-family="Arial" font-size="${big ? 15 : 9}" fill="#8fa6ff">N</text>`;
+  s += `<circle cx="${nx}" cy="${ny}" r="${big ? 11 : 5.5}" fill="#f4f7fb"/><text x="${nx}" y="${ny + (big ? 5 : 3)}" text-anchor="middle" font-family="Arial" font-size="${big ? 15 : 9}" fill="#1f3db2">N</text>`;
   if (big) {
     for (let p = 2; p <= 6; p++) {
       const [x, y] = pt(p - 1, R + 34), n = counts?.[p] || 0, on = active === 'all' || +active === p;
-      const fillCol = n ? (on ? '#6fbdb5' : '#28403e') : '#1a1c24';
+      const fillCol = n ? (on ? '#3f928a' : '#e7edf6') : '#eff3f9';
       s += `<g class="pos" data-ring-pos="${p}" role="button" tabindex="${n ? 0 : -1}" aria-label="${tr(`${p}-位：${n} 个候选`, `Position ${p}: ${n} candidates`)}">`;
       const [bx, by] = pt(p - 1, R + 4), [ex, ey] = pt(p - 1, R + 20);
-      if (n) s += `<line x1="${bx}" y1="${by}" x2="${ex}" y2="${ey}" stroke="${on ? '#6fbdb5' : '#3a4a49'}" stroke-width="1.5"/>`;
-      s += `<circle cx="${x}" cy="${y}" r="16" fill="${fillCol}" stroke="${n ? '#6fbdb5' : '#2a2d38'}" stroke-width="1"/><text x="${x}" y="${y + 4}" text-anchor="middle" font-family="Arial" font-size="12" fill="${n && on ? '#0f1d1c' : '#8a93a0'}">${p}</text>`;
-      if (n) s += `<text x="${x}" y="${y + 30}" text-anchor="middle" font-family="Arial" font-size="10" fill="#8a93a0">×${n}</text>`;
+      if (n) s += `<line x1="${bx}" y1="${by}" x2="${ex}" y2="${ey}" stroke="${on ? '#3f928a' : '#c6d4e5'}" stroke-width="1.5"/>`;
+      s += `<circle cx="${x}" cy="${y}" r="16" fill="${fillCol}" stroke="${n ? '#3f928a' : '#e8eef6'}" stroke-width="1"/><text x="${x}" y="${y + 4}" text-anchor="middle" font-family="Arial" font-size="12" fill="${n && on ? '#f3f6fa' : '#526078'}">${p}</text>`;
+      if (n) s += `<text x="${x}" y="${y + 30}" text-anchor="middle" font-family="Arial" font-size="10" fill="#526078">×${n}</text>`;
       s += '</g>';
     }
   } else if (position) {
     const [bx, by] = pt(position - 1), [ex, ey] = pt(position - 1, R + 9), [lx, ly] = pt(position - 1, R + 21);
-    s += `<line x1="${bx}" y1="${by}" x2="${ex}" y2="${ey}" stroke="#9aa8ac" stroke-width="1.3"/>`;
-    if (group) s += `<text x="${lx}" y="${ly + 4}" text-anchor="middle" font-family="Arial" font-size="10" fill="#cfe0de">${esc(group)}</text>`;
+    s += `<line x1="${bx}" y1="${by}" x2="${ex}" y2="${ey}" stroke="#526078" stroke-width="1.3"/>`;
+    if (group) s += `<text x="${lx}" y="${ly + 4}" text-anchor="middle" font-family="Arial" font-size="10" fill="#3f9289">${esc(group)}</text>`;
   }
   return s + '</svg>';
 }
@@ -357,7 +358,7 @@ class ProcessFilm {
     this.cv.width = Math.round(r.width * dpr); this.cv.height = Math.round(r.height * dpr);
     this.render(this.t);
   }
-  text(t, x, y, {size = 14, color = '#c9d8d6', align = 'left', weight = ''} = {}) {
+  text(t, x, y, {size = 14, color = '#172b45', align = 'left', weight = ''} = {}) {
     const ctx = this.ctx;
     ctx.font = `${weight} ${size}px ChemDots, Showcase, Arial, sans-serif`.trim();
     ctx.fillStyle = color; ctx.textAlign = align; ctx.fillText(t, x, y); ctx.textAlign = 'left';
@@ -375,7 +376,7 @@ class ProcessFilm {
     const vertex = (k, rad = r) => [cx + rad * Math.cos((k * 60 - 90) * Math.PI / 180), cy + rad * Math.sin((k * 60 - 90) * Math.PI / 180)];
     ctx.beginPath();
     for (let k = 0; k < 6; k++) { const [x, y] = vertex(k); k ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
-    ctx.closePath(); ctx.strokeStyle = glow ? '#9fd6cf' : '#7d918f'; ctx.lineWidth = 1.6; ctx.stroke();
+    ctx.closePath(); ctx.strokeStyle = glow ? '#3f9388' : '#526078'; ctx.lineWidth = 1.6; ctx.stroke();
     // Kekulé double bonds N1=C2, C3=C4, C5=C6 — without them the ring reads as piperidine.
     ctx.lineWidth = 1.2;
     for (let k = 0; k < 6; k += 2) {
@@ -383,13 +384,13 @@ class ProcessFilm {
       ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
     }
     const [nx, ny] = vertex(0);
-    ctx.beginPath(); ctx.arc(nx, ny, r * .3, 0, 7); ctx.fillStyle = '#070b0c'; ctx.fill();
-    this.text('N', nx, ny + r * .16, {size: r * .46, color: '#8fa6ff', align: 'center'});
+    ctx.beginPath(); ctx.arc(nx, ny, r * .3, 0, 7); ctx.fillStyle = '#f5f8fc'; ctx.fill();
+    this.text('N', nx, ny + r * .16, {size: r * .46, color: '#1f3db2', align: 'center'});
     if (sub != null && group) {
       const a = ((sub - 1) * 60 - 90) * Math.PI / 180, [vx, vy] = vertex(sub - 1);
       ctx.beginPath(); ctx.moveTo(vx, vy); ctx.lineTo(cx + r * 1.42 * Math.cos(a), cy + r * 1.42 * Math.sin(a));
-      ctx.strokeStyle = '#7d918f'; ctx.lineWidth = 1.4; ctx.stroke();
-      this.text(group, cx + r * 1.78 * Math.cos(a), cy + r * 1.78 * Math.sin(a) + r * .16, {size: r * .46, color: '#cfe0de', align: 'center'});
+      ctx.strokeStyle = '#526078'; ctx.lineWidth = 1.4; ctx.stroke();
+      this.text(group, cx + r * 1.78 * Math.cos(a), cy + r * 1.78 * Math.sin(a) + r * .16, {size: r * .46, color: '#3f9289', align: 'center'});
     }
   }
   render(t) {
@@ -398,7 +399,7 @@ class ProcessFilm {
     const ctx = this.ctx, s = Math.min(this.w / 1000, this.h / 625);
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     ctx.clearRect(0, 0, this.w, this.h);
-    ctx.fillStyle = '#070b0c'; ctx.fillRect(0, 0, this.w, this.h);
+    ctx.fillStyle = '#f5f8fc'; ctx.fillRect(0, 0, this.w, this.h);
     ctx.save();
     ctx.translate((this.w - 1000 * s) / 2, (this.h - 625 * s) / 2); ctx.scale(s, s);
     const sc = SCENES.find(x => t < x.end) || SCENES[SCENES.length - 1];
@@ -408,23 +409,23 @@ class ProcessFilm {
     ctx.restore();
     SCENES.forEach((x, i) => {
       const bx = 60 + i * 148, on = t >= x.start;
-      this.box(bx, 596, 120, 3, 2, on ? '#6fbdb5' : '#22302f');
-      this.text(x.label(), bx, 586, {size: 9, color: on ? '#9fd6cf' : '#5d6e6c'});
+      this.box(bx, 596, 120, 3, 2, on ? '#3f928a' : '#ebf0f8');
+      this.text(x.label(), bx, 586, {size: 9, color: on ? '#3f9388' : '#526078'});
     });
     ctx.restore();
   }
 }
 const SCENES = [
   {start: 0, end: 4.6, label: () => tr('任务', 'The task'), draw(f, p) {
-    f.text(tr('研究请求与计算规范', 'The request and the specifications'), 60, 116, {size: 26, color: '#e4f2f0'});
-    f.text(tr('没有候选分子，没有脚本，没有参考答案', 'No candidate molecules, no scripts, no reference answers'), 60, 146, {size: 13, color: '#8fa5a3'});
+    f.text(tr('研究请求与计算规范', 'The request and the specifications'), 60, 116, {size: 26, color: '#3f9286'});
+    f.text(tr('没有候选分子，没有脚本，没有参考答案', 'No candidate molecules, no scripts, no reference answers'), 60, 146, {size: 13, color: '#526078'});
     WORKSPACE.files.forEach((file, i) => {
       const a = easeOut((p - i * .1) * 4);
       if (a <= 0) return;
       f.ctx.globalAlpha = a;
-      f.box(60, 186 + i * 50, 390, 40, 8, '#0e1618', '#7fc9bf33');
-      f.text(file.name, 78, 211 + i * 50, {size: 13, color: '#bcd5d2'});
-      f.text(`${file.lines} ${tr('行', 'lines')}`, 430, 211 + i * 50, {size: 11, color: '#6f8481', align: 'right'});
+      f.box(60, 186 + i * 50, 390, 40, 8, '#f4f7fb', '#3e938833');
+      f.text(file.name, 78, 211 + i * 50, {size: 13, color: '#3f9288'});
+      f.text(`${file.lines} ${tr('行', 'lines')}`, 430, 211 + i * 50, {size: 11, color: '#526078', align: 'right'});
       f.ctx.globalAlpha = 1;
     });
     const q = tr('“以肽键模型分子 N-甲基乙酰胺与吡啶为体系，考察吡啶环上的小取代基如何改变二者 N–H···N 氢键的强弱；先提出候选并写下预测，再用量子化学计算检验，并解释结构与能量上的原因。”',
@@ -434,74 +435,74 @@ const SCENES = [
     const words = shown.split(/(?<=[，；。,\s])/);
     let line = '', y = 232;
     words.forEach(w => {
-      if (line.length + w.length > limit) { f.text(line, 520, y, {size: 17, color: '#d7ece9'}); line = ''; y += 30; }
+      if (line.length + w.length > limit) { f.text(line, 520, y, {size: 17, color: '#3f9286'}); line = ''; y += 30; }
       line += w;
     });
-    f.text(line, 520, y, {size: 17, color: '#d7ece9'});
+    f.text(line, 520, y, {size: 17, color: '#3f9286'});
   }},
   {start: 4.6, end: 10.5, label: () => tr('候选', 'Candidates'), draw(f, p) {
-    f.text(tr('模型提出候选，并先写下预测', 'The model proposes candidates, and predicts first'), 60, 116, {size: 26, color: '#e4f2f0'});
+    f.text(tr('模型提出候选，并先写下预测', 'The model proposes candidates, and predicts first'), 60, 116, {size: 26, color: '#3f9286'});
     f.ring(170, 330, 44, {glow: true});
-    f.text(PARENT.short, 170, 412, {size: 13, color: '#9fd6cf', align: 'center'});
-    f.text(tr('母体', 'Parent'), 170, 432, {size: 11, color: '#6f8481', align: 'center'});
+    f.text(PARENT.short, 170, 412, {size: 13, color: '#3f9388', align: 'center'});
+    f.text(tr('母体', 'Parent'), 170, 432, {size: 11, color: '#526078', align: 'center'});
     CANDS.forEach((c, i) => {
       const a = easeOut((p - .1 - i * .12) * 3.4);
       if (a <= 0) return;
       const x = 420 + (i % 3) * 200, y = 250 + Math.floor(i / 3) * 180;
       f.ctx.globalAlpha = a;
-      f.ctx.beginPath(); f.ctx.moveTo(214, 330); f.ctx.lineTo(x - 42, y); f.ctx.strokeStyle = '#2d4644'; f.ctx.lineWidth = 1; f.ctx.stroke();
+      f.ctx.beginPath(); f.ctx.moveTo(214, 330); f.ctx.lineTo(x - 42, y); f.ctx.strokeStyle = '#c6d4e5'; f.ctx.lineWidth = 1; f.ctx.stroke();
       f.ring(x, y, 30, {sub: c.position, group: c.group});
-      f.text(c.short, x, y + 82, {size: 12, color: '#c6dcd9', align: 'center'});  // clears a group written at the 4-position
+      f.text(c.short, x, y + 82, {size: 12, color: '#3f9287', align: 'center'});  // clears a group written at the 4-position
       const dir = c.prediction && DIRS[c.prediction.direction];
-      if (dir) f.text(`${dir[0]} ${dir[1]()}`, x, y + 100, {size: 10, color: '#7f9895', align: 'center'});
+      if (dir) f.text(`${dir[0]} ${dir[1]()}`, x, y + 100, {size: 10, color: '#526078', align: 'center'});
       f.ctx.globalAlpha = 1;
     });
   }},
   {start: 10.5, end: 19.2, label: () => tr('计算', 'Calculations'), draw(f, p) {
-    f.text(tr('并行提交量子化学计算', 'Quantum chemistry jobs run in parallel'), 60, 116, {size: 26, color: '#e4f2f0'});
+    f.text(tr('并行提交量子化学计算', 'Quantum chemistry jobs run in parallel'), 60, 116, {size: 26, color: '#3f9286'});
     const jobs = D.journey?.jobs || [], rows = [...new Set(jobs.map(j => j.row))];
     const stages = ['pre', 'opt', 'cp', 'sapt'], names = {pre: tr('预优化', 'Pre-opt'), opt: tr('几何优化', 'Optimize'), cp: tr('能量 + CP', 'Energy + CP'), sapt: 'SAPT0'};
     const x0 = 300, colW = 128, rowH = Math.min(36, 290 / Math.max(1, rows.length));
-    stages.forEach((s, i) => f.text(names[s], x0 + i * colW + (colW - 10) / 2, 178, {size: 11, color: '#7f9895', align: 'center'}));
+    stages.forEach((s, i) => f.text(names[s], x0 + i * colW + (colW - 10) / 2, 178, {size: 11, color: '#526078', align: 'center'}));
     const clock = Math.min(1, p / .82);  // jobs finish at 82%; the rest holds the completed grid
     let done = 0;
     rows.forEach((row, r) => {
       const y = 196 + r * rowH;
-      f.text(BY_ID[row.split('/')[0]]?.short || row.split('/')[0], 250, y + rowH * .66, {size: 11, color: '#c6dcd9', align: 'right'});
+      f.text(BY_ID[row.split('/')[0]]?.short || row.split('/')[0], 250, y + rowH * .66, {size: 11, color: '#3f9287', align: 'right'});
       stages.forEach((s, i) => {
         const job = jobs.find(j => j.row === row && j.stage === s), x = x0 + i * colW;
-        let fillCol = '#101819', strokeCol = '#1d2a2b';
-        if (job && clock >= job.end) { done++; fillCol = job.status === 'recovered' ? '#2a2412' : '#0f2a1d'; strokeCol = job.status === 'recovered' ? '#fab21955' : '#199e7055'; }
-        else if (job && clock >= job.start) { fillCol = '#16211f'; strokeCol = '#6fbdb580'; }
+        let fillCol = '#f3f6fb', strokeCol = '#edf2f8';
+        if (job && clock >= job.end) { done++; fillCol = job.status === 'recovered' ? '#f0f3f9' : '#f0f4f9'; strokeCol = job.status === 'recovered' ? '#b2831f55' : '#1b9c6f55'; }
+        else if (job && clock >= job.start) { fillCol = '#f1f4fa'; strokeCol = '#3f928a80'; }
         f.box(x, y, colW - 10, rowH - 7, 5, fillCol, strokeCol);
-        if (job && clock >= job.end) f.text(job.status === 'recovered' ? '↻' : '✓', x + (colW - 10) / 2, y + rowH * .64, {size: 12, color: job.status === 'recovered' ? '#fab219' : '#3fbf7f', align: 'center'});
+        if (job && clock >= job.end) f.text(job.status === 'recovered' ? '↻' : '✓', x + (colW - 10) / 2, y + rowH * .64, {size: 12, color: job.status === 'recovered' ? '#b2831f' : '#349d69', align: 'center'});
       });
     });
     const finished = done === jobs.length;
     f.text(finished ? fill(tr('{rows} 个复合物 · {all} 次计算全部完成', 'All {all} jobs complete across {rows} complexes'), {rows: rows.length, all: jobs.length})
                     : fill(tr('已完成 {done} / {all} 次计算', '{done} / {all} jobs complete'), {done, all: jobs.length}),
-           60, 520, {size: 14, color: finished ? '#8fdbd0' : '#9fd6cf'});
+           60, 520, {size: 14, color: finished ? '#339e8f' : '#3f9388'});
     f.text(finished ? tr('四个阶段都通过了验收检查', 'Every stage passed its acceptance checks')
                     : tr('失败的优化被自动重启，其余任务继续', 'A failed optimization restarts automatically; the others continue'),
-           60, 546, {size: 11, color: '#6f8481'});
+           60, 546, {size: 11, color: '#526078'});
   }},
   {start: 19.2, end: 24.2, label: () => tr('结果', 'Results'), draw(f, p) {
-    f.text(tr('哪个改动让结合更稳定？', 'Which change binds more strongly?'), 60, 116, {size: 26, color: '#e4f2f0'});
+    f.text(tr('哪个改动让结合更稳定？', 'Which change binds more strongly?'), 60, 116, {size: 26, color: '#3f9286'});
     const rows = CANDS.map(c => { const q = bestPose(c, 'all'); return {c, d: delta(c, 'all'), moved: q && q.finalMotif !== 'NH_Nring'}; }).filter(r => r.d != null);
     const ext = Math.max(.5, ...rows.map(r => Math.abs(r.d))) * 1.2, mid = 540, half = 320;
-    f.box(mid, 170, 1, Math.max(60, rows.length * 52), 0, '#4a5957');
-    f.text(tr('母体吡啶', 'Parent pyridine'), mid, 160, {size: 11, color: '#7f9895', align: 'center'});
+    f.box(mid, 170, 1, Math.max(60, rows.length * 52), 0, '#c6d4e5');
+    f.text(tr('母体吡啶', 'Parent pyridine'), mid, 160, {size: 11, color: '#526078', align: 'center'});
     rows.forEach((r, i) => {
       const y = 190 + i * 52, w = Math.abs(r.d) / ext * half * easeOut(p * 1.5 - i * .06), neg = r.d < 0;
-      f.text(r.moved ? `${r.c.short} ◆` : r.c.short, 150, y + 17, {size: 13, color: r.moved ? '#f0c98a' : '#c6dcd9'});
-      f.box(neg ? mid - w : mid, y, w, 22, 4, neg ? '#3987e5' : '#d95926', r.moved ? '#f0c98a' : null);
-      if (w > 6) f.text(signed(r.d), neg ? mid - w - 10 : mid + w + 10, y + 17, {size: 12, color: '#e2efee', align: neg ? 'right' : 'left'});
+      f.text(r.moved ? `${r.c.short} ◆` : r.c.short, 150, y + 17, {size: 13, color: r.moved ? '#b27a1f' : '#3f9287'});
+      f.box(neg ? mid - w : mid, y, w, 22, 4, neg ? '#1f62b2' : '#b2491f', r.moved ? '#b27a1f' : null);
+      if (w > 6) f.text(signed(r.d), neg ? mid - w - 10 : mid + w + 10, y + 17, {size: 12, color: '#3f928c', align: neg ? 'right' : 'left'});
     });
-    if (rows.some(r => r.moved)) f.text(tr('◆ 结合位点已改变，不再是原来的 N–H···N 接触', '◆ binds at a different site — no longer the original N–H···N contact'), 150, 488, {size: 11, color: '#f0c98a'});
-    f.text(tr('← 结合更稳定　　结合更弱 →', '← binds more tightly    binds less tightly →'), mid, 520, {size: 11, color: '#6f8481', align: 'center'});
+    if (rows.some(r => r.moved)) f.text(tr('◆ 结合位点已改变，不再是原来的 N–H···N 接触', '◆ binds at a different site — no longer the original N–H···N contact'), 150, 488, {size: 11, color: '#b27a1f'});
+    f.text(tr('← 结合更稳定　　结合更弱 →', '← binds more tightly    binds less tightly →'), mid, 520, {size: 11, color: '#526078', align: 'center'});
   }},
   {start: 24.2, end: 27.6, label: () => tr('受力', 'Forces'), draw(f, p) {
-    f.text(tr('变化来自哪一种力？', 'Which force changed?'), 60, 116, {size: 26, color: '#e4f2f0'});
+    f.text(tr('变化来自哪一种力？', 'Which force changed?'), 60, 116, {size: 26, color: '#3f9286'});
     const plain = strongest('ringN'), overall = strongest('all'), mid = 520;
     const rows = [{c: PARENT, pose: bestPose(PARENT, 'ringN')}];
     if (plain) rows.push({c: plain.c, pose: bestPose(plain.c, 'ringN')});
@@ -515,7 +516,7 @@ const SCENES = [
     rows.forEach(({c, pose, moved}, i) => {
       if (!pose) return;
       const y = 200 + i * 100;
-      f.text(moved ? `${L(c.name)} ◆` : L(c.name), 90, y - 12, {size: 13, color: moved ? '#f0c98a' : '#c6dcd9'});
+      f.text(moved ? `${L(c.name)} ◆` : L(c.name), 90, y - 12, {size: 13, color: moved ? '#b27a1f' : '#3f9287'});
       let acc = 0;
       ['elst', 'ind', 'disp'].forEach(k => {
         const w = Math.abs(pose.sapt[k]) * scale * easeOut(p * 1.6);
@@ -524,18 +525,18 @@ const SCENES = [
       });
       const we = pose.sapt.exch * scale * easeOut(p * 1.6);
       f.box(mid + 1, y, we - 2, 28, 3, compColor('exch'));
-      f.text(fmt(pose.sapt.total), mid + we + 14, y + 20, {size: 12, color: '#e2efee'});
+      f.text(fmt(pose.sapt.total), mid + we + 14, y + 20, {size: 12, color: '#3f928c'});
     });
-    f.box(mid, 180, 1, 100 * rows.length + 20, 0, '#4a5957');
-    if (rows.some(r => r.moved)) f.text(tr('◆ 结合位点已改变，与其余各项不是同一种接触', '◆ a different binding site — not the same contact as the others'), 90, 474, {size: 11, color: '#f0c98a'});
+    f.box(mid, 180, 1, 100 * rows.length + 20, 0, '#c6d4e5');
+    if (rows.some(r => r.moved)) f.text(tr('◆ 结合位点已改变，与其余各项不是同一种接触', '◆ a different binding site — not the same contact as the others'), 90, 474, {size: 11, color: '#b27a1f'});
     COMPONENTS.forEach(([k, label, color], i) => {
       f.box(250 + i * 140, 497, 12, 10, 2, color);
-      f.text(label(), 270 + i * 140, 507, {size: 11, color: '#9db4b1'});
+      f.text(label(), 270 + i * 140, 507, {size: 11, color: '#526078'});
     });
-    f.text(tr('向左吸引 · 向右排斥 · 单位 kcal/mol', 'left = attraction · right = repulsion · kcal/mol'), 500, 540, {size: 11, color: '#6f8481', align: 'center'});
+    f.text(tr('向左吸引 · 向右排斥 · 单位 kcal/mol', 'left = attraction · right = repulsion · kcal/mol'), 500, 540, {size: 11, color: '#526078', align: 'center'});
   }},
   {start: 27.6, end: FILM_LEN + .01, label: () => tr('结论', 'Conclusion'), draw(f, p) {
-    f.text(tr('一轮可检验的分子设计', 'One round of testable molecular design'), 500, 235, {size: 15, color: '#8fa5a3', align: 'center'});
+    f.text(tr('一轮可检验的分子设计', 'One round of testable molecular design'), 500, 235, {size: 15, color: '#526078', align: 'center'});
     const line = D.findings ? L(D.findings.title) + (D.findings.emphasis ? L(D.findings.emphasis) : '') : tr('（科学结论等待运行结果）', '(The conclusion awaits the run)');
     const shown = line.slice(0, Math.floor(line.length * easeOut(p * 2)));
     const limit = LANG === 'en' ? 46 : 22;  // characters per line at this size
@@ -545,9 +546,9 @@ const SCENES = [
       if (!lines.length || lines[lines.length - 1].length + part.length > limit) lines.push(part);
       else lines[lines.length - 1] += part;
     }
-    lines.slice(0, 4).forEach((l, i) => f.text(l, 500, 285 + i * 38, {size: 23, color: '#e9f6f4', align: 'center'}));
-    f.box(420, 452, 160, 40, 8, '#0e1618', '#7fc9bf44');
-    f.text('REPORT.md', 500, 478, {size: 13, color: '#9fd6cf', align: 'center'});
+    lines.slice(0, 4).forEach((l, i) => f.text(l, 500, 285 + i * 38, {size: 23, color: '#3d9487', align: 'center'}));
+    f.box(420, 452, 160, 40, 8, '#f4f7fb', '#3e938844');
+    f.text('REPORT.md', 500, 478, {size: 13, color: '#3f9388', align: 'center'});
   }},
 ];
 function initInlineFilm() {
@@ -942,7 +943,7 @@ function bindGlobal() {
     if (t.matches('[data-hero-candidate]')) showHeroCandidate(t.dataset.heroCandidate);
     if (t.matches('[data-hero-locate]')) { state.selected = COMPARISON_ROWS.find(r => r.c.id === t.dataset.heroLocate && r.p?.id === bestPose(r.c, 'all')?.id)?.id; selectEvidence('energies'); renderResults($('[data-widget=results]')); $('#findings').scrollIntoView(); }
     if (t.matches('[data-play-film]')) { $('#workspace').scrollIntoView(); window.processFilm?.play(true); }
-    if (t.matches('[data-open-gallery]')) { selectEvidence('gallery'); $('#findings').scrollIntoView(); }
+    if (t.matches('[data-open-gallery]')) { selectEvidence('gallery'); $('.evidence-deck').scrollIntoView({block: 'start'}); }
     if (t.matches('[data-evidence]')) selectEvidence(t.dataset.evidence);
     if (t.matches('[data-pos-filter]')) applyPosFilter(t.closest('[data-widget]'), t.dataset.posFilter === 'all' ? 'all' : +t.dataset.posFilter);
     if (t.matches('[data-ring-pos]')) { const w = t.closest('[data-widget]'), p = +t.dataset.ringPos; applyPosFilter(w, state.filter === p ? 'all' : p); }

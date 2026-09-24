@@ -5,52 +5,52 @@
     {
       "id": "swarm",
       "href": "showcases/swarm/index.html",
-      "sha256": "99b4664dd36b5eba23dbb79ffaf3975e491d8f5dd0511e84b1df84bf7b4419d3"
+      "sha256": "769a9c0d32debfc41535614b4bf12969e12135393df0f9dc9c430f211eac5df2"
     },
     {
       "id": "verification",
       "href": "showcases/verification/index.html",
-      "sha256": "e88207eb29552efbf06e4fdada7b0d769136b9dad9db746a87007571e747520c"
+      "sha256": "5f0e6ed4c78d386e0b74d49c8e7d9f5fd7dc6b5000ed93db1c1523cd3af414e0"
     },
     {
       "id": "local-deployment",
       "href": "showcases/local-deployment/index.html",
-      "sha256": "35a1a6e479c0d984ce36c5a6c0c213086c990d4537607937dad71492b48385ad"
+      "sha256": "a36e3409c4578c334f5801db72b76a4283afce7c37ccf2f002112f34a222c935"
     },
     {
       "id": "deep-research",
       "href": "showcases/deep-research/index.html",
-      "sha256": "2008a3f5aee5d06e9ac87b3705fa5545319137dc97e2ccfb2fce6167f1a95eec"
+      "sha256": "5d8f15975abb5d6a790a0959f6d7584f448d018923bc4d2c95c5e762c04a0ae0"
     },
     {
       "id": "scientific-reasoning",
       "href": "showcases/scientific-reasoning/index.html",
-      "sha256": "6bd038fe5e7cc0d2cad697e722c6235a82201132f86de2ee49f10a65056678fe"
+      "sha256": "6a15d728e6ea32ccbc91530e47072ca828d50effc09c7e2a193679431f3c7d39"
     },
     {
       "id": "researchclawbench",
       "href": "showcases/researchclawbench/index.html",
-      "sha256": "d1e542c78bf835fb7479d1fea6887297e7c243ce8a724789c70b5bfad842c616"
+      "sha256": "4f771ad854d87d360a500830abdae7e69295150d97bf49cbe49b831d20908743"
     },
     {
       "id": "neuroscience",
       "href": "01-launch.html",
-      "sha256": "08a177af291610ec0c83662fb0e416fb3f906f05ab5e115a2e55f509503eb9a5"
+      "sha256": "361904a96de5f5097d63ea2f280a397874fbd2b33895edce0fb5de7eadcd7c04"
     },
     {
       "id": "condensed-matter",
       "href": "showcases/condensed-matter/index.html",
-      "sha256": "19ad7591bf1fbfea4dfce1f1811c18da03486661962496acbd9dbe0b43642ddf"
+      "sha256": "94021c71ceac66c8396a018731ee1d0bd493d9b348cd71c11de9f3865ecfb079"
     },
     {
       "id": "electrochemistry",
       "href": "showcases/electrochemistry/index.html",
-      "sha256": "53e3b1bbb96045b5fe454f64b4e30cfbfc1fe685fd119def2ccf2c72f1092b1a"
+      "sha256": "bb079b73460065c61ab655ddb2847cf7ebf304566fe0c8ac0a949237c8e185e2"
     },
     {
       "id": "computational-chemistry",
       "href": "showcases/computational-chemistry/index.html",
-      "sha256": "7775513a76ca071fdd7fd7edfeeb94a4e16d3777b5a0166c4503e87890659c8e"
+      "sha256": "fa8c8aabe0d01bb8bb864715f31991e1e8d546b6e908c232427538c696fa67e3"
     }
   ]
 }

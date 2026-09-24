@@ -124,7 +124,7 @@
       heroRenderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
       heroRenderer.outputEncoding = THREE.sRGBEncoding;
       heroRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-      heroRenderer.toneMappingExposure = 1.25;
+      heroRenderer.toneMappingExposure = .85;
       heroScene = new THREE.Scene();
       heroCamera = new THREE.OrthographicCamera(-12, 12, 7, -7, .1, 100);
       heroCamera.position.set(0, 0, 25);
@@ -136,13 +136,13 @@
       });
       const sphere = new THREE.SphereGeometry(1, 40, 28);
       D.elements.forEach((symbol, index) => {
-        const material = new THREE.MeshStandardMaterial({ color: symbol === 'Sc' ? 0xbfa5ff : 0xe5b97f, roughness: .25, metalness: .3 });
+        const material = new THREE.MeshStandardMaterial({ color: symbol === 'Sc' ? 0x7052bc : 0xb67e2b, roughness: .25, metalness: .3 });
         const mesh = new THREE.Mesh(sphere, material);
         mesh.scale.setScalar(symbol === 'Sc' ? .46 : .37);
         mesh.userData.index = index;
         meshes.push(mesh); specimen.add(mesh);
       });
-      lattice = createLattice(currentMatrix, 0xbda4ed, .8);
+      lattice = createLattice(currentMatrix, 0x667b9e, .8);
       initialLattice = createLattice(F[0].matrix, 0x796b96, .22);
       specimen.add(lattice, initialLattice);
       const vertexGeometry = new THREE.BufferGeometry();

@@ -1,3 +1,4 @@
+/* light-visual-palette */
 /* Authored interface translations. Original research artifacts are never translated. */
 const COPY_EN = Object.fromEntries(`
 研究故事|Research stories
@@ -317,9 +318,7 @@ Object.assign(COPY_EN,{
   "三段研究旅程，连接问题、探索与结果。": "Three investigations connecting questions, exploration and results.",
   "查看数值来源": "View source values"
 });
-let language='zh';
-try { language=new URL((window.showcaseLocation||location).href).searchParams.get('lang') || localStorage.getItem('a15-language') || 'zh'; } catch {}
-language=language==='en'?'en':'zh';
+let language='en';
 Object.assign(COPY_EN,{"研究流程": "Research workflow", "研究总览": "Research overview", "研究案例": "Research cases", "探索三个研究案例": "Explore three research cases", "观看自主发现短片": "Watch autonomous discovery", "从科学问题出发，走向自主发现。": "From scientific questions to autonomous discovery.", "42 秒 · 从问题到成果": "42 seconds · From questions to results", "播放总览视频": "Play the overview film", "播放端到端自主发现短片": "Play the autonomous discovery film", "端到端自主发现总览，基于三个研究任务与保存数据。": "An autonomous discovery overview based on three research tasks and their saved data.", "下载总览视频 ↓": "Download overview video ↓", "观看完整视频 ↗": "Watch full video ↗", "端到端自主发现 · 研究总览": "End-to-End Autonomous Discovery · Research Overview", "短片串联三个研究任务中的问题理解、分析执行、线索提炼与成果交付。动画为流程示意，图表读取保存数据，非执行录屏；42 秒为展示时长。": "The film connects question understanding, analysis, insights and delivery across three research tasks. Animation illustrates the workflow; charts use saved data. It is not an execution recording, and 42 seconds is the presentation length.", "引力波误差分析": "Gravitational-wave error analysis", "石墨烯超流响应": "Graphene superfluid response", "材料吸附建模探索": "Materials adsorption exploration", "结果探索": "Explore the results", "研究发现与线索": "Findings and insights", "研究过程": "Research process", "阅读研究报告 ↗": "Read the research report ↗", "下载研究资料 ↓": "Download research materials ↓", "运行耗时": "Execution time", "数据与验证范围": "Data and validation scope", "端到端自主发现": "End-to-end autonomous discovery", "从科学问题，到研究成果。": "From scientific questions to research results.", "一个智能体，跨越三个研究领域。": "One agent, across three research disciplines.", "理解问题，自主组织分析。": "Understand the question. Organize the analysis.", "不同的研究问题，进入同一条自主研究流程。": "Different scientific questions enter one autonomous research workflow.", "执行分析，让数据显露规律。": "Analyze the data. Reveal the patterns.", "统计误差、拟合响应、比较吸附关系。": "Measure uncertainty, fit responses and compare adsorption relationships.", "从分析中，提炼研究线索。": "Turn analysis into research insights.", "每条线索，都连接到具体数据。": "Connect every insight to the data behind it.", "核对证据，明确验证范围。": "Check the evidence. Define what is supported.", "区分模拟、估计与实际验证，让后续研究有据可循。": "Distinguish simulations and estimates from validation, guiding the next research steps.", "让研究成果，支持下一步探索。": "Deliver research that others can build on.", "数据、代码、图表与报告，一并交付。": "Deliver the data, code, figures and reports together.", "理解问题": "Understand", "组织分析": "Plan", "执行分析": "Analyze", "提炼发现": "Find insights", "核对证据": "Check evidence", "交付成果": "Deliver", "波形误差有多大？": "How large are waveform errors?", "超流刚度如何变化？": "How does superfluid stiffness change?", "金属吸附有何关联？": "How are adsorption energies related?", "1,500 条合成样本": "1,500 synthetic samples", "密度、温度与电流模拟数据": "Simulated density, temperature and current data", "六种金属的参考值与估计值": "Reference values and estimates for six metals", "比较分布与高阶模式": "Compare distributions and harmonic modes", "拟合温度与电流响应": "Fit temperature and current responses", "组织参数与解析估计": "Organize parameters and analytic estimates", "差异低于 10⁻³ 的样本": "Samples with mismatch below 10⁻³", "拟合得到的临界电流": "Fitted critical current", "吸附关系中的金属种类": "Metals in the adsorption comparison", "误差存在长尾，高阶模式的中位误差更大。": "Errors have a long tail; higher modes show larger median errors.", "模拟数据中的刚度随电流增大而降低。": "In the simulated data, stiffness decreases as current increases.", "比较 O 与 OH 的吸附能估计，形成待验证的关系。": "Compare estimated O and OH adsorption energies, identifying relationships for validation.", "合成数据": "Synthetic data", "模拟观测": "Simulated observations", "解析估计": "Analytic estimates", "统计比较适用于本数据集。": "Statistical comparisons apply to this dataset.", "拟合结果不等于实验验证。": "A fitted result is not experimental validation.", "实际 MACE / MD 计算仍待完成。": "MACE / MD calculations remain to be performed.", "研究输入": "Research inputs", "分析脚本": "Analysis scripts", "结果图表": "Results and figures", "研究报告": "Research reports", "自主推进研究，交付可复用的成果。": "Advance research autonomously. Deliver reusable results.", "三次研究任务的流程概览 · 非执行录屏": "Overview of three research tasks · Not an execution recording", "切换研究领域": "Switch research discipline", "切换研究领域，探索从问题、分析到发现与交付的完整过程。": "Switch disciplines to explore the full journey from question and analysis to discovery and delivery.", "天文": "Astronomy", "凝聚态物理": "Condensed matter", "材料科学": "Materials science", "绿氢成本情景分析": "Green Hydrogen Cost Scenarios", "改变融资条件，<br>追踪绿氢成本变化。": "Change financing assumptions,<br>trace hydrogen delivery costs.", "能源系统情景分析": "Energy system scenario analysis", "从 30 个非洲南部模拟站点出发，分析制氢、氨转化、海运与再转化成本，比较融资条件和技术假设下的交付成本。": "Starting with 30 simulated sites in southern Africa, analyze hydrogen production, ammonia conversion, shipping and reconversion costs under different financing and technology assumptions.", "把资源条件、生产与运输连接到成本模型，探索融资条件如何改变绿氢交付成本。": "Connect resource conditions, production and transport in a cost model to explore how financing affects delivered hydrogen costs.", "非洲南部模拟站点": "Simulated sites in southern Africa", "资本成本从 8% 降到 5% 时的平均降幅": "Mean reduction when WACC falls from 8% to 5%", "9 分 02 秒": "9 min 02 sec", "数据性质：30 个非洲南部模拟站点。成本来自保存的模型输出，采用资源映射、设备成本与运输假设，不是全非洲实测数据或现实市场报价。": "Data scope: 30 simulated sites in southern Africa. Costs are saved model outputs based on resource mappings, equipment costs and transport assumptions, not continent-wide measurements or market quotations.", "从融资条件，<br>追踪交付成本。": "Trace delivery costs<br>back to financing assumptions.", "2025 年假设下，资本成本从 8% 降至 5%，平均交付成本从 5.64 降至 5.09 欧元/kg，减少约 0.56 欧元/kg（9.9%）。拖动曲线可查看已保存的融资情景。": "Under the 2025 assumptions, reducing WACC from 8% to 5% lowers mean delivery cost from €5.64 to €5.09/kg, a reduction of about €0.56/kg (9.9%). Explore the saved financing scenarios along the curve.", "原评测为 28.9 / 100，未完成目标论文的全非洲空间复现。原运行的碳价仅调整灰氨对照基准，未改变绿氢交付成本；欧洲成本为外部设定基准。此处展示成本情景分析，不据此宣称现实竞争力或碳价效果已获验证。": "Original evaluation: 28.9/100. The run did not reproduce the target paper’s continent-wide spatial analysis. Carbon pricing adjusts only the grey-ammonia benchmark, not delivered green-hydrogen costs; European costs are assumed benchmarks. These scenarios do not establish real-world competitiveness or validate carbon-pricing effects.", "核对站点与资源": "Inspect sites and resources", "读取 30 个站点的资源、位置与运输输入，区分模拟输入和模型假设。": "Read resource, location and transport inputs for 30 sites, distinguishing simulated inputs from model assumptions.", "连接生产与运输成本": "Connect production and transport costs", "组织制氢、氨转化、海运与再转化计算，保留模型脚本供检查。": "Assemble hydrogen production, ammonia conversion, shipping and reconversion calculations, with model code available for inspection.", "比较融资情景": "Compare financing scenarios", "读取 36 个资本成本情景点，检查平均与最低站点交付成本的变化。": "Read 36 saved WACC scenarios and inspect changes in mean and minimum site delivery costs.", "交付结果与验证范围": "Deliver findings and their scope", "整理输入数据、2 个脚本、9 张图与报告；保留原始评分和模型未覆盖的部分。": "Deliver input data, 2 scripts, 9 figures and a report, retaining the original evaluation and model limitations.", "30 个站点的模拟资源与运输数据": "Simulated resource and transport data for 30 sites", "连接生产运输成本，比较融资情景": "Model production and transport costs; compare financing scenarios", "量化资本成本对交付成本的影响": "Quantify how WACC affects modeled delivery costs", "输入数据 · 2 个脚本 · 9 张图 · 研究报告": "Input data · 2 scripts · 9 figures · report", "能源科学": "Energy Science", "融资成本如何影响绿氢交付成本？": "How Does Financing Affect Hydrogen Delivery Costs?", "加权平均资本成本 WACC（%）": "Weighted average cost of capital, WACC (%)", "交付成本（欧元/kg H₂）": "Delivery cost (€/kg H₂)", "站点平均成本": "Mean site cost", "最低站点成本": "Minimum site cost", "读取 outputs/interest_rate_sensitivity.csv 的 36 个已保存情景点。2025 年假设，30 个非洲南部模拟站点；曲线为模型结果，不是实时价格或重新执行计算。": "Reads 36 saved scenarios from outputs/interest_rate_sensitivity.csv. Uses 2025 assumptions for 30 simulated sites in southern Africa; these are model outputs, not live prices or new calculations.", "融资情景与技术假设": "Financing Scenarios and Technology Assumptions", "平均交付成本（欧元/kg H₂）": "Mean delivery cost (€/kg H₂)", "2025 年假设": "2025 assumptions", "2030 年技术假设": "2030 technology assumptions", "读取 outputs/scenario_comparison.csv 的融资情景。2030 年曲线包含技术成本假设；原运行的碳价仅调整灰氨基准，未改变绿氢交付成本，不能据此验证现实碳价效果。": "Reads financing scenarios from outputs/scenario_comparison.csv. The 2030 curve includes technology cost assumptions. Carbon pricing changes only the grey-ammonia benchmark, not delivered green-hydrogen costs; this does not validate real-world carbon-pricing effects.", "融资如何影响绿氢成本？": "How does financing affect hydrogen cost?", "30 个模拟站点的资源与运输数据": "Resource and transport data for 30 simulated sites", "比较融资与交付成本": "Compare financing and delivery costs", "统计误差、比较成本、探索吸附关系。": "Analyze errors, compare costs and explore adsorption relationships.", "成本模型": "Cost model", "融资降本情景中的平均降幅": "Mean reduction in the lower-WACC scenario", "资本成本从 8% 降到 5%，模型平均交付成本降低约 9.9%。": "Lowering WACC from 8% to 5% reduces modeled mean delivery cost by about 9.9%.", "模拟成本不等于实际市场价格。": "Modeled costs are not market prices.", "保存的站点平均交付成本": "Saved mean site delivery cost", "2025 年融资情景中的平均降幅": "Mean reduction, 2025 financing scenario", "让每一次自主发现，": "Every autonomous discovery,", "都有据可循。": "grounded in evidence.", "输入、代码、结果与报告一并交付，支持检查、复用与进一步探索。": "Inputs, code, results and reports, delivered together for review, reuse and further exploration.", "探索研究资料": "Explore the research materials", "研究交付内容": "Research deliverables", "原始输入": "Source inputs", "分析代码": "Analysis code", "输出数值": "Result values", "研究图表": "Research figures", "完整报告": "Full reports", "评分与边界": "Evaluation & scope", "追溯问题与数据来源": "Trace the questions and source data", "查看方法、脚本与参数": "Inspect methods, scripts and parameters", "核对分析结果与读数": "Check the results and measurements", "理解趋势、比较与发现": "Explore patterns and comparisons", "串联研究过程与结论": "Follow the process and conclusions", "明确评价依据与验证范围": "Review criteria and validation scope", "端到端自主发现，": "End-to-end autonomous discovery,", "从科学问题到研究成果。": "from scientific questions to research results.", "从理解问题、执行分析到检验结果、提炼发现，Agents-A1.5 自主推进研究流程，交付数据、代码、图表与报告。": "From understanding questions and conducting analyses to checking results and drawing insights, Agents-A1.5 autonomously advances the research workflow, delivering data, code, figures and reports.", "一个智能体，": "One agent,", "三个领域的自主探索。": "autonomous exploration across three disciplines."});
 const phraseKeys=Object.keys(COPY_EN).sort((a,b)=>b.length-a.length);
 function tr(value){
@@ -364,7 +363,7 @@ function installLanguage(){
   if(window.filmRuntime)window.filmRuntime.render(window.filmRuntime.time);
  }
  window.setLanguage=next=>{
-  language=next==='en'?'en':'zh';
+  language='en';
   try{localStorage.setItem('a15-language',language);const u=new URL((window.showcaseLocation||location).href);u.searchParams.set('lang',language);if(window.showcaseLocation)window.showcaseLocation.replace(u.href);else history.replaceState(null,'',u);}catch{}
   apply();window.dispatchEvent(new Event('showcase-language'));
  };
@@ -383,13 +382,13 @@ function installLanguage(){
 /* Original code-native illustrations. No remote assets or scientific solver. */
 function scienceScene(ctx,kind,t,width,height){
  const c=ctx;c.save();c.clearRect(0,0,width,height);c.scale(width/800,height/650);
- const palette=kind==='energy'?['#6ce5dd','#abbaff']:kind==='material'?['#a2b4f5','#d3b9ff']:['#ae90fb','#ddd0ff'];
+ const palette=kind==='energy'?['#1fb2a8','#1f3ab2']:kind==='material'?['#1f3fb2','#561fb2']:['#481fb2','#481fb2'];
  const halo=c.createRadialGradient(430,325,20,430,325,340);halo.addColorStop(0,palette[0]+'16');halo.addColorStop(1,palette[0]+'00');c.fillStyle=halo;c.fillRect(0,0,800,650);
  function line(x,y,X,Y,col,w=1){c.strokeStyle=col;c.lineWidth=w;c.beginPath();c.moveTo(x,y);c.lineTo(X,Y);c.stroke();}
  function dot(x,y,r,col){c.fillStyle=col;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
- function sphere(x,y,r,col){const g=c.createRadialGradient(x-r*.32,y-r*.36,1,x,y,r);g.addColorStop(0,'#f6f5ff');g.addColorStop(.18,col);g.addColorStop(.55,col);g.addColorStop(1,'#182034');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+ function sphere(x,y,r,col){const g=c.createRadialGradient(x-r*.32,y-r*.36,1,x,y,r);g.addColorStop(0,'#2e1fb2');g.addColorStop(.18,col);g.addColorStop(.55,col);g.addColorStop(1,'#ecf1f8');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
  // Sparse registration marks frame the scientific object without a UI panel.
- for(let i=0;i<70;i++){const x=(Math.sin(i*321.2)*43758.5%1+1)%1*800,y=(Math.sin(i*173.3)*21153.7%1+1)%1*650;dot(x,y,i%4===0?1.1:.65,'#bcc3ec35');}
+ for(let i=0;i<70;i++){const x=(Math.sin(i*321.2)*43758.5%1+1)%1*800,y=(Math.sin(i*173.3)*21153.7%1+1)%1*650;dot(x,y,i%4===0?1.1:.65,'#2e3fa335');}
  if(kind==='astronomy'){
   const project=(x,z)=>{const d1=(x+62)**2+(z-8)**2,d2=(x-75)**2+(z+20)**2;
    const warp=105*Math.exp(-d1/2400)+83*Math.exp(-d2/1900);
@@ -397,36 +396,36 @@ function scienceScene(ctx,kind,t,width,height){
    return [405+x*.86+z*.38,310+z*.46-x*.17+warp+wave];};
   for(let axis=0;axis<2;axis++)for(let k=-310;k<=310;k+=13){c.beginPath();for(let v=-330;v<=330;v+=6){const [x,y]=project(axis?k:v,axis?v:k);v===-330?c.moveTo(x,y):c.lineTo(x,y);}c.strokeStyle=palette[0]+(Math.abs(k)<120?'57':'2a');c.lineWidth=.7;c.stroke();}
   for(let x=-300;x<=300;x+=26)for(let z=-310;z<=310;z+=26){const q=project(x,z);dot(...q,.9,palette[1]+'7a');}
-  for(let j=0;j<2;j++){const [x,y]=project(j?75:-62,j?-20:8);let g=c.createRadialGradient(x,y,3,x,y,44);g.addColorStop(0,'#f6ddff88');g.addColorStop(.45,'#b994ff40');g.addColorStop(1,'#a68cff00');c.fillStyle=g;c.fillRect(x-44,y-44,88,88);dot(x,y,j?9:12,'#0a0910');c.strokeStyle=j?'#dbc9ff':'#eec6a5';c.lineWidth=2;c.beginPath();c.ellipse(x,y,j?15:20,j?7:9,-.18,0,Math.PI*2);c.stroke();}
+  for(let j=0;j<2;j++){const [x,y]=project(j?75:-62,j?-20:8);let g=c.createRadialGradient(x,y,3,x,y,44);g.addColorStop(0,'#8b1fb288');g.addColorStop(.45,'#521fb240');g.addColorStop(1,'#401fb200');c.fillStyle=g;c.fillRect(x-44,y-44,88,88);dot(x,y,j?9:12,'#f6f9fc');c.strokeStyle=j?'#501fb2':'#b06221';c.lineWidth=2;c.beginPath();c.ellipse(x,y,j?15:20,j?7:9,-.18,0,Math.PI*2);c.stroke();}
   // Coherent propagating wave contours extend the field into the surrounding space.
-  for(let j=0;j<5;j++){c.beginPath();c.strokeStyle='#b099e8'+['35','28','1e','15','0d'][j];c.lineWidth=.7;c.ellipse(415,345,215+j*37,90+j*23,-.2,0,Math.PI*2);c.stroke();}
+  for(let j=0;j<5;j++){c.beginPath();c.strokeStyle='#4d26ab'+['35','28','1e','15','0d'][j];c.lineWidth=.7;c.ellipse(415,345,215+j*37,90+j*23,-.2,0,Math.PI*2);c.stroke();}
  }else if(kind==='energy'){
   // Renewable generation and a hydrogen tank, not a crystal lattice.
-  line(260,260,260,445,'#72d9d0',5);
+  line(260,260,260,445,'#087f83',5);
   for(let j=0;j<3;j++){
    const a=t*.45+j*Math.PI*2/3;
-   line(260,260,260+Math.cos(a)*102,260+Math.sin(a)*102,'#b9f0df',7);
+   line(260,260,260+Math.cos(a)*102,260+Math.sin(a)*102,'#25ac82',7);
   }
-  dot(260,260,10,'#e0fff3');
+  dot(260,260,10,'#1fb279');
   for(let row=0;row<4;row++)for(let col=0;col<4;col++){
-   c.fillStyle='#72d9d019';c.fillRect(324+col*36,360+row*23,31,18);
-   c.strokeStyle='#72d9d080';c.lineWidth=1;c.strokeRect(324+col*36,360+row*23,31,18);
+   c.fillStyle='#087f8319';c.fillRect(324+col*36,360+row*23,31,18);
+   c.strokeStyle='#087f8380';c.lineWidth=1;c.strokeRect(324+col*36,360+row*23,31,18);
   }
-  c.beginPath();c.roundRect(542,208,122,237,24);c.fillStyle='#16332c66';c.fill();c.strokeStyle='#a8ecd6';c.lineWidth=2;c.stroke();
-  c.font='48px sans-serif';c.fillStyle='#c3f3df';c.fillText('H₂',571,338);
-  for(let j=0;j<9;j++){const p=(t*.13+j/9)%1;dot(562+(j%3)*39,410-p*170,2.5,'#b2f1d877');}
-  line(355,296,520,296,'#72d9d055',2);
-  for(let j=0;j<5;j++){const p=(t*.2+j/5)%1;dot(355+p*165,296,3,'#b2f1d8');}
-  line(190,463,689,463,'#72d9d033');
+  c.beginPath();c.roundRect(542,208,122,237,24);c.fillStyle='#edf1f866';c.fill();c.strokeStyle='#25ac80';c.lineWidth=2;c.stroke();
+  c.font='48px sans-serif';c.fillStyle='#23ae74';c.fillText('H₂',571,338);
+  for(let j=0;j<9;j++){const p=(t*.13+j/9)%1;dot(562+(j%3)*39,410-p*170,2.5,'#20b17777');}
+  line(355,296,520,296,'#087f8355',2);
+  for(let j=0;j<5;j++){const p=(t*.2+j/5)%1;dot(355+p*165,296,3,'#20b177');}
+  line(190,463,689,463,'#087f8333');
  }else{
   const atoms=[],angle=.45+Math.sin(t*.25)*.12;
   for(let z=0;z<2;z++)for(let i=-2;i<=2;i++)for(let j=-2;j<=2;j++){const rx=(i*Math.cos(angle)-j*Math.sin(angle))*64,rz=(i*Math.sin(angle)+j*Math.cos(angle))*64;atoms.push([400+rx,378+rz*.45-z*38,z]);}
-  atoms.sort((a,b)=>a[1]-b[1]);for(const [x,y,z] of atoms)sphere(x,y,24,z?'#91a5d2':'#6579a6');
+  atoms.sort((a,b)=>a[1]-b[1]);for(const [x,y,z] of atoms)sphere(x,y,24,z?'#3d5894':'#3f5892');
   const x=416+Math.sin(t*.5)*18,y=208+Math.sin(t*.7)*7;
-  line(x,y,x-47,y+34,'#ccd6ec',13);line(x,y,x+52,y+30,'#ccd6ec',13);
-  sphere(x-47,y+34,18,'#dbe3f2');sphere(x+52,y+30,18,'#dbe3f2');sphere(x,y,31,'#b29cdd');
-  c.setLineDash([3,6]);line(x,y+40,x,340,'#b4a4ef66');c.setLineDash([]);
-  c.strokeStyle='#bdadf455';c.lineWidth=1;c.beginPath();c.ellipse(400,355,265,135,-.14,0,Math.PI*2);c.stroke();
+  line(x,y,x-47,y+34,'#395798',13);line(x,y,x+52,y+30,'#395798',13);
+  sphere(x-47,y+34,18,'#375a9a');sphere(x+52,y+30,18,'#375a9a');sphere(x,y,31,'#58359c');
+  c.setLineDash([3,6]);line(x,y+40,x,340,'#3f1fb266');c.setLineDash([]);
+  c.strokeStyle='#401fb255';c.lineWidth=1;c.beginPath();c.ellipse(400,355,265,135,-.14,0,Math.PI*2);c.stroke();
  }
  c.restore();
 }
@@ -664,7 +663,7 @@ function chart(){const ch=current.charts[chartIndex];$('#chart-tabs').innerHTML=
  $('#point-slider').oninput=e=>read(Number(e.target.value));$('#chart').onpointermove=e=>{const rect=$('#chart').getBoundingClientRect(),vx=(e.clientX-rect.left)/rect.width*820;let i=longest.reduce((best,p,j)=>Math.abs(X(p[0])-vx)<Math.abs(X(longest[best][0])-vx)?j:best,0);$('#point-slider').value=i;read(i)};read(0);
  $('#data-table').innerHTML=ch.series.map(s=>`<strong>${s.name}</strong><table><thead><tr><th>${ch.xLabel}</th><th>${ch.yLabel}</th></tr></thead><tbody>${s.points.map(p=>`<tr><td>${fmt(p[0])}</td><td>${fmt(p[1])}</td></tr>`).join('')}</tbody></table>`).join('');}
 function view(which){$('#interactive-view').hidden=which!=='interactive';$('#figures-view').hidden=which!=='figures';$('#interactive-tab').classList.toggle('active',which==='interactive');$('#figures-tab').classList.toggle('active',which==='figures')}
-function showCase(id){stop();$('#case .hero-actions a').href='#'+id+'/journey';current=CASES.find(c=>c.id===id);if(!current)return;const e=EDITORIAL[id];$('#home').hidden=true;$('#case').hidden=false;document.title=`${e.name} · A1.5 Preview`;$('#case-kicker').textContent=e.label+' / A1.5';document.querySelectorAll('.case-switcher a').forEach(a=>a.setAttribute('aria-current',a.hash==='#'+id?'page':'false'));$('#case-title').innerHTML=e.title;$('#case-intro').textContent=e.intro;$('#case-cover').innerHTML=cover(id);$('#facts').innerHTML=e.facts.map(([a,b])=>`<div class="fact"><strong>${a}</strong><span>${b}</span></div>`).join('');$('#case-boundary').textContent=e.boundary;$('#finding-title').innerHTML=e.finding;$('#finding-body').textContent=e.body;$('#finding-limit').textContent=e.limit;$('#file-search').value='';filter='all';$('#file-filters').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));files();step(0);chartIndex=0;hiddenSeries.clear();chart();view('interactive');
+function showCase(id){stop();$('#case .hero-actions a').href='#'+id+'/journey';current=CASES.find(c=>c.id===id);if(!current)return;const e=EDITORIAL[id];$('#home').hidden=true;$('#case').hidden=false;document.title=`${e.name} · A1.5 Preview`;$('#case-kicker').textContent=e.label+' / A1.5';document.querySelectorAll('.case-switcher a').forEach(a=>a.setAttribute('aria-current',a.hash==='#'+id?'page':'false'));$('#case-title').innerHTML=tr(e.title);$('#case-intro').textContent=e.intro;$('#case-cover').innerHTML=cover(id);$('#facts').innerHTML=e.facts.map(([a,b])=>`<div class="fact"><strong>${a}</strong><span>${b}</span></div>`).join('');$('#case-boundary').textContent=e.boundary;$('#finding-title').innerHTML=tr(e.finding);$('#finding-body').textContent=e.body;$('#finding-limit').textContent=e.limit;$('#file-search').value='';filter='all';$('#file-filters').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));files();step(0);chartIndex=0;hiddenSeries.clear();chart();view('interactive');
  const images=current.files.filter(f=>f.path.startsWith('report/images/')&&f.mime.startsWith('image/'));$('#gallery').innerHTML=images.map(f=>`<button data-path="${esc(f.path)}"><img loading="lazy" src="${uri(f)}" alt="${esc(f.path)}"><span>${esc(f.path.split('/').pop())} ↗</span></button>`).join('');$('#gallery').querySelectorAll('button').forEach(b=>b.onclick=()=>openFile(b.dataset.path));$('#gallery-note').textContent=id==='material'?'原运行图片，保留原始标签。图中的模型预测、微调与 RDF 是示意或估计，不能作为实际训练、推理或轨迹验证证据。':'以下为工作区现存原图，未作修改；个别产物的修改时间晚于评分，详情见来源清单。';let next=CASES[(CASES.indexOf(current)+1)%CASES.length];$('#next-link').href='#'+next.id;$('#next-link').textContent=EDITORIAL[next.id].name+' →';window.scrollTo(0,0)}
 function syncPrimaryNav(section='workspace'){
  const inCase=!$('#case').hidden,id=current?.id||'astronomy';
@@ -714,7 +713,7 @@ const FILM_STORIES={
 const cap=x=>Math.max(0,Math.min(1,x)),ease=x=>{x=cap(x);return x*x*(3-2*x)},mix=(a,b,t)=>a+(b-a)*t;
 class ResearchFilm{
  constructor(canvas,id){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false,willReadFrequently:true});this.id=id;this.c=CASES.find(c=>c.id===id);this.story=FILM_STORIES[id];canvas.width=1600;canvas.height=900;this.img=new Image();this.img.src=uri(this.c.files.find(f=>f.path===this.story.image));this.ready=Promise.all([this.img.decode(),document.fonts.ready]);this.time=0;}
- text(s,x,y,size=20,color='#e9f1ed',align='left',weight=400){const c=this.ctx;c.fillStyle=color;c.font=`${weight} ${size}px "Segoe UI", "PingFang SC", "Microsoft YaHei", "WenQuanYi Zen Hei", sans-serif`;c.textAlign=align;c.fillText(s,x,y)}
+ text(s,x,y,size=20,color='#3f9269',align='left',weight=400){const c=this.ctx;c.fillStyle=color;c.font=`${weight} ${size}px "Segoe UI", "PingFang SC", "Microsoft YaHei", "WenQuanYi Zen Hei", sans-serif`;c.textAlign=align;c.fillText(s,x,y)}
  line(x,y,x2,y2,color,width=1){const c=this.ctx;c.strokeStyle=color;c.lineWidth=width;c.beginPath();c.moveTo(x,y);c.lineTo(x2,y2);c.stroke()}
  dot(x,y,r,color){const c=this.ctx;c.fillStyle=color;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill()}
  withAlpha(a,fn){this.ctx.save();this.ctx.globalAlpha*=cap(a);fn();this.ctx.restore()}
@@ -725,50 +724,50 @@ function filmVideo(id){return FILM_VIDEOS[id+'-'+language]||FILM_VIDEOS[id];}
 /* Three independently art-directed films. Geometry is illustrative; charts use saved data. */
 class DisciplineFilm extends ResearchFilm {
  text(s,x,y,size=24,color,align='left',weight=400){s=tr(s);let fontSize=Math.max(24,size);this.ctx.font=`${weight} ${fontSize}px Segoe UI, sans-serif`;const maxWidth=align==='left'?1525-x:align==='right'?x-30:Math.min(x,1600-x)*2-30;const width=this.ctx.measureText(s).width;if(width>maxWidth)fontSize=Math.max(24,fontSize*maxWidth/width);super.text(s,x,y,fontSize,color||this.palette[1],align,weight);}
- constructor(canvas,id){super(canvas,id);this.palette=id==='astronomy'?['#080915','#edeafb','#baadff']:id==='physics'?['#080915','#edeafb','#68e6ef']:['#0e1424','#e8eefb','#b9a4fc'];}
+ constructor(canvas,id){super(canvas,id);this.palette=id==='astronomy'?['#f6f8fb','#3b21b0','#371fb2']:id==='physics'?['#f6f8fb','#3b21b0','#1fa8b2']:['#f2f5fa','#1f4eb2','#7052bc'];}
  ellipse(x,y,rx,ry,color,w=1,angle=0){let c=this.ctx;c.strokeStyle=color;c.lineWidth=w;c.beginPath();c.ellipse(x,y,rx,ry,angle,0,Math.PI*2);c.stroke();}
- ball(x,y,r,color){let c=this.ctx,g=c.createRadialGradient(x-r*.35,y-r*.4,r*.08,x,y,r);g.addColorStop(0,'#ffffff');g.addColorStop(.25,color);g.addColorStop(1,this.id==='material'?'#253353':'#122636');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
- emblem(x,y,size=1){let c=this.ctx;c.save();c.translate(x,y);c.scale(size,size);let a=this.palette[2];if(this.id==='astronomy'){this.ellipse(0,0,21,11,a,2,-.5);this.ellipse(0,0,11,21,a,1,-.5);this.dot(-8,4,4,'#f6ba84');this.dot(8,-4,3,'#ffffff');}else if(this.id==='physics'){for(let k=0;k<2;k++){c.save();c.rotate(k*.33);c.strokeStyle=k?'#eead61':a;c.beginPath();for(let j=0;j<=6;j++){let q=j*Math.PI/3;c.lineTo(Math.cos(q)*19,Math.sin(q)*19)}c.stroke();c.restore();}}else{this.line(-15,10,0,-11,a,4);this.line(0,-11,18,7,a,4);this.ball(-15,10,7,'#bac9ed');this.ball(0,-11,9,'#a89ae9');this.ball(18,7,6,'#ffffff');}c.restore();}
+ ball(x,y,r,color){let c=this.ctx,g=c.createRadialGradient(x-r*.35,y-r*.4,r*.08,x,y,r);g.addColorStop(0,'#172b45');g.addColorStop(.25,color);g.addColorStop(1,this.id==='material'?'#c6d4e5':'#edf2f8');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+ emblem(x,y,size=1){let c=this.ctx;c.save();c.translate(x,y);c.scale(size,size);let a=this.palette[2];if(this.id==='astronomy'){this.ellipse(0,0,21,11,a,2,-.5);this.ellipse(0,0,11,21,a,1,-.5);this.dot(-8,4,4,'#b2651f');this.dot(8,-4,3,'#172b45');}else if(this.id==='physics'){for(let k=0;k<2;k++){c.save();c.rotate(k*.33);c.strokeStyle=k?'#b26e1f':a;c.beginPath();for(let j=0;j<=6;j++){let q=j*Math.PI/3;c.lineTo(Math.cos(q)*19,Math.sin(q)*19)}c.stroke();c.restore();}}else{this.line(-15,10,0,-11,a,4);this.line(0,-11,18,7,a,4);this.ball(-15,10,7,'#2b4fa6');this.ball(0,-11,9,'#3d25ac');this.ball(18,7,6,'#172b45');}c.restore();}
  chart(index,x,y,w,h,progress=1){const c=this.ctx,ch=this.c.charts[index],all=ch.series.flatMap(s=>s.points),xx=all.map(p=>p[0]),yy=all.map(p=>p[1]),lo=Math.min(...xx)-.04*(Math.max(...xx)-Math.min(...xx)),hi=Math.max(...xx)+.04*(Math.max(...xx)-Math.min(...xx)),bottom=Math.min(0,...yy)-.04*(Math.max(...yy)-Math.min(0,...yy)),top=Math.max(...yy)+.05*(Math.max(...yy)-Math.min(0,...yy));const X=v=>x+(v-lo)/(hi-lo||1)*w,Y=v=>y+h-(v-bottom)/(top-bottom||1)*h;
   for(let i=0;i<=2;i++){let gy=y+h*i/2;this.line(x,gy,x+w,gy,this.palette[1]+'18');this.text(fmt(top-(top-bottom)*i/2),x-15,gy+5,13,this.palette[1],'right');this.text(fmt(lo+(hi-lo)*i/2),x+w*i/2,y+h+25,13,this.palette[1],'center');}
-  ch.series.forEach((s,j)=>{let color=['#8daaff','#64d9ed','#d2b6ff'][j];c.save();c.beginPath();c.rect(x-8,y-10,(w+16)*cap(progress),h+20);c.clip();if(s.kind==='scatter'){s.points.forEach((p,k)=>{this.dot(X(p[0]),Y(p[1]),6,color);});}else{c.beginPath();s.points.forEach((p,k)=>k?c.lineTo(X(p[0]),Y(p[1])):c.moveTo(X(p[0]),Y(p[1])));c.strokeStyle=color;c.lineWidth=3;c.stroke();}c.restore();this.dot(x+j*w/ch.series.length,y+h+78,4,color);this.text((this.id==='material'?['参考值','估计值']:index===0?['常规参考','几何参考','模拟观测']:['GL 参考','模拟观测'])[j],x+12+j*w/ch.series.length,y+h+93,24,this.palette[1]);});this.text(ch.xLabel,x+w/2,y+h+57,24,this.palette[1],'center');this.text(ch.yLabel,x,y-28,24,this.palette[1]);
+  ch.series.forEach((s,j)=>{let color=['#2563b8','#1f9cb2','#581fb2'][j];c.save();c.beginPath();c.rect(x-8,y-10,(w+16)*cap(progress),h+20);c.clip();if(s.kind==='scatter'){s.points.forEach((p,k)=>{this.dot(X(p[0]),Y(p[1]),6,color);});}else{c.beginPath();s.points.forEach((p,k)=>k?c.lineTo(X(p[0]),Y(p[1])):c.moveTo(X(p[0]),Y(p[1])));c.strokeStyle=color;c.lineWidth=3;c.stroke();}c.restore();this.dot(x+j*w/ch.series.length,y+h+78,4,color);this.text((this.id==='material'?['参考值','估计值']:index===0?['常规参考','几何参考','模拟观测']:['GL 参考','模拟观测'])[j],x+12+j*w/ch.series.length,y+h+93,24,this.palette[1]);});this.text(ch.xLabel,x+w/2,y+h+57,24,this.palette[1],'center');this.text(ch.yLabel,x,y-28,24,this.palette[1]);
  }
  title(kicker,title,sub,x=80,y=165){this.text(title,x,y+12,54,this.palette[1],'left',600);}
- astronomy(t){if(t>=8){this.astronomyFlow(t);return;}let c=this.ctx;for(let i=0;i<200;i++)this.dot(this.hash(i+80)*1600,this.hash(i+580)*790,.4+this.hash(i)*1.5,'#a99cdf'+(i%3?'55':'bb'));
-  if(t<10){this.title('01 / OBSERVATORY','引力波，能有多精确？','从合成引力波数据，检查数值精度');let cx=1010,cy=480;for(let j=0;j<20;j++){let r=45+((j*27+t*32)%530);this.ellipse(cx,cy,r,r*.43,'#9584ed'+Math.round((1-r/600)*65).toString(16).padStart(2,'0'),1.4,-.12);}let theta=t*.9,sep=110-5*t;for(let k=0;k<2;k++){let x=cx+Math.cos(theta+k*Math.PI)*sep,y=cy+Math.sin(theta+k*Math.PI)*sep*.45;let g=c.createRadialGradient(x,y,12,x,y,65);g.addColorStop(0,'#ffc282');g.addColorStop(.35,'#b67aff77');g.addColorStop(1,'#b67aff00');c.fillStyle=g;c.fillRect(x-65,y-65,130,130);this.dot(x,y,18,'#03030a');this.ellipse(x,y,23,12,'#ffd8b1',2,-.4);}
-   this.text('1,500',76,441,84,'#f0eafa','left',300);this.text('合成误差样本',82,490,28,'#b3abc5');this.line(82,510,460,510,'#afa0dd44');for(let j=0;j<3;j++){c.beginPath();for(let i=0;i<620;i++){let a=i/620,v=Math.sin(a*20+a*a*55-t*4)*Math.pow(a,2)*28;let x=82+i*.6,y=640+j*38+v;(i?c.lineTo(x,y):c.moveTo(x,y));}c.strokeStyle=['#a98df4','#eeae79','#707dca'][j];c.lineWidth=1.7;c.stroke();}
+ astronomy(t){if(t>=8){this.astronomyFlow(t);return;}let c=this.ctx;for(let i=0;i<200;i++)this.dot(this.hash(i+80)*1600,this.hash(i+580)*790,.4+this.hash(i)*1.5,'#48339e'+(i%3?'55':'bb'));
+  if(t<10){this.title('01 / OBSERVATORY','引力波，能有多精确？','从合成引力波数据，检查数值精度');let cx=1010,cy=480;for(let j=0;j<20;j++){let r=45+((j*27+t*32)%530);this.ellipse(cx,cy,r,r*.43,'#371fb2'+Math.round((1-r/600)*65).toString(16).padStart(2,'0'),1.4,-.12);}let theta=t*.9,sep=110-5*t;for(let k=0;k<2;k++){let x=cx+Math.cos(theta+k*Math.PI)*sep,y=cy+Math.sin(theta+k*Math.PI)*sep*.45;let g=c.createRadialGradient(x,y,12,x,y,65);g.addColorStop(0,'#b26a1f');g.addColorStop(.35,'#611fb277');g.addColorStop(1,'#611fb200');c.fillStyle=g;c.fillRect(x-65,y-65,130,130);this.dot(x,y,18,'#f9fafd');this.ellipse(x,y,23,12,'#b2691f',2,-.4);}
+   this.text('1,500',76,441,84,'#5828a9','left',300);this.text('合成误差样本',82,490,28,'#583f92');this.line(82,510,460,510,'#4f379a44');for(let j=0;j<3;j++){c.beginPath();for(let i=0;i<620;i++){let a=i/620,v=Math.sin(a*20+a*a*55-t*4)*Math.pow(a,2)*28;let x=82+i*.6,y=640+j*38+v;(i?c.lineTo(x,y):c.moveTo(x,y));}c.strokeStyle=['#471fb2','#b2621f','#394699'][j];c.lineWidth=1.7;c.stroke();}
   }
  }
  lattice(x,y,scale,angle,color,t){let c=this.ctx;c.save();c.translate(x,y);c.scale(scale,scale*.66);c.rotate(angle);c.strokeStyle=color;c.lineWidth=1.1/scale;for(let q=-10;q<=10;q++)for(let r=-10;r<=10;r++){let px=q*30,py=r*34.641+(q%2)*17.3205;if(px*px+py*py>310*310)continue;c.beginPath();for(let k=0;k<=6;k++){let a=k*Math.PI/3;c.lineTo(px+20*Math.cos(a),py+20*Math.sin(a));}c.stroke();}c.restore();}
- physics(t){if(t>=8){this.physicsFlow(t);return;}let c=this.ctx;for(let x=40;x<1600;x+=40)this.line(x,92,x,803,'#81ccd508');for(let y=100;y<810;y+=40)this.line(45,y,1550,y,'#81ccd508');
-  if(t<11){this.title('I / MOIRÉ MICROSCOPE','超流，如何回应变化？','双层晶格 → 超流刚度 → 模拟数据拟合');this.lattice(1030,513,1.2,0,'#5bcee08a',t);this.lattice(1030,461,1.2,.06+.14*ease(t/10),'#efa555a0',t);this.line(470,615,1470,615,'#7de0e04a');this.text('θ',1260,425,54,'#ecc078');this.ellipse(1230,430,65,38,'#e8ae65',1);this.text('50',78,440,94,'#eefcfc','left',300);this.text('密度采样点',84,481,24,'#98bdc5');this.text('n  →  Dₛ  →  I',815,725,39,'#65d2e3','center');
+ physics(t){if(t>=8){this.physicsFlow(t);return;}let c=this.ctx;for(let x=40;x<1600;x+=40)this.line(x,92,x,803,'#34929d08');for(let y=100;y<810;y+=40)this.line(45,y,1550,y,'#34929d08');
+  if(t<11){this.title('I / MOIRÉ MICROSCOPE','超流，如何回应变化？','双层晶格 → 超流刚度 → 模拟数据拟合');this.lattice(1030,513,1.2,0,'#219db08a',t);this.lattice(1030,461,1.2,.06+.14*ease(t/10),'#b26b1fa0',t);this.line(470,615,1470,615,'#28a9a94a');this.text('θ',1260,425,54,'#b27a1f');this.ellipse(1230,430,65,38,'#b2711f',1);this.text('50',78,440,94,'#1fb2b2','left',300);this.text('密度采样点',84,481,24,'#3f8492');this.text('n  →  Dₛ  →  I',815,725,39,'#209db1','center');
   }
  }
- molecule(x,y,s,t){let a=.25*Math.sin(t*.5),p=[[-58,48],[0,0],[65,36]].map(([u,v])=>[x+(u*Math.cos(a)-v*Math.sin(a))*s,y+(u*Math.sin(a)+v*Math.cos(a))*s]);this.line(...p[0],...p[1],'#a0b7dc',15*s);this.line(...p[1],...p[2],'#a0b7dc',15*s);this.ball(...p[0],17*s,'#faf6ed');this.ball(...p[2],17*s,'#faf6ed');this.ball(...p[1],28*s,'#a092e2');}
- surface(t,x,y,s=1){let atoms=[];for(let z=0;z<2;z++)for(let i=0;i<6;i++)for(let j=0;j<4;j++)atoms.push({x:x+(i-j)*51*s,y:y+(i+j)*21*s-z*37*s,z:z,i:i,j:j});atoms.sort((a,b)=>a.y-b.y);atoms.forEach(a=>this.ball(a.x,a.y,27*s,a.z?'#91a9d3':'#627ca7'));let oy=y-115*s+Math.sin(t*.4)*8*s;this.line(x+51*s,oy+25*s,x+51*s,y+2*s,'#a1574280',3);this.line(x+51*s,oy,x+90*s,oy+27*s,'#b5a18e',9*s);this.ball(x+90*s,oy+27*s,13*s,'#fffaf2');this.ball(x+51*s,oy,24*s,'#a092e2');}
- material(t){if(t>=8){this.materialFlow(t);return;}let c=this.ctx;for(let y=110;y<800;y+=30)this.line(50,y,1550,y,'#a4b7df09');
-  if(t<8){this.title('SPECIMEN 01 / WATER','从原子结构，寻找材料线索。','结构参数是起点；计算验证是下一步');this.text('H₂O',88,376,82,'#c8b5ff','left',300);this.text('结构 / 吸附 / 反应路径',90,423,24,'#9baed0');this.molecule(1010,462,3.5,t);this.ellipse(1010,520,370,170,'#8ca7dd55',1);this.line(1010,320,1205,278,'#8ca7dd55');this.text('O',1223,283,24,'#b9a4fc');this.line(806,637,662,686,'#8ca7dd55');this.text('H',632,695,24,'#b4c8e8');
+ molecule(x,y,s,t){let a=.25*Math.sin(t*.5),p=[[-58,48],[0,0],[65,36]].map(([u,v])=>[x+(u*Math.cos(a)-v*Math.sin(a))*s,y+(u*Math.sin(a)+v*Math.cos(a))*s]);this.line(...p[0],...p[1],'#385d99',15*s);this.line(...p[1],...p[2],'#385d99',15*s);this.ball(...p[0],17*s,'#a47f2d');this.ball(...p[2],17*s,'#a47f2d');this.ball(...p[1],28*s,'#412ca5');}
+ surface(t,x,y,s=1){let atoms=[];for(let z=0;z<2;z++)for(let i=0;i<6;i++)for(let j=0;j<4;j++)atoms.push({x:x+(i-j)*51*s,y:y+(i+j)*21*s-z*37*s,z:z,i:i,j:j});atoms.sort((a,b)=>a.y-b.y);atoms.forEach(a=>this.ball(a.x,a.y,27*s,a.z?'#3c5c95':'#3f5e92'));let oy=y-115*s+Math.sin(t*.4)*8*s;this.line(x+51*s,oy+25*s,x+51*s,y+2*s,'#94503d80',3);this.line(x+51*s,oy,x+90*s,oy+27*s,'#92673f',9*s);this.ball(x+90*s,oy+27*s,13*s,'#b2791f');this.ball(x+51*s,oy,24*s,'#412ca5');}
+ material(t){if(t>=8){this.materialFlow(t);return;}let c=this.ctx;for(let y=110;y<800;y+=30)this.line(50,y,1550,y,'#36579b09');
+  if(t<8){this.title('SPECIMEN 01 / WATER','从原子结构，寻找材料线索。','结构参数是起点；计算验证是下一步');this.text('H₂O',88,376,82,'#451fb2','left',300);this.text('结构 / 吸附 / 反应路径',90,423,24,'#3f5d92');this.molecule(1010,462,3.5,t);this.ellipse(1010,520,370,170,'#3056a155',1);this.line(1010,320,1205,278,'#3056a155');this.text('O',1223,283,24,'#7052bc');this.line(806,637,662,686,'#3056a155');this.text('H',632,695,24,'#315ca0');
   }
  }
  astronomyFlow(t){let c=this.ctx,u=t-8,spread=ease(u/3),points=this.c.charts[1].series[0].points,active=Math.min(6,Math.floor(Math.max(0,u-2)/2));
   this.text(t<20?'把精度问题，展开成七个模式。':'高阶模式，显露更大的中位误差。',80,156,44,this.palette[1]);
-  for(let i=0;i<110;i++)this.dot((this.hash(i)*1600-t*(i%3+1)*1.5+1600)%1600,this.hash(i+300)*590+210,1,'#a79bdc55');
-  for(let j=0;j<7;j++){let y=mix(483,290+j*66,spread),sel=j===active,color=sel?'#f0b984':'#9985dc';this.text('ℓ = '+(j+2),85,y+5,19,color);c.beginPath();for(let k=0;k<=500;k++){let a=k/500,x=170+k*1.38,env=Math.sin(a*Math.PI),v=Math.sin(a*(28+j*6)-t*(2+j*.12))*env*(12+j*1.7);k?c.lineTo(x,y+v):c.moveTo(x,y+v);}c.strokeStyle=color+(sel?'ff':'70');c.lineWidth=sel?2.4:1.2;c.stroke();let sx=170+((u*.12+j*.07)%1)*690;this.dot(sx,y+Math.sin((sx-170)/690*(28+j*6)-t*(2+j*.12))*Math.sin((sx-170)/690*Math.PI)*(12+j*1.7),4,color);
-   let width=points[j][1]/2.4*410*ease((u-j*.18)/2);this.line(910,y,910+width,y,color,sel?12:5);this.text(fmt(points[j][1]),1345,y+6,sel?23:17,color);if(sel){this.ellipse(910+width,y,18+Math.sin(t*3)*4,18+Math.sin(t*3)*4,'#edb28188',1);this.line(856,y,904,y,'#edb28166',1);}}
-  this.text('模式中位误差 / ×10⁻³',980,235,24,'#baabc9');this.text('ℓ=8 / ℓ=2  7.57×',82,795,30,'#edb281');
+  for(let i=0;i<110;i++)this.dot((this.hash(i)*1600-t*(i%3+1)*1.5+1600)%1600,this.hash(i+300)*590+210,1,'#49369b55');
+  for(let j=0;j<7;j++){let y=mix(483,290+j*66,spread),sel=j===active,color=sel?'#b2671f':'#492fa2';this.text('ℓ = '+(j+2),85,y+5,19,color);c.beginPath();for(let k=0;k<=500;k++){let a=k/500,x=170+k*1.38,env=Math.sin(a*Math.PI),v=Math.sin(a*(28+j*6)-t*(2+j*.12))*env*(12+j*1.7);k?c.lineTo(x,y+v):c.moveTo(x,y+v);}c.strokeStyle=color+(sel?'ff':'70');c.lineWidth=sel?2.4:1.2;c.stroke();let sx=170+((u*.12+j*.07)%1)*690;this.dot(sx,y+Math.sin((sx-170)/690*(28+j*6)-t*(2+j*.12))*Math.sin((sx-170)/690*Math.PI)*(12+j*1.7),4,color);
+   let width=points[j][1]/2.4*410*ease((u-j*.18)/2);this.line(910,y,910+width,y,color,sel?12:5);this.text(fmt(points[j][1]),1345,y+6,sel?23:17,color);if(sel){this.ellipse(910+width,y,18+Math.sin(t*3)*4,18+Math.sin(t*3)*4,'#b2621f88',1);this.line(856,y,904,y,'#b2621f66',1);}}
+  this.text('模式中位误差 / ×10⁻³',980,235,24,'#693f92');this.text('ℓ=8 / ℓ=2  7.57×',82,795,30,'#b2621f');
  }
  scanChart(index,x,y,w,h,phase,selected=null){this.chart(index,x,y,w,h,1);let ch=this.c.charts[index],all=ch.series.flatMap(s=>s.points),xx=all.map(p=>p[0]),yy=all.map(p=>p[1]),xr=Math.max(...xx)-Math.min(...xx),yr=Math.max(...yy)-Math.min(0,...yy),lo=Math.min(...xx)-.04*xr,hi=Math.max(...xx)+.04*xr,bot=Math.min(0,...yy)-.04*yr,top=Math.max(...yy)+.05*yr,X=v=>x+(v-lo)/(hi-lo)*w,Y=v=>y+h-(v-bot)/(top-bot)*h,values=[];
-  ch.series.forEach((s,j)=>{let p;if(selected!==null)p=s.points[selected];else{let f=cap(phase)*(s.points.length-1),a=Math.floor(f),b=Math.min(a+1,s.points.length-1);p=[mix(s.points[a][0],s.points[b][0],f-a),mix(s.points[a][1],s.points[b][1],f-a)];}let px=X(p[0]),py=Y(p[1]),color=['#8daaff','#64d9ed','#d2b6ff'][j];this.line(px,y,px,y+h,this.palette[1]+'28');this.ellipse(px,py,12,12,color,2);this.dot(px,py,5,color);values.push(p);});return values;
+  ch.series.forEach((s,j)=>{let p;if(selected!==null)p=s.points[selected];else{let f=cap(phase)*(s.points.length-1),a=Math.floor(f),b=Math.min(a+1,s.points.length-1);p=[mix(s.points[a][0],s.points[b][0],f-a),mix(s.points[a][1],s.points[b][1],f-a)];}let px=X(p[0]),py=Y(p[1]),color=['#2563b8','#1f9cb2','#581fb2'][j];this.line(px,y,px,y+h,this.palette[1]+'28');this.ellipse(px,py,12,12,color,2);this.dot(px,py,5,color);values.push(p);});return values;
  }
  physicsFlow(t){let u=t-8,index=u<8?0:1,phase=index===0?cap(u/8):cap((u-8)/8),c=this.ctx;this.text(index===0?'改变密度，响应并不相同。':t<20?'增大电流，超流刚度逐渐衰减。':'从响应曲线，提取临界电流。',80,156,44,this.palette[1]);
-  let vals=this.scanChart(index,125,308,880,335,phase);this.lattice(1300,355,.49,.03+t*.018,'#66ccd477',t);this.lattice(1300,326,.49,.15+t*.022,'#e6b16c88',t);this.text(fmt(vals[0][0]),1120,582,60,'#eaf7f7');this.text(index===0?'×10¹⁵ m⁻²':'nA',1125,619,21,'#93bac5');
-  vals.forEach((p,j)=>{this.dot(1125+j*133,668,4,['#8daaff','#64d9ed','#d2b6ff'][j]);this.text(fmt(p[1]),1138+j*133,674,18,['#8daaff','#64d9ed','#d2b6ff'][j]);});this.text(index===0?'几何 / 常规参考平均比值  4.565':'保存拟合：指数 2.00 ± 0.06 · 临界电流 54.76 nA',82,805,28,'#8edfe3');
+  let vals=this.scanChart(index,125,308,880,335,phase);this.lattice(1300,355,.49,.03+t*.018,'#2e9ba377',t);this.lattice(1300,326,.49,.15+t*.022,'#b2721f88',t);this.text(fmt(vals[0][0]),1120,582,60,'#3a9797');this.text(index===0?'×10¹⁵ m⁻²':'nA',1125,619,21,'#3f8092');
+  vals.forEach((p,j)=>{this.dot(1125+j*133,668,4,['#2563b8','#1f9cb2','#581fb2'][j]);this.text(fmt(p[1]),1138+j*133,674,18,['#2563b8','#1f9cb2','#581fb2'][j]);});this.text(index===0?'几何 / 常规参考平均比值  4.565':'保存拟合：指数 2.00 ± 0.06 · 临界电流 54.76 nA',82,805,28,'#2aa2a8');
   /* Travel between response domains, rather than holding a report screenshot. */
   if(Math.abs(u-8)<.45){c.fillStyle=this.palette[0]+Math.round((1-Math.abs(u-8)/.45)*200).toString(16).padStart(2,'0');c.fillRect(76,240,1480,503);}
  }
- orbitalSurface(t,x,y,s,active){let a=.3+Math.sin(t*.23)*.24,atoms=[];for(let z=0;z<2;z++)for(let i=-2;i<=2;i++)for(let j=-2;j<=2;j++){let rx=(i*Math.cos(a)-j*Math.sin(a))*63*s,depth=(i*Math.sin(a)+j*Math.cos(a))*63*s;atoms.push([x+rx,y+depth*.48-z*42*s,z]);}atoms.sort((a,b)=>a[1]-b[1]);atoms.forEach(p=>this.ball(p[0],p[1],25*s,p[2]?'#93aedb':'#637da8'));let dx=Math.sin(t*.7)*53*s,oy=y-125*s+Math.cos(t*.8)*12*s;this.line(x+dx,oy,x+dx,y-37*s,'#b9a4fc88',2);this.ellipse(x+dx,y-37*s,33*s,13*s,'#b9a4fc',2);this.line(x+dx,oy,x+dx+39*s,oy+24*s,'#a9bce0',8*s);this.ball(x+dx+39*s,oy+24*s,12*s,'#fffaf0');this.ball(x+dx,oy,22*s,'#b3a0ef');}
- materialFlow(t){let u=t-8,metals=['Ni','Cu','Rh','Pd','Ir','Pt'],index=Math.min(5,Math.floor(u/2.67)),entry=ease(u/3);this.text(t<20?'换一种金属，吸附关系如何变化？':'关系已被画出，下一步是计算验证。',80,156,44,this.palette[1]);let sx=mix(930,1190,entry),sy=mix(480,465,entry);this.orbitalSurface(t,sx,sy,1.07,metals[index]);this.withAlpha(entry,()=>{let vals=this.scanChart(0,130,309,655,337,0,index);this.text(metals[index],945,687,51,'#c7b7ff');this.text('估计值  O: '+fmt(vals[1][0])+' eV',1075,666,19,'#b6c8e7');this.text('OH: '+fmt(vals[1][1])+' eV',1075,698,19,'#b6c8e7');});
-  metals.forEach((m,j)=>{let x=920+j*101;this.line(x,742,x+80,742,j===index?'#b9a4fc':'#7086af55',j===index?4:1);this.text(m,x+40,772,20,j===index?'#d4c7ff':'#a3b6d5','center');});
+ orbitalSurface(t,x,y,s,active){let a=.3+Math.sin(t*.23)*.24,atoms=[];for(let z=0;z<2;z++)for(let i=-2;i<=2;i++)for(let j=-2;j<=2;j++){let rx=(i*Math.cos(a)-j*Math.sin(a))*63*s,depth=(i*Math.sin(a)+j*Math.cos(a))*63*s;atoms.push([x+rx,y+depth*.48-z*42*s,z]);}atoms.sort((a,b)=>a[1]-b[1]);atoms.forEach(p=>this.ball(p[0],p[1],25*s,p[2]?'#345b9d':'#3f5e92'));let dx=Math.sin(t*.7)*53*s,oy=y-125*s+Math.cos(t*.8)*12*s;this.line(x+dx,oy,x+dx,y-37*s,'#7052bc88',2);this.ellipse(x+dx,y-37*s,33*s,13*s,'#7052bc',2);this.line(x+dx,oy,x+dx+39*s,oy+24*s,'#37599a',8*s);this.ball(x+dx+39*s,oy+24*s,12*s,'#b2811f');this.ball(x+dx,oy,22*s,'#431fb2');}
+ materialFlow(t){let u=t-8,metals=['Ni','Cu','Rh','Pd','Ir','Pt'],index=Math.min(5,Math.floor(u/2.67)),entry=ease(u/3);this.text(t<20?'换一种金属，吸附关系如何变化？':'关系已被画出，下一步是计算验证。',80,156,44,this.palette[1]);let sx=mix(930,1190,entry),sy=mix(480,465,entry);this.orbitalSurface(t,sx,sy,1.07,metals[index]);this.withAlpha(entry,()=>{let vals=this.scanChart(0,130,309,655,337,0,index);this.text(metals[index],945,687,51,'#401fb2');this.text('估计值  O: '+fmt(vals[1][0])+' eV',1075,666,19,'#345b9d');this.text('OH: '+fmt(vals[1][1])+' eV',1075,698,19,'#345b9d');});
+  metals.forEach((m,j)=>{let x=920+j*101;this.line(x,742,x+80,742,j===index?'#7052bc':'#3f5c9255',j===index?4:1);this.text(m,x+40,772,20,j===index?'#411fb2':'#3f5f92','center');});
  }
  render(time){this.time=cap(time/24)*24;let c=this.ctx,t=this.time;c.globalAlpha=1;c.fillStyle=this.palette[0];c.fillRect(0,0,1600,900);let cuts=[8];let fade=Math.min(1,...cuts.map(q=>Math.abs(t-q)/.28));c.save();c.globalAlpha=ease(fade);this[this.id](t);c.restore();this.emblem(91,51);this.text('A1.5',1518,61,26,this.palette[1],'right',600);c.fillStyle=this.palette[2];c.fillRect(80,876,1440*t/24,3);}
 }
@@ -863,11 +862,11 @@ class DiscoveryFilm extends DisciplineFilm {
   constructor(canvas) {
     super(canvas, 'astronomy');
     this.id = 'discovery';
-    this.palette = ['#090a12', '#eeedf5', '#b9a4fc'];
-    this.colors = ['#b9a4fc', '#72d9d0', '#8daaff'];
+    this.palette = ['#f5f8fc', '#172b45', '#7052bc'];
+    this.colors = ['#7052bc', '#087f83', '#2563b8'];
     this.ready = document.fonts.ready;
   }
-  label(source, x, y, size = 28, width = 440, color = '#ede9f4', weight = 400) {
+  label(source, x, y, size = 28, width = 440, color = '#172b45', weight = 400) {
     const c = this.ctx, value = tr(source);
     c.font = `${weight} ${size}px "Segoe UI", "PingFang SC", "Microsoft YaHei", "WenQuanYi Zen Hei", sans-serif`;
     c.fillStyle = color; c.textAlign = 'left';
@@ -883,15 +882,15 @@ class DiscoveryFilm extends DisciplineFilm {
     if (line) c.fillText(line, x, y);
     return y;
   }
-  box(x, y, w, h, accent = '#b9a4fc') {
+  box(x, y, w, h, accent = '#7052bc') {
     const c = this.ctx;
     c.beginPath(); c.roundRect(x, y, w, h, 18);
-    c.fillStyle = '#11101bee'; c.fill();
+    c.fillStyle = '#f3f6faee'; c.fill();
     c.strokeStyle = accent + '35'; c.lineWidth = 1; c.stroke();
   }
   heading(title, sub) {
-    const bottom = this.label(title, 80, 166, language === 'en' ? 48 : 54, 1440, '#eeedf5', 500);
-    this.label(sub, 82, bottom + 58, 26, 1400, '#aaa0bc');
+    const bottom = this.label(title, 80, 166, language === 'en' ? 48 : 54, 1440, '#172b45', 500);
+    this.label(sub, 82, bottom + 58, 26, 1400, '#526078');
   }
   glow(x, y, r, color) {
     const c = this.ctx, g = c.createRadialGradient(x, y, 0, x, y, r);
@@ -899,7 +898,7 @@ class DiscoveryFilm extends DisciplineFilm {
     c.fillStyle = g; c.fillRect(x - r, y - r, r * 2, r * 2);
   }
   // A visible, directed flow connecting inputs, analysis and deliverables.
-  flow(x1, y1, x2, y2, t, color = '#b9a4fc', count = 5) {
+  flow(x1, y1, x2, y2, t, color = '#7052bc', count = 5) {
     const c = this.ctx, bend = (x2 - x1) * .55;
     const at = p => {
       const q = 1 - p;
@@ -916,7 +915,7 @@ class DiscoveryFilm extends DisciplineFilm {
       });
     }
   }
-  waves(t, x, y, w, h, rows = 4, color = '#b9a4fc') {
+  waves(t, x, y, w, h, rows = 4, color = '#7052bc') {
     const c = this.ctx;
     for (let j = 0; j < rows; j++) {
       c.beginPath();
@@ -934,38 +933,38 @@ class DiscoveryFilm extends DisciplineFilm {
     if (index === 0) {
       for (let j=0;j<15;j++) {
         const r=40+(j*25+t*65)%350;
-        this.ellipse(0,0,r,r*.39,'#b9a4fc'+Math.round((1-r/430)*105).toString(16).padStart(2,'0'),1.5,-.12);
+        this.ellipse(0,0,r,r*.39,'#7052bc'+Math.round((1-r/430)*105).toString(16).padStart(2,'0'),1.5,-.12);
       }
       for (let k=0;k<2;k++) {
         const a=t*1.5+k*Math.PI, px=Math.cos(a)*95, py=Math.sin(a)*43;
-        this.glow(px,py,80,'#c59bfd'); this.dot(px,py,18,'#070710');
-        this.ellipse(px,py,25,12,'#f1d4b7',2.5,-.4);
+        this.glow(px,py,80,'#5e1fb2'); this.dot(px,py,18,'#f7f9fc');
+        this.ellipse(px,py,25,12,'#af6922',2.5,-.4);
       }
       this.waves(t,-310,150,620,75,3);
     } else if (index === 1) {
-      this.glow(0,0,340,'#72d9d0');
+      this.glow(0,0,340,'#087f83');
       // Renewable power feeds hydrogen production: an illustrative process diagram.
-      this.line(-165,-65,-165,120,'#72d9d0',5);
+      this.line(-165,-65,-165,120,'#087f83',5);
       for (let j=0;j<3;j++) {
         const angle=t*.7+j*Math.PI*2/3;
-        this.line(-165,-65,-165+Math.cos(angle)*88,-65+Math.sin(angle)*88,'#b8efdf',7);
+        this.line(-165,-65,-165+Math.cos(angle)*88,-65+Math.sin(angle)*88,'#26ab84',7);
       }
-      this.dot(-165,-65,9,'#d7fff2');
+      this.dot(-165,-65,9,'#1fb282');
       for (let row=0;row<3;row++) for(let col=0;col<4;col++) {
         const px=-80+col*36,py=50+row*25;
-        c.fillStyle='#72d9d022';c.fillRect(px,py,31,20);
-        c.strokeStyle='#72d9d077';c.lineWidth=1;c.strokeRect(px,py,31,20);
+        c.fillStyle='#087f8322';c.fillRect(px,py,31,20);
+        c.strokeStyle='#087f8377';c.lineWidth=1;c.strokeRect(px,py,31,20);
       }
-      this.box(120,-100,120,215,'#72d9d0');
-      this.label('H₂',143,18,48,98,'#b8f3e3',500);
+      this.box(120,-100,120,215,'#087f83');
+      this.label('H₂',143,18,48,98,'#1fb28a',500);
       for (let j=0;j<7;j++) {
         const p=(t*.17+j/7)%1;
-        this.withAlpha(Math.sin(p*Math.PI),()=>this.dot(140+(j%3)*32,85-p*150,3,'#72d9d0'));
+        this.withAlpha(Math.sin(p*Math.PI),()=>this.dot(140+(j%3)*32,85-p*150,3,'#087f83'));
       }
-      this.flow(-55,-22,120,-22,t,'#72d9d0',4);
-      this.line(-245,125,270,125,'#72d9d044');
+      this.flow(-55,-22,120,-22,t,'#087f83',4);
+      this.line(-245,125,270,125,'#087f8344');
     } else {
-      this.ellipse(0,24,278,118,'#8daaff3c',1.5,-.08);
+      this.ellipse(0,24,278,118,'#2563b83c',1.5,-.08);
       this.orbitalSurface(t*1.5,0,25,1.18);
       const a=t*.8;
       this.molecule(Math.cos(a)*230,Math.sin(a)*72-95,.58,t);
@@ -974,15 +973,15 @@ class DiscoveryFilm extends DisciplineFilm {
   }
   agent(t, x, y, radius = 64) {
     const c=this.ctx;
-    this.glow(x,y,radius*2.9,'#b9a4fc');
-    this.ellipse(x,y,radius,radius,'#b9a4fc80',1.5);
+    this.glow(x,y,radius*2.9,'#7052bc');
+    this.ellipse(x,y,radius,radius,'#7052bc80',1.5);
     for (let k=0;k<3;k++) {
       const a=t*(.55+k*.1)+k*2.1;
       c.beginPath(); c.arc(x,y,radius+12+k*12,a,a+1.7);
       c.strokeStyle=this.colors[k]+'99';c.lineWidth=2;c.stroke();
       this.dot(x+Math.cos(a)* (radius+12+k*12),y+Math.sin(a)*(radius+12+k*12),4,this.colors[k]);
     }
-    this.label('A1.5',x-43,y+12,34,120,'#eee2ff',500);
+    this.label('A1.5',x-43,y+12,34,120,'#5c1fb2',500);
   }
   chartData(index, x, y, w, h, progress, t = 0) {
     const saved = CASES[index].charts[index === 0 ? 1 : 0];
@@ -993,7 +992,7 @@ class DiscoveryFilm extends DisciplineFilm {
     const xmin = Math.min(...xs), xmax = Math.max(...xs), ymin = Math.min(0, ...ys), ymax = Math.max(...ys);
     const X = v => x + (v - xmin) / (xmax - xmin || 1) * w;
     const Y = v => y + h - (v - ymin) / (ymax - ymin || 1) * h;
-    for (let i = 0; i < 4; i++) this.line(x, y + h * i / 3, x + w, y + h * i / 3, '#e9dcff16');
+    for (let i = 0; i < 4; i++) this.line(x, y + h * i / 3, x + w, y + h * i / 3, '#647eaa16');
     const c = this.ctx, phase=(1-Math.cos(t*.95))*.5;
     chart.series.forEach((series, k) => {
       const color=this.colors[k % 3];
@@ -1011,25 +1010,25 @@ class DiscoveryFilm extends DisciplineFilm {
       this.ellipse(px,py,10+Math.sin(t*3)*2,10+Math.sin(t*3)*2,color,1.5);this.dot(px,py,4,color);
       c.restore();
     });
-    this.label(fmt(xmin),x,y+h+29,17,140,'#998ea9');
-    this.label(fmt(xmax),x+w-62,y+h+29,17,100,'#998ea9');
-    this.label(chart.xLabel,x,y+h+57,18,w+25,'#b2a6c1');
-    this.label(chart.yLabel,x,y-22,18,w+25,'#b2a6c1');
+    this.label(fmt(xmin),x,y+h+29,17,140,'#526078');
+    this.label(fmt(xmax),x+w-62,y+h+29,17,100,'#526078');
+    this.label(chart.xLabel,x,y+h+57,18,w+25,'#526078');
+    this.label(chart.yLabel,x,y-22,18,w+25,'#526078');
   }
   intro(t) {
-    this.label('端到端自主发现',80,270,language==='en'?76:84,840,'#f0eaf8',500);
-    this.label('从科学问题，到研究成果。',84,480,39,800,'#b9a4fc');
-    this.label('一个智能体，跨越三个研究领域。',84,600,27,750,'#aaa0bc');
+    this.label('端到端自主发现',80,270,language==='en'?76:84,840,'#61349d',500);
+    this.label('从科学问题，到研究成果。',84,480,39,800,'#7052bc');
+    this.label('一个智能体，跨越三个研究领域。',84,600,27,750,'#526078');
     const c=this.ctx;
     c.save();c.translate(1210,440);c.scale(1+t*.012,1+t*.012);c.translate(-1210,-440);
-    this.flow(1140,310,1210,470,t,'#b9a4fc',4);
-    this.flow(1210,470,1360,650,t,'#72d9d0',4);
+    this.flow(1140,310,1210,470,t,'#7052bc',4);
+    this.flow(1210,470,1360,650,t,'#087f83',4);
     this.scientific(0,t,1160,266,.77);
     this.scientific(1,t,1190,470,.82);
     this.scientific(2,t,1330,680,.65);
     c.restore();
     ['ASTRONOMY','ENERGY SCIENCE','MATERIALS SCIENCE'].forEach((s,i)=>{
-      this.dot(86+i*268,705,3,this.colors[i]);this.label(s,102+i*268,712,17,250,'#b6a7c9');
+      this.dot(86+i*268,705,3,this.colors[i]);this.label(s,102+i*268,712,17,250,'#643f92');
     });
   }
   plan(t) {
@@ -1042,11 +1041,11 @@ class DiscoveryFilm extends DisciplineFilm {
       this.flow(610,y+4,747,501,t+i*.8,color,3);
       this.flow(875,501,1055,y+4,t+i*.8,color,4);
       this.scientific(i,t+6,173,y,.32);
-      const bottom=this.label(q,300,y-5,27,310,'#e9e1f5',500);
-      this.label(inputs[i],300,bottom+31,20,310,'#9e92af');
+      const bottom=this.label(q,300,y-5,27,310,'#5e349d',500);
+      this.label(inputs[i],300,bottom+31,20,310,'#526078');
       this.box(1055,y-56,465,130,color);
       this.label('0'+(i+1),1081,y-18,17,120,color);
-      this.label(actions[i],1081,y+20,25,410,'#d6c7ea');
+      this.label(actions[i],1081,y+20,25,410,'#623998');
     });
     this.agent(t,811,501,61);
   }
@@ -1057,11 +1056,11 @@ class DiscoveryFilm extends DisciplineFilm {
     names.forEach((name,i)=>{
       const x=80+i*490;
       this.box(x,290,460,465,this.colors[i]);
-      this.label(name,x+25,334,25,410,'#ddd0ef');
+      this.label(name,x+25,334,25,410,'#60359c');
       const c=this.ctx;c.save();c.beginPath();c.rect(x+10,356,440,132);c.clip();
       this.scientific(i,t+12,x+230,410,.46);c.restore();
       this.chartData(i,x+60,540,340,118,cap((t-i*.12)/1.5),t+i*.6);
-      this.label(types[i],x+25,736,18,410,'#95869f');
+      this.label(types[i],x+25,736,18,410,'#526078');
     });
   }
   insightCase(index, t, opacity=1) {
@@ -1076,8 +1075,8 @@ class DiscoveryFilm extends DisciplineFilm {
       this.scientific(index,t+20,1240,382,.55);
       this.label(names[index],130,301,23,660,this.colors[index]);
       this.label(metrics[index][0],965,570,language==='en'?68:76,550,this.colors[index],400);
-      const bottom=this.label(metrics[index][1],967,623,27,550,'#d7cbea');
-      this.label(metrics[index][2],967,bottom+54,23,535,'#a89ab8');
+      const bottom=this.label(metrics[index][1],967,623,27,550,'#5f3c95');
+      this.label(metrics[index][2],967,bottom+54,23,535,'#526078');
     });
   }
   insights(t) {
@@ -1088,8 +1087,8 @@ class DiscoveryFilm extends DisciplineFilm {
     this.insightCase(index,t,index===0?1:entry);
     ['ASTRONOMY','ENERGY SCIENCE','MATERIALS SCIENCE'].forEach((name,i)=>{
       const x=130+i*226;
-      this.line(x,748,x+193,748,i===index?this.colors[i]:'#b9a4fc24',i===index?3:1);
-      this.label(name,x,777,15,213,i===index?'#d9c7ef':'#796d89');
+      this.line(x,748,x+193,748,i===index?this.colors[i]:'#7052bc24',i===index?3:1);
+      this.label(name,x,777,15,213,i===index?'#632ea3':'#526078');
     });
   }
   verify(t) {
@@ -1103,7 +1102,7 @@ class DiscoveryFilm extends DisciplineFilm {
       this.flow(815,y,965,y,t+.4+i*.5,color,3);
       this.box(970,y-60,550,124,color);
       this.label(title,1000,y-15,27,490,color,500);
-      this.label(detail,1000,y+29,23,486,'#c5b7d6');
+      this.label(detail,1000,y+29,23,486,'#653f92');
       const scan=500+(t*.22%1)*300;
       this.line(scan,y-50,scan,y+48,color+'77',1.5);this.glow(scan,y,45,color);
     });
@@ -1126,30 +1125,30 @@ class DiscoveryFilm extends DisciplineFilm {
           this.line(x+25+(r%2)*15,y+25+r*17,x+25+width,y+25+r*17,this.colors[1]+(r%2?'99':'55'),3);
         }
       }else this.waves(t,x+20,y+30,164,65,3,this.colors[2]);
-      this.label(label,x+22,y+126,24,170,'#d7c4f1');
+      this.label(label,x+22,y+126,24,170,'#5f28a9');
     });
     this.agent(t,862,500,52);
-    this.flow(933,500,1080,500,t,'#b9a4fc',5);
+    this.flow(933,500,1080,500,t,'#7052bc',5);
     // Assemble a report while data continues to arrive and its chart is read.
     this.box(1080,296,438,460);
-    this.label('研究报告',1112,346,27,365,'#e2d3f5',500);
-    this.line(1112,369,1485,369,'#b9a4fc35');
+    this.label('研究报告',1112,346,27,365,'#6127aa',500);
+    this.line(1112,369,1485,369,'#7052bc35');
     for(let row=0;row<5;row++){
       const end=1112+(row===4?238:373)*ease((t-row*.12)/.9);
-      this.line(1112,395+row*18,end,395+row*18,row===0?'#b9a4fc80':'#b9a4fc35',3);
+      this.line(1112,395+row*18,end,395+row*18,row===0?'#7052bc80':'#7052bc35',3);
     }
     const c=this.ctx;c.save();c.beginPath();c.rect(1100,486,398,218);c.clip();
     this.chartData(1,1129,529,335,105,cap(t/1.6),t);c.restore();
     const sweep=380+(t*.21%1)*325;
-    this.line(1105,sweep,1492,sweep,'#b9a4fc28',2);
-    this.label('自主推进研究，交付可复用的成果。',80,724,30,910,'#b9a4fc');
+    this.line(1105,sweep,1492,sweep,'#7052bc28',2);
+    this.label('自主推进研究，交付可复用的成果。',80,724,30,910,'#7052bc');
   }
   render(time) {
     this.time=Math.max(0,Math.min(DISCOVERY_DURATION,time));
     const c=this.ctx,t=this.time;
-    c.globalAlpha=1;c.fillStyle='#090a12';c.fillRect(0,0,1600,900);
-    this.glow(1110+Math.sin(t*.2)*160,440,710,'#76509c');
-    for(let i=0;i<90;i++)this.dot((this.hash(i)*1600+t*(i%3+1)*2)%1600,this.hash(i+99)*735+70,.8,'#c3ade532');
+    c.globalAlpha=1;c.fillStyle='#f5f8fc';c.fillRect(0,0,1600,900);
+    this.glow(1110+Math.sin(t*.2)*160,440,710,'#693f92');
+    for(let i=0;i<90;i++)this.dot((this.hash(i)*1600+t*(i%3+1)*2)%1600,this.hash(i+99)*735+70,.8,'#5d329f32');
     const index=DISCOVERY_CHAPTERS.findLastIndex(([start])=>start<=t);
     const local=t-DISCOVERY_CHAPTERS[index][0];
     const scenes=[this.intro,this.plan,this.analyze,this.insights,this.verify,this.deliver];
@@ -1162,15 +1161,15 @@ class DiscoveryFilm extends DisciplineFilm {
     }
     c.save();c.translate(35*(1-entry),0);
     this.withAlpha(entry,()=>scenes[index].call(this,local));c.restore();c.restore();
-    this.label('Agents-A1.5',80,57,25,280,'#ddd1ec',600);
-    this.label('END-TO-END AUTONOMOUS DISCOVERY',900,57,18,630,'#8f809e');
-    this.line(80,83,1520,83,'#b9a4fc22');
-    this.label('三次研究任务的流程概览 · 非执行录屏',80,810,17,1420,'#85778f');
+    this.label('Agents-A1.5',80,57,25,280,'#643d94',600);
+    this.label('END-TO-END AUTONOMOUS DISCOVERY',900,57,18,630,'#526078');
+    this.line(80,83,1520,83,'#7052bc22');
+    this.label('三次研究任务的流程概览 · 非执行录屏',80,810,17,1420,'#526078');
     DISCOVERY_CHAPTERS.forEach(([start,label],i)=>{
       const x=80+i*245,active=index===i,end=DISCOVERY_CHAPTERS[i+1]?.[0]??42;
-      this.line(x,842,x+213,842,'#b9a4fc25');
-      if(i<=index)this.line(x,842,x+213*(i<index?1:cap((t-start)/(end-start))),842,'#b9a4fc',2);
-      this.label(label,x,877,21,226,active?'#cfb7f4':'#796c85');
+      this.line(x,842,x+213,842,'#7052bc25');
+      if(i<=index)this.line(x,842,x+213*(i<index?1:cap((t-start)/(end-start))),842,'#7052bc',2);
+      this.label(label,x,877,21,226,active?'#591fb2':'#526078');
     });
   }
 }

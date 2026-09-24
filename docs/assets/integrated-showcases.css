@@ -1,0 +1,263 @@
+/* Shared model-site layout; visualizations keep their own internal scales. */
+html.a15-integrated-showcase {
+  --sans: var(--a15-site-font);
+  --a15-content-width: min(var(--a15-site-width), calc(100% - 32px));
+  scroll-padding-top: 0;
+}
+html.a15-integrated-showcase body {
+  margin: 0;
+  background: #f6f8fb;
+  color: #0f172a;
+  font-family: var(--a15-site-font);
+  line-height: 1.6;
+}
+.a15-demo-context {
+  width: min(var(--a15-site-width), calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-bottom: 1px solid #e2e8f0;
+  font: 13px/1.6 var(--a15-site-font);
+}
+.a15-demo-context, .a15-demo-context * { box-sizing: border-box; }
+.a15-demo-context :is(a, button) { text-decoration: none; letter-spacing: 0; }
+.a15-demo-context .a15-breadcrumb { flex: 1 1 280px; min-width: 0; }
+.a15-demo-context .a15-demo-sections {
+  position: static;
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: 13px/1.6 var(--a15-site-font);
+}
+.a15-demo-context .a15-demo-sections > :is(a, button) { display: inline-flex; align-items: center; margin: 0; flex: none; }
+.a15-demo-context .effects-switch span { display: inline; }
+.a15-demo-context .a15-demo-sections button {
+  font: 600 13px/1.6 var(--a15-site-font);
+  color: #2563eb;
+  background: #fff;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  padding: 6px 11px;
+  min-height: 34px;
+  box-shadow: none;
+}
+.a15-demo-context .a15-demo-sections a { color: #475569; }
+.a15-demo-context .a15-demo-sections a:hover { color: #2563eb; }
+
+/* Align each authored layout to the same 1160 px content column. */
+.a15-integrated-showcase :is(main.shell, main.wrap, main.discovery-page, main#home, main#case, main.home-main),
+.a15-integrated-showcase main > :is(.wrap, .section),
+.a15-integrated-showcase[data-showcase="electrochemistry"] .shell,
+.a15-integrated-showcase[data-showcase="verification"] main > .hero,
+.a15-integrated-showcase[data-showcase="scientific-reasoning"] main > .hero {
+  width: var(--a15-content-width);
+  max-width: none;
+  margin-inline: auto;
+  padding-inline: 0;
+  box-sizing: border-box;
+}
+.a15-integrated-showcase :is(main.shell, main.wrap, main.discovery-page) > .section,
+.a15-integrated-showcase main#home > section,
+.a15-integrated-showcase main#case > section {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+.a15-integrated-showcase main :is(.hero, .home-hero, .discovery-hero, .case-hero) {
+  min-height: 0;
+  height: auto;
+  max-height: none;
+  padding-block: 40px 56px;
+}
+.a15-integrated-showcase main :is(.hero, .home-hero, .discovery-hero, .case-hero) h1,
+.a15-integrated-showcase .lab-intro h1 {
+  color: #0f172a;
+  font: 750 clamp(30px, 2.8vw, 40px)/1.2 var(--a15-site-font);
+  letter-spacing: -.025em;
+  text-wrap: normal;
+}
+.a15-integrated-showcase main :is(.hero, .home-hero, .discovery-hero, .case-hero) h1 em {
+  color: #2563eb;
+  background: none;
+  font-style: normal;
+  -webkit-text-fill-color: currentColor;
+}
+.a15-integrated-showcase :is(.hero-description, .hero-intro, .hero-lead, .hero-copy > .lead) {
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.a15-integrated-showcase .hero > .hero-copy,
+.a15-integrated-showcase .home-hero > .hero-copy { padding-block: 0; }
+.a15-integrated-showcase main > .section,
+.a15-integrated-showcase main.shell > .section,
+.a15-integrated-showcase main.wrap > .section,
+.a15-integrated-showcase .discovery-screen,
+.a15-integrated-showcase main#home > section:not(.home-hero),
+.a15-integrated-showcase main#case > section:not(.case-hero) {
+  padding-block: 44px;
+  scroll-margin-top: 88px;
+}
+.a15-integrated-showcase .discovery-screen { width: 100%; padding-inline: 0; min-height: 0; }
+.a15-integrated-showcase :is(.section-heading, .section-head) h2 {
+  font: 750 clamp(26px, 2.4vw, 34px)/1.25 var(--a15-site-font);
+  letter-spacing: -.025em;
+}
+.a15-integrated-showcase :is(.section-heading, .section-head) h2 em { font-style: normal; }
+.a15-integrated-showcase :is(.section-heading, .section-head) > p { font-size: 14px; line-height: 1.7; color: #475569; }
+.a15-integrated-showcase :is(.hero, .home-hero, .discovery-hero) .eyebrow {
+  font: 750 12px/1.6 var(--a15-site-font);
+  color: #334155;
+  letter-spacing: .04em;
+}
+.a15-integrated-showcase :is(.hero-grid, .hero-glow) { display: none; }
+.a15-integrated-showcase main :is(.hero-actions .button, .hero-button, .hero-cta > .button) { border-radius: 8px; }
+.a15-integrated-showcase[data-showcase="electrochemistry"] main .hero > .shell { padding-block: 0; }
+.a15-integrated-showcase[data-showcase="electrochemistry"] main .hero > .shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.03fr) minmax(0, .97fr);
+  align-items: center;
+  gap: 28px 36px;
+}
+.a15-integrated-showcase[data-showcase="electrochemistry"] .hero-copy { min-width: 0; max-width: none; }
+.a15-integrated-showcase[data-showcase="electrochemistry"] .hero-visual { position: relative; inset: auto; width: 100%; max-width: none; }
+.a15-integrated-showcase[data-showcase="electrochemistry"] .hero-kpis { grid-column: 1 / -1; max-width: none; width: 100%; margin-top: 0; }
+.a15-integrated-showcase[data-showcase="scientific-reasoning"] .orbit-visit { right: 2%; }
+.a15-integrated-showcase[data-showcase="scientific-reasoning"] :is(.orbit-search, .orbit-scholar) { left: 2%; }
+.a15-integrated-showcase[data-showcase="scientific-reasoning"] .orbit-code { right: 2%; }
+.a15-integrated-showcase main.discovery-page { padding-top: 0; }
+.a15-integrated-showcase :is(.hero-finding, .discovery-visual, .hero-stage, .theater, .film-player) { border-radius: 8px; }
+.a15-integrated-showcase .hero-finding h2 { font: 650 clamp(22px, 2vw, 26px)/1.45 var(--a15-site-font); }
+.a15-integrated-showcase .evidence-deck { scroll-margin-top: 116px; }
+.a15-integrated-showcase[data-showcase="local-deployment"] .hero { gap: 36px; }
+.a15-integrated-showcase[data-showcase="local-deployment"] :is(.work-section, .video-section, .privacy-section) { scroll-margin-top: 88px; }
+.a15-integrated-showcase[data-showcase="researchclawbench"] .home-hero { background: transparent; }
+.a15-integrated-showcase[data-showcase="researchclawbench"] .science-field { width: 100%; margin-inline: 0; }
+.a15-integrated-showcase[data-showcase="researchclawbench"] #hero-field { transform: none; }
+.a15-integrated-showcase[data-showcase="researchclawbench"] .case-hero { margin: 0; }
+.a15-integrated-showcase[data-showcase="condensed-matter"] .hero {
+  /* Reserve the recorded 3D stage's space while adopting the site heading scale. */
+  min-height: 570px;
+  padding-block: 32px;
+}
+.a15-integrated-showcase[data-showcase="condensed-matter"] .hero-copy { padding-bottom: 130px; }
+
+/* Case-specific provenance remains available immediately above the common footer. */
+.a15-integrated-showcase .a15-case-notes {
+  display: block;
+  position: static;
+  width: var(--a15-content-width);
+  max-width: none;
+  margin: 24px auto 0;
+  padding: 22px 0;
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+  border-radius: 0;
+  background: transparent;
+  color: #64748b;
+  font: 12px/1.7 var(--a15-site-font);
+  text-align: left;
+}
+.a15-case-notes-inner { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 24px; }
+.a15-case-notes :is(span, p, button, summary, a) { font-family: var(--a15-site-font); letter-spacing: 0; }
+.a15-case-notes :is(button, summary, a) { color: #2563eb; font-size: 12px; }
+.a15-case-notes button { background: transparent; border: 0; padding: 0; cursor: pointer; }
+.a15-case-notes details { max-width: 100%; }
+.a15-case-notes details p { color: #475569; line-height: 1.8; overflow-wrap: anywhere; }
+.a15-case-notes details a { display: inline-block; margin-right: 16px; }
+.a15-case-notes .footer-line { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; width: 100%; margin: 0; padding: 0; border: 0; }
+
+/* A research workspace remains a workspace, nested inside the model site. */
+.a15-lab-layout { width: var(--a15-content-width); margin: 24px auto 40px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: start; }
+.a15-lab-layout .lab-sidebar {
+  position: sticky;
+  inset: 84px auto auto;
+  width: auto;
+  height: auto;
+  min-height: 650px;
+  max-height: calc(100vh - 104px);
+  overflow-y: auto;
+  padding: 20px 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #fff;
+}
+.a15-workspace-back { color: #2563eb; font-size: 12px; font-weight: 600; text-decoration: none; margin-bottom: 24px; }
+.a15-lab-layout .lab-shell { margin: 0; min-width: 0; }
+.a15-lab-layout .lab-header { position: static; width: 100%; height: auto; margin: 0; padding: 0; background: transparent; }
+.a15-lab-layout .lab-header > .site-shell-header-inner { min-height: 48px; width: 100%; margin: 0; padding: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.a15-lab-layout .lab-main { width: 100%; max-width: none; padding: 0; margin: 0; }
+.a15-lab-layout .a15-case-notes { width: 100%; }
+.a15-workspace-status { color: #64748b; font-size: 12px; }
+.a15-integrated-showcase[data-showcase="catalog"] .showcase-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1020px) {
+  .a15-demo-context { align-items: flex-start; }
+  .a15-demo-context .a15-demo-sections { flex: 1 1 100%; }
+  .a15-lab-layout { grid-template-columns: 185px minmax(0, 1fr); gap: 20px; }
+  .a15-integrated-showcase[data-showcase="catalog"] .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .a15-integrated-showcase[data-showcase="electrochemistry"] main .hero > .shell { grid-template-columns: 1fr; }
+  .a15-integrated-showcase[data-showcase="electrochemistry"] .hero-visual { width: min(100%, 540px); margin-inline: auto; }
+}
+@media (max-width: 760px) {
+  html.a15-integrated-showcase { --a15-content-width: calc(100% - 24px); }
+  .a15-demo-context { width: var(--a15-content-width); padding-top: 18px; gap: 12px; }
+  .a15-demo-context .a15-demo-sections { gap: 10px 16px; font-size: 12px; }
+  .a15-demo-context .a15-demo-sections button { font-size: 12px; }
+  .a15-integrated-showcase main :is(.hero, .home-hero, .discovery-hero, .case-hero) { padding-block: 28px 36px; }
+  .a15-integrated-showcase :is(.section, .discovery-screen) { scroll-margin-top: 116px; padding-block: 34px; }
+  .a15-integrated-showcase[data-showcase="condensed-matter"] .hero { min-height: 0; }
+  .a15-integrated-showcase[data-showcase="condensed-matter"] .hero-copy { padding-bottom: 0; }
+  .a15-lab-layout { grid-template-columns: 1fr; }
+  .a15-lab-layout .lab-sidebar { display: none; }
+  .a15-workspace-status { display: none; }
+  .a15-lab-layout .a15-workspace-back { margin: 0; }
+  .a15-integrated-showcase[data-showcase="catalog"] .showcase-grid { grid-template-columns: 1fr; }
+}
+.a15-breadcrumb, .a15-demo-sections {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: #475569;
+}
+.a15-breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #475569;
+  font-weight: 600;
+}
+.a15-breadcrumb svg { width: 16px; height: 16px; }
+.a15-breadcrumb [aria-current] { color: #0f172a; font-weight: 650; }
+.a15-breadcrumb > span[aria-hidden] { color: #94a3b8; }
+.a15-demo-sections { gap: 20px; }
+.a15-demo-sections a { padding-block: 6px; }
+.a15-demo-sections button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #fff;
+  color: #2563eb;
+  font: 600 13px/1.6 var(--a15-site-font);
+  cursor: pointer;
+}
+.a15-demo-context a:hover { color: #2563eb; }
+.a15-demo-context :is(a, button):focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 4px;
+}

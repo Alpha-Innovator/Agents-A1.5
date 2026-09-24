@@ -1,11 +1,11 @@
 <!doctype html>
-<html data-theme="light" lang="zh-CN">
+<html data-theme="light" lang="en" class="a15-integrated-showcase" data-showcase="computational-chemistry">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="Agents-A1.5 驱动 Psi4 完成一次小型分子设计研究：提出吡啶衍生物候选、计算它们与酰胺的氢键结合，并解释原因。">
-<title>Agents-A1.5 · 计算化学展示</title>
+<meta name="description" content="Follow a molecular design study using Psi4 to propose pyridine derivatives, calculate hydrogen-bond binding to an amide and explain the results.">
+<title>Agents-A1.5 · Computational Chemistry</title>
 <style>@font-face {
   font-family: Showcase;
   src: url('assets/fonts/showcase.woff2') format('woff2');
@@ -15,152 +15,115 @@
 </style>
 <link rel="stylesheet" href="assets/css/index-0-bb0da56d112e.css">
 <script>document.documentElement.classList.add('js')</script>
-<style data-showcase-navigation>
-/* Catalog navigation only. No selectors affect the authored case content. */
-.showcase-navigation {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-.showcase-navigation a.showcase-return-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 32px;
-  padding: 5px 11px;
-  box-sizing: border-box;
-  border: 1px solid #b9a4fc50;
-  border-radius: 8px;
-  background: #b9a4fc14;
-  color: #e1d6ff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .18s, border-color .18s;
-}
-.showcase-return-link svg { width: 15px; height: 15px; flex: none; }
-.showcase-navigation a.showcase-return-link:hover { background: #b9a4fc30; border-color: #b9a4fc; }
-.showcase-navigation a.showcase-return-link:focus-visible { outline: 2px solid #c7b2ff; outline-offset: 3px; }
-.lab-sidebar .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 12px; }
-.lab-sidebar .showcase-navigation a.showcase-return-link { color: #514168; border-color: #8771ac60; background: #8771ac12; }
-@media (max-width: 1200px) {
-  .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .showcase-navigation a.showcase-return-link { min-height: 28px; padding: 3px 9px; font-size: 11px; }
-}
-@media (max-width: 700px) {
-  .lab-sidebar .showcase-navigation { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .showcase-navigation a.showcase-return-link { transition: none; }
-}
-
-</style>
-<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-20cff53c4ef8.css">
+<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-5d4f7d0713c2.css">
+<link rel="stylesheet" href="../../assets/website-shell.css?v=integration-2">
+<link rel="stylesheet" href="../../assets/integrated-showcases.css?v=integration-2">
+<link rel="icon" type="image/png" href="../../assets/InternScience_logo.png">
 </head>
 <body class="launch chemistry" id="top">
-<header class="launch-nav site-shell-header" data-site-header=""><div class="site-shell-header-inner">
-  <div class="showcase-navigation"><a class="logo site-brand site-shell-brand" data-showcase-home href="../../index.html" aria-label="返回探索首页"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><a class="showcase-return-link" data-showcase-return href="../../index.html"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4 5 10l6 6M5 10h11"/></svg><span data-showcase-return-label>返回首页</span></a></div>
-  <nav aria-label="页面导航"><a href="#workspace">研究工作区</a><a href="#findings">关键发现</a><button data-open-gallery>原始图表 ↗</button></nav>
-  <div data-language-slot></div>
-</div></header>
+<header class="a15-site-header">
+    <nav class="a15-nav" aria-label="Primary navigation">
+      <div class="a15-nav-links">
+        <a class="a15-nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
+        <a href="../../index.html#capabilities">Capabilities</a>
+        <a href="../../index.html#benchmarks">Benchmarks</a>
+        <a href="../../index.html#demos" aria-current="page" data-site-return>Demos</a>
+        <a href="../../index.html#training">Training</a>
+        <a href="../../index.html#usage">Usage</a>
+        <a href="../../index.html#related-projects">Related Projects</a>
+      </div>
+    </nav>
+  </header><div class="a15-demo-context">
+  <nav class="a15-breadcrumb" aria-label="Breadcrumb"><a href="../../index.html#demos" data-site-return><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 4-6 6 6 6M2 10h16"/></svg>All demos</a><span aria-hidden="true">/</span><span aria-current="page">Computational Chemistry: Molecular Binding</span></nav>
+  <nav aria-label="Computational Chemistry: Molecular Binding sections" class="a15-demo-sections"><a href="#workspace">Research workspace</a><a href="#findings">Key findings</a><button data-open-gallery="">Original figures ↗</button></nav>
+</div>
 <main class="discovery-page">
 
 <section class="discovery-screen discovery-hero" id="story">
  <div class="hero-copy">
-  <div class="eyebrow">自主科研 · 分子设计 · 酰胺 + 吡啶</div>
-  <h1>给分子换一个<br>小零件，<em>它会抓得更紧吗？</em></h1>
-  <p class="hero-context">许多药物靠一个氢键“抓住”靶点。这里用一对小分子模拟这种抓握：蛋白质骨架里的酰胺，和药物中常见的吡啶环。</p>
-  <div class="hero-finding"><span>科学结论</span><h2 data-hero-finding></h2><div class="hero-evidence"><strong>关键结论</strong><p data-hero-result></p><p data-hero-force></p></div></div>
-  <div class="actions"><a class="btn" href="#workspace">进入研究工作区 <span aria-hidden="true">↗</span></a><button class="hero-play" data-play-film><span aria-hidden="true">▶</span> 完整过程演示</button></div>
+  <div class="eyebrow">AUTONOMOUS RESEARCH · MOLECULAR DESIGN · AMIDE + PYRIDINE</div>
+  <h1>Swap one small part<br>of a molecule —<em>does it hold on tighter?</em></h1>
+  <p class="hero-context">Many drugs hold on to their target through a single hydrogen bond. Here a pair of small molecules models that grip: the amide found throughout protein backbones, and the pyridine ring common in drugs.</p>
+  <div class="hero-finding"><span>THE FINDING</span><h2 data-hero-finding></h2><div class="hero-evidence"><strong>KEY CONCLUSIONS</strong><p data-hero-result></p><p data-hero-force></p></div></div>
+  <div class="actions"><a class="btn" href="#workspace">Enter the research workspace <span aria-hidden="true">↗</span></a><button class="hero-play" data-play-film><span aria-hidden="true">▶</span> The full walkthrough</button></div>
  </div>
- <div class="discovery-visual" aria-label="酰胺与吡啶衍生物的氢键复合物，可切换候选并拖动旋转">
-  <div class="visual-heading"><span>ONE HYDROGEN BOND. SEVERAL CANDIDATES.</span><span class="live-dot">点击候选查看结构</span></div>
+ <div class="discovery-visual" aria-label="Hydrogen-bonded complex of the amide and a substituted pyridine; switch candidates and drag to rotate">
+  <div class="visual-heading"><span>ONE HYDROGEN BOND. SEVERAL CANDIDATES.</span><span class="live-dot">Click a candidate</span></div>
   <div class="discovery-orbit orbit-a" aria-hidden="true"></div><div class="discovery-orbit orbit-b" aria-hidden="true"></div>
-  <div class="discovery-molecule"><canvas data-hero-mol aria-label="氢键复合物三维结构，可拖动旋转"></canvas></div>
+  <div class="discovery-molecule"><canvas data-hero-mol aria-label="The hydrogen-bonded complex in 3D; drag to rotate"></canvas></div>
   <div class="signal-labels" data-candidate-chips></div>
-  <div class="axis-callout"><span class="axis-line" aria-hidden="true"></span><div><small>母体吡啶 · 基准结合能</small><strong data-discovery-stat="baseline">—</strong><span>kcal/mol · 数值越负，结合越稳定</span><span class="method-line">结合能：ωB97X-V/def2-TZVPD + CP，几何优化：ωB97X-D/def2-TZVP</span></div></div>
-  <div class="hero-candidate-readout" aria-live="polite"><span>点击左侧候选，查看结构与数值</span></div>
-  <div class="visual-foot"><span>N-甲基乙酰胺 + 吡啶衍生物</span></div>
+  <div class="axis-callout"><span class="axis-line" aria-hidden="true"></span><div><small>Parent pyridine · baseline</small><strong data-discovery-stat="baseline">—</strong><span>kcal/mol · more negative binds more tightly</span><span class="method-line">Association energy: ωB97X-V/def2-TZVPD + CP · Geometry: ωB97X-D/def2-TZVP</span></div></div>
+  <div class="hero-candidate-readout" aria-live="polite"><div><strong>Pyridine</strong><span class=""><b class="motif">N–H···N (ring)</b></span></div><b class="">Baseline</b><button data-hero-locate="parent" aria-label="See in the energy comparison PY">↗</button></div>
+  <div class="visual-foot"><span>N-METHYLACETAMIDE + PYRIDINE DERIVATIVE</span></div>
  </div>
  <div class="research-value-row">
-  <article class="before-research"><span>传统研究</span><h3>研究者逐个搭建与提交</h3><p>挑候选、建结构、写输入、跑计算、整理数据，再逐一比较解释。</p></article>
-  <article class="agent-research"><span>智能体研究 / AGENTS-A1.5</span><h3>给定问题与规范，贯通全流程</h3><p>自己提出候选与预测，写计算脚本，处理失败，并解释结果。</p></article>
-  <article class="research-impact"><span>研究价值</span><h3>从想法到完整计算</h3><p>从一个“换个取代基试试”的想法开始，进行完整的量子化学计算、相互作用能量分解以及化学诠释。</p></article>
+  <article class="before-research"><span>CONVENTIONAL RESEARCH</span><h3>The researcher builds and submits, one by one</h3><p>Pick candidates, build structures, write inputs, run calculations, collect the data, then compare and explain each one.</p></article>
+  <article class="agent-research"><span>AGENT RESEARCH / AGENTS-A1.5</span><h3>Given a question and a protocol, it carries the whole workflow</h3><p>It proposes the candidates and predictions, writes the calculation scripts, handles failures and explains the results.</p></article>
+  <article class="research-impact"><span>WHY IT MATTERS</span><h3>From an idea to a complete calculation</h3><p>From a passing "what if we swapped this substituent?" through a complete quantum-chemistry calculation, an interaction-energy decomposition and a chemical interpretation.</p></article>
  </div>
 </section>
 
 <section class="discovery-screen workspace-screen" id="workspace">
- <div class="discovery-heading"><div><div class="eyebrow">01 / 从问题到执行</div><h2>一个工作区，<br>串起一次分子设计。</h2></div><p>我们只提供问题和经过验证的计算规范。<br>候选分子、计算脚本与解释，都由模型自己完成。</p></div>
+ <div class="discovery-heading"><div><div class="eyebrow">01 / FROM QUESTION TO EXECUTION</div><h2>One workspace,<br>one molecular design study.</h2></div><p>We supply only the question and a tested calculation protocol.<br>The candidates, the scripts and the interpretation are the model's own work.</p></div>
  <div class="research-workbench">
   <aside class="workspace-browser">
-   <div class="workspace-title"><div><span class="eyebrow">研究输入 / TASK FILES</span><h3>模型拿到的全部输入。</h3></div><span class="workspace-count" data-workspace-count></span></div>
+   <div class="workspace-title"><div><span class="eyebrow">RESEARCH INPUT / TASK FILES</span><h3>Everything the model was given.</h3></div><span class="workspace-count" data-workspace-count></span></div>
    <div class="input-scope" data-input-scope></div>
-   <div class="input-toolbar"><input type="search" data-input-search placeholder="搜索文件或内容" aria-label="搜索任务文件"><select data-input-type aria-label="筛选文件类型"><option value="all">全部文件</option><option value="task">任务</option><option value="spec">规范</option></select></div>
-   <div id="workspace-file-list" class="input-tree" aria-label="任务文件目录"></div>
+   <div class="input-toolbar"><input type="search" data-input-search placeholder="Search files or content" aria-label="Search the task files"><select data-input-type aria-label="Filter by file type"><option value="all">All files</option><option value="task">Task</option><option value="spec">Spec</option></select></div>
+   <div id="workspace-file-list" class="input-tree" aria-label="Task file list"></div>
    <div class="input-selection" data-input-selection></div>
-   <button class="workspace-download" data-workspace-download>下载全部任务文件 <span aria-hidden="true">↓</span></button>
+   <button class="workspace-download" data-workspace-download>Download every task file <span aria-hidden="true">↓</span></button>
   </aside>
   <div class="process-player">
-   <div class="workbench-chrome"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>AGENTS-A1.5 · CODEX × PSI4 / RESEARCH IN MOTION</span><button data-play-film>重新播放 ↺</button></div>
-   <div class="inline-film-frame"><canvas id="workflow-preview" aria-label="研究流程演示：从任务到候选、计算与结论"></canvas><button class="preview-replay" data-preview-play aria-label="播放流程演示">▶</button></div>
-   <div class="preview-controls"><button data-preview-toggle aria-label="暂停流程演示">Ⅱ</button><input data-preview-seek type="range" min="0" max="30" step="0.1" value="0" aria-label="流程演示进度"><span data-preview-time>00:00 / 00:30</span></div>
-   <div class="replay-reading"><p class="replay-caption">流程演示由本次运行的产物重建 · 时间已压缩，不是逐条执行录屏</p><button data-research-brief>阅读研究结论 ↗</button></div>
+   <div class="workbench-chrome"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>AGENTS-A1.5 · CODEX × PSI4 / RESEARCH IN MOTION</span><button data-play-film>Replay ↺</button></div>
+   <div class="inline-film-frame"><canvas id="workflow-preview" aria-label="Process walkthrough: from the task to candidates, calculations and the conclusion"></canvas><button class="preview-replay" data-preview-play aria-label="Play the walkthrough">▶</button></div>
+   <div class="preview-controls"><button data-preview-toggle aria-label="Play the walkthrough">Ⅱ</button><input data-preview-seek type="range" min="0" max="30" step="0.1" value="0" aria-label="Walkthrough position"><span data-preview-time>00:00 / 00:30</span></div>
+   <div class="replay-reading"><p class="replay-caption">Rebuilt from this run's own outputs · time-compressed, not a screen recording</p><button data-research-brief>Read the research brief ↗</button></div>
   </div>
  </div>
  <div class="run-stats" data-run-stats></div>
- <div class="workspace-bottom"><span>ASK. PREDICT. CALCULATE. EXPLAIN.</span><p>研究者提出化学问题，智能体连接结构生成、量子化学与分析，让结果回到问题本身。</p></div>
+ <div class="workspace-bottom"><span>ASK. PREDICT. CALCULATE. EXPLAIN.</span><p>The researcher asks a chemical question; the agent connects structure generation, quantum chemistry and analysis, and brings the answer back to the question.</p></div>
 </section>
 
 <section class="discovery-screen findings-screen" id="findings">
- <div class="discovery-heading"><div><div class="eyebrow">02 / 发现了什么</div><h2>哪个改动，<br>让抓握变得更紧？</h2></div><p>主要指标是经过基组重叠校正的缔合能：数值越负，结合得越稳定。<br>每个候选都与母体吡啶、以及计算前写下的预测对照。</p></div>
+ <div class="discovery-heading"><div><div class="eyebrow">02 / WHAT WAS FOUND</div><h2>Which change<br>tightens the grip?</h2></div><p>The main measure is the counterpoise-corrected association energy: the more negative, the more strongly the pair holds together.<br>Every candidate is compared with parent pyridine and with the prediction written before calculating.</p></div>
  <div class="finding-cards" data-finding-cards></div>
  <div class="evidence-deck">
-  <div class="evidence-tabs" role="tablist" aria-label="探索研究证据">
-   <button id="tab-candidates" data-evidence="candidates" role="tab" aria-selected="false" aria-controls="evidence-candidates" tabindex="-1">候选与预测</button>
-   <button id="tab-energies" data-evidence="energies" role="tab" aria-selected="true" aria-controls="evidence-energies" class="active">结合能对比</button>
-   <button id="tab-forces" data-evidence="forces" role="tab" aria-selected="false" aria-controls="evidence-forces" tabindex="-1">四种力的分解</button>
-   <button id="tab-gallery" data-evidence="gallery" role="tab" aria-selected="false" aria-controls="evidence-gallery" tabindex="-1">原始研究图表</button>
-   <button class="evidence-method" data-source>研究说明 ↗</button>
+  <div class="evidence-tabs" role="tablist" aria-label="Explore the evidence">
+   <button id="tab-candidates" data-evidence="candidates" role="tab" aria-selected="false" aria-controls="evidence-candidates" tabindex="-1">Candidates &amp; predictions</button>
+   <button id="tab-energies" data-evidence="energies" role="tab" aria-selected="true" aria-controls="evidence-energies" class="active">Association energies</button>
+   <button id="tab-forces" data-evidence="forces" role="tab" aria-selected="false" aria-controls="evidence-forces" tabindex="-1">The four forces</button>
+   <button id="tab-gallery" data-evidence="gallery" role="tab" aria-selected="false" aria-controls="evidence-gallery" tabindex="-1">Original figures</button>
+   <button class="evidence-method" data-source>About this research ↗</button>
   </div>
   <div id="evidence-candidates" role="tabpanel" aria-labelledby="tab-candidates" class="evidence-pane" hidden><div data-widget="candidates"></div></div>
   <div id="evidence-energies" role="tabpanel" aria-labelledby="tab-energies" class="evidence-pane"><div data-widget="results"></div></div>
   <div id="evidence-forces" role="tabpanel" aria-labelledby="tab-forces" class="evidence-pane" hidden><div data-widget="sapt"></div></div>
   <div id="evidence-gallery" role="tabpanel" aria-labelledby="tab-gallery" class="evidence-pane" hidden><div data-widget="gallery"></div></div>
  </div>
- <div class="launch-end"><div><span>让一个修饰想法，得到可检验的答案。</span><p>从“换个基团会怎样”，走向“哪一种作用力发生了变化、值得继续验证”。这是真空中两个小分子的电子结构计算；是否适用于溶液中的蛋白–配体结合，仍需进一步检验。</p></div><a href="../../index.html">探索更多案例 ↗</a></div>
+ <div class="launch-end"><div><span>Turn an idea for a modification into a testable answer.</span><p>From "what would another group do?" to "which force actually changed, and is it worth testing further?" These are electronic-structure calculations on two small molecules in vacuum; whether they carry over to protein–ligand binding in solution remains to be tested.</p></div><a href="../../index.html">Explore more cases ↗</a></div>
 </section>
 
 </main>
-<footer class="launch-footer site-shell-footer" data-site-footer=""><div class="site-shell-footer-inner"><div class="site-shell-footer-main"><a class="site-shell-brand" data-shell-home href="../../index.html"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><span class="site-shell-case" data-shell-zh="计算化学：分子结合规律" data-shell-en="Computational Chemistry: Molecular Binding">计算化学：分子结合规律</span><button type="button" class="site-shell-top" data-shell-top><span class="" data-shell-zh="返回顶部" data-shell-en="Back to top">返回顶部</span><span aria-hidden="true">↑</span></button></div><div class="site-shell-footer-notes"><span data-release>AGENTS-A1.5 × CODEX × PSI4</span><button data-source>数据与展示来源 ↗</button></div></div></footer>
+<aside class="a15-case-notes" aria-label="Case notes and sources"><div class="a15-case-notes-inner"><span data-release="">AGENTS-A1.5 × CODEX × PSI4</span><button data-source="">Data and presentation sources ↗</button></div></aside><footer class="a15-footer">
+    <div class="a15-footer-inner">
+      <p>Agents-A1.5 is released by Alpha-Innovator. Star the repository, try the model, and report issues through GitHub.</p>
+      <section class="a15-visitor-panel" aria-label="Visitor information">
+        <div class="a15-visitor-copy">
+          <span class="a15-visitor-title">Visitor Map</span>
+          <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
+        </div>
+        <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
+          <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
+          </a>
+        </div>
+      </section>
+    </div>
+  </footer>
 <script src="assets/js/index-1-be44ee5346a2.js"></script>
 <script src="assets/js/index-2-b0e474315b0a.js"></script>
-<script src="assets/js/index-3-1b5e707a0837.js"></script>
-<script>
-/* Preserve each author's language controls and return to the same catalog language. */
-(() => {
-  const links = [...document.querySelectorAll('[data-showcase-home], [data-showcase-return]')];
-  const home = links[0].getAttribute('href').split('?')[0];
-  const label = document.querySelector('[data-showcase-return-label]');
-  const update = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
-    links.forEach(link => {
-      link.setAttribute('href', home + '?lang=' + lang);
-      link.setAttribute('aria-label', lang === 'en' ? 'Back to showcase home' : '返回展示首页');
-    });
-    label.textContent = lang === 'en' ? 'Back to home' : '返回首页';
-  };
-  update();
-  new MutationObserver(update).observe(document.documentElement, {
-    attributes: true, attributeFilter: ['lang']
-  });
-})();
-
-</script>
-<script data-site-shell src="../../assets/site-shell-9143359e441e.js" defer></script></body>
+<script src="assets/js/index-3-2a5f7f81b6b6.js"></script>
+<script data-site-shell src="../../assets/site-shell-705010c24ae4.js" defer></script><script src="../../assets/showcase-navigation.js?v=integration-1" defer></script>
+</body>
 </html>

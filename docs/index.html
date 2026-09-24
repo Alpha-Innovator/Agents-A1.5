@@ -42,50 +42,6 @@
     a { color: inherit; }
     code, pre { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
 
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.32);
-      background: rgba(248, 250, 252, 0.9);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05);
-    }
-    .nav {
-      width: min(var(--maxw), calc(100% - 32px));
-      min-height: 62px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 650;
-    }
-    .nav-links a {
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    .nav-links a:hover { color: var(--blue); }
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 36px;
-      padding: 0 12px;
-      border: 1px solid #1d4ed8;
-      border-radius: 8px;
-      background: #1d4ed8;
-      color: #fff !important;
-    }
-
     .hero {
       width: 100%;
       min-height: min(560px, calc(100vh - 120px));
@@ -652,22 +608,29 @@
     /* Demo showcase cards */
     .demo-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
     }
     .demo-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
       border: 1px solid #dbe3ef;
-      border-radius: 12px;
-      background: #fff;
+      border-radius: 8px;
+      background: var(--panel);
       overflow: hidden;
       text-decoration: none;
       color: inherit;
       transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
     }
     .demo-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       border-color: #94a3b8;
-      box-shadow: 0 18px 38px rgba(15, 23, 42, 0.10);
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+    }
+    .demo-card:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
     }
     .demo-card.coming-soon {
       opacity: 0.6;
@@ -675,47 +638,58 @@
     }
     .demo-cover {
       width: 100%;
-      height: 160px;
-      background: #0f172a;
+      height: 144px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--soft);
+      background: #f8fafc;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
     }
     .demo-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      /* The original artwork reserves its left side for a title. Center the
+         illustration itself in these compact, image-only previews. */
+      width: 236px;
+      height: 144px;
+      max-width: none;
+      flex-shrink: 0;
+      object-fit: contain;
+      transform: translateX(-44px);
     }
     .demo-body {
-      padding: 14px 16px 16px;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 16px;
     }
     .demo-body h3 {
       margin: 0;
       font-size: 17px;
-      line-height: 1.25;
+      line-height: 1.3;
     }
     .demo-body p {
-      margin: 6px 0 0;
-      color: #475569;
+      margin: 8px 0 0;
+      color: var(--muted);
       font-size: 13px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
     .demo-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 10px;
+      margin-top: auto;
+      padding-top: 16px;
     }
     .demo-tag {
       display: inline-flex;
       align-items: center;
       min-height: 24px;
       padding: 0 8px;
-      border: 1px solid rgba(100, 116, 139, 0.2);
-      border-radius: 6px;
-      background: #f8fafc;
-      color: #475569;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background: #f1f5f9;
+      color: var(--muted);
       font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
@@ -799,67 +773,6 @@
     }
 
     /* Footer */
-    .footer {
-      padding: 24px 0 32px;
-      color: #64748b;
-      font-size: 13px;
-      text-align: center;
-      border-top: 1px solid #e2e8f0;
-      background: #fff;
-    }
-    .footer-inner {
-      width: min(var(--maxw), calc(100% - 32px));
-      margin: 0 auto;
-      display: grid;
-      gap: 14px;
-      justify-items: center;
-    }
-    .footer-inner p {
-      margin: 0;
-    }
-    .visitor-panel {
-      width: min(280px, 100%);
-      display: grid;
-      gap: 4px;
-      justify-items: center;
-      padding: 6px 8px;
-      border: 1px solid #dbe3ef;
-      border-radius: 8px;
-      background: #f8fafc;
-    }
-    .visitor-copy {
-      display: grid;
-      gap: 2px;
-    }
-    .visitor-title {
-      color: #0f172a;
-      font-weight: 800;
-    }
-    .visitor-note {
-      color: #64748b;
-      font-size: 10px;
-    }
-    .visitor-embed {
-      width: 100%;
-      min-height: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 3px;
-      border: 1px dashed #cbd5e1;
-      border-radius: 8px;
-      background: #fff;
-    }
-    .visitor-embed img,
-    .visitor-embed iframe {
-      max-width: 180px;
-      border: 0;
-    }
-    .visitor-embed img {
-      height: auto;
-      display: block;
-    }
-
     @keyframes columnRise {
       from { transform: scaleY(0); }
       to { transform: scaleY(1); }
@@ -885,17 +798,6 @@
       .demo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 760px) {
-      .nav {
-        width: min(100% - 20px, var(--maxw));
-        min-height: 56px;
-      }
-      .nav-links {
-        justify-content: flex-start;
-        gap: 8px 12px;
-        padding: 10px 0;
-        font-size: 13px;
-      }
-      .nav-cta { min-height: 32px; padding: 0 10px; }
       .hero { width: 100%; padding: 34px 12px 26px; }
       h1 { font-size: 64px; }
       .hero-copy { font-size: 17px; }
@@ -919,12 +821,13 @@
       .demo-grid { grid-template-columns: 1fr; }
     }
   </style>
+  <link rel="stylesheet" href="./assets/website-shell.css?v=integration-2" />
 </head>
 <body>
-  <header class="site-header">
-    <nav class="nav" aria-label="Primary navigation">
-      <div class="nav-links">
-        <a class="nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
+  <header class="a15-site-header">
+    <nav class="a15-nav" aria-label="Primary navigation">
+      <div class="a15-nav-links">
+        <a class="a15-nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
         <a href="#capabilities">Capabilities</a>
         <a href="#benchmarks">Benchmarks</a>
         <a href="#demos">Demos</a>
@@ -1060,7 +963,7 @@
 
         <h3 class="collection-label">35B Agentic Model Features</h3>
         <div class="demo-grid">
-          <a class="demo-card" href="./showcases/swarm/index.html">
+          <a class="demo-card" id="demo-swarm" href="./showcases/swarm/index.html">
             <div class="demo-cover">
               <img src="./assets/covers/swarm.svg" alt="Agent Swarm" />
             </div>
@@ -1074,7 +977,7 @@
               </div>
             </div>
           </a>
-          <a class="demo-card" href="./showcases/verification/index.html">
+          <a class="demo-card" id="demo-verification" href="./showcases/verification/index.html">
             <div class="demo-cover">
               <img src="./assets/covers/verification.svg" alt="Verification" />
             </div>
@@ -1088,7 +991,7 @@
               </div>
             </div>
           </a>
-          <a class="demo-card" href="./showcases/local-deployment/index.html">
+          <a class="demo-card" id="demo-local-deployment" href="./showcases/local-deployment/index.html">
             <div class="demo-cover">
               <img src="./assets/covers/local-deployment.svg" alt="Local Deployment" />
             </div>
@@ -1102,7 +1005,7 @@
               </div>
             </div>
           </a>
-          <a class="demo-card" href="./showcases/deep-research/index.html">
+          <a class="demo-card" id="demo-deep-research" href="./showcases/deep-research/index.html">
             <div class="demo-cover">
               <img src="./assets/covers/deep-research.svg" alt="Deep Research" />
             </div>
@@ -1120,7 +1023,7 @@
 
         <h3 class="collection-label">Accelerating Scientific Discovery</h3>
         <div class="demo-grid">
-          <a class="demo-card" href="./showcases/scientific-reasoning/index.html">
+          <a class="demo-card" id="demo-scientific-reasoning" href="./showcases/scientific-reasoning/index.html">
             <div class="demo-cover">
               <img src="./assets/covers/scientific-reasoning.svg" alt="Scientific Reasoning" />
             </div>
@@ -1134,7 +1037,7 @@
               </div>
             </div>
           </a>
-          <a class="demo-card" href="./showcases/researchclawbench/index.html">
+          <a class="demo-card" id="demo-researchclawbench" href="./showcases/researchclawbench/index.html">
             <div class="demo-cover">
               <img src="./assets/covers/researchclawbench.svg" alt="ResearchClawBench" />
             </div>
@@ -1148,7 +1051,7 @@
               </div>
             </div>
           </a>
-          <a class="demo-card" href="./01-launch.html">
+          <a class="demo-card" id="demo-neuroscience" href="./01-launch.html">
             <div class="demo-cover">
               <img src="./assets/covers/neuroscience.svg" alt="Neuroscience" />
             </div>
@@ -1162,7 +1065,7 @@
               </div>
             </div>
           </a>
-          <a class="demo-card" href="./showcases/condensed-matter/index.html">
+          <a class="demo-card" id="demo-condensed-matter" href="./showcases/condensed-matter/index.html">
             <div class="demo-cover">
               <img src="./assets/covers/condensed-matter.svg" alt="Condensed Matter Physics" />
             </div>
@@ -1176,7 +1079,7 @@
               </div>
             </div>
           </a>
-          <a class="demo-card" href="./showcases/electrochemistry/index.html">
+          <a class="demo-card" id="demo-electrochemistry" href="./showcases/electrochemistry/index.html">
             <div class="demo-cover">
               <img src="./assets/covers/electrochemistry.svg" alt="Electrochemistry" />
             </div>
@@ -1190,7 +1093,7 @@
               </div>
             </div>
           </a>
-          <a class="demo-card" href="./showcases/computational-chemistry/index.html">
+          <a class="demo-card" id="demo-computational-chemistry" href="./showcases/computational-chemistry/index.html">
             <div class="demo-cover">
               <img src="./assets/covers/computational-chemistry.svg" alt="Computational Chemistry" />
             </div>
@@ -1325,17 +1228,17 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer-inner">
+  <footer class="a15-footer">
+    <div class="a15-footer-inner">
       <p>Agents-A1.5 is released by Alpha-Innovator. Star the repository, try the model, and report issues through GitHub.</p>
-      <section class="visitor-panel" aria-label="Visitor information">
-        <div class="visitor-copy">
-          <span class="visitor-title">Visitor Map</span>
-          <span class="visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
+      <section class="a15-visitor-panel" aria-label="Visitor information">
+        <div class="a15-visitor-copy">
+          <span class="a15-visitor-title">Visitor Map</span>
+          <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
         </div>
-        <div class="visitor-embed" aria-label="MapMyVisitors visitor map">
+        <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
           <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
-            <img src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
+            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
           </a>
         </div>
       </section>
@@ -1462,8 +1365,9 @@
       } else {
         startChart();
       }
-    
+
     })();
   </script>
+<script src="assets/showcase-navigation.js?v=integration-1" defer></script>
 </body>
 </html>

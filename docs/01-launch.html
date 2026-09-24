@@ -1,136 +1,103 @@
 <!doctype html>
-<html data-theme="light" lang="zh-CN"><head>
+<html data-theme="light" lang="en" class="a15-integrated-showcase" data-showcase="neuroscience"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>Agents-A1.5 · 发布会版 · 小鼠全脑编码与解剖分布</title>
+<title>Agents-A1.5 · The neuroscience showcase</title>
 <link rel="stylesheet" href="assets/neuroscience/common.css?v=0.15.0-light">
 <link rel="stylesheet" href="assets/neuroscience/cinema.css?v=0.15.0-light">
 <link rel="stylesheet" href="assets/neuroscience/i18n.css?v=0.15.0-light">
 <link rel="stylesheet" href="assets/neuroscience/research.css?v=0.15.0-light">
 <link rel="stylesheet" href="assets/neuroscience/launch.css?v=0.15.0-light"><link rel="stylesheet" href="assets/brand.css?v=0.15.0-light">
 <script>document.documentElement.classList.add('js')</script>
-<style data-showcase-navigation>
-/* Catalog navigation only. No selectors affect the authored case content. */
-.showcase-navigation {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-.showcase-navigation a.showcase-return-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 32px;
-  padding: 5px 11px;
-  box-sizing: border-box;
-  border: 1px solid #b9a4fc50;
-  border-radius: 8px;
-  background: #b9a4fc14;
-  color: #e1d6ff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .18s, border-color .18s;
-}
-.showcase-return-link svg { width: 15px; height: 15px; flex: none; }
-.showcase-navigation a.showcase-return-link:hover { background: #b9a4fc30; border-color: #b9a4fc; }
-.showcase-navigation a.showcase-return-link:focus-visible { outline: 2px solid #c7b2ff; outline-offset: 3px; }
-.lab-sidebar .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 12px; }
-.lab-sidebar .showcase-navigation a.showcase-return-link { color: #514168; border-color: #8771ac60; background: #8771ac12; }
-@media (max-width: 1200px) {
-  .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .showcase-navigation a.showcase-return-link { min-height: 28px; padding: 3px 9px; font-size: 11px; }
-}
-@media (max-width: 700px) {
-  .lab-sidebar .showcase-navigation { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .showcase-navigation a.showcase-return-link { transition: none; }
-}
-
-</style>
-<link rel="stylesheet" data-site-shell href="assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="assets/themes/light-d6e37e4d8c28.css">
+<link rel="stylesheet" data-site-shell href="assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="assets/themes/light-ecd498207fb6.css">
+<link rel="stylesheet" href="assets/website-shell.css?v=integration-2">
+<link rel="stylesheet" href="assets/integrated-showcases.css?v=integration-2">
+<link rel="icon" type="image/png" href="assets/InternScience_logo.png">
 </head>
 <body class="launch">
-<header class="launch-nav site-shell-header" data-site-header=""><div class="site-shell-header-inner"><div class="showcase-navigation"><a class="logo site-brand site-shell-brand" href="index.html" data-showcase-home aria-label="返回探索首页"><img class="site-shell-mark" src="assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><a class="showcase-return-link" data-showcase-return href="index.html"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4 5 10l6 6M5 10h11"/></svg><span data-showcase-return-label>返回首页</span></a></div><nav><a href="#workspace">研究工作区</a><a href="#brain">关键发现</a><button data-open-gallery>原始图表 ↗</button></nav><div data-language-slot></div></div></header>
+<header class="a15-site-header">
+    <nav class="a15-nav" aria-label="Primary navigation">
+      <div class="a15-nav-links">
+        <a class="a15-nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
+        <a href="index.html#capabilities">Capabilities</a>
+        <a href="index.html#benchmarks">Benchmarks</a>
+        <a href="index.html#demos" aria-current="page" data-site-return>Demos</a>
+        <a href="index.html#training">Training</a>
+        <a href="index.html#usage">Usage</a>
+        <a href="index.html#related-projects">Related Projects</a>
+      </div>
+    </nav>
+  </header><div class="a15-demo-context">
+  <nav class="a15-breadcrumb" aria-label="Breadcrumb"><a href="index.html#demos" data-site-return><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 4-6 6 6 6M2 10h16"/></svg>All demos</a><span aria-hidden="true">/</span><span aria-current="page">Neuroscience: Discovering Brain Mechanisms</span></nav>
+  <nav aria-label="Neuroscience: Discovering Brain Mechanisms sections" class="a15-demo-sections"><a href="#workspace">Workspace</a><a href="#brain">Findings</a><button data-open-gallery="">Original figures ↗</button></nav>
+</div>
 <main class="discovery-page">
 <section class="discovery-screen discovery-hero" id="story">
  <div class="hero-copy">
-  <div class="eyebrow">自主科研 · 小鼠全脑 · V3</div>
-  <h1>小鼠大脑，<br>如何组织<br><em>不同任务信息？</em></h1>
-  <p class="hero-context">看见图案、转轮作答、获得反馈——这些信息在全脑中如何关联？</p>
-  <div class="hero-finding"><span>科学结论</span><h2>小鼠全脑对不同任务信息的编码，<em>呈现与转轮运动相关的共享组织结构。</em></h2><div class="hero-evidence"><strong>关键证据</strong><p data-hero-result></p><p data-hero-movement></p></div></div>
-  <div class="actions"><a class="btn" href="#workspace">进入研究工作区 <span>↗</span></a><button class="hero-play" data-film><span>▶</span> 28 秒，看完整个过程</button></div>
+  <div class="eyebrow">AGENT-LED RESEARCH · MOUSE BRAIN · V3</div>
+  <h1>How does the mouse brain encode <em>different variables within a visual decision-making task?</em></h1>
+  <p class="hero-context">Seeing a pattern, turning a wheel, receiving feedback. How are these signals related across the brain?</p>
+  <div class="hero-finding"><span>SCIENTIFIC CONCLUSION</span><h2>Across the mouse brain, task encoding shows<em>a shared organization associated with wheel movement.</em></h2><div class="hero-evidence"><strong>KEY EVIDENCE</strong><p data-hero-result></p><p data-hero-movement></p></div></div>
+  <div class="actions"><a class="btn" href="#workspace">Enter the research workspace <span>↗</span></a><button class="hero-play" data-film><span>▶</span> The process in 28 seconds</button></div>
  </div>
- <div class="discovery-visual" aria-label="五类信息汇聚为主要协变轴，并映射到小鼠脑区">
-  <div class="visual-heading"><span>FIVE MEASURES. ONE PRINCIPAL AXIS.</span><span class="live-dot">点击脑区探索</span></div>
+ <div class="discovery-visual" aria-label="Five measures share a principal axis, mapped onto mouse brain anatomy">
+  <div class="visual-heading"><span>FIVE MEASURES. ONE PRINCIPAL AXIS.</span><span class="live-dot">Explore a brain region</span></div>
   <div class="discovery-orbit orbit-a"></div><div class="discovery-orbit orbit-b"></div>
   <div class="discovery-atlas" data-hero-atlas="dark"></div>
-  <div class="signal-labels"><span>图案位置</span><span>转轮选择</span><span>结果反馈</span><span>转轮速度</span><span>方向与速度</span></div>
-  <div class="axis-callout"><span class="axis-line"></span><div><small>五类信息的主要协变轴</small><strong data-discovery-stat="pc1">—</strong><span>标准化指标的总方差解释率</span></div></div>
-  <div class="hero-region-readout" aria-live="polite"><span>点击或悬停脑区，查看真实得分</span></div>
-  <div class="visual-foot"><span>201 个小鼠脑区</span><span>IBL / ALLEN ATLAS</span></div>
+  <div class="signal-labels"><span>Visual stimulus</span><span>Wheel choice</span><span>Feedback</span><span>Wheel speed</span><span>Signed velocity</span></div>
+  <div class="axis-callout"><span class="axis-line"></span><div><small>PRINCIPAL AXIS ACROSS FIVE MEASURES</small><strong data-discovery-stat="pc1">—</strong><span>of total variance in standardized measures</span></div></div>
+  <div class="hero-region-readout" aria-live="polite"><div><strong>MOp</strong><span>Primary motor area</span></div><b>PC1 +2.29</b><button data-hero-locate="MOp" aria-label="Explore in the anatomical atlas MOp">↗</button></div>
+  <div class="visual-foot"><span>201 mouse brain regions</span><span>IBL / ALLEN ATLAS</span></div>
  </div>
- <div class="research-value-row"><article class="before-research"><span>传统研究</span><h3>研究者逐步编排工作流</h3><p>整理数据、编写分析、统计检验，再绘制解剖分布。</p></article><article class="agent-research"><span>智能体研究 / AGENTS-A1.5</span><h3>给定目标，衔接全流程</h3><p>在 SeekBrain 工作区中连接数据、工具与分析，交付可查阅的结果。</p></article><article class="research-impact"><span>研究价值</span><h3>为下一步实验，定位线索</h3><p>将已有数据中的统计关系落到具体脑区，为可检验的新假设提供依据。</p></article></div>
+ <div class="research-value-row"><article class="before-research"><span>MANUALLY ORCHESTRATED</span><h3>Researchers assemble each step</h3><p>Prepare data, write analyses, run statistical checks, and map results onto anatomy.</p></article><article class="agent-research"><span>AGENT-LED RESEARCH / AGENTS-A1.5</span><h3>Set the goal. Connect the workflow.</h3><p>Connect data, tools and analysis in SeekBrain to deliver results that can be inspected.</p></article><article class="research-impact"><span>SCIENTIFIC VALUE</span><h3>Locate leads for the next experiment</h3><p>Connect statistical relationships to specific brain regions, providing a basis for testable hypotheses.</p></article></div>
 </section>
 <section class="discovery-screen workspace-screen" id="workspace">
- <div class="discovery-heading"><div><div class="eyebrow">01 / 从问题到执行</div><h2>一个工作区，<br>串起一项研究。</h2></div><p>读数据、写分析、做检验、定位脑区。<br>看智能体如何把研究目标推进成可查阅的结果。</p></div>
+ <div class="discovery-heading"><div><div class="eyebrow">01 / FROM QUESTION TO EXECUTION</div><h2>One workspace.<br>A connected investigation.</h2></div><p>Read data. Write analyses. Test relationships. Map anatomy.<br>See an agent turn a research objective into inspectable results.</p></div>
  <div class="research-workbench">
-  <aside class="workspace-browser"><div class="workspace-title"><div><span class="eyebrow">研究输入 / DATA EXPLORER</span><h3>打开真实数据。</h3></div><span class="workspace-count" data-workspace-count></span></div><div class="input-scope" data-input-scope></div><div class="input-toolbar"><input type="search" data-input-search placeholder="搜索实验室、动物或文件" aria-label="搜索输入文件"><select data-input-type aria-label="筛选文件类型"><option value="all">全部文件</option><option value="CSV">CSV</option><option value="NPY">NPY</option></select></div><div id="workspace-file-list" class="input-tree" aria-label="输入数据目录"></div><div class="input-selection" data-input-selection></div><button class="workspace-download" data-workspace-download>下载全部输入数据 <span>↓</span></button></aside>
+  <aside class="workspace-browser"><div class="workspace-title"><div><span class="eyebrow">RESEARCH INPUTS / DATA EXPLORER</span><h3>Explore the actual inputs.</h3></div><span class="workspace-count" data-workspace-count></span></div><div class="input-scope" data-input-scope></div><div class="input-toolbar"><input type="search" data-input-search placeholder="Search lab, animal or file" aria-label="Search input files"><select data-input-type aria-label="Filter file type"><option value="all">All files</option><option value="CSV">CSV</option><option value="NPY">NPY</option></select></div><div id="workspace-file-list" class="input-tree" aria-label="Input data directory"></div><div class="input-selection" data-input-selection></div><button class="workspace-download" data-workspace-download>Download all input data <span>↓</span></button></aside>
   <div class="process-player">
-   <div class="workbench-chrome"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>AGENTS-A1.5 · V3 / RESEARCH IN MOTION</span><button data-film>全屏播放 ↗</button></div>
-   <div class="inline-film-frame"><canvas id="workflow-preview" aria-label="研究流程演示：从工作区到统计发现与脑区定位"></canvas><button class="preview-replay" data-preview-play aria-label="播放流程演示">▶</button></div>
-   <div class="preview-controls"><button data-preview-toggle aria-label="暂停流程演示">Ⅱ</button><input data-preview-seek type="range" min="0" max="28" step="0.1" value="0" aria-label="流程演示进度"><span data-preview-time>00:00 / 00:28</span><button data-film>声音 / 全屏 ↗</button></div>
-   <div class="replay-reading"><p class="replay-caption">真实产物驱动的流程演示 · 研究问题为任务摘要，非逐条执行录屏</p><button data-research-brief>阅读研究结论 ↗</button></div>
+   <div class="workbench-chrome"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>AGENTS-A1.5 · V3 / RESEARCH IN MOTION</span><button data-film>Full screen ↗</button></div>
+   <div class="inline-film-frame"><canvas id="workflow-preview" aria-label="How does the mouse brain encode different variables within a visual decision-making task? How are stimulus, choice and feedback related across the brain?"></canvas><button class="preview-replay" data-preview-play aria-label="Play the workflow film">▶</button></div>
+   <div class="preview-controls"><button data-preview-toggle aria-label="Play the workflow film">Ⅱ</button><input data-preview-seek type="range" min="0" max="28" step="0.1" value="0" aria-label="Workflow film progress"><span data-preview-time>00:00 / 00:28</span><button data-film>Sound / Full screen ↗</button></div>
+   <div class="replay-reading"><p class="replay-caption">Workflow reconstruction from real artifacts · The question is a task summary, not an execution transcript</p><button data-research-brief>Read the research brief ↗</button></div>
   </div>
 
  </div>
- <div class="workspace-bottom"><span>SEEK BRAIN. FIND CONNECTIONS.</span><p>研究者提出问题，智能体连接工具与数据，让结果回到科学问题本身。</p></div>
+ <div class="workspace-bottom"><span>SEEK BRAIN. FIND CONNECTIONS.</span><p>A researcher sets the objective. The agent connects tools and data to address the scientific question.</p></div>
 </section>
 <section class="discovery-screen findings-screen" id="brain">
- <div class="discovery-heading"><div><div class="eyebrow">02 / 发现了什么</div><h2>不同信息，<br>沿着同一条主轴变化。</h2></div><p>五类任务与运动指标在脑区间呈现协同变化，提示它们具有共享的组织规律。这条统计主轴与转轮运动相关。</p></div>
- <div class="finding-cards"><button class="finding-card active" data-evidence="atlas" aria-pressed="true"><span>01 / 看见组织规律</span><strong><b data-discovery-stat="pc1">—</b><small>的总方差</small></strong><p>一条主轴，概括五类指标的协同变化。</p></button><button class="finding-card" data-evidence="relationships" aria-pressed="false"><span>02 / 联系到行为</span><strong><b data-discovery-stat="choice">—</b><small>的选择指标差异</small></strong><p>可由两类转轮运动指标在线性模型中解释。</p></button><button class="finding-card" data-evidence="gallery" aria-pressed="false"><span>03 / 让发现可追溯</span><strong><b>201</b><small>个脑区 · 11 张图表</small></strong><p>统计关系、解剖位置与原始产物互相连接。</p></button></div>
- <div class="evidence-deck"><div class="evidence-tabs" role="tablist" aria-label="探索研究证据"><button id="tab-atlas" data-evidence="atlas" role="tab" aria-selected="true" aria-controls="evidence-atlas" class="active">脑区解剖定位</button><button id="tab-relationships" data-evidence="relationships" role="tab" aria-selected="false" aria-controls="evidence-relationships" tabindex="-1">五类信息的关系</button><button id="tab-gallery" data-evidence="gallery" role="tab" aria-selected="false" aria-controls="evidence-gallery" tabindex="-1">原始研究图表</button><button class="evidence-method" data-source>研究说明 ↗</button></div>
+ <div class="discovery-heading"><div><div class="eyebrow">02 / THE FINDING</div><h2>Different information.<br>A shared axis of variation.</h2></div><p>Five task and movement measures covary across regions, suggesting shared organization. This statistical axis is associated with wheel movement.</p></div>
+ <div class="finding-cards"><button class="finding-card active" data-evidence="atlas" aria-pressed="true"><span>01 / REVEAL SHARED ORGANIZATION</span><strong><b data-discovery-stat="pc1">—</b><small>of total variance</small></strong><p>One principal axis summarizes covariation across five measures.</p></button><button class="finding-card" data-evidence="relationships" aria-pressed="false"><span>02 / CONNECT WITH BEHAVIOR</span><strong><b data-discovery-stat="choice">—</b><small>of regional choice variation</small></strong><p>Explained by two wheel-movement measures in a linear model.</p></button><button class="finding-card" data-evidence="gallery" aria-pressed="false"><span>03 / MAKE FINDINGS TRACEABLE</span><strong><b>201</b><small>regions · 11 original figures</small></strong><p>Connect statistical relationships, anatomy and original outputs.</p></button></div>
+ <div class="evidence-deck"><div class="evidence-tabs" role="tablist" aria-label="Explore the research evidence"><button id="tab-atlas" data-evidence="atlas" role="tab" aria-selected="true" aria-controls="evidence-atlas" class="active">Regional anatomy</button><button id="tab-relationships" data-evidence="relationships" role="tab" aria-selected="false" aria-controls="evidence-relationships" tabindex="-1">Relationships</button><button id="tab-gallery" data-evidence="gallery" role="tab" aria-selected="false" aria-controls="evidence-gallery" tabindex="-1">Original figures</button><button class="evidence-method" data-source>Research notes ↗</button></div>
   <div id="evidence-atlas" role="tabpanel" aria-labelledby="tab-atlas" class="evidence-pane"><div data-widget="atlas"></div></div>
   <div id="evidence-relationships" role="tabpanel" aria-labelledby="tab-relationships" class="evidence-pane" hidden><div class="evidence-grid" data-association><div data-widget="matrix"></div><div data-widget="scatter"></div></div></div>
   <div id="evidence-gallery" role="tabpanel" aria-labelledby="tab-gallery" class="evidence-pane" hidden><div data-widget="gallery"></div></div>
  </div>
- <div class="launch-end"><div><span>让已有数据，产生下一步研究的线索。</span><p>从“哪些指标相关”，走向“哪些脑区值得进一步研究”。这是一次已有数据的自主再分析；区域统计关联仍需后续实验检验。</p></div><a href="index.html">探索更多案例 ↗</a></div>
+ <div class="launch-end"><div><span>Existing data. Leads for the next investigation.</span><p>Move from correlated measures to regions worth investigating. This agent-led reanalysis of existing data identifies regional associations for future experimental testing.</p></div><a href="index.html">Explore more showcases ↗</a></div>
 </section>
-</main><footer class="launch-footer site-shell-footer" data-site-footer=""><div class="site-shell-footer-inner"><div class="site-shell-footer-main"><a class="site-shell-brand" data-shell-home href="index.html"><img class="site-shell-mark" src="assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><span class="site-shell-case" data-shell-zh="神经科学：脑机理发现" data-shell-en="Neuroscience: Discovering Brain Mechanisms">神经科学：脑机理发现</span><button type="button" class="site-shell-top" data-shell-top><span class="" data-shell-zh="返回顶部" data-shell-en="Back to top">返回顶部</span><span aria-hidden="true">↑</span></button></div><div class="site-shell-footer-notes"><span>AGENTS-A1.5 · V3 × SEEKBRAIN · v0.15.0-light</span><button data-source>数据与展示来源 ↗</button></div></div></footer>
+</main><aside class="a15-case-notes" aria-label="Case notes and sources"><div class="a15-case-notes-inner"><span>AGENTS-A1.5 · V3 × SEEKBRAIN · v0.15.0-light</span><button data-source="">Data &amp; presentation sources ↗</button></div></aside><footer class="a15-footer">
+    <div class="a15-footer-inner">
+      <p>Agents-A1.5 is released by Alpha-Innovator. Star the repository, try the model, and report issues through GitHub.</p>
+      <section class="a15-visitor-panel" aria-label="Visitor information">
+        <div class="a15-visitor-copy">
+          <span class="a15-visitor-title">Visitor Map</span>
+          <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
+        </div>
+        <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
+          <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
+          </a>
+        </div>
+      </section>
+    </div>
+  </footer>
 <script src="assets/neuroscience/launch-payload.js?v=0.15.0-light" defer></script>
-<script src="assets/neuroscience/i18n.js?v=0.15.0-light" defer></script>
+<script src="assets/neuroscience/i18n.js?v=visual-decision-title-1" defer></script>
 <script src="assets/neuroscience/common.js?v=0.15.0-light" defer></script>
-<script src="assets/neuroscience/cinema.js?v=0.15.0-light" defer></script>
-<script src="assets/neuroscience/launch.js?v=0.15.0-light" defer></script>
+<script src="assets/neuroscience/cinema.js?v=visual-decision-title-1" defer></script>
+<script src="assets/neuroscience/launch.js?v=visual-decision-title-1" defer></script>
 <script src="assets/neuroscience/boot.js?v=0.15.0-light" defer></script>
-<script>
-/* Preserve each author's language controls and return to the same catalog language. */
-(() => {
-  const links = [...document.querySelectorAll('[data-showcase-home], [data-showcase-return]')];
-  const home = links[0].getAttribute('href').split('?')[0];
-  const label = document.querySelector('[data-showcase-return-label]');
-  const update = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
-    links.forEach(link => {
-      link.setAttribute('href', home + '?lang=' + lang);
-      link.setAttribute('aria-label', lang === 'en' ? 'Back to showcase home' : '返回展示首页');
-    });
-    label.textContent = lang === 'en' ? 'Back to home' : '返回首页';
-  };
-  update();
-  new MutationObserver(update).observe(document.documentElement, {
-    attributes: true, attributeFilter: ['lang']
-  });
-})();
-
-</script>
-<script data-site-shell src="assets/site-shell-9143359e441e.js" defer></script></body>
+<script data-site-shell src="assets/site-shell-705010c24ae4.js" defer></script><script src="assets/showcase-navigation.js?v=integration-1" defer></script>
+</body>
 
 </html>

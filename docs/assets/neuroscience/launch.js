@@ -67,7 +67,7 @@ function openResearchBrief(){
   document.body.insertAdjacentHTML('beforeend',`<dialog id="research-brief" aria-labelledby="brief-title" data-no-translate>
    <div class="dialog-head"><strong>${EN?'Research brief':'研究结论摘要'}</strong><button class="close-btn" data-close aria-label="${EN?'Close':'关闭'}">×</button></div>
    <article class="brief-body"><div class="eyebrow">AGENTS-A1.5 × SEEKBRAIN</div>
-    <p class="brief-question">${EN?'How does the mouse brain organize different task information?':'小鼠大脑，如何组织不同任务信息？'}</p>
+    <p class="brief-question">${EN?'How does the mouse brain encode different variables within a visual decision-making task?':'小鼠大脑，如何组织不同任务信息？'}</p>
     <h2 id="brief-title">${EN?'A shared regional coding structure, associated with movement.':'<span>不同任务信息，</span><br><span>呈现与运动相关的</span><wbr><span>共享编码结构。</span>'}</h2>
     <p class="brief-answer">${EN?'Across 201 mouse brain regions, measures of stimulus, choice, feedback and wheel movement covary. After adjustment for movement, the three task measures retain distinct regional residual distributions.':'在 201 个小鼠脑区中，刺激、选择、反馈与转轮运动指标协同变化。考虑运动因素后，三类任务指标仍呈现不同的区域残差分布。'}</p>
     <div class="brief-evidence"><div><b>${axis}%</b><span>${EN?'of total variance captured by the main axis':'一条主轴概括的指标总方差'}</span></div><div><b>${movement}%</b><span>${EN?'choice-measure variance explained by movement':'运动模型解释的选择指标差异'}</span></div><div><b>H / I / J</b><span>${EN?'three residual maps, localized in anatomy':'三类残差分布，定位到解剖脑区'}</span></div></div>

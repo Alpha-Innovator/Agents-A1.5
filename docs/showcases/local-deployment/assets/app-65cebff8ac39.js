@@ -12,12 +12,7 @@
     duration = 30,
     stepLength = (tAnswer - tStart) / E.steps.length;
   const state = {
-    lang:
-      new URLSearchParams((window.showcaseLocation || location).search).get(
-        "lang",
-      ) === "en"
-        ? "en"
-        : "zh",
+    lang: "en",
     hardware: "nvidia",
     setup: "runtime",
     runtime: "sglang",
@@ -513,9 +508,9 @@
       "</div>";
     html +=
       "<h4>" +
-      escape(tr("originalQuestion")) +
+      escape("Question (English translation)") +
       "</h4><pre>" +
-      escape(E.question) +
+      escape("In the official Java SE 17 API documentation, how many static methods does java.util.Objects declare?") +
       "</pre>";
     if (entry)
       html +=
@@ -540,7 +535,7 @@
     $("#evidenceDetail").innerHTML = html;
   }
   function applyLanguage(lang) {
-    if (!["zh", "en"].includes(lang)) return;
+    lang = "en";
     state.lang = lang;
     document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
     document.title =

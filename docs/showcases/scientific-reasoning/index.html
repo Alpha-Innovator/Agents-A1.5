@@ -1,96 +1,64 @@
 <!doctype html>
-<html data-theme="light" lang="zh-CN">
+<html data-theme="light" lang="en" class="a15-integrated-showcase" data-showcase="scientific-reasoning">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="Agents-A1.5 scientific agent capabilities: bilingual, offline interactive research stories in physics, chemistry and biology.">
-<title>Agents-A1.5 | Scientific Agent Capabilities</title>
+<meta name="description" content="Explore retrieval, reasoning and verification in physics, chemistry and biology.">
+<title>Agents-A1.5 · Long-Horizon Scientific Reasoning</title>
 <link rel="stylesheet" href="assets/css/index-0-29b86e15dc29.css">
-<style data-showcase-navigation>
-/* Catalog navigation only. No selectors affect the authored case content. */
-.showcase-navigation {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-.showcase-navigation a.showcase-return-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 32px;
-  padding: 5px 11px;
-  box-sizing: border-box;
-  border: 1px solid #b9a4fc50;
-  border-radius: 8px;
-  background: #b9a4fc14;
-  color: #e1d6ff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .18s, border-color .18s;
-}
-.showcase-return-link svg { width: 15px; height: 15px; flex: none; }
-.showcase-navigation a.showcase-return-link:hover { background: #b9a4fc30; border-color: #b9a4fc; }
-.showcase-navigation a.showcase-return-link:focus-visible { outline: 2px solid #c7b2ff; outline-offset: 3px; }
-.lab-sidebar .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 12px; }
-.lab-sidebar .showcase-navigation a.showcase-return-link { color: #514168; border-color: #8771ac60; background: #8771ac12; }
-@media (max-width: 1200px) {
-  .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .showcase-navigation a.showcase-return-link { min-height: 28px; padding: 3px 9px; font-size: 11px; }
-}
-@media (max-width: 700px) {
-  .lab-sidebar .showcase-navigation { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .showcase-navigation a.showcase-return-link { transition: none; }
-}
-
-</style>
-<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-b0257a0a84e8.css">
+<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-428fca0d49ba.css">
+<link rel="stylesheet" href="../../assets/website-shell.css?v=integration-2">
+<link rel="stylesheet" href="../../assets/integrated-showcases.css?v=integration-2">
+<link rel="icon" type="image/png" href="../../assets/InternScience_logo.png">
 </head>
 <body id="top">
-<header class="site-header site-shell-header" data-site-header=""><div class="site-shell-header-inner">
- <div class="showcase-navigation"><a class="site-brand site-shell-brand" href="../../index.html" aria-label="Agents-A1.5" data-showcase-home><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><a class="showcase-return-link" data-showcase-return href="../../index.html"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4 5 10l6 6M5 10h11"/></svg><span data-showcase-return-label>返回首页</span></a></div>
- <nav aria-label="Main"><a href="#showcase" data-i18n="navStories"></a><a href="#lab" data-i18n="navLab"></a><a href="#tools" data-i18n="navTools"></a></nav>
- <div class="header-actions"><button id="effects" class="effects-switch" aria-pressed="true"><span aria-hidden="true">&#10022;</span><span data-i18n="effects"></span></button><div class="language-switch" aria-label="Language"><button data-lang="zh" aria-pressed="true">&#20013;&#25991;</button><span>/</span><button data-lang="en" aria-pressed="false">EN</button></div><button class="nav-watch" data-cinema><span aria-hidden="true">&#9654;</span><span data-i18n="navPlay"></span></button></div>
-</div></header>
+<header class="a15-site-header">
+    <nav class="a15-nav" aria-label="Primary navigation">
+      <div class="a15-nav-links">
+        <a class="a15-nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
+        <a href="../../index.html#capabilities">Capabilities</a>
+        <a href="../../index.html#benchmarks">Benchmarks</a>
+        <a href="../../index.html#demos" aria-current="page" data-site-return>Demos</a>
+        <a href="../../index.html#training">Training</a>
+        <a href="../../index.html#usage">Usage</a>
+        <a href="../../index.html#related-projects">Related Projects</a>
+      </div>
+    </nav>
+  </header><div class="a15-demo-context">
+  <nav class="a15-breadcrumb" aria-label="Breadcrumb"><a href="../../index.html#demos" data-site-return><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 4-6 6 6 6M2 10h16"/></svg>All demos</a><span aria-hidden="true">/</span><span aria-current="page">Long-Horizon Scientific Reasoning</span></nav>
+  <nav aria-label="Long-Horizon Scientific Reasoning sections" class="a15-demo-sections"><a data-i18n="navStories" href="#showcase">Research stories</a><a data-i18n="navLab" href="#lab">Interactive lab</a><a data-i18n="navTools" href="#tools">Tool orchestration</a><button aria-pressed="true" class="effects-switch" id="effects"><span aria-hidden="true">✦</span><span data-i18n="effects">Effects</span></button><button class="nav-watch" data-cinema=""><span aria-hidden="true">▶</span><span data-i18n="navPlay">Watch the story</span></button></nav>
+</div>
 <main>
 <section class="hero" aria-labelledby="hero-title">
  <div class="hero-grid" aria-hidden="true"></div><div class="hero-glow" aria-hidden="true"></div>
- <div class="hero-copy"><div class="eyebrow"><span class="live-dot"></span><span data-i18n="eyebrow"></span></div><h1 id="hero-title" data-i18n="heroTitle"></h1><p class="hero-description" data-i18n="heroDesc"></p><div class="actions"><a class="button primary" href="#showcase"><span data-i18n="heroExplore"></span><span>&#8599;</span></a><button class="text-play" data-cinema><span class="play-ring">&#9654;</span><span data-i18n="heroWatch"></span></button></div><div class="hero-meta" data-i18n="heroMeta"></div></div>
+ <div class="hero-copy"><div class="eyebrow"><span class="live-dot"></span><span data-i18n="eyebrow">AGENTS-A1.5 / SCIENTIFIC REASONING</span></div><h1 id="hero-title" data-i18n="heroTitle">Scientific agent<br>capabilities.<br><em>Let evidence lead.</em></h1><p class="hero-description" data-i18n="heroDesc">Form a hypothesis. Challenge the result. Let verification decide what comes next.</p><div class="actions"><a class="button primary" href="#showcase"><span data-i18n="heroExplore">Explore the three cases</span><span>&#8599;</span></a><button class="text-play" data-cinema><span class="play-ring">&#9654;</span><span data-i18n="heroWatch">Play the research film</span></button></div><div class="hero-meta" data-i18n="heroMeta">REASONING · TOOLS · VERIFICATION</div></div>
  <div class="hero-visual" id="heroVisual" aria-label="Scientific reasoning and tool network">
   <canvas id="fieldCanvas" aria-hidden="true"></canvas><div class="orbit orbit-a" aria-hidden="true"></div><div class="orbit orbit-b" aria-hidden="true"></div><div class="axis axis-x"></div><div class="axis axis-y"></div>
-  <div class="field-center"><strong>Agents-A1.5</strong><span data-i18n="heroLoop"></span></div>
-  <button class="orbit-tool orbit-search" data-tool="search"><span data-icon="search"></span><span data-i18n="search"></span></button>
-  <button class="orbit-tool orbit-visit" data-tool="visit"><span data-icon="visit"></span><span data-i18n="visit"></span></button>
-  <button class="orbit-tool orbit-scholar" data-tool="scholar"><span data-icon="scholar"></span><span data-i18n="scholar"></span></button>
-  <button class="orbit-tool orbit-code" data-tool="code"><span data-icon="code"></span><span data-i18n="code"></span></button>
-  <div class="float-card error-float"><span data-i18n="heroError"></span><strong>0.45004</strong><i class="mini-signal" aria-hidden="true"></i></div>
-  <div class="float-card pass-float"><span data-i18n="heroResidual"></span><strong>1.42 <b>&#215; 10<sup>&#8722;14</sup></b></strong><span class="tiny-checks" aria-hidden="true">&#10003; &#10003; &#10003; &#10003; &#10003;</span></div>
-  <div class="hero-audit"><span class="live-dot mint"></span><span data-i18n="heroAudit"></span></div>
+  <div class="field-center"><strong>Agents-A1.5</strong><span data-i18n="heroLoop">EVIDENCE-DRIVEN REASONING</span></div>
+  <button class="orbit-tool orbit-search" data-tool="search"><span data-icon="search"></span><span data-i18n="search">Search</span></button>
+  <button class="orbit-tool orbit-visit" data-tool="visit"><span data-icon="visit"></span><span data-i18n="visit">Visit</span></button>
+  <button class="orbit-tool orbit-scholar" data-tool="scholar"><span data-icon="scholar"></span><span data-i18n="scholar">Scholar</span></button>
+  <button class="orbit-tool orbit-code" data-tool="code"><span data-icon="code"></span><span data-i18n="code">Code</span></button>
+  <div class="float-card error-float"><span data-i18n="heroError">Find the inconsistency</span><strong>0.45004</strong><i class="mini-signal" aria-hidden="true"></i></div>
+  <div class="float-card pass-float"><span data-i18n="heroResidual">Recorded maximum residual</span><strong>1.42 <b>&#215; 10<sup>&#8722;14</sup></b></strong><span class="tiny-checks" aria-hidden="true">&#10003; &#10003; &#10003; &#10003; &#10003;</span></div>
+  <div class="hero-audit"><span class="live-dot mint"></span><span data-i18n="heroAudit">Original source ≠ tool summary</span></div>
  </div>
- <a class="scroll-hint" href="#showcase"><span data-i18n="scroll"></span><span>&#8595;</span></a>
+ <a class="scroll-hint" href="#showcase"><span data-i18n="scroll">SCROLL TO EXPLORE</span><span>&#8595;</span></a>
 </section>
 <div class="capability-strip">
- <a href="#showcase" data-jump="physics:5"><span>01</span><strong data-i18n="cap1"></strong><i>&#8599;</i></a><a href="#showcase" data-jump="chemistry:18"><span>02</span><strong data-i18n="cap2"></strong><i>&#8599;</i></a><a href="#showcase" data-jump="physics:29"><span>03</span><strong data-i18n="cap3"></strong><i>&#8599;</i></a><a href="#showcase" data-jump="biology:13"><span>04</span><strong data-i18n="cap4"></strong><i>&#8599;</i></a>
+ <a href="#showcase" data-jump="physics:5"><span>01</span><strong data-i18n="cap1">Build testable hypotheses</strong><i>&#8599;</i></a><a href="#showcase" data-jump="chemistry:18"><span>02</span><strong data-i18n="cap2">Challenge tool outputs</strong><i>&#8599;</i></a><a href="#showcase" data-jump="physics:29"><span>03</span><strong data-i18n="cap3">Locate &amp; correct errors</strong><i>&#8599;</i></a><a href="#showcase" data-jump="biology:13"><span>04</span><strong data-i18n="cap4">Adaptive retrieval</strong><i>&#8599;</i></a>
 </div>
 <section class="section stories-section" id="showcase">
- <div class="section-heading reveal"><div><div class="eyebrow" data-i18n="storiesEye"></div><h2 data-i18n="storiesTitle"></h2></div><p data-i18n="storiesDesc"></p></div>
+ <div class="section-heading reveal"><div><div class="eyebrow" data-i18n="storiesEye">01 / RESEARCH IN MOTION</div><h2 data-i18n="storiesTitle">Three research journeys.<br>One scientific mindset.</h2></div><p data-i18n="storiesDesc">Follow how tools inform reasoning, how contradictions change the next action, and how results earn acceptance.</p></div>
  <div class="case-tabs" role="tablist" aria-label="Research case">
-  <button class="case-tab selected" data-case="physics" role="tab" aria-selected="true"><span class="case-number">01</span><span><strong data-i18n="physicsName"></strong><small data-i18n="physicsAbility"></small></span><span data-icon="atom"></span></button>
-  <button class="case-tab" data-case="chemistry" role="tab" aria-selected="false"><span class="case-number">02</span><span><strong data-i18n="chemistryName"></strong><small data-i18n="chemistryAbility"></small></span><span data-icon="flask"></span></button>
-  <button class="case-tab" data-case="biology" role="tab" aria-selected="false"><span class="case-number">03</span><span><strong data-i18n="biologyName"></strong><small data-i18n="biologyAbility"></small></span><span data-icon="dna"></span></button>
+  <button class="case-tab selected" data-case="physics" role="tab" aria-selected="true"><span class="case-number">01</span><span><strong data-i18n="physicsName">Quantum optics</strong><small data-i18n="physicsAbility">Hypothesis testing &amp; self-correction</small></span><span data-icon="atom"></span></button>
+  <button class="case-tab" data-case="chemistry" role="tab" aria-selected="false"><span class="case-number">02</span><span><strong data-i18n="chemistryName">Analytical chemistry</strong><small data-i18n="chemistryAbility">Tool-output review &amp; cross-validation</small></span><span data-icon="flask"></span></button>
+  <button class="case-tab" data-case="biology" role="tab" aria-selected="false"><span class="case-number">03</span><span><strong data-i18n="biologyName">Molecular biology</strong><small data-i18n="biologyAbility">Adaptive retrieval &amp; sequence verification</small></span><span data-icon="dna"></span></button>
  </div>
  <div class="case-intro"><div><div class="case-id" id="caseId">CritPt #19</div><h3 id="caseQuestion"></h3><p id="caseStory"></p></div><div class="case-duration"><strong id="caseDuration">62</strong><span>s</span></div></div>
  <div id="theaterHome">
  <div class="theater" id="theater" tabindex="-1">
-  <div class="theater-toolbar"><span class="replay-badge"><i></i><span data-i18n="trace"></span></span><div class="mode-switch" role="group"><button data-mode="animation" aria-pressed="true" data-i18n="interactive"></button><button data-mode="video" aria-pressed="false" data-i18n="video"></button></div><div class="language-switch film-language"><button data-lang="zh" aria-pressed="true">&#20013;&#25991;</button><span>/</span><button data-lang="en" aria-pressed="false">EN</button></div><button class="icon-button cinema-button" data-cinema data-aria="expand" data-icon="expand"></button></div>
+  <div class="theater-toolbar"><span class="replay-badge"><i></i><span data-i18n="trace">CURATED TRACE REPLAY</span></span><div class="mode-switch" role="group"><button data-mode="animation" aria-pressed="true" data-i18n="interactive">Interactive animation</button><button data-mode="video" aria-pressed="false" data-i18n="video">Embedded video</button></div><button class="icon-button cinema-button" data-cinema data-aria="expand" data-icon="expand"></button></div>
   <div class="film-stage" id="filmStage"><div id="svgScene" class="svg-scene" role="img" aria-label="Animated scientific research replay"></div><video id="filmVideo" hidden playsinline muted preload="metadata" aria-label="Scientific research film"></video></div>
   <div class="transport"><button id="playPause" class="play-toggle" data-aria="play" data-icon="play"></button><button id="restart" class="icon-button" data-aria="replay" data-icon="restart"></button><span class="timecode" id="timeCurrent">00:00</span><input id="scrubber" type="range" min="0" max="62" step="0.01" value="0" aria-label="Timeline"><span class="timecode" id="timeTotal">01:02</span><select id="speed" data-aria="speed"><option value="0.75">0.75&#215;</option><option value="1" selected>1&#215;</option><option value="1.5">1.5&#215;</option><option value="2">2&#215;</option></select><button id="loopToggle" class="loop-toggle" aria-pressed="true" data-aria="loop" data-icon="loop"></button><button id="saveFrame" class="icon-button" data-aria="still" data-icon="download"></button></div>
  </div></div>
@@ -98,57 +66,72 @@
  <p class="chapter-caption" id="chapterCaption"></p>
 </section>
 <section class="section lab-section" id="lab">
- <div class="section-heading reveal"><div><div class="eyebrow" data-i18n="labEye"></div><h2 data-i18n="labTitle"></h2></div><p data-i18n="labDesc"></p></div>
+ <div class="section-heading reveal"><div><div class="eyebrow" data-i18n="labEye">02 / VERIFY IT YOURSELF</div><h2 data-i18n="labTitle">Don’t just watch.<br>Check the reasoning.</h2></div><p data-i18n="labDesc">Local checks, separate from the recorded replay. Change an assumption or inspect a sequence and see how the evidence responds.</p></div>
  <div class="lab-shell" id="physicsLab">
-  <div class="lab-controls"><div class="eyebrow lab-tag"><span class="live-dot mint"></span><span data-i18n="labLocal"></span></div><h3 data-i18n="physicsLabTitle"></h3><p data-i18n="physicsLabDesc"></p>
-   <div class="segmented assumption-switch"><button data-formula="old" aria-pressed="true" data-i18n="original"></button><button data-formula="fixed" aria-pressed="false" data-i18n="corrected"></button></div>
-   <label class="slider-label" for="phaseSlider"><span data-i18n="phase"></span><output id="phaseOut">&#8722;0.70 rad</output></label><input id="phaseSlider" type="range" min="-3.1415926536" max="3.1415926536" step="0.01" value="-0.70">
-   <label class="slider-label" for="thetaSlider"><span data-i18n="theta"></span><output id="thetaOut">0.20 rad</output></label><input id="thetaSlider" type="range" min="-1.5708" max="1.5708" step="0.01" value="0.20">
+  <div class="lab-controls"><div class="eyebrow lab-tag"><span class="live-dot mint"></span><span data-i18n="labLocal">Local verification</span></div><h3 data-i18n="physicsLabTitle">Put the phase term to the test.</h3><p data-i18n="physicsLabDesc">Compare the candidate formula with a direct calculation from the field coefficients.</p>
+   <div class="segmented assumption-switch"><button data-formula="old" aria-pressed="true" data-i18n="original">Original candidate</button><button data-formula="fixed" aria-pressed="false" data-i18n="corrected">Corrected expression</button></div>
+   <label class="slider-label" for="phaseSlider"><span data-i18n="phase">Pump-phase difference</span><output id="phaseOut">&#8722;0.70 rad</output></label><input id="phaseSlider" type="range" min="-3.1415926536" max="3.1415926536" step="0.01" value="-0.70">
+   <label class="slider-label" for="thetaSlider"><span data-i18n="theta">Detection angle</span><output id="thetaOut">0.20 rad</output></label><input id="thetaSlider" type="range" min="-1.5708" max="1.5708" step="0.01" value="0.20">
    <div class="formula-card" id="phaseFormula"></div>
-   <button class="reset-button" id="resetPhysics"><span data-icon="restart"></span><span data-i18n="reset"></span></button>
+   <button class="reset-button" id="resetPhysics"><span data-icon="restart"></span><span data-i18n="reset">Reset parameters</span></button>
   </div>
-  <div class="lab-results"><div class="chart-head"><span data-i18n="noise"></span><span class="status-pill amber" id="physicsStatus"></span></div><svg id="physicsPlot" viewBox="0 0 720 340" role="img" aria-label="Operator and candidate noise curves"></svg><div class="plot-legend"><span><i class="key-purple"></i><span data-i18n="operator"></span></span><span><i class="key-orange"></i><span data-i18n="candidate"></span></span></div><div class="readout-grid"><div><span data-i18n="operator"></span><strong id="operatorValue"></strong></div><div><span data-i18n="candidate"></span><strong id="candidateValue"></strong></div><div class="residual-readout"><span data-i18n="currentResidual"></span><strong id="residualValue"></strong></div></div>
-   <div class="limit-row"><span data-i18n="limits"></span><div><button data-limit="lossless" data-i18n="lossless"></button><button data-limit="first" data-i18n="firstOff"></button><button data-limit="second" data-i18n="secondOff"></button></div><span id="limitStatus"></span></div>
+  <div class="lab-results"><div class="chart-head"><span data-i18n="noise">Normalized noise</span><span class="status-pill amber" id="physicsStatus"></span></div><svg id="physicsPlot" viewBox="0 0 720 340" role="img" aria-label="Operator and candidate noise curves"></svg><div class="plot-legend"><span><i class="key-purple"></i><span data-i18n="operator">Direct operator calculation</span></span><span><i class="key-orange"></i><span data-i18n="candidate">Candidate expression</span></span></div><div class="readout-grid"><div><span data-i18n="operator">Direct operator calculation</span><strong id="operatorValue"></strong></div><div><span data-i18n="candidate">Candidate expression</span><strong id="candidateValue"></strong></div><div class="residual-readout"><span data-i18n="currentResidual">Current absolute difference</span><strong id="residualValue"></strong></div></div>
+   <div class="limit-row"><span data-i18n="limits">Test a physical limit</span><div><button data-limit="lossless" data-i18n="lossless">No loss / perfect detection</button><button data-limit="first" data-i18n="firstOff">First OPA off</button><button data-limit="second" data-i18n="secondOff">Second OPA off</button></div><span id="limitStatus"></span></div>
   </div>
  </div>
  <div class="lab-shell" id="chemistryLab" hidden>
-  <div class="lab-controls"><div class="eyebrow lab-tag"><span class="live-dot mint"></span><span data-i18n="labLocal"></span></div><h3 data-i18n="chemistryLabTitle"></h3><p data-i18n="chemistryLabDesc"></p><div class="segmented assumption-switch"><button data-balance="summary" aria-pressed="true" data-i18n="summaryAssumption"></button><button data-balance="correct" aria-pressed="false" data-i18n="massBalance"></button></div><div class="measurement-card"><span data-i18n="measured"></span><strong>+1.5200 <small>g</small></strong><span>100.00 g &#8594; 101.52 g</span></div><div class="formula-card" data-i18n="formulaChem"></div><p class="audit-point" data-i18n="auditConclusion"></p></div>
-  <div class="lab-results chem-results"><div class="chart-head"><span data-i18n="netBar"></span><span id="chemStatus" class="status-pill amber"></span></div><div class="balance-diagram"><div class="balance-metal"><span>Ag</span><strong id="agBig"></strong><small data-i18n="silver"></small></div><div class="math-op">&#8722;</div><div class="balance-metal copper"><span>Cu</span><strong id="cuBig"></strong><small data-i18n="copper"></small></div><div class="math-op">=</div><div class="balance-metal net"><span>&#916;m</span><strong id="netBig"></strong><small data-i18n="netBar"></small></div></div><div class="mass-bars"><div><span data-i18n="silverBar"></span><div><i id="silverFill"></i></div><output id="silverBarValue"></output></div><div><span data-i18n="copperBar"></span><div><i id="copperFill"></i></div><output id="copperBarValue"></output></div><div><span data-i18n="netBar"></span><div><i id="netFill"></i></div><output id="netBarValue"></output></div></div><div class="chem-gap"><span data-i18n="chemGap"></span><strong id="chemGap"></strong></div><div class="composition-row" id="composition"><span data-i18n="composition"></span><strong id="saltNa"></strong><strong id="saltK"></strong></div></div>
+  <div class="lab-controls"><div class="eyebrow lab-tag"><span class="live-dot mint"></span><span data-i18n="labLocal">Local verification</span></div><h3 data-i18n="chemistryLabTitle">What does the balance actually measure?</h3><p data-i18n="chemistryLabDesc">Keep the measured 1.52 g gain fixed. Test what happens when copper dissolution is ignored.</p><div class="segmented assumption-switch"><button data-balance="summary" aria-pressed="true" data-i18n="summaryAssumption">Summary assumption</button><button data-balance="correct" aria-pressed="false" data-i18n="massBalance">Mass-balance calculation</button></div><div class="measurement-card"><span data-i18n="measured">Measured net gain</span><strong>+1.5200 <small>g</small></strong><span>100.00 g &#8594; 101.52 g</span></div><div class="formula-card" data-i18n="formulaChem">Net gain = deposited silver − dissolved copper</div><p class="audit-point" data-i18n="auditConclusion">The summary is rejected, not the source.</p></div>
+  <div class="lab-results chem-results"><div class="chart-head"><span data-i18n="netBar">Net mass change</span><span id="chemStatus" class="status-pill amber"></span></div><div class="balance-diagram"><div class="balance-metal"><span>Ag</span><strong id="agBig"></strong><small data-i18n="silver">Silver deposited</small></div><div class="math-op">&#8722;</div><div class="balance-metal copper"><span>Cu</span><strong id="cuBig"></strong><small data-i18n="copper">Copper dissolved</small></div><div class="math-op">=</div><div class="balance-metal net"><span>&#916;m</span><strong id="netBig"></strong><small data-i18n="netBar">Net mass change</small></div></div><div class="mass-bars"><div><span data-i18n="silverBar">Deposited silver</span><div><i id="silverFill"></i></div><output id="silverBarValue"></output></div><div><span data-i18n="copperBar">Copper loss</span><div><i id="copperFill"></i></div><output id="copperBarValue"></output></div><div><span data-i18n="netBar">Net mass change</span><div><i id="netFill"></i></div><output id="netBarValue"></output></div></div><div class="chem-gap"><span data-i18n="chemGap">Difference from the measurement</span><strong id="chemGap"></strong></div><div class="composition-row" id="composition"><span data-i18n="composition">Recovered mixture</span><strong id="saltNa"></strong><strong id="saltK"></strong></div></div>
  </div>
  <div class="lab-shell biology-lab" id="biologyLab" hidden>
-  <div class="lab-controls"><div class="eyebrow lab-tag"><span class="live-dot mint"></span><span data-i18n="labLocal"></span></div><h3 data-i18n="biologyLabTitle"></h3><p data-i18n="biologyLabDesc"></p>
-   <div class="segmented assumption-switch"><button data-bio-change="original" aria-pressed="true" data-i18n="bioLogged"></button><button data-bio-change="changed" aria-pressed="false" data-i18n="bioPerturbed"></button></div>
-   <label class="slider-label" for="bioSlider"><span data-i18n="bioPosition"></span><output id="bioPositionOut"></output></label><input id="bioSlider" type="range" min="0" max="1260" step="1" value="624" aria-label="Sequence window">
-   <div class="bio-window-buttons"><button data-bio-window="0" data-i18n="bioStart"></button><button data-bio-window="624" data-i18n="bioMiddle"></button><button data-bio-window="1260" data-i18n="bioEnd"></button></div>
-   <p class="bio-test-note" id="bioDemoNote"></p><div class="bio-reference-card"><span data-i18n="bioAnnotation"></span><strong>KU170546.1</strong><p><span data-i18n="bioFunction"></span><br><i>Microcerotermes annandalei</i></p></div>
+  <div class="lab-controls"><div class="eyebrow lab-tag"><span class="live-dot mint"></span><span data-i18n="labLocal">Local verification</span></div><h3 data-i18n="biologyLabTitle">Inspect the sequence evidence.</h3><p data-i18n="biologyLabDesc">Compare the supplied fragment with the logged reference. Move through the sequence or introduce one clearly labeled test change.</p>
+   <div class="segmented assumption-switch"><button data-bio-change="original" aria-pressed="true" data-i18n="bioLogged">Logged fragment</button><button data-bio-change="changed" aria-pressed="false" data-i18n="bioPerturbed">1-base test change</button></div>
+   <label class="slider-label" for="bioSlider"><span data-i18n="bioPosition">Sequence window</span><output id="bioPositionOut"></output></label><input id="bioSlider" type="range" min="0" max="1260" step="1" value="624" aria-label="Sequence window">
+   <div class="bio-window-buttons"><button data-bio-window="0" data-i18n="bioStart">Start</button><button data-bio-window="624" data-i18n="bioMiddle">Middle</button><button data-bio-window="1260" data-i18n="bioEnd">End</button></div>
+   <p class="bio-test-note" id="bioDemoNote"></p><div class="bio-reference-card"><span data-i18n="bioAnnotation">Reference annotation</span><strong>KU170546.1</strong><p><span data-i18n="bioFunction">GH1 beta-glucosidase</span><br><i>Microcerotermes annandalei</i></p></div>
   </div>
-  <div class="lab-results biology-results"><div class="chart-head"><span data-i18n="bioInspectTitle"></span><span class="status-pill" id="bioStatus"></span></div>
-   <div class="bio-length-track"><div class="bio-track-label"><span data-i18n="bioRange"></span><b>1,296 / 1,419 bp</b></div><div class="bio-track"><i id="bioCoverFill"></i><b id="bioWindowMarker"></b></div><span class="bio-tail-note" data-i18n="bioTail"></span></div>
+  <div class="lab-results biology-results"><div class="chart-head"><span data-i18n="bioInspectTitle">Base-by-base comparison</span><span class="status-pill" id="bioStatus"></span></div>
+   <div class="bio-length-track"><div class="bio-track-label"><span data-i18n="bioRange">Reference positions 1-1,296</span><b>1,296 / 1,419 bp</b></div><div class="bio-track"><i id="bioCoverFill"></i><b id="bioWindowMarker"></b></div><span class="bio-tail-note" data-i18n="bioTail">123 bp not supplied</span></div>
    <svg id="biologyAlignment" viewBox="0 0 720 215" role="img" aria-label="Sequence comparison"></svg>
-   <div class="bio-readouts"><div><span data-i18n="bioMatches"></span><strong id="bioMatches"></strong></div><div><span data-i18n="bioDifferences"></span><strong id="bioDifferences"></strong></div><div><span data-i18n="bioCoverage"></span><strong id="bioCoverage"></strong></div></div>
+   <div class="bio-readouts"><div><span data-i18n="bioMatches">Matching bases</span><strong id="bioMatches"></strong></div><div><span data-i18n="bioDifferences">Differences</span><strong id="bioDifferences"></strong></div><div><span data-i18n="bioCoverage">Reference covered</span><strong id="bioCoverage"></strong></div></div>
   </div>
  </div>
- <details class="method-details"><summary data-i18n="method"></summary><p id="methodCopy"></p></details>
+ <details class="method-details"><summary data-i18n="method">Calculation assumptions &amp; scope</summary><p id="methodCopy"></p></details>
 </section>
 <section class="section tools-section" id="tools">
- <div class="section-heading reveal"><div><div class="eyebrow" data-i18n="toolsEye"></div><h2 data-i18n="toolsTitle"></h2></div><p data-i18n="toolsDesc"></p></div>
- <div class="tool-orchestrator"><div class="tool-hub"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i></span><strong>Agents-A1.5</strong><span class="hub-signal"></span></div><div class="tool-connectors" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="tool-cards"><button data-tool="search" aria-pressed="true"><span data-icon="search"></span><strong data-i18n="search"></strong><small data-i18n="searchRole"></small></button><button data-tool="visit" aria-pressed="false"><span data-icon="visit"></span><strong data-i18n="visit"></strong><small data-i18n="visitRole"></small></button><button data-tool="scholar" aria-pressed="false"><span data-icon="scholar"></span><strong data-i18n="scholar"></strong><small data-i18n="scholarRole"></small></button><button data-tool="code" aria-pressed="false"><span data-icon="code"></span><strong data-i18n="code"></strong><small data-i18n="codeRole"></small></button></div></div>
- <div class="tool-evidence" id="toolEvidence"><article><span data-i18n="toolAction"></span><p id="toolRequest"></p></article><article><span data-i18n="toolFeedback"></span><p id="toolReturn"></p></article><article><span data-i18n="toolDecision"></span><p id="toolReason"></p></article></div>
- <details class="method-details"><summary data-i18n="toolMapping"></summary><p data-i18n="sourceNote"></p></details>
+ <div class="section-heading reveal"><div><div class="eyebrow" data-i18n="toolsEye">03 / REASONING WITH TOOLS</div><h2 data-i18n="toolsTitle">More than tool calls.<br>A feedback loop.</h2></div><p data-i18n="toolsDesc">Select a tool to see what it contributes to the research journey.</p></div>
+ <div class="tool-orchestrator"><div class="tool-hub"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i></span><strong>Agents-A1.5</strong><span class="hub-signal"></span></div><div class="tool-connectors" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="tool-cards"><button data-tool="search" aria-pressed="true"><span data-icon="search"></span><strong data-i18n="search">Search</strong><small data-i18n="searchRole">Locate relevant evidence</small></button><button data-tool="visit" aria-pressed="false"><span data-icon="visit"></span><strong data-i18n="visit">Visit</strong><small data-i18n="visitRole">Inspect the retrieved source</small></button><button data-tool="scholar" aria-pressed="false"><span data-icon="scholar"></span><strong data-i18n="scholar">Scholar</strong><small data-i18n="scholarRole">Follow academic provenance</small></button><button data-tool="code" aria-pressed="false"><span data-icon="code"></span><strong data-i18n="code">Code</strong><small data-i18n="codeRole">Compute, compare, verify</small></button></div></div>
+ <div class="tool-evidence" id="toolEvidence"><article><span data-i18n="toolAction">AGENT REQUEST</span><p id="toolRequest"></p></article><article><span data-i18n="toolFeedback">TOOL FEEDBACK</span><p id="toolReturn"></p></article><article><span data-i18n="toolDecision">REASONING UPDATE</span><p id="toolReason"></p></article></div>
+ <details class="method-details"><summary data-i18n="toolMapping">Scholar / tool mapping</summary><p data-i18n="sourceNote">Search, Visit and Code preserve their original roles. Biology includes two native google_scholar calls, both returning zero results. In physics and chemistry, Scholar remains an academic Search/Visit presentation view, not an additional native call. The biology literature lead came from Search; the successful publisher extraction also used Code. Entrez and FASTA retrieval ran through Code. No external tool runs in this page.</p></details>
 </section>
 <section class="end-section">
- <div class="end-glow" aria-hidden="true"></div><div class="eyebrow" data-i18n="endEye"></div><h2 data-i18n="endTitle"></h2><p data-i18n="endDesc"></p>
- <div class="outcome-grid"><button data-jump="physics:55"><span data-i18n="endPhysics"></span><div class="result-line"><b class="orange">0.45004</b><i>&#8594;</i><b class="purple">1.42 &#215; 10<sup>&#8722;14</sup></b></div><p data-i18n="endPhysicsNote"></p></button><button data-jump="chemistry:26"><span data-i18n="endChemistry"></span><div class="result-line chem-line"><b>2.1529</b><i>&#8722;</i><b class="orange">0.6329</b><i>=</i><b class="mint-text">1.5200<small> g</small></b></div><p data-i18n="endChemistryNote"></p></button><button data-jump="biology:45"><span data-i18n="endBiology"></span><div class="result-line"><b class="mint-text">1,296</b><i>/</i><b class="purple">1,296</b></div><p data-i18n="endBiologyNote"></p></button></div>
- <a class="button secondary" href="#top"><span data-i18n="top"></span><span>&#8593;</span></a>
+ <div class="end-glow" aria-hidden="true"></div><div class="eyebrow" data-i18n="endEye">SCIENCE NEEDS MORE THAN A PLAUSIBLE ANSWER</div><h2 data-i18n="endTitle">Answers that survive<br><em>their own checks.</em></h2><p data-i18n="endDesc">Audit a formula. Challenge a tool. Trace a sequence. Let evidence shape the next step.</p>
+ <div class="outcome-grid"><button data-jump="physics:55"><span data-i18n="endPhysics">A traceable correction</span><div class="result-line"><b class="orange">0.45004</b><i>&#8594;</i><b class="purple">1.42 &#215; 10<sup>&#8722;14</sup></b></div><p data-i18n="endPhysicsNote">Initial single-case difference → recorded maximum over 10 corrected comparisons</p></button><button data-jump="chemistry:26"><span data-i18n="endChemistry">A claim that survives cross-checks</span><div class="result-line chem-line"><b>2.1529</b><i>&#8722;</i><b class="orange">0.6329</b><i>=</i><b class="mint-text">1.5200<small> g</small></b></div><p data-i18n="endChemistryNote">Deposited silver − dissolved copper = measured net gain</p></button><button data-jump="biology:45"><span data-i18n="endBiology">Biology / Sequence verification</span><div class="result-line"><b class="mint-text">1,296</b><i>/</i><b class="purple">1,296</b></div><p data-i18n="endBiologyNote">Every supplied base matches the reference prefix; 123 reference bases lie outside the input.</p></button></div>
+ <a class="button secondary" href="#top"><span data-i18n="top">Back to top</span><span>&#8593;</span></a>
 </section>
 </main>
-<footer class="site-shell-footer" data-site-footer=""><div class="site-shell-footer-inner"><div class="site-shell-footer-main"><a class="site-shell-brand" data-shell-home href="../../index.html"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><span class="site-shell-case" data-shell-zh="长程科学推理" data-shell-en="Long-Horizon Scientific Reasoning">长程科学推理</span><button type="button" class="site-shell-top" data-shell-top><span class="" data-shell-zh="返回顶部" data-shell-en="Back to top">返回顶部</span><span aria-hidden="true">↑</span></button></div><div class="site-shell-footer-notes"><span data-i18n="footer"></span><button id="openSources"><span data-i18n="sources"></span> &#8599;</button></div></div></footer>
-<dialog id="cinemaDialog" class="cinema-dialog"><div class="cinema-head"><a class="site-brand" href="#top"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-word">Agents-A1.5</span></a><span id="cinemaTitle"></span><button id="closeCinema" class="icon-button" data-aria="close" data-icon="close"></button></div><div id="cinemaMount"></div><p class="cinema-hint" data-i18n="keyboard"></p></dialog>
-<dialog id="sourceDialog" class="source-dialog"><div class="source-head"><h2 data-i18n="sourceTitle"></h2><button id="closeSources" class="icon-button" data-aria="close" data-icon="close"></button></div><p data-i18n="sourceIntro"></p><div class="source-block"><h3 data-i18n="physics"></h3><p data-i18n="sourcePhy"></p></div><div class="source-block"><h3 data-i18n="chemistry"></h3><p data-i18n="sourceChem"></p></div><div class="source-block"><h3 data-i18n="biology"></h3><p data-i18n="sourceBio"></p></div><p data-i18n="sourceBrand"></p><p data-i18n="sourceDisplay"></p><p data-i18n="sourceScope"></p><h3 data-i18n="sourceLink"></h3><div class="source-links"><a href="https://doi.org/10.1103/PhysRevA.87.023834" target="_blank" rel="noopener noreferrer">Quantum limits for cascaded optical parametric amplifiers &#8599;</a><a href="https://alquimicos.com/wp-content/uploads/2017/08/icho_1983.pdf" target="_blank" rel="noopener noreferrer">IChO 1983 / Problem 3 / Original solution &#8599;</a><a href="https://www.ncbi.nlm.nih.gov/nuccore/KU170546.1" target="_blank" rel="noopener noreferrer">GenBank / KU170546.1 &#8599;</a><a href="https://doi.org/10.1007/s12010-018-2781-8" target="_blank" rel="noopener noreferrer">GH1 beta-glucosidase / Original study &#8599;</a></div></dialog>
+<aside class="a15-case-notes" aria-label="Case notes and sources"><div class="a15-case-notes-inner"><span data-i18n="footer">Edited trajectory replay · No live model calls</span><button id="openSources"><span data-i18n="sources">Sources &amp; presentation notes</span> ↗</button></div></aside><footer class="a15-footer">
+    <div class="a15-footer-inner">
+      <p>Agents-A1.5 is released by Alpha-Innovator. Star the repository, try the model, and report issues through GitHub.</p>
+      <section class="a15-visitor-panel" aria-label="Visitor information">
+        <div class="a15-visitor-copy">
+          <span class="a15-visitor-title">Visitor Map</span>
+          <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
+        </div>
+        <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
+          <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
+          </a>
+        </div>
+      </section>
+    </div>
+  </footer>
+<dialog id="cinemaDialog" class="cinema-dialog"><div class="cinema-head"><a class="site-brand" href="#top"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-word">Agents-A1.5</span></a><span id="cinemaTitle"></span><button id="closeCinema" class="icon-button" data-aria="close" data-icon="close"></button></div><div id="cinemaMount"></div><p class="cinema-hint" data-i18n="keyboard">Space: play / pause · ← / →: seek · Esc: exit cinema</p></dialog>
+<dialog id="sourceDialog" class="source-dialog"><div class="source-head"><h2 data-i18n="sourceTitle">What this showcase represents</h2><button id="closeSources" class="icon-button" data-aria="close" data-icon="close"></button></div><p data-i18n="sourceIntro">Three worked scientific cases: physics V2, corrected chemistry V3, and the newly supplied insect-gene identification trajectory.</p><div class="source-block"><h3 data-i18n="physics">Physics</h3><p data-i18n="sourcePhy">Physics: CritPt challenge 19. The record includes the initial difference 0.4500379790992852 and ten corrected absolute residuals, whose maximum is 1.4210854715202004e-14. Detector-vacuum completion does not itself resolve the remaining general-phase mismatch. The subsequent correction rebuilds the phase dependence.</p></div><div class="source-block"><h3 data-i18n="chemistry">Chemistry</h3><p data-i18n="sourceChem">Chemistry: FrontierScience_Research_21 / the IChO 1983 salt-mixture problem. The agent states the correct net-mass model before retrieval. The error being audited is in the page-reading tool’s generated summary. The original solution is not presented as wrong. Source comparison in the film is an editorial replay, not a claim of a newly executed image inspection.</p></div><div class="source-block"><h3 data-i18n="biology">Biology</h3><p data-i18n="sourceBio">Trajectory 673a5f9b329d98c7d4b69d5f (hle_all). Code translated 1,296 bp to 432 residues. After two zero-result Scholar calls and blocked/unsuccessful routes, organism/enzyme searches found a literature lead. An Entrez gene query returned 0; an organism query returned 7 nucleotide records in the log. KU170546.1 was fetched and the query was verified as its exact 1-1,296 prefix. Its annotation is GH1 beta-glucosidase from Microcerotermes annandalei, corresponding to option C. The five answer choices were available to guide the search. This is sequence-backed reference identification, not a new enzyme discovery, blind benchmark, successful BLAST run, or full-length gene match. The alternative SNP ordering trajectory was reviewed but not selected; its native tool is Python only.</p></div><p data-i18n="sourceBrand">Branding follows your supplied reference: Agents-A1.5 with the same four-square model mark. Raw uploaded trajectory metadata labels its model 0912-1-preview-c1. This page does not independently establish that model’s identity or report benchmark accuracy.</p><p data-i18n="sourceDisplay">Films condense key moments, not wall-clock tool sessions. Request strings are edited summaries. Phase curves are local reconstructions; the physics residuals are the ten recorded values. Biology sequence letters and comparisons use the supplied query and logged FASTA. Particles and transitions are illustrations, not measurements or molecular structures. Playback needs no network, external fonts, libraries or media.</p><p data-i18n="sourceScope">These are worked scientific problem-solving cases. They are not presented as novel scientific discoveries or independent blind benchmark results.</p><h3 data-i18n="sourceLink">Source URLs documented in the uploaded records</h3><div class="source-links"><a href="https://doi.org/10.1103/PhysRevA.87.023834" target="_blank" rel="noopener noreferrer">Quantum limits for cascaded optical parametric amplifiers &#8599;</a><a href="https://alquimicos.com/wp-content/uploads/2017/08/icho_1983.pdf" target="_blank" rel="noopener noreferrer">IChO 1983 / Problem 3 / Original solution &#8599;</a><a href="https://www.ncbi.nlm.nih.gov/nuccore/KU170546.1" target="_blank" rel="noopener noreferrer">GenBank / KU170546.1 &#8599;</a><a href="https://doi.org/10.1007/s12010-018-2781-8" target="_blank" rel="noopener noreferrer">GH1 beta-glucosidase / Original study &#8599;</a></div></dialog>
 <div id="toast" role="status" aria-live="polite"></div>
 <noscript>This showcase requires JavaScript. All code and media are embedded; no internet connection is required.</noscript>
 <script>window.FilmConfig={"physics": {"headline": "Scientific Agent Capabilities", "nodes": ["Hypothesize", "Test", "Reflect", "Revise", "Validate"], "cases": {"physics": {"id": "CritPt #19", "discipline": "Quantum optics", "example": "Example: two cascaded optical amplifiers", "hook": "Can it find and fix its own error?", "duration": 62, "stages": [{"key": "intro", "start": 0, "end": 5, "node": -1, "title": "Scientific Agent Capabilities", "still": 3.6}, {"key": "ground", "start": 5, "end": 13, "node": 0, "title": "Build a testable hypothesis.", "still": 11.5}, {"key": "test", "start": 13, "end": 21, "node": 1, "title": "Test the model. Audit the losses.", "still": 19.5}, {"key": "conflict", "start": 21, "end": 29, "node": 2, "title": "The results still disagree.", "still": 27}, {"key": "repair", "start": 29, "end": 39, "node": 3, "title": "Go back to the phase terms.", "still": 36.5}, {"key": "verify", "start": 39, "end": 47, "node": 4, "title": "Repair it. Then test it again.", "still": 45.5}, {"key": "limits", "start": 47, "end": 55, "node": 4, "title": "Now ask the physics.", "still": 53}, {"key": "outro", "start": 55, "end": 62, "node": 4, "title": "From contradiction to a checked result.", "still": 59.6}]}}}, "chemistry": {"headline": "Scientific Agent Capabilities", "capability": "Tool-output review & cross-validation", "nodes": ["Reason", "Retrieve", "Audit", "Recompute", "Validate"], "cases": {"chemistry": {"id": "Analytical chemistry", "discipline": "Analytical chemistry", "example": "Example: determining a salt mixture", "hook": "What happens when a tool gets it wrong?", "duration": 56, "stages": [{"key": "intro", "start": 0, "end": 5, "node": -1, "title": "Scientific Agent Capabilities", "still": 3.6}, {"key": "reason", "start": 5, "end": 11, "node": 0, "title": "Start with the reaction.", "still": 9.2}, {"key": "retrieve", "start": 11, "end": 18, "node": 1, "title": "Retrieve. Then compare.", "still": 16.6}, {"key": "audit", "start": 18, "end": 26, "node": 2, "title": "A tool result is not a verdict.", "still": 23.8}, {"key": "compute", "start": 26, "end": 35, "node": 3, "title": "Audit the claim with code.", "still": 32.5}, {"key": "crosscheck", "start": 35, "end": 43, "node": 4, "title": "Cross-check the original solution.", "still": 40.8}, {"key": "validate", "start": 43, "end": 50, "node": 4, "title": "Recover the mixture. Check the balance.", "still": 47.8}, {"key": "outro", "start": 50, "end": 56, "node": 4, "title": "Tools inform. Reasoning decides.", "still": 53.7}], "extra_stills": [{"time": 12.9, "name": "03a_search"}], "facts": {"sample_mass_g": 25, "strip_initial_g": 100.0, "strip_final_g": 101.52, "strip_net_gain_g": 1.52, "silver_mass_g": 2.1529180327868853, "copper_mass_g": 0.6329180327868853, "chloride_mol": 0.4000655737704918, "NaCl_g": 17.5678616803282, "KCl_g": 7.43213831967182, "source_silver_g": 2.15, "source_copper_g": 0.63}}}}, "biology": {"title": "Scientific Agent Capabilities", "nodes": ["Decode", "Reframe", "Trace", "Retrieve", "Verify"], "cases": {"biology": {"duration": 62, "title": "Adaptive retrieval & sequence verification", "stages": [{"key": "intro", "start": 0, "end": 5, "node": -1, "title": "Scientific Agent Capabilities", "still": 3.6}, {"key": "decode", "start": 5, "end": 13, "node": 0, "title": "Read the sequence before naming it.", "still": 10.2}, {"key": "pivot", "start": 13, "end": 21, "node": 1, "title": "No exact hit. Change the question.", "still": 18.5}, {"key": "lead", "start": 21, "end": 29, "node": 2, "title": "A paper is a lead, not an identity.", "still": 26.5}, {"key": "length", "start": 29, "end": 36, "node": 2, "title": "Different lengths. Same gene?", "still": 33.5}, {"key": "retrieve", "start": 36, "end": 45, "node": 3, "title": "Change the query. Recover the record.", "still": 42.5}, {"key": "compare", "start": 45, "end": 55, "node": 4, "title": "Check every supplied base.", "still": 53.5}, {"key": "outro", "start": 55, "end": 62, "node": 4, "title": "From a plausible lead to sequence evidence.", "still": 59.5}]}}}};</script>
-<script id="embeddedMedia" type="application/json">{"physics-en":{"url":"media/physics-en-16ae563d7041.mp4"},"physics-zh":{"url":"media/physics-zh-77514260a83c.mp4"},"chemistry-en":{"url":"media/chemistry-en-3034512b9f37.mp4"},"chemistry-zh":{"url":"media/chemistry-zh-b1b77e262ad0.mp4"},"biology-en":{"url":"media/biology-en-26e3613fadd4.mp4"},"biology-zh":{"url":"media/biology-zh-a99ec1432887.mp4"}}</script>
+<script id="embeddedMedia" type="application/json">{"physics-en":{"url":"media/physics-en-087e0237cf10.mp4"},"chemistry-en":{"url":"media/chemistry-en-99365b02831d.mp4"},"biology-en":{"url":"media/biology-en-c1aa9f1e04c4.mp4"}}</script>
 <script src="assets/js/index-1-b085eeb1f6e8.js"></script>
 <script src="assets/js/index-2-e6e006fdce3a.js"></script>
 <script>
@@ -181,7 +164,7 @@ root.Science={noise,parameters,limitingCheck,chemistry,recordedResiduals};if(typ
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
-<script src="assets/js/index-3-68dc88875178.js"></script>
+<script src="assets/js/index-3-b6919c9eff6b.js"></script>
 <script>
 /* Public adapter: the same deterministic renderer drives the page and MP4. */
 (function(root){
@@ -212,27 +195,7 @@ const api={compare,normalize,demoQuery};root.BiologyScience=api;if(typeof module
 })(typeof window!=='undefined'?window:globalThis);
 
 </script>
-<script src="assets/js/index-5-3e7713fbbd2a.js"></script>
-<script src="assets/js/index-6-be38c4226f78.js"></script>
-<script>
-/* Preserve each author's language controls and return to the same catalog language. */
-(() => {
-  const links = [...document.querySelectorAll('[data-showcase-home], [data-showcase-return]')];
-  const home = links[0].getAttribute('href').split('?')[0];
-  const label = document.querySelector('[data-showcase-return-label]');
-  const update = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
-    links.forEach(link => {
-      link.setAttribute('href', home + '?lang=' + lang);
-      link.setAttribute('aria-label', lang === 'en' ? 'Back to showcase home' : '返回展示首页');
-    });
-    label.textContent = lang === 'en' ? 'Back to home' : '返回首页';
-  };
-  update();
-  new MutationObserver(update).observe(document.documentElement, {
-    attributes: true, attributeFilter: ['lang']
-  });
-})();
-
-</script>
-<script data-site-shell src="../../assets/site-shell-9143359e441e.js" defer></script></body></html>
+<script src="assets/js/index-5-5897cfe094f7.js"></script>
+<script src="assets/js/index-6-f6d77fa552b9.js"></script>
+<script data-site-shell src="../../assets/site-shell-705010c24ae4.js" defer></script><script src="../../assets/showcase-navigation.js?v=integration-1" defer></script>
+</body></html>

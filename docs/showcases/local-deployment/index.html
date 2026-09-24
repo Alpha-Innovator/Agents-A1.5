@@ -1,124 +1,92 @@
 <!doctype html>
-<html data-theme="light" lang="zh-CN">
+<html data-theme="light" lang="en" class="a15-integrated-showcase" data-showcase="local-deployment">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<meta name="description" content="Agents-A1.5 35B-A3B：本地推理、多种硬件部署路线、工具调用与真实搜索任务回放。">
-<title>Agents-A1.5 · 本地化部署</title>
+<meta name="description" content="Deploy Agents-A1.5 locally, connect tools and replay a real search task across supported hardware and inference runtimes.">
+<title>Agents-A1.5 · Local Deployment</title>
 <link rel="stylesheet" href="assets/style-fb86c22ce839.css">
-<style data-showcase-navigation>
-/* Catalog navigation only. No selectors affect the authored case content. */
-.showcase-navigation {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-.showcase-navigation a.showcase-return-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 32px;
-  padding: 5px 11px;
-  box-sizing: border-box;
-  border: 1px solid #b9a4fc50;
-  border-radius: 8px;
-  background: #b9a4fc14;
-  color: #e1d6ff;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .18s, border-color .18s;
-}
-.showcase-return-link svg { width: 15px; height: 15px; flex: none; }
-.showcase-navigation a.showcase-return-link:hover { background: #b9a4fc30; border-color: #b9a4fc; }
-.showcase-navigation a.showcase-return-link:focus-visible { outline: 2px solid #c7b2ff; outline-offset: 3px; }
-.lab-sidebar .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 12px; }
-.lab-sidebar .showcase-navigation a.showcase-return-link { color: #514168; border-color: #8771ac60; background: #8771ac12; }
-@media (max-width: 1200px) {
-  .showcase-navigation { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .showcase-navigation a.showcase-return-link { min-height: 28px; padding: 3px 9px; font-size: 11px; }
-}
-@media (max-width: 700px) {
-  .lab-sidebar .showcase-navigation { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .showcase-navigation a.showcase-return-link { transition: none; }
-}
-
-</style>
-<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-92e7a6461542.css">
+<link rel="stylesheet" data-site-shell href="../../assets/site-shell-9def439ea920.css"><link rel="stylesheet" data-site-theme="light" href="../../assets/themes/light-c5e919c2bb1e.css">
+<link rel="stylesheet" href="../../assets/website-shell.css?v=integration-2">
+<link rel="stylesheet" href="../../assets/integrated-showcases.css?v=integration-2">
+<link rel="icon" type="image/png" href="../../assets/InternScience_logo.png">
 </head>
 <body>
-<header class="page-header site-shell-header" data-site-header=""><div class="site-shell-header-inner">
-  <div class="showcase-navigation"><a class="site-brand site-shell-brand" href="../../index.html" aria-label="Agents-A1.5" data-showcase-home><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><a class="showcase-return-link" data-showcase-return href="../../index.html"><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 4 5 10l6 6M5 10h11"/></svg><span data-showcase-return-label>返回首页</span></a></div>
-  <nav><a href="#workbench" data-i18n="navWorkspace"></a><a href="#demo-video" data-i18n="navVideo"></a><a href="#privacy" data-i18n="navPrivacy"></a></nav>
-  <div class="language-switch" aria-label="Language"><button data-language="zh" aria-pressed="true">中文</button><span>/</span><button data-language="en" aria-pressed="false">EN</button></div>
-</div></header>
+<header class="a15-site-header">
+    <nav class="a15-nav" aria-label="Primary navigation">
+      <div class="a15-nav-links">
+        <a class="a15-nav-cta" href="https://huggingface.co/collections/Alpha-Innovator/agents-a15" target="_blank" rel="noopener noreferrer">Model</a>
+        <a href="../../index.html#capabilities">Capabilities</a>
+        <a href="../../index.html#benchmarks">Benchmarks</a>
+        <a href="../../index.html#demos" aria-current="page" data-site-return>Demos</a>
+        <a href="../../index.html#training">Training</a>
+        <a href="../../index.html#usage">Usage</a>
+        <a href="../../index.html#related-projects">Related Projects</a>
+      </div>
+    </nav>
+  </header><div class="a15-demo-context">
+  <nav class="a15-breadcrumb" aria-label="Breadcrumb"><a href="../../index.html#demos" data-site-return><svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m8 4-6 6 6 6M2 10h16"/></svg>All demos</a><span aria-hidden="true">/</span><span aria-current="page">Local Automated Deployment</span></nav>
+  <nav aria-label="Local Automated Deployment sections" class="a15-demo-sections"><a data-i18n="navWorkspace" href="#workbench">Workspace</a><a data-i18n="navVideo" href="#demo-video">Recorded demo</a><a data-i18n="navPrivacy" href="#privacy">Data boundaries</a></nav>
+</div>
 <main>
 <section class="hero wrap">
   <div class="hero-copy">
     <p class="eyebrow"><i></i> AGENTS-A1.5 / LOCAL INTELLIGENCE</p>
-    <h1 data-html="heroTitle"></h1>
-    <p class="hero-description" data-i18n="heroDescription"></p>
-    <a class="privacy-highlight" href="#privacy"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg><span data-i18n="privacyPromise"></span><span aria-hidden="true">↗</span></a>
-    <div class="hero-actions"><a class="button primary" href="#demo-video" data-start-video><span data-i18n="watchVideo"></span><span aria-hidden="true">▶</span></a><a class="text-link" href="#deployment" data-open-deploy><span data-i18n="viewScripts"></span><span aria-hidden="true">↓</span></a></div>
-    <div class="hero-facts"><div><strong>35B<span> / </span>3B</strong><span data-i18n="parameters"></span></div><div><strong>LOCAL</strong><span data-i18n="localContext"></span></div></div>
+    <h1 data-html="heroTitle">Intelligence.<br><em>On your terms.</em></h1>
+    <p class="hero-description" data-i18n="heroDescription">Agents-A1.5 · 35B-A3B. Run inference locally, connect your tools, and take on search and coding tasks. Keep control of your private context.</p>
+    <a class="privacy-highlight" href="#privacy"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg><span data-i18n="privacyPromise">Keep private material off the model provider’s servers.</span><span aria-hidden="true">↗</span></a>
+    <div class="hero-actions"><a class="button primary" href="#demo-video" data-start-video><span data-i18n="watchVideo">Watch the local demo</span><span aria-hidden="true">▶</span></a><a class="text-link" href="#deployment" data-open-deploy><span data-i18n="viewScripts">Explore deployment</span><span aria-hidden="true">↓</span></a></div>
+    <div class="hero-facts"><div><strong>35B<span> / </span>3B</strong><span data-i18n="parameters">Total / active parameters per token</span></div><div><strong>LOCAL</strong><span data-i18n="localContext">Your device. Your context.</span></div></div>
   </div>
   <div class="machine" id="machine" data-hardware="nvidia" aria-label="Local model architecture">
     <svg class="local-processor" viewBox="0 0 720 600" fill="none" aria-hidden="true">
   <defs>
     <radialGradient id="processor-aura">
-      <stop stop-color="#7463d9" stop-opacity=".23"/>
-      <stop offset=".55" stop-color="#5d61a6" stop-opacity=".08"/>
-      <stop offset="1" stop-color="#090b10" stop-opacity="0"/>
+      <stop stop-color="#3b29a8" stop-opacity=".23"/>
+      <stop offset=".55" stop-color="#3f4392" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#f6f9fc" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="board-face" x1="205" y1="303" x2="445" y2="535" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#242740"/><stop offset=".48" stop-color="#111725"/><stop offset="1" stop-color="#11111f"/>
+      <stop stop-color="#e8eef6"/><stop offset=".48" stop-color="#f1f4fa"/><stop offset="1" stop-color="#f2f5fa"/>
     </linearGradient>
     <linearGradient id="board-edge" x1="123" y1="400" x2="597" y2="470" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#8da5ce" stop-opacity=".15"/><stop offset=".44" stop-color="#b3a0ff" stop-opacity=".8"/><stop offset="1" stop-color="#75e1d5" stop-opacity=".3"/>
+      <stop stop-color="#3f5e92" stop-opacity=".15"/><stop offset=".44" stop-color="#3d1fb2" stop-opacity=".8"/><stop offset="1" stop-color="#25ac9d" stop-opacity=".3"/>
     </linearGradient>
     <linearGradient id="die-face" x1="252" y1="172" x2="468" y2="391" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#282b47"/><stop offset=".4" stop-color="#131b2b"/><stop offset="1" stop-color="#161429"/>
+      <stop stop-color="#e6ecf5"/><stop offset=".4" stop-color="#eff3f9"/><stop offset="1" stop-color="#eff3f9"/>
     </linearGradient>
     <linearGradient id="die-edge" x1="243" y1="166" x2="477" y2="391" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#d6c9ff"/><stop offset=".4" stop-color="#9488e4"/><stop offset=".75" stop-color="#7c9eac"/><stop offset="1" stop-color="#90ecdb"/>
+      <stop stop-color="#431fb2"/><stop offset=".4" stop-color="#3827aa"/><stop offset=".75" stop-color="#3f7a92"/><stop offset="1" stop-color="#1fb297"/>
     </linearGradient>
-    <linearGradient id="trace-edge"><stop stop-color="#ad9cec"/><stop offset="1" stop-color="#83e9d3"/></linearGradient>
-    <pattern id="pins-horizontal" width="12" height="14" patternUnits="userSpaceOnUse"><path d="M0 3H24" stroke="#9ca1c4" stroke-width="3"/></pattern>
-    <pattern id="pins-vertical" width="14" height="12" patternUnits="userSpaceOnUse"><path d="M3 0V24" stroke="#9ca1c4" stroke-width="3"/></pattern>
-    <pattern id="silicon-grid" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M12 0H0V12" stroke="#bbadff" stroke-opacity=".035"/></pattern>
+    <linearGradient id="trace-edge"><stop stop-color="#4022af"/><stop offset="1" stop-color="#20b292"/></linearGradient>
+    <pattern id="pins-horizontal" width="12" height="14" patternUnits="userSpaceOnUse"><path d="M0 3H24" stroke="#3f4992" stroke-width="3"/></pattern>
+    <pattern id="pins-vertical" width="14" height="12" patternUnits="userSpaceOnUse"><path d="M3 0V24" stroke="#3f4992" stroke-width="3"/></pattern>
+    <pattern id="silicon-grid" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M12 0H0V12" stroke="#381fb2" stroke-opacity=".035"/></pattern>
     <filter id="trace-bloom" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
   </defs>
 
   <ellipse cx="360" cy="314" rx="345" ry="270" fill="url(#processor-aura)"/>
   <!-- An open circuit field, with no enclosing frame. -->
-  <g class="processor-field" stroke="#9f91dc" stroke-opacity=".12" stroke-width="1">
+  <g class="processor-field" stroke="#47329f" stroke-opacity=".12" stroke-width="1">
     <path d="m56 363 304-163 304 163M70 435l290-155 290 155M132 492l228-122 228 122"/>
     <path d="m175 302 307 166M232 269l307 166M485 275 178 440M542 305 235 471"/>
     <path d="M360 87v40M360 542v29M58 320h28m548 0h28"/>
   </g>
-  <g fill="#b9a4fc" opacity=".55"><circle cx="175" cy="302" r="2"/><circle cx="542" cy="305" r="2"/><circle cx="235" cy="471" r="2"/><circle cx="482" cy="468" r="2"/></g>
+  <g fill="#7052bc" opacity=".55"><circle cx="175" cy="302" r="2"/><circle cx="542" cy="305" r="2"/><circle cx="235" cy="471" r="2"/><circle cx="482" cy="468" r="2"/></g>
 
   <!-- Local hardware: a layered board and its routed copper traces. -->
-  <ellipse cx="360" cy="477" rx="205" ry="57" fill="#03050b" opacity=".5"/>
-  <path d="m123 402 237 123 237-123v22L360 549 123 424Z" fill="#0c101b" stroke="#756897" stroke-opacity=".3"/>
+  <ellipse cx="360" cy="477" rx="205" ry="57" fill="#f9fafd" opacity=".5"/>
+  <path d="m123 402 237 123 237-123v22L360 549 123 424Z" fill="#f4f6fb" stroke="#563f92" stroke-opacity=".3"/>
   <path d="m123 402 237 123 237-123" stroke="url(#board-edge)" stroke-width="2"/>
-  <path d="m123 402 237-126 237 126-237 123Z" fill="url(#board-face)" stroke="#8d85b6" stroke-opacity=".45"/>
-  <path d="m149 402 211-112 211 112-211 110Z" stroke="#a796dd" stroke-opacity=".15"/>
+  <path d="m123 402 237-126 237 126-237 123Z" fill="url(#board-face)" stroke="#4c3f92" stroke-opacity=".45"/>
+  <path d="m149 402 211-112 211 112-211 110Z" stroke="#4d339e" stroke-opacity=".15"/>
   <g stroke="url(#trace-edge)" stroke-opacity=".38" stroke-width="1.3">
     <path d="m276 387-54 29 83 45 35-19M264 402l-20 11 61 32 23-12M445 386l55 30-83 45-35-19M457 401l21 12-61 32-23-12"/>
     <path d="M310 395v24l50 27 50-27v-24M329 402v20l31 16 31-16v-20M349 422v-20m22 20v-20"/>
     <path d="m189 388 41-22 47 24M531 388l-41-22-47 24m-183 68 100 52 100-52"/>
   </g>
-  <g fill="#1c2434" stroke="#82879e" stroke-opacity=".4">
+  <g fill="#ecf0f8" stroke="#526078" stroke-opacity=".4">
     <path d="m166 403 26-14 42 22-26 14Z"/><path d="m486 411 42-22 26 14-42 22Z"/>
     <path d="m277 476 19-10 29 15-19 10Z"/><path d="m395 481 29-15 19 10-29 15Z"/>
   </g>
@@ -137,121 +105,116 @@
   </g>
 
   <!-- All lettering stays on an untransformed vector surface. -->
-  <path d="M261 185h198l23 22v184l-23 23H261l-23-23V207Z" fill="#0b101d" stroke="#66617d" stroke-opacity=".65"/>
-  <path d="M241 380v12l20 22h198l22-22v-12" stroke="#b3a0ff" stroke-opacity=".42"/>
+  <path d="M261 185h198l23 22v184l-23 23H261l-23-23V207Z" fill="#f3f6fb" stroke="#526078" stroke-opacity=".65"/>
+  <path d="M241 380v12l20 22h198l22-22v-12" stroke="#3d1fb2" stroke-opacity=".42"/>
   <g class="processor-pins" opacity=".75">
     <path d="M216 202h25v166h-25ZM479 202h25v166h-25Z" fill="url(#pins-horizontal)"/>
     <path d="M278 146h166v22H278ZM278 392h166v22H278Z" fill="url(#pins-vertical)"/>
   </g>
   <path d="M262 167h196l19 19v187l-19 19H262l-19-19V186Z" stroke="url(#die-edge)" stroke-width="5" opacity=".27" filter="url(#trace-bloom)"/>
   <path d="M262 167h196l19 19v187l-19 19H262l-19-19V186Z" fill="url(#die-face)" stroke="url(#die-edge)" stroke-width="1.5"/>
-  <path d="M270 181h180l13 13v171l-13 13H270l-13-13V194Z" fill="url(#silicon-grid)" stroke="#aca2cf" stroke-opacity=".18"/>
+  <path d="M270 181h180l13 13v171l-13 13H270l-13-13V194Z" fill="url(#silicon-grid)" stroke="#513f92" stroke-opacity=".18"/>
   <path class="processor-perimeter" d="M262 167h196l19 19v187l-19 19H262l-19-19V186Z" pathLength="100" stroke="var(--device-accent)" stroke-width="2"/>
-  <g stroke="#c3b3fb" stroke-opacity=".75" stroke-width="2"><path d="M270 207v-12h13M450 207v-12h-13M270 352v12h13M450 352v12h-13"/></g>
+  <g stroke="#401fb2" stroke-opacity=".75" stroke-width="2"><path d="M270 207v-12h13M450 207v-12h-13M270 352v12h13M450 352v12h-13"/></g>
   <g fill="var(--device-accent)"><rect x="279" y="205" width="5" height="5" rx="1"/><rect x="287" y="205" width="5" height="5" rx="1" opacity=".4"/><rect x="279" y="213" width="5" height="5" rx="1" opacity=".4"/><rect x="287" y="213" width="5" height="5" rx="1" opacity=".2"/></g>
   <text class="die-parameter" x="360" y="242" text-anchor="middle">35B-A3B</text>
   <text class="die-modelname" x="356" y="316" text-anchor="middle">A1.5</text>
-  <text class="die-caption" x="360" y="348" text-anchor="middle" data-i18n="localInference"></text>
+  <text class="die-caption" x="360" y="348" text-anchor="middle" data-i18n="localInference">Local inference</text>
   <g class="processor-leds" fill="var(--device-accent)"><rect x="333" y="366" width="6" height="3"/><rect x="343" y="366" width="6" height="3"/><rect x="353" y="366" width="6" height="3"/><rect x="363" y="366" width="6" height="3"/><rect x="373" y="366" width="6" height="3"/><rect x="383" y="366" width="6" height="3"/></g>
 </svg>
 
-    <div class="machine-tag tag-one"><span class="mini-file"></span><span data-i18n="privateFiles"></span></div>
-    <div class="machine-tag tag-two"><span class="mini-code">{ }</span><span data-i18n="localTools"></span></div>
-    <div class="machine-tag tag-three"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></svg><span data-i18n="localModel"></span></div>
-    <div class="machine-tag tag-four"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m12 3-8 3v6c0 5 8 9 8 9s8-4 8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg><span data-i18n="privacyProtection"></span></div>
+    <div class="machine-tag tag-one"><span class="mini-file"></span><span data-i18n="privateFiles">Private files</span></div>
+    <div class="machine-tag tag-two"><span class="mini-code">{ }</span><span data-i18n="localTools">Tools &amp; code</span></div>
+    <div class="machine-tag tag-three"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4"/></svg><span data-i18n="localModel">Local model</span></div>
+    <div class="machine-tag tag-four"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m12 3-8 3v6c0 5 8 9 8 9s8-4 8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg><span data-i18n="privacyProtection">Privacy protection</span></div>
   </div>
 </section>
 <section class="hardware wrap" aria-label="Hardware routes">
-  <div class="hardware-intro"><span class="eyebrow" data-i18n="hardwareEyebrow"></span><p data-i18n="hardwareIntro"></p></div>
+  <div class="hardware-intro"><span class="eyebrow" data-i18n="hardwareEyebrow">ONE MODEL. MULTIPLE DEPLOYMENT PATHS.</span><p data-i18n="hardwareIntro">Choose your compute.</p></div>
   <div class="hardware-grid" id="hardwareChoices">
     <button data-hardware="mac" aria-pressed="false"><span class="hardware-icon laptop-icon" aria-hidden="true"></span><span><strong>Mac</strong><small>Apple Silicon · Metal</small></span><i>01</i></button>
     <button data-hardware="nvidia" aria-pressed="true"><span class="hardware-icon gpu-icon" aria-hidden="true"></span><span><strong>NVIDIA GPU</strong><small>CUDA · SGLang / vLLM</small></span><i>02</i></button>
-    <button data-hardware="huawei" aria-pressed="false"><span class="hardware-icon npu-icon" aria-hidden="true"></span><span><strong data-i18n="huawei"></strong><small>Ascend · CANN</small></span><i>03</i></button>
+    <button data-hardware="huawei" aria-pressed="false"><span class="hardware-icon npu-icon" aria-hidden="true"></span><span><strong data-i18n="huawei">Huawei NPU</strong><small>Ascend · CANN</small></span><i>03</i></button>
     <button data-hardware="amd" aria-pressed="false"><span class="hardware-icon amd-icon" aria-hidden="true"></span><span><strong>AMD GPU</strong><small>ROCm · HIP</small></span><i>04</i></button>
   </div>
   <p class="hardware-note" id="hardwareNote"></p>
 </section>
 
 <section class="work-section wrap" id="workbench">
-  <div class="section-heading"><div><p class="eyebrow">01 / <span data-i18n="workEyebrow"></span></p><h2 data-html="workTitle"></h2></div><p data-i18n="workIntro"></p></div>
+  <div class="section-heading"><div><p class="eyebrow">01 / <span data-i18n="workEyebrow">MORE THAN A RUNNING MODEL</span></p><h2 data-html="workTitle">From local inference<br><em>to a completed task.</em></h2></div><p data-i18n="workIntro">The model reasons; the workspace acts. Connect the service and tools to bring search, reading and code verification into one workflow.</p></div>
   <div class="work-grid">
     <div class="setup-panel panel" id="deployment">
       <div class="panel-header"><span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>LOCAL WORKSPACE</span></div>
-      <div class="setup-tabs" role="tablist" aria-label="Workspace setup"><button role="tab" id="tab-runtime" data-setup="runtime" aria-controls="setupContent" aria-selected="true" data-i18n="tabDeploy"></button><button role="tab" id="tab-tools" data-setup="tools" aria-controls="setupContent" aria-selected="false" data-i18n="tabTools"></button><button role="tab" id="tab-code" data-setup="code" aria-controls="setupContent" aria-selected="false" data-i18n="tabCoding"></button></div>
+      <div class="setup-tabs" role="tablist" aria-label="Workspace setup"><button role="tab" id="tab-runtime" data-setup="runtime" aria-controls="setupContent" aria-selected="true" data-i18n="tabDeploy">01 Deploy</button><button role="tab" id="tab-tools" data-setup="tools" aria-controls="setupContent" aria-selected="false" data-i18n="tabTools">02 Tools</button><button role="tab" id="tab-code" data-setup="code" aria-controls="setupContent" aria-selected="false" data-i18n="tabCoding">03 Code</button></div>
       <div class="setup-content" id="setupContent" role="tabpanel" aria-labelledby="tab-runtime" tabindex="0"></div>
-      <div class="setup-footer"><a class="text-link" id="downloadKit" download="Agents-A1.5-local-deploy-kit.zip" href="downloads/deploy-kit-868e9548b559.zip"><span data-i18n="downloadKit"></span><span>↓</span></a><span data-i18n="kitNote"></span></div>
+      <div class="setup-footer"><a class="text-link" id="downloadKit" download="Agents-A1.5-local-deploy-kit.zip" href="downloads/deploy-kit-868e9548b559.zip"><span data-i18n="downloadKit">Download scripts &amp; examples</span><span>↓</span></a><span data-i18n="kitNote">Original scripts + local examples · no model weights</span></div>
     </div>
     <div class="task-panel panel" id="taskPanel">
-      <div class="panel-header"><span><i class="live-dot"></i> <span data-i18n="replayTitle"></span></span><div><button id="fullScreen" class="icon-button" data-title="fullScreen" aria-label="Full screen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></button></div></div>
-      <div class="task-question"><span class="eyebrow" data-i18n="savedQuestion"></span><h3 data-i18n="question"></h3><span class="trace-meta" data-i18n="traceMeta"></span></div>
+      <div class="panel-header"><span><i class="live-dot"></i> <span data-i18n="replayTitle">RECORDED TASK / REPLAY</span></span><div><button id="fullScreen" class="icon-button" data-title="fullScreen" aria-label="Full screen"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg></button></div></div>
+      <div class="task-question"><span class="eyebrow" data-i18n="savedQuestion">A SAVED SUCCESSFUL TASK</span><h3 data-i18n="question">How many static methods does Java 17’s Objects class declare?</h3><span class="trace-meta" data-i18n="traceMeta">5 searches · 3 page reads · 1 Python check</span></div>
       <div class="flow-stage" id="flowStage" data-active="idle">
-        <div class="local-boundary"><svg viewBox="0 0 740 232" preserveAspectRatio="none" aria-hidden="true"><path d="M32 22H320Q334 22 334 36V150Q334 164 350 164H704Q718 164 718 178V218Q718 230 704 230H32Q18 230 18 216V36Q18 22 32 22Z" fill="#b9a4fc05" stroke="#b9a4fc30"/></svg><span data-i18n="localBoundary"></span></div>
-        <svg viewBox="0 0 740 232" preserveAspectRatio="none" class="flow-lines" aria-hidden="true"><g fill="none" stroke="#ffffff13" stroke-width="1"><path d="M144 113H278Q300 113 300 80V52Q300 42 320 42H570"/><path d="M144 113H570"/><path d="M144 113H278Q300 113 300 150V180Q300 192 320 192H570"/></g><g class="moving-paths" fill="none" stroke-width="2"><path data-route="search" d="M144 113H278Q300 113 300 80V52Q300 42 320 42H570"/><path data-route="read" d="M144 113H570"/><path data-route="code" d="M144 113H278Q300 113 300 150V180Q300 192 320 192H570"/></g></svg>
+        <div class="local-boundary"><svg viewBox="0 0 740 232" preserveAspectRatio="none" aria-hidden="true"><path d="M32 22H320Q334 22 334 36V150Q334 164 350 164H704Q718 164 718 178V218Q718 230 704 230H32Q18 230 18 216V36Q18 22 32 22Z" fill="#7052bc05" stroke="#7052bc30"/></svg><span data-i18n="localBoundary">LOCAL INFERENCE / TOOL EXECUTION</span></div>
+        <svg viewBox="0 0 740 232" preserveAspectRatio="none" class="flow-lines" aria-hidden="true"><g fill="none" stroke="#647eaa13" stroke-width="1"><path d="M144 113H278Q300 113 300 80V52Q300 42 320 42H570"/><path d="M144 113H570"/><path d="M144 113H278Q300 113 300 150V180Q300 192 320 192H570"/></g><g class="moving-paths" fill="none" stroke-width="2"><path data-route="search" d="M144 113H278Q300 113 300 80V52Q300 42 320 42H570"/><path data-route="read" d="M144 113H570"/><path data-route="code" d="M144 113H278Q300 113 300 150V180Q300 192 320 192H570"/></g></svg>
         <div class="flow-model"><span class="model-sigil">A1.5</span><strong>Agents-A1.5</strong><small>127.0.0.1</small></div>
-        <div class="flow-tool tool-search" data-tool-node="search"><span class="tool-symbol">⌕</span><span><strong>search</strong><small data-i18n="externalSearch"></small></span><i></i></div>
-        <div class="flow-tool tool-read" data-tool-node="read"><span class="tool-symbol">≡</span><span><strong>read_page</strong><small data-i18n="webRequest"></small></span><i></i></div>
-        <div class="flow-tool tool-code" data-tool-node="code"><span class="tool-symbol">&lt;/&gt;</span><span><strong>code_tools</strong><small data-i18n="localExecution"></small></span><i></i></div>
+        <div class="flow-tool tool-search" data-tool-node="search"><span class="tool-symbol">⌕</span><span><strong>search</strong><small data-i18n="externalSearch">External search service</small></span><i></i></div>
+        <div class="flow-tool tool-read" data-tool-node="read"><span class="tool-symbol">≡</span><span><strong>read_page</strong><small data-i18n="webRequest">Target page request</small></span><i></i></div>
+        <div class="flow-tool tool-code" data-tool-node="code"><span class="tool-symbol">&lt;/&gt;</span><span><strong>code_tools</strong><small data-i18n="localExecution">Local execution</small></span><i></i></div>
       </div>
       <div class="task-readout" id="taskReadout" aria-live="off"></div>
       <div class="trace-track" id="traceTrack" aria-label="Recorded tool calls"></div>
-      <div class="film-controls"><button id="playPause" class="play-button" aria-label="Play">▶</button><button id="restart" class="icon-button" data-title="restart" aria-label="Restart">↺</button><label class="sr-only" for="scrubber" data-i18n="progress"></label><input id="scrubber" type="range" min="0" max="30" step="0.05" value="0"><span class="timecode" id="timecode">00:00 / 00:30</span></div>
-      <div class="film-caption"><span data-i18n="replayNote"></span><button class="text-link" id="openEvidence" data-i18n="inspectEvidence"></button></div>
+      <div class="film-controls"><button id="playPause" class="play-button" aria-label="Play">▶</button><button id="restart" class="icon-button" data-title="restart" aria-label="Restart">↺</button><label class="sr-only" for="scrubber" data-i18n="progress">Replay progress</label><input id="scrubber" type="range" min="0" max="30" step="0.05" value="0"><span class="timecode" id="timecode">00:00 / 00:30</span></div>
+      <div class="film-caption"><span data-i18n="replayNote">Edited trace + local architecture illustration. Not live inference or a hardware test.</span><button class="text-link" id="openEvidence" data-i18n="inspectEvidence">Inspect recorded calls ↗</button></div>
     </div>
   </div>
 </section>
 
 <section class="video-section wrap" id="demo-video" aria-labelledby="videoHeading">
-  <div class="section-heading"><div><p class="eyebrow">02 / <span data-i18n="videoEyebrow"></span></p><h2 id="videoHeading" data-html="videoHeading"></h2></div><p data-i18n="videoIntro"></p></div>
+  <div class="section-heading"><div><p class="eyebrow">02 / <span data-i18n="videoEyebrow">A REAL TASK ON YOUR OWN DEVICE</span></p><h2 id="videoHeading" data-html="videoHeading">From model startup.<br><em>To an answer.</em></h2></div><p data-i18n="videoIntro">Watch Agents-A1.5 run on a Mac: submit a search through the local web interface and follow the tool calls through to the answer.</p></div>
   <div class="video-panel panel">
-    <div class="panel-header"><span><i class="live-dot"></i> <span data-i18n="videoLabel"></span></span><span class="mono">02:36 · Mac · llama.cpp</span></div>
+    <div class="panel-header"><span><i class="live-dot"></i> <span data-i18n="videoLabel">Local search · Recorded demo</span></span><span class="mono">02:36 · Mac · llama.cpp</span></div>
     <div class="video-screen">
       <video id="demoVideo" width="1920" height="1078" preload="none" playsinline poster="media/local-search-poster-3f80d07f91ee.jpg" data-src="media/local-search-demo-10c9c4f42fe2.mp4" data-title="videoTitle"></video>
-      <button class="video-launch" id="playVideo" data-start-video><span class="video-play-icon" aria-hidden="true">▶</span><span data-i18n="playVideo"></span></button>
+      <button class="video-launch" id="playVideo" data-start-video><span class="video-play-icon" aria-hidden="true">▶</span><span data-i18n="playVideo">Play the full demo</span></button>
     </div>
-    <div class="video-caption"><span data-i18n="videoCaption"></span><span data-i18n="videoHint"></span></div>
-    <p class="video-error" id="videoError" role="status" data-i18n="videoError" hidden></p>
+    <div class="video-caption"><span data-i18n="videoCaption">Mac · llama.cpp · A local model working with search tools</span><span data-i18n="videoHint">Watch full screen or seek to any moment</span></div>
+    <p class="video-error" id="videoError" role="status" data-i18n="videoError" hidden>The video could not be played. Press play to try again.</p>
   </div>
 </section>
 
 <section class="privacy-section wrap" id="privacy">
-  <div class="section-heading"><div><p class="eyebrow">03 / <span data-i18n="privacyEyebrow"></span></p><h2 data-html="privacyTitle"></h2></div><p data-i18n="privacyIntro"></p></div>
+  <div class="section-heading"><div><p class="eyebrow">03 / <span data-i18n="privacyEyebrow">LOCAL INFERENCE. YOUR CONTROL.</span></p><h2 data-html="privacyTitle">Inference stays here.<br><em>You choose what connects.</em></h2></div><p data-i18n="privacyIntro">Local deployment removes the need to send model requests to a model provider. Your workspace configuration determines whether tools connect and what they send.</p></div>
   <div class="privacy-benefits">
-    <article><span class="benefit-index">01 / PRIVATE DATA</span><h3 data-i18n="benefitDataTitle"></h3><p data-i18n="benefitDataText"></p></article>
-    <article><span class="benefit-index">02 / YOUR CONTROL</span><h3 data-i18n="benefitControlTitle"></h3><p data-i18n="benefitControlText"></p></article>
-    <article><span class="benefit-index">03 / OFFLINE READY</span><h3 data-i18n="benefitOfflineTitle"></h3><p data-i18n="benefitOfflineText"></p></article>
+    <article><span class="benefit-index">01 / PRIVATE DATA</span><h3 data-i18n="benefitDataTitle">Private material stays local</h3><p data-i18n="benefitDataText">Use internal documents, source code and research data for inference on your own device, without uploading them to a cloud model service.</p></article>
+    <article><span class="benefit-index">02 / YOUR CONTROL</span><h3 data-i18n="benefitControlTitle">Control access and retention</h3><p data-i18n="benefitControlText">Set file access, tool permissions and log storage yourself, so the workspace follows your own data management requirements.</p></article>
+    <article><span class="benefit-index">03 / OFFLINE READY</span><h3 data-i18n="benefitOfflineTitle">Work with local tools offline</h3><p data-i18n="benefitOfflineText">Prepare weights and dependencies, then disable external services to work with local files and code tools offline, reducing outbound data transfers.</p></article>
   </div>
   <div class="privacy-panel panel" id="privacyPanel" data-mode="offline">
-    <div class="privacy-copy"><div class="privacy-switch" role="group" aria-label="Data flow mode"><button data-privacy="offline" aria-pressed="true" data-i18n="offlineMode"></button><button data-privacy="online" aria-pressed="false" data-i18n="onlineMode"></button></div><h3 id="privacyModeTitle"></h3><p id="privacyModeText"></p><div class="privacy-outcome"><span class="shield-mark" aria-hidden="true">✓</span><span data-i18n="privacyOutcome"></span></div></div>
-    <div class="privacy-map" aria-label="Local and external data boundaries"><div class="private-zone"><span class="zone-label" data-i18n="yourDevice"></span><div class="file-stack" aria-hidden="true"><span></span><span></span><span>{ }</span></div><span class="zone-flow" aria-hidden="true"></span><div class="private-model"><strong>A1.5</strong><small data-i18n="localInference"></small></div><p data-i18n="localData"></p></div><div class="external-zone"><div class="external-search"><span class="network-connector" aria-hidden="true"></span><b>↗</b><strong data-i18n="networkTools"></strong><small id="networkStatus"></small></div><div class="provider"><b>∅</b><strong data-i18n="modelProvider"></strong><small data-i18n="noModelRequest"></small></div></div></div>
+    <div class="privacy-copy"><div class="privacy-switch" role="group" aria-label="Data flow mode"><button data-privacy="offline" aria-pressed="true" data-i18n="offlineMode">Local file tasks</button><button data-privacy="online" aria-pressed="false" data-i18n="onlineMode">Web search tasks</button></div><h3 id="privacyModeTitle"></h3><p id="privacyModeText"></p><div class="privacy-outcome"><span class="shield-mark" aria-hidden="true">✓</span><span data-i18n="privacyOutcome">No cloud model API needed for inference</span></div></div>
+    <div class="privacy-map" aria-label="Local and external data boundaries"><div class="private-zone"><span class="zone-label" data-i18n="yourDevice">YOUR DEVICE / PRIVATE WORKSPACE</span><div class="file-stack" aria-hidden="true"><span></span><span></span><span>{ }</span></div><span class="zone-flow" aria-hidden="true"></span><div class="private-model"><strong>A1.5</strong><small data-i18n="localInference">Local inference</small></div><p data-i18n="localData">Files · Conversation context · Tool results</p></div><div class="external-zone"><div class="external-search"><span class="network-connector" aria-hidden="true"></span><b>↗</b><strong data-i18n="networkTools">Network tools</strong><small id="networkStatus"></small></div><div class="provider"><b>∅</b><strong data-i18n="modelProvider">Model provider</strong><small data-i18n="noModelRequest">No cloud inference requests</small></div></div></div>
   </div>
 </section>
-<section class="closing wrap"><div><p class="eyebrow" data-i18n="closingEyebrow"></p><h2 data-i18n="closingTitle"></h2></div><a class="button primary" href="#workbench" data-open-deploy><span data-i18n="backWorkspace"></span><span>↗</span></a></section>
+<section class="closing wrap"><div><p class="eyebrow" data-i18n="closingEyebrow">LOCAL MODEL. REAL WORK.</p><h2 data-i18n="closingTitle">Bring agentic capabilities to your own workspace.</h2></div><a class="button primary" href="#workbench" data-open-deploy><span data-i18n="backWorkspace">Explore the workspace</span><span>↗</span></a></section>
 </main>
-<footer class="page-footer wrap site-shell-footer" data-site-footer=""><div class="site-shell-footer-inner"><div class="site-shell-footer-main"><a class="site-shell-brand" data-shell-home href="../../index.html"><img class="site-shell-mark" src="../../assets/brand/agents-a1.5-mark-7a057338a3e6.png" width="32" height="32" alt="" aria-hidden="true"><span class="site-shell-word">Agents-A1.5</span></a><span class="site-shell-case" data-shell-zh="本地化自动部署" data-shell-en="Local Automated Deployment">本地化自动部署</span><button type="button" class="site-shell-top" data-shell-top><span class="" data-shell-zh="返回顶部" data-shell-en="Back to top">返回顶部</span><span aria-hidden="true">↑</span></button></div><div class="site-shell-footer-notes"><span>AGENTS-A1.5 · 35B-A3B</span><details><summary data-i18n="sourcesTitle"></summary><p data-i18n="sourcesNote"></p><a href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener">llama.cpp ↗</a><a href="https://docs.vllm.ai/en/stable/getting_started/installation/" target="_blank" rel="noopener">vLLM ↗</a><a href="https://docs.vllm.ai/projects/ascend/en/main/getting_started/installation.html" target="_blank" rel="noopener">vLLM Ascend ↗</a><a href="https://code.claude.com/docs/en/env-vars" target="_blank" rel="noopener">Claude Code ↗</a></details><span data-i18n="footer"></span></div></div></footer>
-<dialog id="evidenceDialog"><div class="dialog-heading"><div><span class="eyebrow" data-i18n="evidenceEyebrow"></span><h2 data-i18n="evidenceTitle"></h2></div><button id="closeEvidence" class="icon-button" aria-label="Close">×</button></div><p data-i18n="evidenceIntro"></p><div class="evidence-layout"><ol id="evidenceList"></ol><div class="evidence-detail" id="evidenceDetail"></div></div></dialog>
+<aside class="a15-case-notes" aria-label="Case notes and sources"><div class="a15-case-notes-inner"><span>AGENTS-A1.5 · 35B-A3B</span><details><summary data-i18n="sourcesTitle">Sources &amp; deployment notes</summary><p data-i18n="sourcesNote">Based on the supplied HTML, three launch scripts and one correct record from iter1_scored.jsonl. Hardware paths reference framework documentation; the record contains no hardware, quantization or throughput log. Weights, full tool implementations and NPU / AMD validation settings must be prepared separately.</p><a href="https://github.com/ggml-org/llama.cpp" rel="noopener" target="_blank">llama.cpp ↗</a><a href="https://docs.vllm.ai/en/stable/getting_started/installation/" rel="noopener" target="_blank">vLLM ↗</a><a href="https://docs.vllm.ai/projects/ascend/en/main/getting_started/installation.html" rel="noopener" target="_blank">vLLM Ascend ↗</a><a href="https://code.claude.com/docs/en/env-vars" rel="noopener" target="_blank">Claude Code ↗</a></details><span data-i18n="footer">Local inference · Data control · Tool use</span></div></aside><footer class="a15-footer">
+    <div class="a15-footer-inner">
+      <p>Agents-A1.5 is released by Alpha-Innovator. Star the repository, try the model, and report issues through GitHub.</p>
+      <section class="a15-visitor-panel" aria-label="Visitor information">
+        <div class="a15-visitor-copy">
+          <span class="a15-visitor-title">Visitor Map</span>
+          <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
+        </div>
+        <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
+          <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
+            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
+          </a>
+        </div>
+      </section>
+    </div>
+  </footer>
+<dialog id="evidenceDialog"><div class="dialog-heading"><div><span class="eyebrow" data-i18n="evidenceEyebrow">RECORDED TOOL CALLS</span><h2 data-i18n="evidenceTitle">Inspect the evidence at every step.</h2></div><button id="closeEvidence" class="icon-button" aria-label="Close">×</button></div><p data-i18n="evidenceIntro">Original tool requests and responses, without system prompts or internal reasoning. The selected record is marked correct. This page does not rerun the model.</p><div class="evidence-layout"><ol id="evidenceList"></ol><div class="evidence-detail" id="evidenceDetail"></div></div></dialog>
 <div id="toast" role="status"></div>
 <script id="deploymentData" type="application/json"></script><script src="assets/data/deploymentData-533b45e440cf.js"></script>
-<script src="assets/app-492d6cabc38b.js" defer></script>
-<script>
-/* Preserve each author's language controls and return to the same catalog language. */
-(() => {
-  const links = [...document.querySelectorAll('[data-showcase-home], [data-showcase-return]')];
-  const home = links[0].getAttribute('href').split('?')[0];
-  const label = document.querySelector('[data-showcase-return-label]');
-  const update = () => {
-    const lang = document.documentElement.lang.startsWith('en') ? 'en' : 'zh';
-    links.forEach(link => {
-      link.setAttribute('href', home + '?lang=' + lang);
-      link.setAttribute('aria-label', lang === 'en' ? 'Back to showcase home' : '返回展示首页');
-    });
-    label.textContent = lang === 'en' ? 'Back to home' : '返回首页';
-  };
-  update();
-  new MutationObserver(update).observe(document.documentElement, {
-    attributes: true, attributeFilter: ['lang']
-  });
-})();
-
-</script>
-<script data-site-shell src="../../assets/site-shell-9143359e441e.js" defer></script></body>
+<script src="assets/app-65cebff8ac39.js" defer></script>
+<script data-site-shell src="../../assets/site-shell-705010c24ae4.js" defer></script><script src="../../assets/showcase-navigation.js?v=integration-1" defer></script>
+</body>
 </html>

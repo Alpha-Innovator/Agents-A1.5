@@ -11,17 +11,16 @@
     .filter(link => link.dataset.languageMode !== 'independent')
     .map(link => ({link, href: link.getAttribute('href')}));
   const buttons = [...document.querySelectorAll('[data-language]')];
-  const readLanguage = () => new URLSearchParams(pageLocation.search).get('lang') === 'en' ? 'en' : 'zh';
+  const readLanguage = () => 'en';
 
   function setLanguage(next, updateURL = true) {
-    next = next === 'en' ? 'en' : 'zh';
+    next = 'en';
     if (next === lang) return;
     lang = next;
     // Keep the document, decoded cover images, focus and scroll position alive.
     document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
     document.title = localized(HOME.home.pageTitle);
     document.querySelector('meta[name="description"]').content = localized(HOME.home.description);
-    document.querySelector('.home-brand').setAttribute('aria-label', localized(HOME.home.homeLabel));
     text.forEach(({element, value}) => {
       const nextText = localized(value);
       if (element.textContent !== nextText) element.textContent = nextText;

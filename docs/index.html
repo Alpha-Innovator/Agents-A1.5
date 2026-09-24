@@ -387,23 +387,9 @@
       border-radius: 3px;
       display: inline-block;
     }
-    .group-section {
-      border-bottom: 1px solid #e2e8f0;
-    }
-    .group-section:last-child {
-      border-bottom: none;
-    }
-    .group-label {
-      padding: 10px 16px 0;
-      color: #334155;
-      font-size: 13px;
-      font-weight: 850;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-    }
     .chart-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1px;
       background: #eef1f5;
     }
@@ -1237,9 +1223,12 @@
           <span class="a15-visitor-note">Live country and city statistics powered by MapMyVisitors.</span>
         </div>
         <div class="a15-visitor-embed" aria-label="MapMyVisitors visitor map">
-          <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
-            <img loading="lazy" decoding="async" src="https://mapmyvisitors.com/map.png?d=placeholder&cl=ffffff" alt="Visit tracker" />
-          </a>
+          <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=zlgNJIcqrEL4r9l9bQ134bZTPU-ZdBdtMyPwFQiyNX0&amp;cl=ffffff&amp;w=a"></script>
+          <noscript>
+            <a href="https://mapmyvisitors.com/web/1bwlf" title="Visit tracker" target="_blank" rel="noopener noreferrer">
+              <img src="https://mapmyvisitors.com/map.png?d=zlgNJIcqrEL4r9l9bQ134bZTPU-ZdBdtMyPwFQiyNX0&amp;cl=ffffff" alt="Visit tracker" />
+            </a>
+          </noscript>
         </div>
       </section>
     </div>
@@ -1277,26 +1266,10 @@
 
       function renderChart() {
         if (!container) return;
-        let currentGroup = "";
         let html = "";
-        let groupPanels = [];
-        let groupTitle = "";
-
-        function flushGroup() {
-          if (!groupPanels.length) return;
-          html += `<div class="group-section">`;
-          html += `<div class="group-label">${escapeHtml(groupTitle)}</div>`;
-          html += `<div class="chart-grid">${groupPanels.join("")}</div>`;
-          html += `</div>`;
-          groupPanels = [];
-        }
+        let allPanels = [];
 
         panels.forEach((panel, pi) => {
-          if (panel.group !== currentGroup) {
-            flushGroup();
-            currentGroup = panel.group;
-            groupTitle = panel.group;
-          }
           const bars = panel.values.map((score, mi) => {
             const m = models[mi];
             const display = fmtScore(score);
@@ -1332,7 +1305,7 @@
           const logoRow = models.map(m =>
             `<img class="mini-logo ${m.ours ? "is-ours" : ""}" src="${m.logo}" alt="" title="${escapeHtml(m.name)}" />`
           ).join("");
-          groupPanels.push(`
+          allPanels.push(`
             <div class="mini-chart" aria-label="${escapeHtml(panel.name)} benchmark panel">
               <div class="mini-title">${escapeHtml(panel.name)}</div>
               <div class="mini-plot">
@@ -1343,7 +1316,7 @@
             </div>
           `);
         });
-        flushGroup();
+        html = `<div class="chart-grid">${allPanels.join("")}</div>`;
         container.innerHTML = html;
       }
 
